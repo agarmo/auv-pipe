@@ -8,7 +8,7 @@
 \contentsline {section}{Not Using the Template}{ix}
 \contentsline {chapter}{\chapternumberline {1}Historical Development of Marine Control Systems}{1}
 \contentsline {section}{\numberline {1.1}A Section}{1}
-\contentsline {subsection}{\numberline {1.1.1}A Subsection}{1}
+\contentsline {subsection}{A Subsection}{1}
 \contentsline {chapter}{\chapternumberline {2}Marine Vessel Modeling}{3}
 \contentsline {chapter}{\chapternumberline {3}Autopilots and Path Following}{5}
 \contentsline {chapter}{\chapternumberline {4}Dynamic Positioning Systems}{7}
