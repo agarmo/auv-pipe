@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
 kileprversion=1
 kileversion=1.9.3
-lastDocument=
+lastDocument=/mnt/win/auv-pipe/template/appendix.tex
 masterDocument=/mnt/win/auv-pipe/template/template.tex
 name=auv-pipeline
 pkg_extIsRegExp=false
@@ -18,90 +18,90 @@ QuickBuild=
 [item:/mnt/win/auv-pipe/template/abbreviations.tex]
 archive=true
 column=0
-encoding=
-highlight=
+encoding=ISO 8859-1
+highlight=LaTeX
 line=0
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/appendices.tex]
 archive=true
 column=0
-encoding=
-highlight=
+encoding=ISO 8859-1
+highlight=LaTeX
 line=0
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/appendix.tex]
 archive=true
-column=140485440
-encoding=
-highlight=
-line=0
-open=false
+column=401
+encoding=ISO 8859-1
+highlight=LaTeX
+line=5
+open=true
 
 [item:/mnt/win/auv-pipe/template/assign1.tex]
 archive=true
-column=140480672
-encoding=
-highlight=
+column=132
+encoding=ISO 8859-1
+highlight=LaTeX
 line=0
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/assign2.tex]
 archive=true
-column=48
-encoding=
-highlight=
+column=32
+encoding=ISO 8859-1
+highlight=LaTeX
 line=0
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/assign3.tex]
 archive=true
 column=0
-encoding=
-highlight=
+encoding=ISO 8859-1
+highlight=LaTeX
 line=0
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/assign4.tex]
 archive=true
 column=1
-encoding=
-highlight=
+encoding=ISO 8859-1
+highlight=LaTeX
 line=0
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/conclusion.tex]
 archive=true
-column=3079283064
-encoding=
-highlight=
-line=0
-open=false
+column=0
+encoding=ISO 8859-1
+highlight=LaTeX
+line=3
+open=true
 
 [item:/mnt/win/auv-pipe/template/exbib.bib]
 archive=true
-column=3079283064
-encoding=
-highlight=
+column=59
+encoding=ISO 8859-1
+highlight=BibTeX
 line=0
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/introduction.tex]
 archive=true
-column=3079283056
-encoding=
-highlight=
+column=22
+encoding=ISO 8859-1
+highlight=LaTeX
 line=0
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/template.tex]
 archive=true
 column=1
-encoding=
-highlight=
+encoding=ISO 8859-1
+highlight=LaTeX
 line=0
-open=false
+open=true
 
 [item:auv-pipeline.kilepr]
 archive=true

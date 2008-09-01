@@ -4,8 +4,7 @@
 \contentsline {chapter}{List of Tables}{v}
 \contentsline {chapter}{Abbreviations}{vii}
 \contentsline {chapter}{Introduction}{ix}
-\contentsline {section}{Using the Template}{ix}
-\contentsline {section}{Not Using the Template}{ix}
+\contentsline {section}{}{ix}
 \contentsline {chapter}{\chapternumberline {1}Historical Development of Marine Control Systems}{1}
 \contentsline {section}{\numberline {1.1}A Section}{1}
 \contentsline {subsection}{A Subsection}{1}
