@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
 kileprversion=1
 kileversion=1.9.3
-lastDocument=/mnt/win/auv-pipe/template/appendix.tex
+lastDocument=/mnt/win/auv-pipe/template/introduction.tex
 masterDocument=/mnt/win/auv-pipe/template/template.tex
 name=auv-pipeline
 pkg_extIsRegExp=false
@@ -17,10 +17,10 @@ QuickBuild=
 
 [item:/mnt/win/auv-pipe/template/abbreviations.tex]
 archive=true
-column=0
+column=22
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=2
 open=true
 
 [item:/mnt/win/auv-pipe/template/appendices.tex]
@@ -29,7 +29,7 @@ column=0
 encoding=ISO 8859-1
 highlight=LaTeX
 line=0
-open=true
+open=false
 
 [item:/mnt/win/auv-pipe/template/appendix.tex]
 archive=true
@@ -37,7 +37,7 @@ column=401
 encoding=ISO 8859-1
 highlight=LaTeX
 line=5
-open=true
+open=false
 
 [item:/mnt/win/auv-pipe/template/assign1.tex]
 archive=true
@@ -45,7 +45,7 @@ column=132
 encoding=ISO 8859-1
 highlight=LaTeX
 line=0
-open=true
+open=false
 
 [item:/mnt/win/auv-pipe/template/assign2.tex]
 archive=true
@@ -53,7 +53,7 @@ column=32
 encoding=ISO 8859-1
 highlight=LaTeX
 line=0
-open=true
+open=false
 
 [item:/mnt/win/auv-pipe/template/assign3.tex]
 archive=true
@@ -61,7 +61,7 @@ column=0
 encoding=ISO 8859-1
 highlight=LaTeX
 line=0
-open=true
+open=false
 
 [item:/mnt/win/auv-pipe/template/assign4.tex]
 archive=true
@@ -69,7 +69,7 @@ column=1
 encoding=ISO 8859-1
 highlight=LaTeX
 line=0
-open=true
+open=false
 
 [item:/mnt/win/auv-pipe/template/conclusion.tex]
 archive=true
@@ -77,30 +77,30 @@ column=0
 encoding=ISO 8859-1
 highlight=LaTeX
 line=3
-open=true
+open=false
 
 [item:/mnt/win/auv-pipe/template/exbib.bib]
 archive=true
-column=59
+column=0
 encoding=ISO 8859-1
 highlight=BibTeX
-line=0
+line=3
 open=true
 
 [item:/mnt/win/auv-pipe/template/introduction.tex]
 archive=true
-column=22
+column=8
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=7
 open=true
 
 [item:/mnt/win/auv-pipe/template/template.tex]
 archive=true
-column=1
+column=38
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=14
 open=true
 
 [item:auv-pipeline.kilepr]
