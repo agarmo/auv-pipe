@@ -1,0 +1,92 @@
+\chapter[Historical Development of Marine Control Systems][Historical Development]{Historical Development of Marine Control Systems}
+
+This chapter contains dummy text, and also shows what to do if the chapter name is a bit too long. In additions, it contains example figures, example tables and example citations. 
+
+\section{A Section}
+The following is a quotation. Writing it like this is sometimes useful. For longer stuff you can use \verb?\quotation? environment for longer, multi-paragraph quotes. 
+\begin{quote}
+Cuius rei demonstrationem mirabilem sane detexi. Hanc marginis exiguitas non caperet.\cite{sinus}
+\end{quote}
+Lorem ipsum dolor sit amet, consectetur \cite{lyapunov} adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est \cite{brockett} laborum.
+
+\begin{task}\label{task1}
+This is a task text for Task \ref{task1}.
+
+More text in the task. The next task is Task \ref{task2}. 
+\end{task}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+
+\subsection{A Subsection}
+\begin{task}\label{task2}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\begin{align}
+M\ddot{\xi}&=\sum_{\alpha=1}^N f_\alpha \\
+\mathbf{M}\ddot{\boldsymbol{\xi}}&=\sum_{\mathbf{\alpha}=1}^N \boldsymbol{f}_{\mathbf{\alpha}} \nonumber
+\end{align}
+\end{task}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+
+\begin{figure}[htb]
+\centering
+%\includegraphics[width=.5\textwidth]{figs/fig}
+\framebox{A nice example figure}
+\caption{An example figure.}
+\label{fig:exfig}
+\end{figure}
+ 
+\begin{figure}[htb]
+\centering
+     \subbottom[Top left]{
+          \label{fig:ex2_1}
+          %\includegraphics[width=.45\textwidth]{figs/fig}
+	\framebox{A nice example figure}}
+     \hspace{.1\textwidth}
+     \subbottom[Top right]{
+          \label{fig:ex2_2}
+                %\includegraphics[width=.45\textwidth]{figs/fig}
+		\framebox{A nice example figure}}\\
+     \vspace{.1\textwidth}
+     \subbottom[Bottom left]{
+           \label{fig:ex2_3}
+               %\includegraphics[width=.45\textwidth]{figs/fig}
+	\framebox{A nice example figure}}
+	 \hspace{.1\textwidth}
+     \subbottom[Bottom right]{
+           \label{fig:ex2_4}
+               %\includegraphics[width=.45\textwidth]{figs/fig}
+	\framebox{A nice example figure}}
+     \caption[Another example figure.]{Another example figure with too long caption for the List of Figures, also showing how to make subfigures.}
+     \label{fig:ex2}
+\end{figure}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+
+\begin{table}[htbp]
+  \centering 
+  \begin{tabular}{|c|c|c|}
+\hline
+% after \\ : \hline or \cline{col1-col2} \cline{col3-col4} ...
+ Alpha  & Beta & Gamma \\
+ Delta  & Epsilon & Zeta \\
+ Eta  & Theta & Iota \\
+\hline
+\end{tabular}
+  \caption{Table of Greek}\label{tab:stuff}
+\end{table}
+
+\begin{table}[htbp]
+  \centering 
+  \begin{tabular}{|c|c|c|}
+\hline
+% after \\ : \hline or \cline{col1-col2} \cline{col3-col4} ...
+ Alef  & Bet & Gimel \\ \hline
+ Dalet  & He & Vav \\ \hline
+ Zayin  & Het & Tet \\ \hline
+\end{tabular}
+  \caption{Table of Hebrew}\label{tab:mstuff}
+\end{table}
+
+

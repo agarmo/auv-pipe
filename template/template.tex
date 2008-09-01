@@ -1,0 +1,99 @@
+%LaTeX template for Assignment 5, TTK4190
+\documentclass[10pt,a4paper]{memoir}
+
+%%%%%%
+% Preamble
+%%%%%%
+\usepackage{amssymb,amsmath,amssymb,amsthm} %Math stuff
+\usepackage{graphicx} %Including images
+\usepackage{epstopdf} %Useful if using pdflatex
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png} %Used with the above
+
+\renewcommand{\abstractnamefont}{\normalfont\Large\bfseries}%Formats abstract 
+\renewcommand{\abstracttextfont}{\normalfont\normalsize}%Formats abstract
+
+\newsubfloat{figure}%To use subfigures
+\let\subfigure\subbottom
+
+\bibliographystyle{alpha}%Bibliography style
+\renewcommand{\bibname}{References}
+
+%Task numbering
+\newcounter{tasknum}[section]
+\def\thetasknum{\thesection.\arabic{tasknum}}
+\newenvironment{task}{\vspace{.7em}\refstepcounter{tasknum}\noindent{\large \textbf{Task \thetasknum}}\par\noindent\hspace{-.25em}}{\vspace{.7em}}
+
+%Page layout
+\setlrmargins{*}{*}{1}%Give left and right pages equal margins
+\checkandfixthelayout%Makes sure everything is correct with the layout
+
+\setsecnumdepth{subsubsection}%Subsubsections should be numbered
+\begin{document}
+
+\frontmatter
+%%%%%%
+% Title page
+%%%%%%
+\begin{titlingpage}
+\vspace*{\fill}
+\begin{center}
+\Large\textsf{Assignment 5 TTK4190}\par
+\vspace{0.5em}
+\huge\textsf{Marine Control Systems:}\par
+\HUGE\textsf{Analysis and Design}\par
+\vspace{1.2em}
+\Large \textsf{Aleksandr Mikhailovich Lyapunov}\par
+\Large \textsf{Rudolf Emil K{\'a}lm{\'a}n}\par
+\Large \textsf{Hendrik Wade Bode}\par
+\vspace{5em}
+\normalsize \today
+\end{center}
+\vspace*{\fill}
+%We're not using \title and \author, since for longer works title pages are usually custom designed
+\end{titlingpage}
+
+%%%%%%
+% Abstract
+%%%%%%
+\begin{abstract}
+Abstract goes here. Remember to make it good. 
+\end{abstract}
+
+\cleardoublepage
+
+%%%%%%
+% Table of Contents, List of Figures, List of Tables
+%%%%%%
+\settocdepth{chapter}%Sections and below not part of ToC
+\setcounter{lofdepth}{2}%Subfloats are part of ToC
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+
+\input{abbreviations}
+\input{introduction}
+
+\mainmatter%Main matter begins
+\renewcommand{\chaptername}{Assignment}%Uses the word 'Assignment' instead of 'Chapter' in chapter headings
+
+\input{assign1}
+\input{assign2}
+\input{assign3}
+\input{assign4}
+
+\chapterstyle{section}
+\input{conclusion}
+
+\chapterstyle{default}
+
+\bibliography{exbib}
+
+\input{appendices}%Use for many appendices
+
+
+\backmatter
+\input{appendix}%Use if you only have on appendix
+
+\end{document}
