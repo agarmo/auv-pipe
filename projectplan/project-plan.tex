@@ -37,28 +37,29 @@
 	
 	
 	\subsection{Supervision}
-	There will be meetings with a supervisor and co-supervisors every 2 weeks to check how the project is progressing. The meeting frequency can be changed as the semester is approaching the end, or if the progress of the project is not met.
+	There will be meetings with a supervisor and co-supervisors every 2 weeks to check the project progression. The meeting frequency can be changed as the semester is approaching the end, or if the progress of the project is not met.
 	
 	\subsection{Final Product}
 	The work and discoveries of this project will be presented in a formal report to be handed in at the end of the semester. There will be a presentation of the results and a demonstration on how the guidance system works and performes.
 
 \section{Milestones}
 
-	\begin{tabular}{|p{0.5cm} p{8.5cm}|p{1.5cm}|}
+	\begin{tabular}{| c | p{8.5cm} || c |}
 	\hline
 	No 	&	Activity	&	Deadline \\
 	\hline
-	1	&	\textbf{Literaturestudy} 	\begin{itemize}
-	 	 					\item Get an overview of the various pipeline following scheems
-	 	 					\item Study how pipelines are layed
-	 	 					\item Get an overview of various search algorithms
+	\hline
+	1	&	\textbf{Literaturestudy}\begin{itemize}
+	 	 				 \item Get an overview of the various pipeline following scheems
+	 	 				 \item Study how pipelines are layed. Develope an understanding on the properties of pipelines, max curvature and tolerances.
+	 	 				 \item Get an overview of various search algorithms and the effectiveness of those
 	 	 				\end{itemize}	
 								& 	Sep 15\\
 	\hline
 	2	&	\textbf{Model of AUV}	\begin{itemize}
 	 	 	            		 \item Develop a model of the vehicle in question. Identify the dynamics of the system and determine maximum and minimum performance of the vehicle.
 	 	 	            		\end{itemize}
-								&	Sep 20\\
+								&	Sep 25\\
 	\hline
 	3	&	\textbf{CAM SIM}	\begin{itemize}
 	 	 	       			 \item Develop a simulator for the camera sensor which provides the guidance system with data on heading and position of the pipeline. There will be alot of image processing involved so the sampling interval will probably be around 10-20 seconds.
@@ -69,11 +70,16 @@
 	 	 	               		 \item Design a waypoint following system, with input from the camera and absolute position from the GPS and Inertial navigations systmes, together with a priori data from where the pipeline is initially layed. 
 	 	 	               		 \item Design search pattern and algorithms for aquiering and reaquiering of pipelines. 
 	 	 	               		 \item Maintain a given height directly over the pipeline, and mark the postion. If necesary update the position of the pipeline if the a priori information on the pipeline position is erronous. 
-	 	 	               		 \item 
 	 	 	               		\end{itemize}
-								&	Nov 15 \\
+								&	Dec 1 \\
 	\hline
-	5	&	\textbf{Simulation, demonstration and final report}	&	Dec 19 \\
+	5	&	\textbf{Simulation, demonstration and final report}
+						\begin{itemize}
+						 \item Test the system in various scenarios, like buried pipeline and offset in the a priori information about the pipeline position.
+						 \item Look at the posibilities to include other sensing equipment like Side Scan Sonar (SSS) and Multi-beam Echo Sounders (MES).
+						 \item Finalize the report and demonstrate the guidance system.
+						\end{itemize}
+								&	Dec 19 \\
 	\hline
 	\end{tabular}
 
