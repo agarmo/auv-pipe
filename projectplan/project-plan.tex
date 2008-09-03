@@ -8,14 +8,27 @@
 \title{Projectplan for Fall project: AUV and pipeline following}
 \author{Anders Garmo}
 
+\newenvironment{myitemize}
+{
+    \begin{list}{- \ }{}
+        \setlength{\topsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\partopsep}{0pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\itemsep}{0pt} 
+}
+{
+    \end{list} 
+}
+
+
+
+
 
 \begin{document}
 \maketitle
 \newpage
 
-\tableofcontents
-
-\newpage
 
 \section{Introduction}
 
@@ -37,7 +50,7 @@
 	
 \section{Organization of project}
 	\subsection{Individual work}
-	The project is purely individual work. It will mostly consist of literature study and theoretical work, but also programming to demonstrate how the guidance system will perform.
+	The project is purely individual work. It will mostly consist of literature study and theoretical work, but also programming to test and demonstrate how the guidance system will perform.
 	
 	\subsection{Supervision}
 	There will be meetings with a supervisor and co-supervisors every 2 weeks to check up on the project progression. The meeting frequency can be changed as the semester is approaching the end, or if the progress of the project is not met.
@@ -52,37 +65,37 @@
 	No 	&	Activity	&	Deadline \\
 	\hline
 	\hline
-	1	&	\textbf{Literaturestudy}\begin{itemize}
+	1	&	\textbf{Literaturestudy}\begin{myitemize}
 	 	 				 \item Get an overview of the various pipeline following schemes
 	 	 				 \item Study how pipelines are laid. Develope an understanding on the properties of pipelines, max curvature and tolerances etc.
 	 	 				 \item Get an overview of various search algorithms and theire effectiveness
-	 	 				\end{itemize}	
+	 	 				\end{myitemize}	
 								& 	Sep 15\\
 	\hline
-	2	&	\textbf{Model of AUV}	\begin{itemize}
+	2	&	\textbf{Model of AUV}	\begin{myitemize}
 	 	 	            		 \item Develop a model of the vehicle in question. Identify the dynamics of the system and determine maximum and minimum performance of the vehicle. 
 						 \item Make a vessel simulator, to test dynamics and performance of guidance system.
-	 	 	            		\end{itemize}
+	 	 	            		\end{myitemize}
 								&	Sep 25\\
 	\hline
-	3	&	\textbf{CAM SIM}	\begin{itemize}
+	3	&	\textbf{CAM SIM}	\begin{myitemize}
 	 	 	       			 \item Develop a simulator for the camera sensor which provides the guidance system with data on heading and position of the pipeline. There will be a lot of image processing involved so the sampling interval will probably be around 10-20 seconds.
-	 	 	       			\end{itemize}
+	 	 	       			\end{myitemize}
 								&	Oct 10 \\
 	\hline
-	4	&	\textbf{Guidance system}\begin{itemize}
+	4	&	\textbf{Guidance system}\begin{myitemize}
 	 	 	               		 \item Design a waypoint following system, with input from the camera and absolute position from the GPS and Inertial navigation systems, together with a priori data from where the pipeline is initially laid. 
 	 	 	               		 \item Design search pattern and algorithms for acquiring and reacquiring of pipelines. 
 	 	 	               		 \item Maintain a given height directly over the pipeline, and mark the postion. If necessary update the position of the pipeline if the a priori information on the pipeline position is erroneous. 
-	 	 	               		\end{itemize}
+	 	 	               		\end{myitemize}
 								&	Dec 1 \\
 	\hline
 	5	&	\textbf{Simulation, demonstration and final report}
-						\begin{itemize}
+						\begin{myitemize}
 						 \item Test the system in various scenarios, like buried pipeline and offset in the a priori information about the pipeline position.
 						 \item Look at the possibilities to include other sensing equipment like Side Scan Sonar (SSS) and Multi-beam Echo Sounders (MES).
 						 \item Finalize the report and demonstrate the guidance system.
-						\end{itemize}
+						\end{myitemize}
 								&	Dec 19 \\
 	\hline
 	\end{tabular}
