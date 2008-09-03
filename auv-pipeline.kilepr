@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
 kileprversion=1
 kileversion=1.9.3
-lastDocument=/mnt/win/auv-pipe/template/template.tex
+lastDocument=/mnt/win/auv-pipe/template/abbreviations.tex
 masterDocument=/mnt/win/auv-pipe/template/template.tex
 name=auv-pipeline
 pkg_extIsRegExp=false
@@ -92,15 +92,15 @@ archive=true
 column=8
 encoding=ISO 8859-1
 highlight=LaTeX
-line=7
+line=6
 open=true
 
 [item:/mnt/win/auv-pipe/template/template.tex]
 archive=true
-column=45
+column=140
 encoding=ISO 8859-1
 highlight=LaTeX
-line=22
+line=23
 open=true
 
 [item:auv-pipeline.kilepr]

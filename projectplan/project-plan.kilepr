@@ -1,19 +1,27 @@
 [General]
 img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
-kileprversion=2
-kileversion=2.0
+kileprversion=1
+kileversion=1.9.3
 lastDocument=project-plan.tex
 masterDocument=
 name=Project-plan
 pkg_extIsRegExp=false
-pkg_extensions=.cls .sty
+pkg_extensions=.cls .sty .dtx
 src_extIsRegExp=false
-src_extensions=.tex .ltx .latex .dtx .ins
+src_extensions=.tex .ltx .bib .mp
 
 [Tools]
 MakeIndex=
 QuickBuild=
+
+[item:project-plan.kilepr]
+archive=true
+column=15
+encoding=
+highlight=
+line=0
+open=false
 
 [item:project-plan.tex]
 archive=true
@@ -21,5 +29,9 @@ column=16
 encoding=UTF-8
 highlight=LaTeX
 line=0
-open=true
+open=false
 order=0
+pkg_extIsRegExp=false
+pkg_extensions=.cls .sty
+src_extIsRegExp=false
+src_extensions=.tex .ltx .latex .dtx .ins
