@@ -20,38 +20,37 @@
 \section{Introduction}
 
 	\subsection{Background}
-	The fall project at NTNU is one of the ways to prepare the master student for the challange a master thesis include.
+	The fall project at NTNU is one of the ways to prepare the master student for the challenge of a master thesis. It is a project on how to write a project. The project will teach how to structure the work and research that have to be done by the student throughout the semester.
 	
 	
 	\subsection{Project description}
-	The goal of the project is to design and implement a guidance system in theory for an Kongsberg Maritime HUGIN 1000 AUV, that are able to search, track and maybe inspect subsea pipelines. This is of greate comercial interest for the oil exploiting companies, which anually spends incredable amounts of money on pipeline inspections using ROVs. 
+	The goal of the project is to design and implement a guidance system in theory for an Kongsberg Maritime HUGIN 1000 AUV, that are able to search, track and maybe inspect subsea pipelines. This is of great commercial interest for the oil exploiting companies, which annually spends large amounts of money on pipeline inspections using ROVs. 
 		
 	\subsection{Project goal}
-	As stated above the goal is to design and implement a guidance system and demonstrate the performance, designed specifically for the HUGIN 1000 AUV. The guidance system should be able to detect pipelines and should be robust enough to deal with burried pipelines and other anomalies. The system should have a search procedure which is used for initial acuiring of the pipeline and for reacuiering of a temporarily lost one. 
+	As stated above the goal is to design and implement a guidance system and demonstrate the performance, designed specifically for the HUGIN 1000 AUV. The guidance system should be able to detect pipelines and should be robust enough to deal with buried pipelines and other anomalies. The system should have a search procedure which is used for initial acquiring of the pipeline and for reacquiring of a temporarily lost one. 
 	
 	The system is based on visual identification of the pipeline, but the use of other pipeline sensing equipment should also be looked into. 
 	
-	
 \section{Organization of project}
-	\subsection{Indiviual work}
+	\subsection{Individual work}
 	
 	
 	\subsection{Supervision}
 	There will be meetings with a supervisor and co-supervisors every 2 weeks to check the project progression. The meeting frequency can be changed as the semester is approaching the end, or if the progress of the project is not met.
 	
 	\subsection{Final Product}
-	The work and discoveries of this project will be presented in a formal report to be handed in at the end of the semester. There will be a presentation of the results and a demonstration on how the guidance system works and performes.
+	The work and discoveries of this project will be presented in a formal report to be handed in at the end of the semester. There will be a presentation of the results and a demonstration on how the guidance system works and performs.
 
 \section{Milestones}
 
-	\begin{tabular}{| c | p{8.5cm} || c |}
+	\begin{tabular}{| c | p{9cm} || c |}
 	\hline
 	No 	&	Activity	&	Deadline \\
 	\hline
 	\hline
 	1	&	\textbf{Literaturestudy}\begin{itemize}
-	 	 				 \item Get an overview of the various pipeline following scheems
-	 	 				 \item Study how pipelines are layed. Develope an understanding on the properties of pipelines, max curvature and tolerances.
+	 	 				 \item Get an overview of the various pipeline following schemes
+	 	 				 \item Study how pipelines are laid. Develope an understanding on the properties of pipelines, max curvature and tolerances.
 	 	 				 \item Get an overview of various search algorithms and the effectiveness of those
 	 	 				\end{itemize}	
 								& 	Sep 15\\
@@ -62,21 +61,21 @@
 								&	Sep 25\\
 	\hline
 	3	&	\textbf{CAM SIM}	\begin{itemize}
-	 	 	       			 \item Develop a simulator for the camera sensor which provides the guidance system with data on heading and position of the pipeline. There will be alot of image processing involved so the sampling interval will probably be around 10-20 seconds.
+	 	 	       			 \item Develop a simulator for the camera sensor which provides the guidance system with data on heading and position of the pipeline. There will be a lot of image processing involved so the sampling interval will probably be around 10-20 seconds.
 	 	 	       			\end{itemize}
 								&	Oct 10 \\
 	\hline
 	4	&	\textbf{Guidance system}\begin{itemize}
-	 	 	               		 \item Design a waypoint following system, with input from the camera and absolute position from the GPS and Inertial navigations systmes, together with a priori data from where the pipeline is initially layed. 
-	 	 	               		 \item Design search pattern and algorithms for aquiering and reaquiering of pipelines. 
-	 	 	               		 \item Maintain a given height directly over the pipeline, and mark the postion. If necesary update the position of the pipeline if the a priori information on the pipeline position is erronous. 
+	 	 	               		 \item Design a waypoint following system, with input from the camera and absolute position from the GPS and Inertial navigation systems, together with a priori data from where the pipeline is initially laid. 
+	 	 	               		 \item Design search pattern and algorithms for acquiring and reacquiring of pipelines. 
+	 	 	               		 \item Maintain a given height directly over the pipeline, and mark the postion. If necessary update the position of the pipeline if the a priori information on the pipeline position is erroneous. 
 	 	 	               		\end{itemize}
 								&	Dec 1 \\
 	\hline
 	5	&	\textbf{Simulation, demonstration and final report}
 						\begin{itemize}
 						 \item Test the system in various scenarios, like buried pipeline and offset in the a priori information about the pipeline position.
-						 \item Look at the posibilities to include other sensing equipment like Side Scan Sonar (SSS) and Multi-beam Echo Sounders (MES).
+						 \item Look at the possibilities to include other sensing equipment like Side Scan Sonar (SSS) and Multi-beam Echo Sounders (MES).
 						 \item Finalize the report and demonstrate the guidance system.
 						\end{itemize}
 								&	Dec 19 \\
