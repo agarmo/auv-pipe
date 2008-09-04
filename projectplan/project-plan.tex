@@ -5,7 +5,7 @@
 \usepackage[utf8x]{inputenc}
 
 % Title Page
-\title{Projectplan for Fall project: AUV and pipeline following}
+\title{\begin{huge}\textbf{Project Plan}\end{huge} \\ TTK4530: AUV and pipeline following}
 \author{Anders Garmo}
 
 \newenvironment{myitemize}
@@ -29,18 +29,18 @@
 \section{Introduction}
 
 	\subsection{Background}
-	The fall project at NTNU is one of the ways to prepare the master student for the challenge of a master thesis. It is a project on how to write a project. The project will teach how to structure the work and research that have to be done by the student throughout the semester. In addition, the project is relevant to the education of the student and will be quite challenging.
+	The fall project at NTNU is one of the ways to prepare the master student for the challenge of a master thesis. It is a project on how to write a project. The project will teach how to structure the work and research that have to be done by the student throughout the semester. In addition, the project is relevant to the education of the student.
 	
 	
 	\subsection{Project description}
-	The quality of an underwater pipeline is of great importance both environmental and economical reasons. The pipeline should not leak which could cause damage to the environment around and large economical loss for the pipeline owner. Today the inspection to ensure these qualities are done using Remotely Operated Vehicles, which requires an human operator. This pipeline inspection missions are dull and enduring and would be suiting to replace the ROVs by autonomous vehicles which could operate with minimum human intervention.
+	The quality of an underwater pipeline is of great importance for both environmental and economical reasons. The pipeline should not leak which could cause damage to the environment around and economical loss for the pipeline owner. Today, inspection to ensure these qualities are done using Remotely Operated Vehicles, which requires an human operator. This pipeline inspection missions are dull and enduring and would be suiting to be replace by autonomous vehicles which could operate with minimum human intervention.
 	
-	The Autonomous Vehicle in question is the Kongsberg Maritime HUGIN 1000. This AUV should have some kind of guidance system able to take initial input form the user on where the pipeline scheduled for inspection is positioned. It should then from this a priori information be able to find the pipeline and then track and inspect the pipeline. This should be done by visual means, meaning a camera with image processing software that supply the guidance system with actual data on where the pipeline is relatively to the AUV.
+	The Autonomous Vehicle in question is the Kongsberg Maritime HUGIN 1000. This AUV should have some kind of guidance system able to take initial input form the user on where the pipeline, scheduled for inspection, is positioned. It should then from this \textit{a priori} information be able to find the pipeline and then track and inspect it. This should be done by visual means, meaning a camera with image processing software that supply the guidance system with actual data on where the pipeline is, relatively to the AUV.
 	
 	\subsection{Project goal}
-	As stated above the goal is to design and implement a guidance system and demonstrate the performance, designed specifically for the HUGIN 1000 AUV. The guidance system should be able to detect pipelines and should be robust enough to deal with buried pipelines and other anomalies. The system should have a search procedure which is used for initial acquiring of the pipeline and for reacquiring of a temporarily lost one. 
+	As stated above the goal is to design and implement a guidance system and demonstrate the performance, designed specifically for the HUGIN 1000 AUV. The guidance system should be able to detect pipelines and should be robust enough to deal with buried pipelines and other anomalies. The system should have a search procedure which is used for initial acquisition of the pipeline and for reacquiring a temporarily lost one. 
 
-	If the initial position of the pipeline supplied by the user is erroneous the real position should be updated.
+	If the initial position of the pipeline supplied by the user is erroneous the real position found by the vessel,  should be updated.
 	
 	The system is based on visual identification of the pipeline, but the use of other pipeline sensing equipment should also be looked into. 
 	
@@ -49,7 +49,7 @@
 	The project is purely individual work. It will mostly consist of literature study and theoretical work, but also programming to test and demonstrate how the guidance system will perform.
 	
 	\subsection{Supervision}
-	There will be meetings with a supervisor and co-supervisors every 2 weeks to check up on the project progression. The meeting frequency can be changed as the semester is approaching the end, or if the progress of the project is not met.
+	There will be meetings with a supervisor and co-supervisors every 2 weeks to check up on the project progression. The meeting frequency can be changed as the semester approaches the end, or if the progress of the project is not met.
 	
 	\subsection{Final Product}
 	The work and discoveries of this project will be presented in a formal report to be handed in at the end of the semester. There will be a presentation of the results and a demonstration on how the guidance system works and performs.
@@ -74,21 +74,21 @@
 	 	 	            		\end{myitemize}
 								&	Sep 25\\
 	\hline
-	3	&	\textbf{CAM SIM}	\begin{myitemize}
+	3	&	\textbf{Camera Simulator}\begin{myitemize}
 	 	 	       			 \item Develop a simulator for the camera sensor which provides the guidance system with data on heading and position of the pipeline. There will be a lot of image processing involved so the sampling interval will probably be around 10-20 seconds.
 	 	 	       			\end{myitemize}
 								&	Oct 10 \\
 	\hline
 	4	&	\textbf{Guidance system}\begin{myitemize}
-	 	 	               		 \item Design a waypoint following system, with input from the camera and absolute position from the GPS and Inertial navigation systems, together with a priori data from where the pipeline is initially laid. 
+	 	 	               		 \item Design a waypoint following system, with input from the camera and absolute position from the GPS and INS, together with \textit{a priori} data of where the pipeline is initially laid. 
 	 	 	               		 \item Design search pattern and algorithms for acquiring and reacquiring of pipelines. 
-	 	 	               		 \item Maintain a given height directly over the pipeline, and mark the postion. If necessary update the position of the pipeline if the a priori information on the pipeline position is erroneous. 
+	 	 	               		 \item Maintain a given height directly over the pipeline, and mark the postion. If necessary update the position of the pipeline if the \textit{a priori} information on the pipeline position is erroneous or inaccurate. 
 	 	 	               		\end{myitemize}
 								&	Dec 1 \\
 	\hline
 	5	&	\textbf{Simulation, demonstration and final report}
 						\begin{myitemize}
-						 \item Test the system in various scenarios, like buried pipeline and offset in the a priori information about the pipeline position.
+						 \item Test the system in various scenarios, like buried pipeline and offset in the \textit{a priori} information about the pipeline position.
 						 \item Look at the possibilities to include other sensing equipment like Side Scan Sonar (SSS) and Multi-beam Echo Sounders (MES).
 						 \item Finalize the report and demonstrate the guidance system.
 						\end{myitemize}
