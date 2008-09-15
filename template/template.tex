@@ -18,10 +18,10 @@
 \bibliographystyle{alpha}%Bibliography style
 \renewcommand{\bibname}{References}
 
-%Task numbering
-\newcounter{tasknum}[section]
-\def\thetasknum{\thesection.\arabic{tasknum}}
-\newenvironment{task}{\vspace{.7em}\refstepcounter{tasknum}\noindent{\large \textbf{Task \thetasknum}}\par\noindent\hspace{-.25em}}{\vspace{.7em}}
+% %Task numbering
+% \newcounter{tasknum}[section]
+% \def\thetasknum{\thesection.\arabic{tasknum}}
+% \newenvironment{task}{\vspace{.7em}\refstepcounter{tasknum}\noindent{\large \textbf{Task \thetasknum}}\par\noindent\hspace{-.25em}}{\vspace{.7em}}
 
 %Page layout
 \setlrmargins{*}{*}{1}%Give left and right pages equal margins
@@ -76,10 +76,10 @@ Abstract goes here. Remember to make it good.
 \mainmatter%Main matter begins
 %\renewcommand{\chaptername}{Assignment}%Uses the word 'Assignment' instead of 'Chapter' in chapter headings
 
-\input{assign1}
-\input{assign2}
-\input{assign3}
-\input{assign4}
+\input{chapter1}
+\input{chapter2}
+\input{chapter3}
+\input{chapter4}
 
 \chapterstyle{section}
 \input{conclusion}

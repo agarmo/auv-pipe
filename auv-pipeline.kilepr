@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
 kileprversion=1
 kileversion=1.9.3
-lastDocument=template/introduction.tex
+lastDocument=template/template.tex
 masterDocument=template/template.tex
 name=auv-pipeline
 pkg_extIsRegExp=false
@@ -44,7 +44,7 @@ archive=true
 column=0
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=1
 open=true
 
 [item:/mnt/win/auv-pipe/template/assign2.tex]
@@ -92,15 +92,15 @@ archive=true
 column=8
 encoding=ISO 8859-1
 highlight=LaTeX
-line=8
+line=7
 open=true
 
 [item:/mnt/win/auv-pipe/template/template.tex]
 archive=true
-column=0
+column=6
 encoding=ISO 8859-1
 highlight=LaTeX
-line=88
+line=35
 open=true
 
 [item:auv-pipeline.kilepr]
