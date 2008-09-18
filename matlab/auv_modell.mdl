@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.11"
+    ComputedModelVersion    "1.13"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Sep 18 18:06:34 2008"
+  LastModifiedDate	  "Thu Sep 18 20:19:04 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:11>"
+  ModelVersionFormat	  "1.%<AutoIncrement:13>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -776,7 +776,7 @@ Model {
   }
   System {
     Name		    "auv_modell"
-    Location		    [74, 150, 1100, 728]
+    Location		    [74, 92, 1100, 670]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -796,8 +796,8 @@ Model {
       Ports		      [1]
       Position		      [815, 339, 845, 371]
       Floating		      off
-      Location		      [863, 717, 1187, 956]
-      Open		      on
+      Location		      [708, 330, 1032, 569]
+      Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
@@ -809,6 +809,22 @@ Model {
       SaveName		      "ScopeData6"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Cross Product"
+      Ports		      [2, 1]
+      Position		      [405, 376, 435, 409]
+      SourceBlock	      "vrlib/Utilities/Cross Product"
+      SourceType	      "Cross Product"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
     }
     Block {
       BlockType		      Demux
@@ -829,20 +845,31 @@ Model {
       DisplayOption	      "bar"
     }
     Block {
+      BlockType		      Demux
+      Name		      "Demux2"
+      Ports		      [1, 2]
+      Position		      [580, 302, 590, 353]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      Outputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
       BlockType		      Scope
       Name		      "Depth"
       Ports		      [1]
       Position		      [975, 169, 1005, 201]
       Floating		      off
-      Location		      [168, 660, 492, 899]
-      Open		      off
+      Location		      [97, 418, 421, 657]
+      Open		      on
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-2.5"
-      YMax		      "0.25"
+      YMin		      "-1"
+      YMax		      "14"
       SaveName		      "ScopeData4"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
@@ -851,7 +878,7 @@ Model {
       BlockType		      Constant
       Name		      "Force / Moments"
       Position		      [170, 215, 290, 245]
-      Value		      "10000.*[.5 0 0 0 0 0]"
+      Value		      "100.*[0.5 0 0 0 0 .01]"
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
     }
@@ -882,11 +909,11 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "[0 0 0 pi/4 pi/4 0]|[0 0 0 0 0 0]|0|0"
+      MaskValueString	      "[100 100 0 0 0 0]|[0 0 0 0 0 0]|0|0"
       MaskTabNameString	      ",,,"
       System {
 	Name			"HUGIN 1000"
-	Location		[396, 313, 1176, 830]
+	Location		[365, 340, 1145, 857]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1604,21 +1631,28 @@ Model {
       }
     }
     Block {
+      BlockType		      Integrator
+      Name		      "Integrator"
+      Ports		      [1, 1]
+      Position		      [310, 385, 340, 415]
+      InitialCondition	      "[-100 100 0]'"
+    }
+    Block {
       BlockType		      Scope
       Name		      "Lin Velocity"
       Ports		      [1]
       Position		      [815, 279, 845, 311]
       Floating		      off
-      Location		      [304, 310, 628, 549]
-      Open		      on
+      Location		      [535, 380, 859, 619]
+      Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-2.5"
-      YMax		      "35"
+      YMin		      "-0.0025"
+      YMax		      "0.0375"
       SaveName		      "ScopeData1"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
@@ -1638,10 +1672,10 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      xmin		      "-1000"
-      xmax		      "1000"
-      ymin		      "-1000"
-      ymax		      "1000"
+      xmin		      "-500"
+      xmax		      "500"
+      ymin		      "-500"
+      ymax		      "500"
       st		      "-1"
     }
     Block {
@@ -1651,7 +1685,7 @@ Model {
       Position		      [955, 221, 985, 254]
       Floating		      off
       Location		      [105, 509, 429, 748]
-      Open		      on
+      Open		      off
       NumInputPorts	      "2"
       List {
 	ListType		AxesTitles
@@ -1670,9 +1704,10 @@ Model {
       Ports		      [1]
       Position		      [705, 99, 735, 131]
       Floating		      off
-      Location		      [206, 394, 530, 633]
-      Open		      off
+      Location		      [17, 415, 341, 654]
+      Open		      on
       NumInputPorts	      "1"
+      ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
@@ -1681,21 +1716,57 @@ Model {
       SampleTime	      "0"
     }
     Block {
+      BlockType		      Sum
+      Name		      "Sum"
+      Ports		      [2, 1]
+      Position		      [500, 385, 520, 405]
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|--"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Vel of 0, 0 rel to AUV"
+      Ports		      [1]
+      Position		      [585, 419, 615, 451]
+      Floating		      off
+      Location		      [873, 427, 1197, 666]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-2"
+      YMax		      "0.25"
+      SaveName		      "ScopeData7"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
       BlockType		      Scope
       Name		      "Yaw"
       Ports		      [1]
       Position		      [900, 274, 930, 306]
       Floating		      off
-      Location		      [149, 363, 473, 602]
-      Open		      on
+      Location		      [894, 426, 1218, 665]
+      Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "100"
-      YMin		      "-1"
-      YMax		      "1"
+      YMin		      "0.19"
+      YMax		      "0.24"
       SaveName		      "ScopeData2"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
@@ -1721,6 +1792,23 @@ Model {
       Name		      "rad to deg1"
       Position		      [720, 315, 750, 345]
       Gain		      "diag([1 1 1 180/pi 180/pi 180/pi])"
+      Multiplication	      "Matrix(K*u)"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      ParameterDataType	      "sfix(16)"
+      ParameterScaling	      "2^0"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "rad to deg2"
+      Position		      [720, 265, 750, 295]
+      Orientation	      "left"
+      Gain		      "pi/180"
       Multiplication	      "Matrix(K*u)"
       ParameterDataTypeMode   "Inherit via internal rule"
       ParameterDataType	      "sfix(16)"
@@ -1768,9 +1856,17 @@ Model {
     Line {
       SrcBlock		      "Demux"
       SrcPort		      6
-      Points		      [30, 0; 0, 45]
-      DstBlock		      "Yaw"
-      DstPort		      1
+      Points		      [30, 0; 0, 25]
+      Branch {
+	Points			[0, 20]
+	DstBlock		"Yaw"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 10]
+	DstBlock		"rad to deg2"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "Demux"
@@ -1810,9 +1906,17 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      2
-      Points		      [165, 0; 0, 80]
-      DstBlock		      "rad to deg1"
-      DstPort		      1
+      Points		      [90, 0]
+      Branch {
+	Points			[75, 0; 0, 80]
+	DstBlock		"rad to deg1"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 80]
+	DstBlock		"Demux2"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "rad to deg"
@@ -1825,6 +1929,46 @@ Model {
       SrcPort		      1
       DstBlock		      "Demux1"
       DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      1
+      Points		      [-15, 0; 0, 105]
+      DstBlock		      "Sum"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Integrator"
+      SrcPort		      1
+      DstBlock		      "Cross Product"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      2
+      Points		      [-185, 0]
+      DstBlock		      "Cross Product"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Cross Product"
+      SrcPort		      1
+      DstBlock		      "Sum"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Sum"
+      SrcPort		      1
+      Points		      [10, 0; 0, 40]
+      Branch {
+	DstBlock		"Vel of 0, 0 rel to AUV"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 30; -280, 0; 0, -65]
+	DstBlock		"Integrator"
+	DstPort			1
+      }
     }
   }
 }
