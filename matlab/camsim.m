@@ -7,8 +7,7 @@
 %        dim specifies if there is a 2D point or 3D point
 %
 %Parameters: 
-%   Global:      The pipeline waypoints or trajectory.
-%                camera field of view, dependent on z.
+%   Global:      
 %                
 %   Local:       
 %
@@ -22,45 +21,106 @@
 %
 
 %% program
+function [P] = camsim(u)
+
+%initsialliseringer
+pos = u(1:6);
+bottom = u(7);
 
 
+%% Pipeline interpolation
 
-function [P1, P2, P3, dim] = camsim(pos, t, dimention)
 
-global pipeline %pipeline is an array containing the trajectory of the pipeline in 3D
-global fov % Camera field of view. Array containing 2 parameters, x, y.
-global focus % the focus distance of the camera.
+N = [-10 -5 10];
+E = [-10 5 10];
+D = [10 10 10];
 
-if isempty(pipeline)
-    error('The pipeline trajectory is empty');
+
+%interpolate the waypoints of the pipeline
+t_s = -10:0.1:10;
+pipeline_xy = pchip(N, E, t_s);
+pipeline_xz = pchip(N, D, t_s);
+temp2 = size(t_s');
+pipeline = [t_s', pipeline_xy', pipeline_xz', ones(temp2(1), 1)];
+
+
+%% convert pipeline into camera coordinates
+T = viewmtx((180/pi)*pos(6), ((180/pi)*pos(5)-90), 25); %Camera transform matrix directed downwards
+
+pipeline_c = [];
+for i = 1:size(pipeline)
+    if isempty(pipeline_c)
+        pipeline_c = T*pipeline(i,:)';
+    else
+        pipeline_c = [pipeline_c T*pipeline(i,:)']; %#ok<AGROW>
+    end
 end
-if isempty(fov)
-    error('Need to specify the field of view');
+pipeline_c = pipeline_c';
+
+% plot3([pipeline(:,2) pipeline_c(:,2)], [pipeline(:,1) pipeline_c(:,1)], [pipeline(:,3) pipeline_c(:,3)])
+% grid on
+
+%% Find the position of AUV in Camera Coordinates
+
+%convert auv position to camera coordinates
+pos_auv = [pos(1:3)', 1]';
+pos_auv_cam = T*pos_auv;
+
+%calculate limits for the field of view cone
+depth = bottom-pos_auv(3);
+fov = depth*tand(25/2);
+
+if pos_auv_cam(1) < 0
+    x_m = pos_auv_cam(1) - fov;
+    x_i = pos_auv_cam(1) + fov;
+else
+    x_m = pos_auv_cam(1) + fov;
+    x_i = pos_auv_cam(1) - fov;
 end
-if isempty(focus)
-    error('Need to specify the focus distance of the camera');
+
+if pos_auv_cam(2) < 0
+    y_m = pos_auv_cam(2) - fov;
+    y_i = pos_auv_cam(2) + fov;
+else
+    y_m = pos_auv_cam(2) + fov;
+    y_i = pos_auv_cam(2) - fov;
 end
 
-%calculate the field of view for the given height, need altitude over sea
-%bottom.
-depth = pipeline(t, 3)- pos(3);
+%% Detect the points of the pipeline inside the FOV cone
 
-realfov = [fov(1)*focus/depth;
-           fov(2)*focus/depth];
+pipeline_inside = [];
+for i = 1:size(pipeline_c,1)
+    if (pipeline_c(i,1) < x_m) && (pipeline_c(i,1) > x_i) %inside x direction
+        if (pipeline_c(i,2) < y_m) && (pipeline_c(i, 2) > y_i) %inside y direction
+            pipeline_inside = [pipeline_inside; pipeline_c(i,:)]; %#ok<AGROW>
+        else
+        disp('ingen punkter')
+        end
+    end
+end
 
+%% Transform pipeline inside FOV cone back to NED coordinates
+if isempty(pipeline_inside) %check if there are points inside
+    disp('Ingen punkter i området')
+    P = zeros(9,1);
+else
+    pipeline_inside_NED = [];
+    for j = 1:size(pipeline_inside,1)
+        pipeline_inside_NED = [pipeline_inside_NED inv(T)*pipeline_inside(j,:)']; %#ok<AGROW>
+    end
 
-           
-
-           
-           
-% Figure out if the some of the pipeline is inside the current field of
-% view.
-
-
+pipeline_inside_NED = pipeline_inside_NED';
 
 
 %print the 3 coordinates of the pipeline out.
+temp = size(pipeline_inside_NED, 1);
+temp3 = ceil(temp/2);
 
+P = [pipeline_inside_NED(1,1:3)';
+     pipeline_inside_NED(temp3, 1:3)';
+     pipeline_inside_NED(temp,1:3)'];
+     
+end
 
 
 
