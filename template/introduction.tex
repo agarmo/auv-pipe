@@ -2,6 +2,25 @@
 
 	The use of Autonomous Underwater Vehicles (AUV) in pipeline following and inspection is of major interrest of oil exploiting enterprises. Today most of the inspection and maintainence of subsea pipelines are done using Remotly Operated Vehicles (ROV). They represent an substantial amount of expences for the oil companies, because of the fact that they are operated by humans. 
 	
-	An AUV may both improve the data acquisition process and reduce the expences introduced by the inspection procedure. The AUV do not get bored when on lenghty and enduring missions like the ROV operator may become. 
+	An AUV may both improve the data acquisition process and reduce the expences introduced by the inspection procedure. 
+	
+	The vessel in question is a Kongsberg Maritime \textit{HUGIN 1000} Autonomous Underwater Vehicle, which is controllable in 5 degrees of freedom (DOF), which gives the AUV hovering capabilities. The pipeline detection equipment is a downward looking camera with sufficient lighting to operate at about 3-5 meters above the seabottom.
+	
+	This report considers how to automate the pipeline inspections process. It will take into account the possible current that may be present at the sea bottom. The case when the pipeline is burried under mud and not visible to the camera which provides the input for where the pipeline is positioned. 
+	
+	The AUV might contain a set of guidance algorthms which considers what is the current mission. A mission can be devided into 4 parts:
+	\begin{enumerate}
+	 \item Initialization and initial descent
+	 \item Search for and accuire pipeline
+	 \item Track and inspect pipeline
+	 \item Ascent to the surface and deliver the accuired data
+	\end{enumerate}
+	Each of these parts requier a different guidance scheem, except for the descent and ascent parts which will employ the same guidance scheem. 
+	
+	The \textit{seach and accuire} part will need the vessel to move in some kind of search pattern if the pipeline is not located exactly where the initial position data states it to be. This search pattern should also be used if the pipeline is lost during tracking. 
+	
+	The \textit{track and inspect} part needs a guidance system which is capable of keeping the vessel on top of the pipeline independent of the current in the area and other possible disturbances.
+	
+	
 	
 

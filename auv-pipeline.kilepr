@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
 kileprversion=1
 kileversion=1.9.3
-lastDocument=template/template.tex
+lastDocument=template/introduction.tex
 masterDocument=template/template.tex
 name=auv-pipeline
 pkg_extIsRegExp=false
@@ -21,7 +21,7 @@ column=34
 encoding=ISO 8859-1
 highlight=LaTeX
 line=6
-open=true
+open=false
 
 [item:/mnt/win/auv-pipe/template/appendices.tex]
 archive=true
@@ -39,38 +39,6 @@ highlight=LaTeX
 line=5
 open=false
 
-[item:/mnt/win/auv-pipe/template/assign1.tex]
-archive=true
-column=0
-encoding=ISO 8859-1
-highlight=LaTeX
-line=1
-open=true
-
-[item:/mnt/win/auv-pipe/template/assign2.tex]
-archive=true
-column=32
-encoding=ISO 8859-1
-highlight=LaTeX
-line=0
-open=false
-
-[item:/mnt/win/auv-pipe/template/assign3.tex]
-archive=true
-column=0
-encoding=ISO 8859-1
-highlight=LaTeX
-line=0
-open=false
-
-[item:/mnt/win/auv-pipe/template/assign4.tex]
-archive=true
-column=1
-encoding=ISO 8859-1
-highlight=LaTeX
-line=0
-open=false
-
 [item:/mnt/win/auv-pipe/template/conclusion.tex]
 archive=true
 column=0
@@ -81,15 +49,15 @@ open=false
 
 [item:/mnt/win/auv-pipe/template/exbib.bib]
 archive=true
-column=0
+column=22
 encoding=ISO 8859-1
 highlight=BibTeX
-line=3
-open=false
+line=29
+open=true
 
 [item:/mnt/win/auv-pipe/template/introduction.tex]
 archive=true
-column=8
+column=0
 encoding=ISO 8859-1
 highlight=LaTeX
 line=7
@@ -97,11 +65,11 @@ open=true
 
 [item:/mnt/win/auv-pipe/template/template.tex]
 archive=true
-column=6
+column=20
 encoding=ISO 8859-1
 highlight=LaTeX
-line=35
-open=true
+line=64
+open=false
 
 [item:auv-pipeline.kilepr]
 archive=true
@@ -110,3 +78,35 @@ encoding=
 highlight=
 line=0
 open=false
+
+[item:template/chapter1.tex]
+archive=true
+column=10
+encoding=ISO 8859-1
+highlight=LaTeX
+line=0
+open=true
+
+[item:template/chapter2.tex]
+archive=true
+column=32
+encoding=ISO 8859-1
+highlight=LaTeX
+line=10
+open=true
+
+[item:template/chapter3.tex]
+archive=true
+column=0
+encoding=ISO 8859-1
+highlight=LaTeX
+line=10
+open=true
+
+[item:template/chapter4.tex]
+archive=true
+column=20
+encoding=ISO 8859-1
+highlight=LaTeX
+line=0
+open=true
