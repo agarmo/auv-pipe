@@ -17,11 +17,11 @@ QuickBuild=
 
 [item:/mnt/win/auv-pipe/template/abbreviations.tex]
 archive=true
-column=34
+column=26
 encoding=ISO 8859-1
 highlight=LaTeX
 line=6
-open=false
+open=true
 
 [item:/mnt/win/auv-pipe/template/appendices.tex]
 archive=true
@@ -57,10 +57,10 @@ open=true
 
 [item:/mnt/win/auv-pipe/template/introduction.tex]
 archive=true
-column=0
+column=201
 encoding=ISO 8859-1
 highlight=LaTeX
-line=7
+line=21
 open=true
 
 [item:/mnt/win/auv-pipe/template/template.tex]

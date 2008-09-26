@@ -1,7 +1,25 @@
 \chapter{Theory}
+	
+\section{Reference systems}
+	Reference systems is an important part of analysis of moving dynamical systems. When one derive the motion of a system one will need some reference fram to calculate the motion relative too. There are a couple of different reference systems used today. One is the ECEF-frame (Earth-Centered, Earth-Fixed), which has the center of the earth as the origin of the frame. The frame rotates with the earth, but when the speed of the vessel is low, this frame can be considered inertial. \cite{forsell}
+	
+	Another common reference frame are the NED frame (North-East-Down). It is defined as the tangetial plane at the earth's surface moving with the vessel. This frame is not valid for inter-continental travel. It is defined with the x-axis pointing towards the Earth's true north, the y-axis pointing towards the east, and the z-axis pointing downwards toward Earth's center. The NED-frame is defined relative to the ECEF-frame by the means of two angles, \textit{longitude} and \textit{latitude}. This is the global reference system that will be used in this report. \cite{fossen}
+	
+	The last reference system used is the Body-frame, which all forces, moments, linear velocities and angular velocities will be expressed in. This frame has it's center in the Center of Gravitiy (CG) of the vessel. The x-axis is defined in the logitudinal axis of the vessel, y-axis to the right, and the z-axis is directed downwards to complite the right hand-system. The body-frame values are transformed to the NED-frame by the means of a Rotataion matrix.
+	
+	
 
+\section{Hydrodynamic Model}
+	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this report uses the 6 DOF model described in \cite{fossen}.
+		\begin{align}
+			\label{eq:chp1-model}
+			\dot{\mathbf{\eta}} &= \mathbf{J}(\mathbf{\theta}) \mathbf{\nu} \\
+			\mathbf{M} \dot{\mathbf{\nu}} + \mathbf{C}(\mathbf{\nu}) \mathbf{\nu} + \mathbf{D}(\mathbf{\nu}) \mathbf{\nu} + \mathbf{G}(\mathbf{\eta}) &= \mathbf{\tau} 
+		\end{align}
+	The equations \eqref{eq:chp1-model} describes the kinematics and kinetics for the model. It is in the mathematical sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is a skew-symmetric matrix.
+	
+	The $\mathbf{J}(\mathbf{\eta})$ matrix is the rotation matrix of euler coordinates which relates the velocity of the vessel to actual movment in the global reference system.
 
-\section{Model}
 
 
 
