@@ -71,27 +71,27 @@ depth = bottom-pos_auv(3);
 fov = depth*tand(25/2);
 
 if pos_auv_cam(1) < 0
-    x_m = pos_auv_cam(1) - fov;
-    x_i = pos_auv_cam(1) + fov;
+    x_max = pos_auv_cam(1) - fov;
+    x_min = pos_auv_cam(1) + fov;
 else
-    x_m = pos_auv_cam(1) + fov;
-    x_i = pos_auv_cam(1) - fov;
+    x_max = pos_auv_cam(1) + fov;
+    x_min = pos_auv_cam(1) - fov;
 end
 
 if pos_auv_cam(2) < 0
-    y_m = pos_auv_cam(2) - fov;
-    y_i = pos_auv_cam(2) + fov;
+    y_max = pos_auv_cam(2) - fov;
+    y_min = pos_auv_cam(2) + fov;
 else
-    y_m = pos_auv_cam(2) + fov;
-    y_i = pos_auv_cam(2) - fov;
+    y_max = pos_auv_cam(2) + fov;
+    y_min = pos_auv_cam(2) - fov;
 end
 
 %% Detect the points of the pipeline inside the FOV cone
 
 pipeline_inside = [];
 for i = 1:size(pipeline_c,1)
-    if (pipeline_c(i,1) < x_m) && (pipeline_c(i,1) > x_i) %inside x direction
-        if (pipeline_c(i,2) < y_m) && (pipeline_c(i, 2) > y_i) %inside y direction
+    if (pipeline_c(i,1) < x_max) && (pipeline_c(i,1) > x_min) %inside x direction
+        if (pipeline_c(i,2) < y_max) && (pipeline_c(i, 2) > y_min) %inside y direction
             pipeline_inside = [pipeline_inside; pipeline_c(i,:)]; %#ok<AGROW>
         else
         disp('ingen punkter')
