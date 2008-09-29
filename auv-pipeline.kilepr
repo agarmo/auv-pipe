@@ -3,7 +3,7 @@ img_extIsRegExp=false
 img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
 kileprversion=1
 kileversion=1.9.3
-lastDocument=template/introduction.tex
+lastDocument=template/chapter1.tex
 masterDocument=template/template.tex
 name=auv-pipeline
 pkg_extIsRegExp=false
@@ -17,7 +17,7 @@ QuickBuild=
 
 [item:/mnt/win/auv-pipe/template/abbreviations.tex]
 archive=true
-column=26
+column=25
 encoding=ISO 8859-1
 highlight=LaTeX
 line=6
@@ -49,18 +49,18 @@ open=false
 
 [item:/mnt/win/auv-pipe/template/exbib.bib]
 archive=true
-column=22
+column=21
 encoding=ISO 8859-1
 highlight=BibTeX
-line=29
+line=21
 open=true
 
 [item:/mnt/win/auv-pipe/template/introduction.tex]
 archive=true
-column=201
+column=239
 encoding=ISO 8859-1
 highlight=LaTeX
-line=21
+line=23
 open=true
 
 [item:/mnt/win/auv-pipe/template/template.tex]
@@ -81,10 +81,10 @@ open=false
 
 [item:template/chapter1.tex]
 archive=true
-column=10
+column=465
 encoding=ISO 8859-1
 highlight=LaTeX
-line=0
+line=7
 open=true
 
 [item:template/chapter2.tex]

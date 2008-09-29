@@ -5,7 +5,7 @@
 	
 	Another common reference frame are the NED frame (North-East-Down). It is defined as the tangetial plane at the earth's surface moving with the vessel. This frame is not valid for inter-continental travel. It is defined with the x-axis pointing towards the Earth's true north, the y-axis pointing towards the east, and the z-axis pointing downwards toward Earth's center. The NED-frame is defined relative to the ECEF-frame by the means of two angles, \textit{longitude} and \textit{latitude}. This is the global reference system that will be used in this report. \cite{fossen}
 	
-	The last reference system used is the Body-frame, which all forces, moments, linear velocities and angular velocities will be expressed in. This frame has it's center in the Center of Gravitiy (CG) of the vessel. The x-axis is defined in the logitudinal axis of the vessel, y-axis to the right, and the z-axis is directed downwards to complite the right hand-system. The body-frame values are transformed to the NED-frame by the means of a Rotataion matrix.
+	The last reference system used is the Body-frame, which all forces, moments, linear velocities and angular velocities will be expressed in. This frame has it's center in the Center of Gravitiy (CG) of the vessel. The x-axis is defined in the logitudinal axis of the vessel, y-axis to the right, and the z-axis is directed downwards to complete the right hand-system. The body-frame values are transformed to the NED-frame by the means of a Rotataion matrix.
 	
 	
 
@@ -13,19 +13,36 @@
 	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this report uses the 6 DOF model described in \cite{fossen}.
 		\begin{align}
 			\label{eq:chp1-model}
-			\dot{\mathbf{\eta}} &= \mathbf{J}(\mathbf{\theta}) \mathbf{\nu} \\
-			\mathbf{M} \dot{\mathbf{\nu}} + \mathbf{C}(\mathbf{\nu}) \mathbf{\nu} + \mathbf{D}(\mathbf{\nu}) \mathbf{\nu} + \mathbf{G}(\mathbf{\eta}) &= \mathbf{\tau} 
+			\mathbf{\dot{\eta}} &= \rotation \mathbf{\nu} \\
+			\mass + \coriolis + \damping + \restoring &= \force
 		\end{align}
 	The equations \eqref{eq:chp1-model} describes the kinematics and kinetics for the model. It is in the mathematical sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is a skew-symmetric matrix.
 	
-	The $\mathbf{J}(\mathbf{\eta})$ matrix is the rotation matrix of euler coordinates which relates the velocity of the vessel to actual movment in the global reference system.
+	The $\rotation$ matrix is the rotation matrix of euler coordinates which relates the velocity of the vessel to actual movment in the global reference system.
 
 
 
 
 \section{Camera therory}
+	Using camera for control is not a stright forward problem. Calculations are needed to relate the data discovered by the camera to the real world which the vessel is opperating in. This imply that coordinates of a 2D point in the camera have to be transformed into a 3D point which can be used by the control system onboard the AUV. Since we are going from less knowledge about a point to more knowledge about a point, some things are needed to be estimated or measured to gain the ability to solve the 2D to 3D problem exactely.
+	
+	The camera properties or parameters can be devided into two cathegories; the intrinsic parameters and extrinsic parameters. The intrinsic parameters are constant parameters and vary from camera to camera. It is the focus distance and image distortion of the pixels away from the center of the camera. The extrincic parameters relate the position of the point relative to camera coordinates. These parameters are ofcourse dependant on the position of the camera and change with time. \cite{robotbok}
+	
+	To solve the problem, it is least complicated to look at the velocity of the points in the camera view. The motion of the point in the camera view is then represented in the real world coordinates by a so called interaction matrix. \cite{robotbok}
+	\begin{equation}
+		\label{eq:ch1-camcord2worldcord}
+		\dot{\mathbf{x}}_i = \interaction \mathbf{\nu}
+	\end{equation}
+	$\mathbf{x}_i$ is the coordinates of the point in image coordinates, $\mathbf{\nu}$ is the linear and angular velocity of the camera in 6 DOFs in this case this is the same velocities as the vessel, since the camera is locked in a fixed position on the AUV. The matrix $\interaction$ is the Interaction matrix. This matrix is a nonlinear combination of intrinsic and extrinsic parameters of the camera, and is dependent on the distance to the point in space.
+	
+	<<<<<<<------------------------>>>>>>>>>>>>>>	
+	
+	The control problem is to follow the points in the camera image and keep them relatively close to the AUV. This is done by controlling the velocities of the AUV. 
 
+	<<<<<<<<<---------------------->>>>>>>>>>>>>>
 
-
-\section{Path following}
+\section{Guidance Algorithms}
+	There are a couple of different guidance algorithms which can be used on this problem. The obvious and simplest is the Line-of-Sight-algorithm (LoS). 
+	
+	
 
