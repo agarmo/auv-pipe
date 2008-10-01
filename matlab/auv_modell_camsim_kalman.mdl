@@ -1,12 +1,12 @@
 Model {
-  Name			  "auv_modell"
+  Name			  "auv_modell_camsim_kalman"
   Version		  7.1
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.48"
+    ComputedModelVersion    "1.71"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Sep 30 17:15:35 2008"
+  LastModifiedDate	  "Wed Oct 01 20:31:52 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:48>"
+  ModelVersionFormat	  "1.%<AutoIncrement:71>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -106,9 +106,9 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.4.0"
 	  StartTime		  "0.0"
-	  StopTime		  "400"
+	  StopTime		  "100"
 	  AbsTol		  "auto"
-	  FixedStep		  "auto"
+	  FixedStep		  "0.1"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -122,8 +122,8 @@ Model {
 	  MaxConsecutiveMinStep	  "1"
 	  RelTol		  "1e-3"
 	  SolverMode		  "Auto"
-	  Solver		  "ode45"
-	  SolverName		  "ode45"
+	  Solver		  "ode3"
+	  SolverName		  "ode3"
 	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
 	  ZeroCrossAlgorithm	  "Non-adaptive"
@@ -748,6 +748,14 @@ Model {
       OutputSignalType	      "auto"
       SampleTime	      "-1"
     }
+    Block {
+      BlockType		      UniformRandomNumber
+      Minimum		      "-1"
+      Maximum		      "1"
+      Seed		      "0"
+      SampleTime	      "-1"
+      VectorParams1D	      on
+    }
   }
   AnnotationDefaults {
     HorizontalAlignment	    "center"
@@ -768,8 +776,8 @@ Model {
     FontAngle		    "normal"
   }
   System {
-    Name		    "auv_modell"
-    Location		    [192, 128, 1218, 706]
+    Name		    "auv_modell_camsim_kalman"
+    Location		    [212, 74, 1222, 668]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -789,19 +797,346 @@ Model {
       Ports		      [1]
       Position		      [900, 324, 930, 356]
       Floating		      off
-      Location		      [603, 740, 927, 979]
-      Open		      off
+      Location		      [353, 450, 677, 689]
+      Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-0.02"
-      YMax		      "0.005"
+      YMin		      "-0.2"
+      YMax		      "-1.38778e-017"
       SaveName		      "ScopeData6"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "CAMSIM"
+      Ports		      [1, 3]
+      Position		      [285, 409, 385, 451]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"CAMSIM"
+	Location		[668, 243, 1166, 543]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Position"
+	  Position		  [45, 38, 75, 52]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Bottom"
+	  Position		  [45, 160, 75, 190]
+	  Value			  "10"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 3]
+	  Position		  [360, 56, 365, 214]
+	  ShowName		  off
+	  Outputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  MATLABFcn
+	  Name			  "MATLAB Fcn"
+	  Ports			  [1, 1]
+	  Position		  [200, 120, 260, 150]
+	  MATLABFcn		  "camsim(u)"
+	  OutputDimensions	  "6"
+	  Output1D		  off
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [2, 1]
+	  Position		  [165, 116, 170, 154]
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [305, 125, 325, 145]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "noise"
+	  Ports			  [0, 1]
+	  Position		  [180, 199, 280, 241]
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "noise"
+	    Location		    [433, 403, 944, 792]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Gain
+	      Name		      "1/5"
+	      Position		      [365, 158, 400, 192]
+	      Gain		      "0.2.*eye(6)"
+	      Multiplication	      "Matrix(K*u)"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "sfix(16)"
+	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [6, 1]
+	      Position		      [315, 59, 330, 286]
+	      ShowName		      off
+	      Inputs		      "6"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      UniformRandomNumber
+	      Name		      "Uniform Random\nNumber"
+	      Position		      [130, 14, 160, 46]
+	      SampleTime	      "0"
+	    }
+	    Block {
+	      BlockType		      UniformRandomNumber
+	      Name		      "Uniform Random\nNumber1"
+	      Position		      [130, 74, 160, 106]
+	      Seed		      "2"
+	      SampleTime	      "0"
+	    }
+	    Block {
+	      BlockType		      UniformRandomNumber
+	      Name		      "Uniform Random\nNumber2"
+	      Position		      [130, 129, 160, 161]
+	      Seed		      "4"
+	      SampleTime	      "0"
+	    }
+	    Block {
+	      BlockType		      UniformRandomNumber
+	      Name		      "Uniform Random\nNumber3"
+	      Position		      [130, 184, 160, 216]
+	      Seed		      "6"
+	      SampleTime	      "0"
+	    }
+	    Block {
+	      BlockType		      UniformRandomNumber
+	      Name		      "Uniform Random\nNumber4"
+	      Position		      [130, 244, 160, 276]
+	      Seed		      "8"
+	      SampleTime	      "0"
+	    }
+	    Block {
+	      BlockType		      UniformRandomNumber
+	      Name		      "Uniform Random\nNumber5"
+	      Position		      [130, 319, 160, 351]
+	      Seed		      "10"
+	      SampleTime	      "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [430, 168, 460, 182]
+	      IconDisplay	      "Port number"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	    }
+	    Line {
+	      SrcBlock		      "Uniform Random\nNumber"
+	      SrcPort		      1
+	      Points		      [65, 0; 0, 55]
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Uniform Random\nNumber1"
+	      SrcPort		      1
+	      Points		      [55, 0; 0, 30]
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Uniform Random\nNumber2"
+	      SrcPort		      1
+	      Points		      [45, 0; 0, 10]
+	      DstBlock		      "Mux"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Uniform Random\nNumber3"
+	      SrcPort		      1
+	      Points		      [35, 0; 0, -10]
+	      DstBlock		      "Mux"
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Uniform Random\nNumber4"
+	      SrcPort		      1
+	      Points		      [30, 0; 0, -35]
+	      DstBlock		      "Mux"
+	      DstPort		      5
+	    }
+	    Line {
+	      SrcBlock		      "Uniform Random\nNumber5"
+	      SrcPort		      1
+	      Points		      [70, 0; 0, -75]
+	      DstBlock		      "Mux"
+	      DstPort		      6
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "1/5"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "1/5"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P1"
+	  Position		  [425, 78, 455, 92]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P2"
+	  Position		  [425, 128, 455, 142]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P3"
+	  Position		  [425, 178, 455, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "Position"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, 80]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Bottom"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -30]
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "MATLAB Fcn"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  DstBlock		  "P1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  DstBlock		  "P2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  DstBlock		  "P3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "MATLAB Fcn"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "noise"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+      }
     }
     Block {
       BlockType		      Demux
@@ -845,7 +1180,7 @@ Model {
       BlockType		      Constant
       Name		      "Force / Moments"
       Position		      [100, 215, 220, 245]
-      Value		      "100.*[1 0 0 0 0 0]"
+      Value		      "40.*[1 1 0 0 0 0]"
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
     }
@@ -878,12 +1213,12 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "[0 0 5 0 0 0]|[0 0 0 0 0 0]"
+      MaskValueString	      "[-10 -10 7 0 0 0]|[0 0 0 0 0 0]"
       MaskTabNameString	      ","
       System {
 	Name			"HUGIN 1000"
-	Location		[211, 225, 991, 754]
-	Open			on
+	Location		[224, 133, 1004, 662]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1385,7 +1720,7 @@ Model {
 	  Position		  [505, 459, 535, 491]
 	  Floating		  off
 	  Location		  [912, 667, 1236, 906]
-	  Open			  on
+	  Open			  off
 	  NumInputPorts		  "1"
 	  ZoomMode		  "yonly"
 	  List {
@@ -2140,24 +2475,206 @@ Model {
       }
     }
     Block {
+      BlockType		      SubSystem
+      Name		      "Kalman filter"
+      Ports		      [3, 4]
+      Position		      [535, 334, 635, 406]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Kalman filter"
+	Location		[343, 295, 841, 595]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "eta"
+	  Position		  [35, 28, 65, 42]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "tau"
+	  Position		  [35, 113, 65, 127]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "xi"
+	  Position		  [35, 193, 65, 207]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 4]
+	  Position		  [360, 61, 370, 179]
+	  ShowName		  off
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [125, 68, 135, 172]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  MATLABFcn
+	  Name			  "ekf file"
+	  Ports			  [1, 1]
+	  Position		  [220, 105, 280, 135]
+	  MATLABFcn		  "kf(u)"
+	  OutputDimensions	  "24"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "eta_hat"
+	  Position		  [415, 33, 445, 47]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "xi_hat"
+	  Position		  [415, 98, 445, 112]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "bias_hat"
+	  Position		  [415, 128, 445, 142]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "nu_hat"
+	  Position		  [420, 223, 450, 237]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "eta"
+	  SrcPort		  1
+	  Points		  [40, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "tau"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "xi"
+	  SrcPort		  1
+	  Points		  [40, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  DstBlock		  "eta_hat"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  DstBlock		  "xi_hat"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  3
+	  DstBlock		  "bias_hat"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  4
+	  Points		  [15, 0; 0, 65]
+	  DstBlock		  "nu_hat"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "ekf file"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ekf file"
+	  SrcPort		  1
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
       BlockType		      Scope
       Name		      "Lin Velocity"
       Ports		      [1]
       Position		      [815, 279, 845, 311]
       Floating		      off
-      Location		      [953, 386, 1277, 625]
-      Open		      off
+      Location		      [728, 744, 1052, 983]
+      Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-0.25"
-      YMax		      "2.75"
+      YMin		      "-0.1"
+      YMax		      "1.1"
       SaveName		      "ScopeData1"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [3, 1]
+      Position		      [420, 403, 425, 457]
+      ShowName		      off
+      Inputs		      "3"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      Reference
@@ -2207,21 +2724,53 @@ Model {
       Ports		      [1]
       Position		      [705, 99, 735, 131]
       Floating		      off
-      Location		      [234, 360, 558, 599]
+      Location		      [912, 109, 1236, 348]
       Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
+      YMin		      "-10"
+      YMax		      "35"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum"
+      Ports		      [2, 1]
+      Position		      [650, 265, 670, 285]
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|+-"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum1"
+      Ports		      [2, 1]
+      Position		      [840, 425, 860, 445]
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|+-"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      Scope
       Name		      "Yaw"
       Ports		      [1]
-      Position		      [900, 274, 930, 306]
+      Position		      [905, 254, 935, 286]
       Floating		      off
       Location		      [421, 252, 745, 491]
       Open		      off
@@ -2231,9 +2780,288 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "100"
+      YMin		      "1"
+      YMax		      "4.75"
+      SaveName		      "ScopeData2"
+      DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "bias_hat"
+      Ports		      [1]
+      Position		      [780, 499, 810, 531]
+      Floating		      off
+      Location		      [393, 225, 717, 464]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-0.015"
+      YMax		      "0.001"
+      SaveName		      "ScopeData11"
+      DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "e"
+      Ports		      [1]
+      Position		      [710, 259, 740, 291]
+      Floating		      off
+      Location		      [952, 749, 1276, 969]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "100"
       YMin		      "-1"
       YMax		      "1"
-      SaveName		      "ScopeData2"
+      SaveName		      "ScopeData14"
+      DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "e_nu"
+      Ports		      [1]
+      Position		      [885, 454, 915, 486]
+      Floating		      off
+      Location		      [369, 741, 693, 980]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMax		      "6"
+      SaveName		      "ScopeData15"
+      DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "eta_hat"
+      Ports		      [1]
+      Position		      [910, 394, 940, 426]
+      Floating		      off
+      Location		      [587, 104, 911, 343]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-12.5"
+      YMax		      "7.5"
+      SaveName		      "ScopeData9"
+      DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "noise"
+      Ports		      [0, 1]
+      Position		      [280, 514, 380, 556]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"noise"
+	Location		[215, 420, 726, 809]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/2"
+	  Position		  [360, 158, 395, 192]
+	  Gain			  "0.5.*eye(6)"
+	  Multiplication	  "Matrix(K*u)"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  ParamDataTypeStr	  "Inherit: Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  OutDataTypeStr	  "Inherit: Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [6, 1]
+	  Position		  [315, 59, 330, 286]
+	  ShowName		  off
+	  Inputs		  "6"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  UniformRandomNumber
+	  Name			  "Uniform Random\nNumber"
+	  Position		  [130, 14, 160, 46]
+	  Seed			  "15"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  UniformRandomNumber
+	  Name			  "Uniform Random\nNumber1"
+	  Position		  [130, 74, 160, 106]
+	  Seed			  "16"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  UniformRandomNumber
+	  Name			  "Uniform Random\nNumber2"
+	  Position		  [130, 129, 160, 161]
+	  Seed			  "17"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  UniformRandomNumber
+	  Name			  "Uniform Random\nNumber3"
+	  Position		  [130, 184, 160, 216]
+	  Seed			  "18"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  UniformRandomNumber
+	  Name			  "Uniform Random\nNumber4"
+	  Position		  [130, 244, 160, 276]
+	  Seed			  "19"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  UniformRandomNumber
+	  Name			  "Uniform Random\nNumber5"
+	  Position		  [130, 319, 160, 351]
+	  Seed			  "20"
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [430, 168, 460, 182]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "1/2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Uniform Random\nNumber5"
+	  SrcPort		  1
+	  Points		  [70, 0; 0, -75]
+	  DstBlock		  "Mux"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Uniform Random\nNumber4"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, -35]
+	  DstBlock		  "Mux"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Uniform Random\nNumber3"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -10]
+	  DstBlock		  "Mux"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Uniform Random\nNumber2"
+	  SrcPort		  1
+	  Points		  [45, 0; 0, 10]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Uniform Random\nNumber1"
+	  SrcPort		  1
+	  Points		  [55, 0; 0, 30]
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Uniform Random\nNumber"
+	  SrcPort		  1
+	  Points		  [65, 0; 0, 55]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "1/2"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "nu_hat"
+      Ports		      [1]
+      Position		      [690, 529, 720, 561]
+      Floating		      off
+      Location		      [535, 472, 842, 696]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-0.025"
+      YMax		      "-1.73472e-018"
+      SaveName		      "ScopeData12"
+      DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "points"
+      Ports		      [1]
+      Position		      [570, 499, 600, 531]
+      Floating		      off
+      Location		      [24, 746, 348, 985]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "100"
+      YMin		      "-11"
+      YMax		      "1"
+      SaveName		      "ScopeData13"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
     }
@@ -2269,23 +3097,75 @@ Model {
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
     }
+    Block {
+      BlockType		      Scope
+      Name		      "xi_hat"
+      Ports		      [1]
+      Position		      [780, 444, 810, 476]
+      Floating		      off
+      Location		      [33, 89, 357, 309]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-6"
+      YMax		      "10"
+      SaveName		      "ScopeData10"
+      DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
     Line {
       SrcBlock		      "Force / Moments"
       SrcPort		      1
-      DstBlock		      "HUGIN 1000"
-      DstPort		      1
+      Points		      [135, 0]
+      Branch {
+	DstBlock		"HUGIN 1000"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 140]
+	DstBlock		"Kalman filter"
+	DstPort			2
+      }
     }
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      1
-      Points		      [165, 0]
+      Points		      [30, 0]
       Branch {
-	DstBlock		"Scope"
-	DstPort			1
+	Points			[110, 0]
+	Branch {
+	  Points		  [25, 0]
+	  Branch {
+	    DstBlock		    "Scope"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "rad to deg"
+	    DstPort		    1
+	  }
+	}
+	Branch {
+	  Points		  [-85, 0; 0, 65]
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
       }
       Branch {
-	DstBlock		"rad to deg"
-	DstPort			1
+	Points			[5, 0; 0, 100; -100, 0]
+	Branch {
+	  Points		  [-190, 0]
+	  DstBlock		  "CAMSIM"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [0, 35]
+	  DstBlock		  "Kalman filter"
+	  DstPort		  1
+	}
       }
     }
     Line {
@@ -2305,7 +3185,7 @@ Model {
     Line {
       SrcBlock		      "Demux"
       SrcPort		      6
-      Points		      [30, 0; 0, 45]
+      Points		      [25, 0; 0, 25]
       DstBlock		      "Yaw"
       DstPort		      1
     }
@@ -2346,9 +3226,16 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      2
-      Points		      [160, 0; 0, 80]
-      DstBlock		      "Demux1"
-      DstPort		      1
+      Points		      [160, 0; 0, 80; 25, 0]
+      Branch {
+	DstBlock		"Demux1"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 105]
+	DstBlock		"Sum1"
+	DstPort			1
+      }
     }
     Line {
       SrcBlock		      "rad to deg"
@@ -2360,6 +3247,95 @@ Model {
       SrcBlock		      "rad to deg2"
       SrcPort		      1
       DstBlock		      "Ang velocity"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "CAMSIM"
+      SrcPort		      1
+      Points		      [15, 0]
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "CAMSIM"
+      SrcPort		      2
+      DstBlock		      "Mux"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "CAMSIM"
+      SrcPort		      3
+      Points		      [15, 0]
+      DstBlock		      "Mux"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      Points		      [90, 0]
+      Branch {
+	DstBlock		"Kalman filter"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, 85]
+	DstBlock		"points"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Kalman filter"
+      SrcPort		      1
+      Points		      [20, 0]
+      Branch {
+	Points			[40, 0; 0, 70]
+	DstBlock		"eta_hat"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"Sum"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "Kalman filter"
+      SrcPort		      2
+      Points		      [50, 0; 0, 100]
+      DstBlock		      "xi_hat"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Kalman filter"
+      SrcPort		      3
+      Points		      [40, 0; 0, 135]
+      DstBlock		      "bias_hat"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Kalman filter"
+      SrcPort		      4
+      Points		      [15, 0; 0, 145]
+      Branch {
+	DstBlock		"nu_hat"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 35; 195, 0]
+	DstBlock		"Sum1"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "Sum"
+      SrcPort		      1
+      DstBlock		      "e"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Sum1"
+      SrcPort		      1
+      Points		      [0, 35]
+      DstBlock		      "e_nu"
       DstPort		      1
     }
   }

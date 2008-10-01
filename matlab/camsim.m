@@ -23,17 +23,17 @@
 %% program
 function [P] = camsim(u)
 
+
+global North East Down
+
 %initsialliseringer
 pos = u(1:6);
 bottom = u(7);
-
+N = North;
+E = East;
+D = Down;
 
 %% Pipeline interpolation
-
-
-N = [-10 -5 10];
-E = [-10 5 10];
-D = [10 10 10];
 
 
 %interpolate the waypoints of the pipeline
@@ -47,15 +47,15 @@ pipeline = [t_s', pipeline_xy', pipeline_xz', ones(temp2(1), 1)];
 %% convert pipeline into camera coordinates
 T = viewmtx((180/pi)*pos(6), ((180/pi)*pos(5)-90), 25); %Camera transform matrix directed downwards
 
-pipeline_c = [];
-for i = 1:size(pipeline)
-    if isempty(pipeline_c)
-        pipeline_c = T*pipeline(i,:)';
-    else
-        pipeline_c = [pipeline_c T*pipeline(i,:)']; %#ok<AGROW>
-    end
-end
-pipeline_c = pipeline_c';
+% pipeline_c = [];
+% for i = 1:size(pipeline)
+%     if isempty(pipeline_c)
+%         pipeline_c = T*pipeline(i,:)';
+%     else
+%         pipeline_c = [pipeline_c T*pipeline(i,:)']; %#ok<AGROW>
+%     end
+% end
+% pipeline_c = pipeline_c';
 
 % plot3([pipeline(:,2) pipeline_c(:,2)], [pipeline(:,1) pipeline_c(:,1)], [pipeline(:,3) pipeline_c(:,3)])
 % grid on
@@ -64,63 +64,83 @@ pipeline_c = pipeline_c';
 
 %convert auv position to camera coordinates
 pos_auv = [pos(1:3)', 1]';
-pos_auv_cam = T*pos_auv;
+% pos_auv_cam = T*pos_auv
 
 %calculate limits for the field of view cone
 depth = bottom-pos_auv(3);
 fov = depth*tand(25/2);
 
-if pos_auv_cam(1) < 0
-    x_max = pos_auv_cam(1) - fov;
-    x_min = pos_auv_cam(1) + fov;
+if pos_auv(1) > 0
+    x_max = pos_auv(1) - fov;
+    x_min = pos_auv(1) + fov;
 else
-    x_max = pos_auv_cam(1) + fov;
-    x_min = pos_auv_cam(1) - fov;
+    x_max = pos_auv(1) + fov;
+    x_min = pos_auv(1) - fov;
 end
 
-if pos_auv_cam(2) < 0
-    y_max = pos_auv_cam(2) - fov;
-    y_min = pos_auv_cam(2) + fov;
+if pos_auv(2) > 0
+    y_max = pos_auv(2) - fov;
+    y_min = pos_auv(2) + fov;
 else
-    y_max = pos_auv_cam(2) + fov;
-    y_min = pos_auv_cam(2) - fov;
+    y_max = pos_auv(2) + fov;
+    y_min = pos_auv(2) - fov;
 end
 
 %% Detect the points of the pipeline inside the FOV cone
+% 
+% x_max
+% y_max
+% x_min
+% y_min
+
 
 pipeline_inside = [];
-for i = 1:size(pipeline_c,1)
-    if (pipeline_c(i,1) < x_max) && (pipeline_c(i,1) > x_min) %inside x direction
-        if (pipeline_c(i,2) < y_max) && (pipeline_c(i, 2) > y_min) %inside y direction
-            pipeline_inside = [pipeline_inside; pipeline_c(i,:)]; %#ok<AGROW>
+for i = 1:size(pipeline,1)
+    if (pipeline(i,1) < x_max) && (pipeline(i,1) > x_min) %inside x direction
+        if (pipeline(i,2) < y_max) && (pipeline(i, 2) > y_min) %inside y direction
+            pipeline_inside = [pipeline_inside; pipeline(i,:)]; %#ok<AGROW>
         else
         disp('ingen punkter')
         end
     end
 end
 
-%% Transform pipeline inside FOV cone back to NED coordinates
-if isempty(pipeline_inside) %check if there are points inside
-    disp('Ingen punkter i området')
-    P = zeros(9,1);
+if isempty(pipeline_inside)
+    disp('ingen punkter i området');
+    P = zeros(6,1);
 else
-    pipeline_inside_NED = [];
-    for j = 1:size(pipeline_inside,1)
-        pipeline_inside_NED = [pipeline_inside_NED inv(T)*pipeline_inside(j,:)']; %#ok<AGROW>
-    end
 
-pipeline_inside_NED = pipeline_inside_NED';
-
-
-%print the 3 coordinates of the pipeline out.
-temp = size(pipeline_inside_NED, 1);
-temp3 = ceil(temp/2);
-
-P = [pipeline_inside_NED(1,1:3)';
-     pipeline_inside_NED(temp3, 1:3)';
-     pipeline_inside_NED(temp,1:3)'];
-     
+     temp = size(pipeline_inside, 1);
+     temp3 = ceil(temp/2);
+ 
+    P = [pipeline_inside(1,1:2)';
+         pipeline_inside(temp3, 1:2)';
+         pipeline_inside(temp,1:2)'];
 end
+
+% 
+% %% Transform pipeline inside FOV cone back to NED coordinates
+% if isempty(pipeline_inside) %check if there are points inside
+%     disp('Ingen punkter i området')
+%     P = zeros(9,1);
+% else
+%     pipeline_inside_NED = [];
+%     for j = 1:size(pipeline_inside,1)
+%         pipeline_inside_NED = [pipeline_inside_NED inv(T)*pipeline_inside(j,:)']; %#ok<AGROW>
+%     end
+% 
+% pipeline_inside_NED = pipeline_inside_NED';
+% 
+% 
+% %print the 3 coordinates of the pipeline out.
+% temp = size(pipeline_inside_NED, 1);
+% temp3 = ceil(temp/2);
+% 
+% P = [pipeline_inside_NED(1,1:3)';
+%      pipeline_inside_NED(temp3, 1:3)';
+%      pipeline_inside_NED(temp,1:3)'];
+%      
+% end
 
 
 
