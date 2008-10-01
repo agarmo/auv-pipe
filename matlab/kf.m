@@ -35,7 +35,7 @@ H = [eye(6) zeros(6, 18);
 
      
 K = P_apr*H'*inv(H*P_apr*H'+R); %compute Kalman gain
-x_post = x_apr + K*(u(1:12) - H*x_apr);
+x_post = x_apr + K*([eta_vp; u(7:12)] - H*x_apr);
 
 P_post = (eye(24) - K*H)*P_apr*(eye(24) - K*H)' + K*R*K';
 
@@ -56,14 +56,18 @@ B = [zeros(18,6);
 E = [zeros(6,24);
      zeros(6) eye(6) zeros(6, 12);
      zeros(6, 12) eye(6) zeros(6);
-     zeros(6, 18) inv(M)];     
+     zeros(6, 18) inv(M)];
      
 [PHI, DELTA] = c2d(A, B, h);
 [PHI, GAMMA] = c2d(A, E, h);
 
      
 x_apr = PHI*x_post + DELTA*tau;
-x = x_apr;
+
+x(1:6) = Prot*x_apr(1:6);
+x(7:12) = x_apr(7:12);
+x(13:18) = Prot*x_apr(13:18);
+x(19:24) = x_apr(19:24);
 
 P_apr = PHI*P_post*PHI' + GAMMA*Q*GAMMA';
 

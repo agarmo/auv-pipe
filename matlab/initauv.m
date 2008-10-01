@@ -14,10 +14,10 @@ nu0 = zeros(6,1); %initial velocity
 
 % kalman filter parameters
 P0 = eye(24);
-h = 0.1; % sampling interval
-Q = 0.01.*eye(24);
-R = 1.*eye(12);
-% R = diag([0.01 0.01 0.01 0.01 0.01 0.01 1 1 1 1 1 1]);
+h = 0.5; % sampling interval
+Q = diag([10 10 10 10 10 10 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 100 .1 .1 .1 .1 .1]);
+R = .0001.*eye(12);
+% R = diag([1 1 1 1 1 1 .04 .04 .04 .04 .04 .04]);
 
 %model parameters
 m = 1380;
