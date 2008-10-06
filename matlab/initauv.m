@@ -69,7 +69,7 @@ M = [m-Xu   0       0       0       m*zg    -m*yg;
 G = [zeros(3, 6);
      zeros(3) diag([-zg*W -zg*W 0])];
 
-z = 10 -7;
+z = 10-7;
      
 L = [zeros(2, 6);
      0 0 1/z -10 0 0;
@@ -83,4 +83,4 @@ L = [zeros(2, 6);
 
 T = 1000*eye(6);
 
- sim auv_modell_camsim_kalman
+ sim auv_modell_camsim_vr
