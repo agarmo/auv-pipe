@@ -4,7 +4,6 @@ function [x] = camsim2(u)
 global pipeline
 
 eta = u(1:6);
-nu = u(7:12);
 
 bottom = u(13);
 
@@ -31,17 +30,17 @@ J = [Rot      zeros(3);
 eta_b = inv(J)*eta; %transform to body coorodinates
 
 z = bottom - eta(3); %altitude
-fov = z*tand(25/2);
+fov = z*tand(45/2);
 
-if eta(1) < 0
-    x_max = eta_b(1) - fov;
-    x_min = eta_b(1) + fov;
-else
+if eta_b(1) < 0
     x_max = eta_b(1) + fov;
     x_min = eta_b(1) - fov;
+else
+    x_max = eta_b(1) - fov;
+    x_min = eta_b(1) + fov;
 end
 
-if eta(2) < 0
+if eta_b(2) < 0
     y_max = eta_b(2) - fov;
     y_min = eta_b(2) + fov;
 else
@@ -55,39 +54,46 @@ end
 % y_min
 
 
-temp_max = J*[x_max; y_max; eta_b(3:6)];
-temp_min = J*[x_min; y_min; eta_b(3:6)]; 
+pipeline_b = zeros(size(pipeline,1), 3);
 
-x_max = temp_max(1);
-x_min = temp_min(1);
-y_max = temp_max(2);
-y_min = temp_min(2);
 
+% temp_max = J*[x_max; y_max; eta_b(3:6)];
+% temp_min = J*[x_min; y_min; eta_b(3:6)];
+% % 
+% % temp_max - temp_min
+% 
+% x_max = temp_max(1);
+% x_min = temp_min(1);
+% y_max = temp_max(2);
+% y_min = temp_min(2);
+
+% pipeline_b = pipeline_b';
 pipeline_inside = [];
-for i = 1:size(pipeline,1)
-    if (pipeline(i,1) <= x_max) && (pipeline(i,1) >= x_min) %inside x direction
-        if (pipeline(i,2) <= y_max) && (pipeline(i, 2) >= y_min) %inside y direction
-
-            x_max
-            x_min
-            y_max
-            y_min
-     
-            pipeline_inside = [pipeline_inside; pipeline(i,:)]; %#ok<AGROW>
+for i = 1:size(pipeline_b,1)
+    pipeline_b(i,:)= (inv(Rot)*pipeline(i,:)')';
+    
+    if (pipeline_b(i,1) <= x_max) && (pipeline_b(i,1) >= x_min) %inside x direction
+        if (pipeline_b(i,2) <= y_max) && (pipeline_b(i, 2) >= y_min) %inside y direction
+% 
+%             x_max
+%             x_min
+%             y_max
+%             y_min
+%      
+            pipeline_inside = [pipeline_inside; (Rot*pipeline_b(i,:)')']; %#ok<AGROW>
      
             %         disp('ingen punkter')
         end
     end
 end
 
-
 if isempty(pipeline_inside)
 %     disp('ingen punkter i området');
     P = zeros(6,1);
 else
 
-     temp = size(pipeline_inside, 1);
-     temp3 = ceil(temp/2);
+    temp = size(pipeline_inside, 1);
+    temp3 = ceil(temp/2);
  
     P = [pipeline_inside(1,1:2)';
          pipeline_inside(temp3, 1:2)';

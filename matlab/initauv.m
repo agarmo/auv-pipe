@@ -23,7 +23,7 @@ pipeline = [t_s', pipeline_xy', pipeline_xz'];
 bottom = 10;
 
 focus = 1; % camera focus
-eta0 = [-10 -7 7 0 0 0]'; %initial position
+eta0 = [-10 -5 5 0 0 0]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
 % kalman filter parameters
