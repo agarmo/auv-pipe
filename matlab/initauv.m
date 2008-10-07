@@ -1,15 +1,29 @@
 clear all;
 
-global M D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down bottom G L
+global M D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down bottom G L pipeline
 
 North = [-10 -5 10];
 East = [-10 5 10];
 Down = [10 10 10];
 
+%% interpolation of pipeline
+N = North;
+E = East;
+D = Down;
+
+%interpolate the waypoints of the pipeline
+t_s = -10:0.1:10;
+pipeline_xy = pchip(N, E, t_s);
+pipeline_xz = pchip(N, D, t_s);
+temp2 = size(t_s');
+pipeline = [t_s', pipeline_xy', pipeline_xz'];
+
+
+
 bottom = 10;
 
 focus = 1; % camera focus
-eta0 = [-10 -10 7 0 0 0]'; %initial position
+eta0 = [-10 -7 7 0 0 0]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
 % kalman filter parameters

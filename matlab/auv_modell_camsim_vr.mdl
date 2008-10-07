@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.52"
+    ComputedModelVersion    "1.65"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,9 +44,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Oct 06 19:22:22 2008"
+  LastModifiedDate	  "Tue Oct 07 13:01:37 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:52>"
+  ModelVersionFormat	  "1.%<AutoIncrement:65>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -104,7 +104,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.3.0"
 	  StartTime		  "0.0"
-	  StopTime		  "400"
+	  StopTime		  "1000"
 	  AbsTol		  "auto"
 	  FixedStep		  "auto"
 	  InitialStep		  "auto"
@@ -820,6 +820,21 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      LockScale		      off
+      RndMeth		      "Floor"
+    }
+    Block {
       BlockType		      Signum
       ZeroCross		      on
       SampleTime	      "-1"
@@ -851,7 +866,7 @@ Model {
   }
   System {
     Name		    "auv_modell_camsim_vr"
-    Location		    [160, 279, 1186, 857]
+    Location		    [188, 277, 1214, 946]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -869,7 +884,7 @@ Model {
       BlockType		      Scope
       Name		      "Ang velocity"
       Ports		      [1]
-      Position		      [900, 324, 930, 356]
+      Position		      [905, 429, 935, 461]
       Floating		      off
       Location		      [603, 740, 927, 979]
       Open		      off
@@ -886,10 +901,46 @@ Model {
       SampleTime	      "0"
     }
     Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [80, 240, 130, 270]
+      Value		      "zeros(3,1)"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      Position		      [15, 45, 65, 75]
+      Value		      "[-5 5 0]"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "DP controller"
+      Ports		      [3, 1]
+      Position		      [55, 177, 155, 223]
+      BackgroundColor	      "yellow"
+      SourceBlock	      "marine_gnc/Control/Dynamic \nPositioning /DP controller"
+      SourceType	      "Nonlinear DP Controller"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      Kp		      "diag([230 300 1000])"
+      Kd		      "diag([750 700 0])"
+      Ki		      "diag([2 5 0])"
+    }
+    Block {
       BlockType		      Demux
       Name		      "Demux"
       Ports		      [1, 6]
-      Position		      [805, 154, 815, 261]
+      Position		      [815, 192, 820, 368]
       ShowName		      off
       Outputs		      "6"
       DisplayOption	      "bar"
@@ -898,7 +949,7 @@ Model {
       BlockType		      Demux
       Name		      "Demux1"
       Ports		      [1, 2]
-      Position		      [735, 302, 745, 353]
+      Position		      [740, 407, 750, 458]
       ShowName		      off
       Outputs		      "2"
       DisplayOption	      "bar"
@@ -906,20 +957,60 @@ Model {
     Block {
       BlockType		      Demux
       Name		      "Demux2"
+      Ports		      [1, 3]
+      Position		      [585, 332, 590, 508]
+      ShowName		      off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux3"
       Ports		      [1, 2]
-      Position		      [385, 69, 395, 176]
+      Position		      [90, 317, 95, 373]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
       ShowName		      off
       Outputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux4"
+      Ports		      [1, 2]
+      Position		      [90, 417, 95, 473]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      Outputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux5"
+      Ports		      [1, 3]
+      Position		      [100, 35, 105, 75]
+      ShowName		      off
+      Outputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux6"
+      Ports		      [1, 3]
+      Position		      [100, 85, 105, 125]
+      ShowName		      off
+      Outputs		      "3"
       DisplayOption	      "bar"
     }
     Block {
       BlockType		      Scope
       Name		      "Depth"
       Ports		      [1]
-      Position		      [975, 169, 1005, 201]
+      Position		      [965, 249, 995, 281]
       Floating		      off
-      Location		      [966, 67, 1290, 310]
-      Open		      on
+      Location		      [951, 67, 1275, 310]
+      Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
@@ -933,35 +1024,10 @@ Model {
       SampleTime	      "0"
     }
     Block {
-      BlockType		      Reference
-      Name		      "Euler angles to\nrotation matrix"
-      Ports		      [1, 1]
-      Position		      [470, 119, 555, 181]
-      BackgroundColor	      "yellow"
-      SourceBlock	      "marine_gnc/Models/ Kinematics/Euler angles to\nrotation matrix"
-      SourceType	      "Euler2R"
-      ShowPortLabels	      "none"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-    }
-    Block {
-      BlockType		      Constant
-      Name		      "Force / Moments"
-      Position		      [75, 215, 195, 245]
-      Value		      "1000.*[0 0 0 1 0 0]"
-      OutDataType	      "sfix(16)"
-      OutScaling	      "2^0"
-    }
-    Block {
       BlockType		      SubSystem
       Name		      "HUGIN 1000"
       Ports		      [1, 2]
-      Position		      [235, 191, 350, 269]
+      Position		      [335, 191, 450, 269]
       BackgroundColor	      "orange"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -982,11 +1048,11 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "[0 0 5 0 0 0]|[0 0 0 0 0 0]"
+      MaskValueString	      "eta0|[0 0 0 0 0 0]"
       MaskTabNameString	      ","
       System {
 	Name			"HUGIN 1000"
-	Location		[211, 225, 991, 754]
+	Location		[30, 333, 810, 862]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1011,7 +1077,7 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "6 DOF Eqs. of motion"
 	  Ports			  [2, 2]
-	  Position		  [385, 100, 475, 195]
+	  Position		  [385, 102, 475, 198]
 	  BackgroundColor	  "yellow"
 	  AncestorBlock		  "marine_gnc/Models/ Kinetics /6 DOF Eqs. of motion"
 	  MinAlgLoopOccurrences	  off
@@ -1291,6 +1357,7 @@ Model {
 	      Name		      "eta"
 	      Position		      [1100, 213, 1130, 227]
 	      BackgroundColor	      "red"
+	      NamePlacement	      "alternate"
 	      IconDisplay	      "Port number"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
@@ -2134,7 +2201,7 @@ Model {
 	Line {
 	  SrcBlock		  "6 DOF Eqs. of motion"
 	  SrcPort		  2
-	  Points		  [85, 0]
+	  Points		  [0, -5; 85, 0]
 	  Branch {
 	    DstBlock		    "nu"
 	    DstPort		    1
@@ -2169,7 +2236,6 @@ Model {
 	Line {
 	  SrcBlock		  "Sum"
 	  SrcPort		  1
-	  Points		  [35, 0]
 	  DstBlock		  "6 DOF Eqs. of motion"
 	  DstPort		  2
 	}
@@ -2230,9 +2296,9 @@ Model {
       BlockType		      Scope
       Name		      "Lin Velocity"
       Ports		      [1]
-      Position		      [815, 279, 845, 311]
+      Position		      [840, 384, 870, 416]
       Floating		      off
-      Location		      [953, 386, 1277, 625]
+      Location		      [951, 386, 1275, 625]
       Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
@@ -2240,17 +2306,53 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-0.25"
-      YMax		      "2.75"
+      YMin		      "-6"
+      YMax		      "9"
       SaveName		      "ScopeData1"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
     }
     Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [2, 1]
+      Position		      [170, 174, 175, 281]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux1"
+      Ports		      [2, 1]
+      Position		      [155, 18, 160, 62]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux2"
+      Ports		      [2, 1]
+      Position		      [155, 68, 160, 112]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux3"
+      Ports		      [2, 1]
+      Position		      [155, 118, 160, 162]
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
       BlockType		      Reference
       Name		      "NE-Plot"
       Ports		      [2]
-      Position		      [880, 155, 910, 190]
+      Position		      [905, 195, 935, 230]
       SourceBlock	      "simulink/Sinks/XY Graph"
       SourceType	      "XY scope."
       ShowPortLabels	      "FromPortIcon"
@@ -2264,17 +2366,17 @@ Model {
       xmin		      "-100"
       xmax		      "220"
       ymin		      "-100"
-      ymax		      "1000"
+      ymax		      "100"
       st		      "-1"
     }
     Block {
       BlockType		      Scope
       Name		      "Roll Pitch"
       Ports		      [2]
-      Position		      [955, 221, 985, 254]
+      Position		      [920, 291, 950, 324]
       Floating		      off
-      Location		      [947, 377, 1268, 618]
-      Open		      on
+      Location		      [654, 434, 975, 675]
+      Open		      off
       NumInputPorts	      "2"
       List {
 	ListType		AxesTitles
@@ -2282,34 +2384,26 @@ Model {
 	axes2			"%<SignalLabel>"
       }
       TimeRange		      "400"
-      YMin		      "-0.05~-0.6"
-      YMax		      "0.3~0.1"
+      YMin		      "-0.01~-0.015"
+      YMax		      "0.08~0.015"
       SaveName		      "ScopeData3"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
     }
     Block {
-      BlockType		      Reference
-      Name		      "Rotation Matrix\nto VRML Rotation"
-      Ports		      [1, 1]
-      Position		      [575, 131, 670, 169]
-      SourceBlock	      "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
-      SourceType	      "Rotation Matrix to VRML Rotation"
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      maxzero		      "1e-12"
+      BlockType		      Saturate
+      Name		      "Saturation"
+      Position		      [275, 215, 305, 245]
+      UpperLimit	      "100"
+      LowerLimit	      "-100"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
     }
     Block {
       BlockType		      Scope
       Name		      "Scope"
       Ports		      [1]
-      Position		      [740, 144, 770, 176]
+      Position		      [745, 194, 775, 226]
       Floating		      off
       Location		      [234, 360, 558, 599]
       Open		      off
@@ -2318,41 +2412,237 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
+      YMin		      "-12.5"
+      YMax		      "7.5"
       DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope1"
+      Ports		      [1]
+      Position		      [455, 364, 485, 396]
+      Floating		      off
+      Location		      [648, 104, 972, 343]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-1"
+      YMax		      "1"
+      SaveName		      "ScopeData9"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope2"
+      Ports		      [1]
+      Position		      [635, 289, 665, 321]
+      Floating		      off
+      Location		      [885, 73, 1209, 312]
+      Open		      off
+      NumInputPorts	      "1"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-10"
+      YMax		      "-10"
+      SaveName		      "ScopeData10"
+      DataFormat	      "StructureWithTime"
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope3"
+      Ports		      [1]
+      Position		      [335, 84, 365, 116]
+      Floating		      off
+      Location		      [482, 641, 806, 880]
+      Open		      on
+      NumInputPorts	      "1"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-100"
+      YMax		      "100"
+      SaveName		      "ScopeData11"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope4"
+      Ports		      [3]
+      Position		      [270, 30, 300, 90]
+      Floating		      off
+      Location		      [836, 75, 1248, 840]
+      Open		      on
+      NumInputPorts	      "3"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+      }
+      YMin		      "-10~-10~-2.25"
+      YMax		      "5~12.5~0.75"
+      SaveName		      "ScopeData12"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
       SampleTime	      "0"
     }
     Block {
       BlockType		      Selector
       Name		      "Selector"
       Ports		      [1, 1]
-      Position		      [520, 56, 560, 94]
-      InputPortWidth	      "3"
+      Position		      [200, 162, 250, 298]
+      InputPortWidth	      "6"
       IndexOptions	      "Index vector (dialog)"
-      Indices		      "[2 3 1]"
+      Indices		      "[1 2 4 5 6 3]"
       OutputSizes	      "1"
     }
     Block {
-      BlockType		      Reference
-      Name		      "VR Sink"
-      Ports		      [4]
-      Position		      [805, 57, 900, 133]
-      SourceBlock	      "vrlib/VR Sink"
-      SourceType	      "Virtual Reality Sink"
-      SampleTime	      "0.1"
-      ViewEnable	      on
-      RemoteChange	      off
-      RemoteView	      off
-      FieldsWritten	      "Mounted.orientation.4.1.double#Mounted.position.3.1.double#Hugin1000.rotation.4.1.double#Hugin1000.translation.3.1.double"
-      WorldFileName	      "M:\\tex\\svn\\3d-modell\\hugin.WRL"
-      AutoView		      on
-      VideoDimensions	      "[]"
-      FigureProperties	      "{}"
+      BlockType		      Selector
+      Name		      "Selector1"
+      Ports		      [1, 1]
+      Position		      [120, 299, 150, 391]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      InputPortWidth	      "6"
+      IndexOptions	      "Index vector (dialog)"
+      Indices		      "[1 2 6 3 4 5]"
+      OutputSizes	      "1"
+    }
+    Block {
+      BlockType		      Selector
+      Name		      "Selector2"
+      Ports		      [1, 1]
+      Position		      [120, 414, 150, 506]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      InputPortWidth	      "6"
+      IndexOptions	      "Index vector (dialog)"
+      Indices		      "[1 2 6 3 4 5]"
+      OutputSizes	      "1"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Subsystem"
+      Ports		      [2, 1]
+      Position		      [280, 359, 380, 401]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      System {
+	Name			"Subsystem"
+	Location		[433, 403, 931, 703]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Eta"
+	  Position		  [55, 58, 85, 72]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Nu"
+	  Position		  [55, 128, 85, 142]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  MATLABFcn
+	  Name			  "MATLAB Fcn"
+	  Ports			  [1, 1]
+	  Position		  [215, 120, 275, 150]
+	  MATLABFcn		  "camsim2"
+	  OutputDimensions	  "6"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [120, 32, 125, 238]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "bottom"
+	  Position		  [55, 190, 85, 220]
+	  Value			  "10"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P"
+	  Position		  [430, 128, 460, 142]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "Eta"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Nu"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "bottom"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "MATLAB Fcn"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "MATLAB Fcn"
+	  SrcPort		  1
+	  DstBlock		  "P"
+	  DstPort		  1
+	}
+      }
     }
     Block {
       BlockType		      Scope
       Name		      "Yaw"
       Ports		      [1]
-      Position		      [900, 274, 930, 306]
+      Position		      [965, 339, 995, 371]
       Floating		      off
       Location		      [942, 686, 1266, 925]
       Open		      on
@@ -2362,8 +2652,8 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "100"
-      YMin		      "1075"
-      YMax		      "1400"
+      YMin		      "-27.5"
+      YMax		      "-7.5"
       SaveName		      "ScopeData2"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
@@ -2371,7 +2661,7 @@ Model {
     Block {
       BlockType		      Gain
       Name		      "rad to deg"
-      Position		      [715, 193, 750, 227]
+      Position		      [720, 263, 755, 297]
       Gain		      "diag([1 1 1 180/pi 180/pi 180/pi])"
       Multiplication	      "Matrix(K*u)"
       ParameterDataTypeMode   "Inherit via internal rule"
@@ -2385,7 +2675,7 @@ Model {
     Block {
       BlockType		      Gain
       Name		      "rad to deg2"
-      Position		      [765, 325, 795, 355]
+      Position		      [770, 430, 800, 460]
       Gain		      "diag([180/pi 180/pi 180/pi])"
       Multiplication	      "Matrix(K*u)"
       ParameterDataTypeMode   "Inherit via internal rule"
@@ -2397,88 +2687,379 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
-      BlockType		      Selector
-      Name		      "vrml-coord"
-      Ports		      [1, 1]
-      Position		      [415, 130, 450, 170]
-      InputPortWidth	      "3"
-      IndexOptions	      "Index vector (dialog)"
-      Indices		      "[2 3 1]"
-      OutputSizes	      "1"
-    }
-    Line {
-      SrcBlock		      "Force / Moments"
-      SrcPort		      1
-      DstBlock		      "HUGIN 1000"
-      DstPort		      1
+      BlockType		      SubSystem
+      Name		      "visualization"
+      Ports		      [1]
+      Position		      [805, 14, 905, 56]
+      BackgroundColor	      "green"
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      System {
+	Name			"visualization"
+	Location		[260, 535, 1084, 929]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "eta"
+	  Position		  [20, 98, 50, 112]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "-z"
+	  Position		  [210, 155, 235, 175]
+	  Gain			  "-1"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [150, 230, 180, 260]
+	  Value			  "pi/2"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux2"
+	  Ports			  [1, 2]
+	  Position		  [70, 29, 80, 176]
+	  ShowName		  off
+	  Outputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux3"
+	  Ports			  [1, 3]
+	  Position		  [185, 101, 190, 179]
+	  ShowName		  off
+	  Outputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Euler angles to\ninverse rotation\nmatrix"
+	  Ports			  [1, 1]
+	  Position		  [320, 113, 395, 167]
+	  BackgroundColor	  "yellow"
+	  SourceBlock		  "marine_gnc/Models/ Kinematics/Euler angles to\ninverse rotation\nmatrix"
+	  SourceType		  "Rbn"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [285, 101, 290, 179]
+	  BackgroundColor	  "yellow"
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Rotation Matrix\nto VRML Rotation"
+	  Ports			  [1, 1]
+	  Position		  [425, 121, 520, 159]
+	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
+	  SourceType		  "Rotation Matrix to VRML Rotation"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  maxzero		  "1e-12"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector"
+	  Ports			  [1, 1]
+	  Position		  [145, 46, 185, 84]
+	  InputPortWidth	  "3"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[2 3 1]"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector1"
+	  Ports			  [1, 1]
+	  Position		  [120, 121, 160, 159]
+	  InputPortWidth	  "3"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[2 1 3]"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [220, 105, 240, 125]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "VR Sink"
+	  Ports			  [4]
+	  Position		  [670, 12, 765, 218]
+	  SourceBlock		  "vrlib/VR Sink"
+	  SourceType		  "Virtual Reality Sink"
+	  SampleTime		  "0.1"
+	  ViewEnable		  on
+	  RemoteChange		  off
+	  RemoteView		  off
+	  FieldsWritten		  "Mounted.orientation.4.1.double#Mounted.position.3.1.double#Hugin1000.rotation.4.1.double#Hugin1000.translation.3.1.double"
+	  WorldFileName		  "M:\\tex\\svn\\3d-modell\\hugin.WRL"
+	  AutoView		  on
+	  VideoDimensions	  "[]"
+	  FigureProperties	  "{'Position', 'Name', 'Viewpoint', 'CameraBound', 'CameraDirection', 'CameraPosition', 'CameraUpVector', 'ZoomFactor', 'Antialiasing', 'Headlight', 'Lighting', 'NavPanel', 'StatusBar', 'ToolBar', 'Textures', 'Transparency', 'Wireframe', 'NavZones', 'NavMode', 'NavSpeed', 'Record2DCompressMethod', 'Record2DCompressQuality', 'Record2D', 'Record2DFileName', 'Record2DFPS'; [8.0000000000000000e+000  8.6000000000000000e+001  6.2600000000000000e+002  4.0100000000000000e+002], '', 'Overview', 'on', [-4.7477468383467128e-002 -4.8324566214636475e-002 -9.9770267429534354e-001], [2.2305288483536316e+001  9.0696940792763357e+001  3.7396872559245497e+002], [-5.7495926579068657e-003  9.9882571893031757e-001 -4.8105357161235845e-002], [1.0000000000000000e+000], 'off', 'on', 'on', 'halfbar', 'off', 'on', 'on', 'on', 'off', 'off', 'walk', 'normal', 'auto', [7.5000000000000000e+001], 'off', '%f_anim_%n.avi', [1.5000000000000000e+001]} "
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "scale gain"
+	  Position		  [265, 48, 300, 82]
+	  Gain			  "diag([10 10 10])"
+	  Multiplication	  "Matrix(K*u)"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  1
+	  DstBlock		  "Selector"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector"
+	  SrcPort		  1
+	  DstBlock		  "scale gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Euler angles to\ninverse rotation\nmatrix"
+	  SrcPort		  1
+	  DstBlock		  "Rotation Matrix\nto VRML Rotation"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux2"
+	  SrcPort		  2
+	  DstBlock		  "Selector1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector1"
+	  SrcPort		  1
+	  DstBlock		  "Demux3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Euler angles to\ninverse rotation\nmatrix"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux3"
+	  SrcPort		  3
+	  DstBlock		  "-z"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  Points		  [45, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Demux3"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux3"
+	  SrcPort		  2
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "-z"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "eta"
+	  SrcPort		  1
+	  DstBlock		  "Demux2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rotation Matrix\nto VRML Rotation"
+	  SrcPort		  1
+	  Points		  [115, 0]
+	  Branch {
+	    DstBlock		    "VR Sink"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [0, -100]
+	    DstBlock		    "VR Sink"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "scale gain"
+	  SrcPort		  1
+	  Points		  [350, 0; 0, 25]
+	  Branch {
+	    DstBlock		    "VR Sink"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "VR Sink"
+	    DstPort		    4
+	  }
+	}
+      }
     }
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      1
-      Points		      [15, 0]
+      Points		      [0, 0]
       Branch {
-	DstBlock		"Demux2"
+	Points			[30, 0; 0, 105; -225, 0; 0, 55]
+	DstBlock		"Subsystem"
 	DstPort			1
       }
       Branch {
-	Points			[320, 0]
+	Points			[250, 0; 0, -175]
+	DstBlock		"visualization"
+	DstPort			1
+      }
+      Branch {
+	Points			[95, 0]
 	Branch {
-	  Points		  [0, -50]
-	  DstBlock		  "Scope"
-	  DstPort		  1
+	  Points		  [155, 0]
+	  Branch {
+	    DstBlock		    "rad to deg"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Scope"
+	    DstPort		    1
+	  }
 	}
 	Branch {
-	  DstBlock		  "rad to deg"
-	  DstPort		  1
+	  Points		  [0, 135]
+	  Branch {
+	    Points		    [0, 75]
+	    DstBlock		    "Demux2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Selector1"
+	    DstPort		    1
+	  }
 	}
       }
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      2
-      Points		      [20, 0; 0, -20]
+      Points		      [65, 0]
       DstBlock		      "NE-Plot"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      1
-      Points		      [40, 0; 0, 10]
+      Points		      [40, 0; 0, 15]
       DstBlock		      "NE-Plot"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      6
-      Points		      [30, 0; 0, 45]
       DstBlock		      "Yaw"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      4
-      Points		      [55, 0; 0, 15]
+      Points		      [80, 0]
       DstBlock		      "Roll Pitch"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      5
-      Points		      [50, 0; 0, 15]
+      Points		      [80, 0]
       DstBlock		      "Roll Pitch"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      3
-      Points		      [40, 0; 0, 5; 100, 0]
       DstBlock		      "Depth"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Demux1"
       SrcPort		      1
-      Points		      [50, 0]
+      Points		      [70, 0]
       DstBlock		      "Lin Velocity"
       DstPort		      1
     }
@@ -2491,9 +3072,25 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      2
-      Points		      [330, 0; 0, 80]
-      DstBlock		      "Demux1"
-      DstPort		      1
+      Points		      [25, 0]
+      Branch {
+	Points			[0, 60; -225, 0; 0, 80]
+	DstBlock		"Subsystem"
+	DstPort			2
+      }
+      Branch {
+	Points			[40, 0]
+	Branch {
+	  Points		  [165, 0; 0, 185]
+	  DstBlock		  "Demux1"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [0, 210]
+	  DstBlock		  "Selector2"
+	  DstPort		  1
+	}
+      }
     }
     Line {
       SrcBlock		      "rad to deg"
@@ -2508,58 +3105,166 @@ Model {
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Demux2"
-      SrcPort		      2
-      DstBlock		      "vrml-coord"
+      SrcBlock		      "Subsystem"
+      SrcPort		      1
+      DstBlock		      "Scope1"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Demux2"
       SrcPort		      1
-      Points		      [105, 0]
+      Points		      [0, -55]
+      DstBlock		      "Scope2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "DP controller"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Mux"
+      SrcPort		      1
       DstBlock		      "Selector"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Rotation Matrix\nto VRML Rotation"
+      SrcBlock		      "Selector"
       SrcPort		      1
-      Points		      [15, 0; 0, -45]
+      DstBlock		      "Saturation"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Selector1"
+      SrcPort		      1
+      DstBlock		      "Demux3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux3"
+      SrcPort		      1
+      Points		      [-70, 0; 0, -130]
       Branch {
-	DstBlock		"VR Sink"
-	DstPort			3
+	DstBlock		"DP controller"
+	DstPort			2
       }
       Branch {
-	Points			[0, -40]
-	DstBlock		"VR Sink"
+	Points			[0, -95]
+	DstBlock		"Demux6"
 	DstPort			1
       }
     }
     Line {
-      SrcBlock		      "Selector"
+      SrcBlock		      "Selector2"
       SrcPort		      1
-      Points		      [100, 0]
-      Branch {
-	Points			[125, 0]
-	DstBlock		"VR Sink"
-	DstPort			2
-      }
-      Branch {
-	Points			[0, 50]
-	DstBlock		"VR Sink"
-	DstPort			4
-      }
-    }
-    Line {
-      SrcBlock		      "Euler angles to\nrotation matrix"
-      SrcPort		      1
-      DstBlock		      "Rotation Matrix\nto VRML Rotation"
+      Points		      [0, -15]
+      DstBlock		      "Demux4"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "vrml-coord"
+      SrcBlock		      "Demux4"
       SrcPort		      1
-      DstBlock		      "Euler angles to\nrotation matrix"
+      Points		      [-45, 0]
+      DstBlock		      "DP controller"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	Points			[0, 105; -40, 0]
+	DstBlock		"DP controller"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -5]
+	DstBlock		"Demux5"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Saturation"
+      SrcPort		      1
+      Points		      [5, 0]
+      Branch {
+	DstBlock		"HUGIN 1000"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -130]
+	DstBlock		"Scope3"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Mux1"
+      SrcPort		      1
+      DstBlock		      "Scope4"
       DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Mux2"
+      SrcPort		      1
+      Points		      [30, 0; 0, -30]
+      DstBlock		      "Scope4"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Mux3"
+      SrcPort		      1
+      Points		      [65, 0; 0, -60]
+      DstBlock		      "Scope4"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Demux5"
+      SrcPort		      1
+      Points		      [15, 0; 0, -10]
+      DstBlock		      "Mux1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux6"
+      SrcPort		      1
+      Points		      [15, 0; 0, -40]
+      DstBlock		      "Mux1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux5"
+      SrcPort		      2
+      Points		      [25, 0; 0, 25]
+      DstBlock		      "Mux2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux5"
+      SrcPort		      3
+      Points		      [25, 0; 0, 60]
+      DstBlock		      "Mux3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux6"
+      SrcPort		      2
+      Points		      [30, 0]
+      DstBlock		      "Mux2"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux6"
+      SrcPort		      3
+      Points		      [15, 0; 0, 30]
+      DstBlock		      "Mux3"
+      DstPort		      2
     }
   }
 }
