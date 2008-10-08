@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.80"
+    ComputedModelVersion    "1.82"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,9 +44,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 08 13:21:43 2008"
+  LastModifiedDate	  "Wed Oct 08 20:25:25 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:80>"
+  ModelVersionFormat	  "1.%<AutoIncrement:82>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -119,8 +119,8 @@ Model {
 	  MaxConsecutiveMinStep	  "1"
 	  RelTol		  "1e-3"
 	  SolverMode		  "Auto"
-	  Solver		  "ode45"
-	  SolverName		  "ode45"
+	  Solver		  "ode4"
+	  SolverName		  "ode4"
 	  ZeroCrossControl	  "UseLocalSettings"
 	  AlgebraicLoopSolver	  "TrustRegion"
 	  SolverResetMethod	  "Fast"
@@ -488,6 +488,10 @@ Model {
   }
   BlockParameterDefaults {
     Block {
+      BlockType		      Clock
+      DisplayTime	      off
+    }
+    Block {
       BlockType		      DataTypeConversion
       OutMin		      "[]"
       OutMax		      "[]"
@@ -780,7 +784,7 @@ Model {
   }
   System {
     Name		    "auv_modell_camsim_controller"
-    Location		    [50, 227, 1157, 896]
+    Location		    [117, 229, 1224, 898]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -824,8 +828,8 @@ Model {
       FunctionWithSeparateData off
       System {
 	Name			"CAMSim"
-	Location		[489, 170, 1106, 657]
-	Open			on
+	Location		[563, 168, 1180, 655]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -853,6 +857,13 @@ Model {
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Clock
+	  Name			  "Clock"
+	  Position		  [230, 403, 310, 427]
+	  DisplayTime		  on
+	  Decimation		  "1"
 	}
 	Block {
 	  BlockType		  Demux
@@ -1419,17 +1430,17 @@ Model {
 	  BlockType		  MATLABFcn
 	  Name			  "MATLAB Fcn"
 	  Ports			  [1, 1]
-	  Position		  [415, 155, 475, 185]
+	  Position		  [395, 185, 455, 215]
 	  MATLABFcn		  "camsim2"
 	  OutputDimensions	  "6"
 	}
 	Block {
 	  BlockType		  Mux
 	  Name			  "Mux"
-	  Ports			  [5, 1]
-	  Position		  [360, 25, 365, 315]
+	  Ports			  [6, 1]
+	  Position		  [355, 14, 365, 386]
 	  ShowName		  off
-	  Inputs		  "5"
+	  Inputs		  "6"
 	  DisplayOption		  "bar"
 	}
 	Block {
@@ -1448,7 +1459,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "P"
-	  Position		  [555, 163, 585, 177]
+	  Position		  [575, 193, 605, 207]
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^0"
@@ -1527,6 +1538,13 @@ Model {
 	  DstBlock		  "Mux"
 	  DstPort		  5
 	}
+	Line {
+	  SrcBlock		  "Clock"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  6
+	}
       }
     }
     Block {
@@ -1589,7 +1607,7 @@ Model {
       BlockType		      Constant
       Name		      "Eta_ref"
       Position		      [15, 29, 110, 81]
-      Value		      "[-5 5 6 0 0 0]"
+      Value		      "[-5 5 6 0 0 pi/4]"
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
     }
@@ -2897,10 +2915,10 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      xmin		      "-100"
-      xmax		      "220"
-      ymin		      "-100"
-      ymax		      "100"
+      xmin		      "-20"
+      xmax		      "20"
+      ymin		      "-20"
+      ymax		      "20"
       st		      "-1"
     }
     Block {
@@ -3287,7 +3305,7 @@ Model {
       BlockType		      Scope
       Name		      "Scope"
       Ports		      [1]
-      Position		      [745, 194, 775, 226]
+      Position		      [745, 209, 775, 241]
       Floating		      off
       Location		      [234, 360, 558, 599]
       Open		      off
@@ -3305,10 +3323,10 @@ Model {
       BlockType		      Scope
       Name		      "Scope2"
       Ports		      [1]
-      Position		      [635, 14, 665, 46]
+      Position		      [710, 49, 740, 81]
       Floating		      off
-      Location		      [929, 79, 1253, 318]
-      Open		      off
+      Location		      [914, 79, 1238, 318]
+      Open		      on
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
@@ -3316,8 +3334,10 @@ Model {
       }
       YMin		      "-10"
       YMax		      "10"
-      SaveName		      "ScopeData10"
+      SaveToWorkspace	      on
+      SaveName		      "NEpos"
       DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
       SampleTime	      "0"
     }
     Block {
@@ -3767,9 +3787,10 @@ Model {
       Ports		      [3]
       Position		      [335, 85, 365, 145]
       Floating		      off
-      Location		      [854, 571, 1266, 967]
-      Open		      off
+      Location		      [784, 575, 1267, 971]
+      Open		      on
       NumInputPorts	      "3"
+      ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
@@ -3777,8 +3798,8 @@ Model {
 	axes3			"%<SignalLabel>"
       }
       TimeRange		      "1000"
-      YMin		      "-0.075~-0.5~-30"
-      YMax		      "0.1~4~0"
+      YMin		      "-0.15~-0.1~-80"
+      YMax		      "0.15~0.075~50"
       SaveName		      "ScopeData13"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -3790,8 +3811,8 @@ Model {
       Ports		      [3]
       Position		      [390, 25, 420, 85]
       Floating		      off
-      Location		      [865, 52, 1277, 485]
-      Open		      off
+      Location		      [842, 58, 1254, 491]
+      Open		      on
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -3800,8 +3821,8 @@ Model {
 	axes3			"%<SignalLabel>"
       }
       TimeRange		      "1000"
-      YMin		      "-10~-5~5"
-      YMax		      "-4~7.5~6.5"
+      YMin		      "-10~-5~5.998"
+      YMax		      "2.5~10~6.008"
       SaveName		      "ScopeData12"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -3813,8 +3834,8 @@ Model {
       Ports		      [3]
       Position		      [485, 364, 515, 396]
       Floating		      off
-      Location		      [951, 491, 1275, 979]
-      Open		      off
+      Location		      [11, 94, 389, 694]
+      Open		      on
       NumInputPorts	      "3"
       ZoomMode		      "xonly"
       List {
@@ -3823,9 +3844,10 @@ Model {
 	axes2			"Point 2"
 	axes3			"Point 3"
       }
-      YMin		      "-9~-8~-8"
-      YMax		      "4~6~6"
-      SaveName		      "ScopeData9"
+      YMin		      "-10~-10~-10"
+      YMax		      "10~10~10"
+      SaveToWorkspace	      on
+      SaveName		      "points"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
       SampleTime	      "0"
@@ -3871,6 +3893,7 @@ Model {
 	    DstPort		    1
 	  }
 	  Branch {
+	    Points		    [25, 0]
 	    DstBlock		    "Scope"
 	    DstPort		    1
 	  }
@@ -3993,7 +4016,7 @@ Model {
     Line {
       SrcBlock		      "Demux2"
       SrcPort		      1
-      Points		      [0, -65]
+      Points		      [0, -30]
       DstBlock		      "Scope2"
       DstPort		      1
     }
