@@ -8,51 +8,79 @@ eta = u(1:6);
 bottom = u(13);
 
 
-%% Rotation matrix
-phi = eta(4);
-theta = eta(5);
-psi = eta(6);
-
-Rot = [cos(psi)*cos(phi) -sin(psi)*cos(phi)+cos(psi)*sin(theta)*sin(phi) sin(psi)*sin(phi)+cos(psi)*cos(phi)*sin(theta);
-     sin(psi)*cos(theta) cos(psi)*cos(phi)+sin(phi)*sin(theta)*sin(psi) -cos(psi)*sin(phi)+sin(theta)*sin(psi)*cos(phi);
-     -sin(theta)            -cos(theta)*sin(phi)                            cos(theta)*cos(phi)];
-
-Trans = [1                  sin(phi)*tan(theta)                                 cos(phi)*tan(theta);
-     0                  cos(phi)                                            -sin(phi);
-     0                  sin(phi)/cos(theta)                                 cos(phi)/cos(theta)];
+%% Rotation matrix    
+Rot = [u(14:16)';
+         u(17:19)';
+         u(20:22)'];
      
+Trans = [u(23:25)';
+       u(26:28)';
+       u(29:31)'];
+     
+
 J = [Rot      zeros(3);
      zeros(3)   Trans];
 
 %% Check if pipeline is inside FOV
 
 % determine fov
-eta_b = inv(J)*eta; %transform to body coorodinates
+% eta_b = inv(J)*eta; %transform to body coorodinates
 
 z = bottom - eta(3); %altitude
 fov = z*tand(45/2);
 
-if eta_b(1) < 0
+eta_b = inv(Rot(1:2, 1:2))*eta(1:2);
+
+% fov_ned = Rot(1:2,1:2)*[fov, fov]';
+% 
+% if eta(1) < 0
+%     x_max = eta(1) - fov_ned(1);
+%     x_min = eta(1) + fov_ned(1);
+% else
+%     x_max = eta(1) + fov_ned(1);
+%     x_min = eta(1) - fov_ned(1);
+% end
+% 
+% if eta(2) < 0
+%     y_max = eta(2) - fov_ned(2);
+%     y_min = eta(2) + fov_ned(2);
+% else
+%     y_max = eta(2) + fov_ned(2);
+%     y_min = eta(2) - fov_ned(2);
+% end
+
     x_max = eta_b(1) + fov;
     x_min = eta_b(1) - fov;
-else
-    x_max = eta_b(1) - fov;
-    x_min = eta_b(1) + fov;
-end
-
-if eta_b(2) < 0
-    y_max = eta_b(2) - fov;
-    y_min = eta_b(2) + fov;
-else
     y_max = eta_b(2) + fov;
     y_min = eta_b(2) - fov;
-end
 
-% x_max
-% x_min
-% y_max
-% y_min
 
+max = Rot(1:2,1:2)*[x_max, y_max]';
+min = Rot(1:2,1:2)*[x_min, y_min]';
+
+
+x_max = max(1);
+y_max = max(2);
+x_min = min(1);
+y_min = min(2);
+
+    if x_max < x_min
+        x_max2 = x_max;
+        x_max = x_min;
+        x_min = x_max2;
+    elseif x_max == x_min
+        x_max = x_max + fov;
+        x_min = x_max - fov;
+    end
+    if y_max < y_min
+        y_max2 = y_max;
+        y_max = y_min;
+        y_min = y_max2;
+    elseif y_max == y_min
+        y_max = y_max + fov;
+        y_min = y_max - fov;
+    end
+[x_max, x_min, y_max, y_min]'
 
 pipeline_b = zeros(size(pipeline,1), 3);
 
@@ -69,18 +97,18 @@ pipeline_b = zeros(size(pipeline,1), 3);
 
 % pipeline_b = pipeline_b';
 pipeline_inside = [];
-for i = 1:size(pipeline_b,1)
-    pipeline_b(i,:)= (inv(Rot)*pipeline(i,:)')';
+for i = 1:size(pipeline,1)
+%     pipeline_b(i,:)= (inv(Rot)*pipeline(i,:)')';
     
-    if (pipeline_b(i,1) <= x_max) && (pipeline_b(i,1) >= x_min) %inside x direction
-        if (pipeline_b(i,2) <= y_max) && (pipeline_b(i, 2) >= y_min) %inside y direction
+    if (pipeline(i,1) <= x_max) && (pipeline(i,1) >= x_min) %inside x direction
+        if (pipeline(i,2) <= y_max) && (pipeline(i, 2) >= y_min) %inside y direction
 % 
 %             x_max
 %             x_min
 %             y_max
 %             y_min
 %      
-            pipeline_inside = [pipeline_inside; (Rot*pipeline_b(i,:)')']; %#ok<AGROW>
+            pipeline_inside = [pipeline_inside; pipeline(i,:)]; %#ok<AGROW>
      
             %         disp('ingen punkter')
         end
@@ -91,7 +119,6 @@ if isempty(pipeline_inside)
 %     disp('ingen punkter i området');
     P = zeros(6,1);
 else
-
     temp = size(pipeline_inside, 1);
     temp3 = ceil(temp/2);
  

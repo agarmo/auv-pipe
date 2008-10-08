@@ -1,4 +1,5 @@
 clear all;
+close all;
 
 global M D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down bottom G L pipeline
 
@@ -23,7 +24,7 @@ pipeline = [t_s', pipeline_xy', pipeline_xz'];
 bottom = 10;
 
 focus = 1; % camera focus
-eta0 = [-10 -5 5 0 0 0]'; %initial position
+eta0 = [-10 -5 6 0 0 0]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
 % kalman filter parameters
@@ -97,4 +98,4 @@ L = [zeros(2, 6);
 
 T = 1000*eye(6);
 
- sim auv_modell_camsim_vr
+%  sim auv_modell_camsim_controller

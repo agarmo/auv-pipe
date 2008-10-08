@@ -1,12 +1,12 @@
 Model {
-  Name			  "auv_modell_camsim_vr"
+  Name			  "auv_modell_camsim_controller"
   Version		  7.0
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.78"
+    ComputedModelVersion    "1.80"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,9 +44,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 08 13:19:02 2008"
+  LastModifiedDate	  "Wed Oct 08 13:21:43 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:78>"
+  ModelVersionFormat	  "1.%<AutoIncrement:80>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -488,16 +488,6 @@ Model {
   }
   BlockParameterDefaults {
     Block {
-      BlockType		      ActionPort
-      InitializeStates	      "held"
-      ActionType	      "unset"
-    }
-    Block {
-      BlockType		      CombinatorialLogic
-      TruthTable	      "[0 0;0 1;0 1;1 0;0 1;1 0;1 0;1 1]"
-      SampleTime	      "-1"
-    }
-    Block {
       BlockType		      DataTypeConversion
       OutMin		      "[]"
       OutMax		      "[]"
@@ -508,15 +498,6 @@ Model {
       ConvertRealWorld	      "Real World Value (RWV)"
       RndMeth		      "Zero"
       SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
-      BlockType		      DeadZone
-      LowerValue	      "-0.5"
-      UpperValue	      "0.5"
-      SaturateOnIntegerOverflow	on
-      LinearizeAsGain	      on
-      ZeroCross		      on
       SampleTime	      "-1"
     }
     Block {
@@ -552,17 +533,6 @@ Model {
       LockScale		      off
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
-      BlockType		      Ground
-    }
-    Block {
-      BlockType		      If
-      NumInputs		      "1"
-      IfExpression	      "u1 > 0"
-      ShowElse		      on
-      ZeroCross		      on
       SampleTime	      "-1"
     }
     Block {
@@ -689,18 +659,6 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      SignalSpecification
-      Dimensions	      "-1"
-      SampleTime	      "-1"
-      OutMin		      "[]"
-      OutMax		      "[]"
-      DataType		      "auto"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      SignalType	      "auto"
-      SamplingMode	      "auto"
-    }
-    Block {
       BlockType		      "S-Function"
       FunctionName	      "system"
       SFunctionModules	      "''"
@@ -742,30 +700,7 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      Switch
-      Criteria		      "u2 >= Threshold"
-      Threshold		      "0"
-      InputSameDT	      on
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Inherit via internal rule"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
-      ZeroCross		      on
-      SampleTime	      "-1"
-    }
-    Block {
       BlockType		      Terminator
-    }
-    Block {
-      BlockType		      Merge
-      Inputs		      "2"
-      InitialOutput	      "[]"
-      AllowUnequalInputPortWidths off
-      InputPortOffsets	      "[]"
     }
     Block {
       BlockType		      Reshape
@@ -797,31 +732,6 @@ Model {
       OutScaling	      "[]"
       SampleTime	      "inf"
       FramePeriod	      "inf"
-    }
-    Block {
-      BlockType		      MinMax
-      Function		      "min"
-      Inputs		      "1"
-      InputSameDT	      on
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Inherit via internal rule"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
-      ZeroCross		      on
-      SampleTime	      "-1"
-    }
-    Block {
-      BlockType		      RelationalOperator
-      Operator		      ">="
-      InputSameDT	      on
-      LogicOutDataTypeMode    "Logical (see Configuration Parameters: Optimization)"
-      LogicDataType	      "uint(8)"
-      ZeroCross		      on
-      SampleTime	      "-1"
     }
     Block {
       BlockType		      Saturate
@@ -869,8 +779,8 @@ Model {
     FontAngle		    "normal"
   }
   System {
-    Name		    "auv_modell_camsim_vr"
-    Location		    [97, 190, 1204, 859]
+    Name		    "auv_modell_camsim_controller"
+    Location		    [50, 227, 1157, 896]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -3398,7 +3308,7 @@ Model {
       Position		      [635, 14, 665, 46]
       Floating		      off
       Location		      [929, 79, 1253, 318]
-      Open		      on
+      Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
@@ -3880,8 +3790,8 @@ Model {
       Ports		      [3]
       Position		      [390, 25, 420, 85]
       Floating		      off
-      Location		      [852, 77, 1264, 510]
-      Open		      on
+      Location		      [865, 52, 1277, 485]
+      Open		      off
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -3891,7 +3801,7 @@ Model {
       }
       TimeRange		      "1000"
       YMin		      "-10~-5~5"
-      YMax		      "-4~5~6.5"
+      YMax		      "-4~7.5~6.5"
       SaveName		      "ScopeData12"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -3903,8 +3813,8 @@ Model {
       Ports		      [3]
       Position		      [485, 364, 515, 396]
       Floating		      off
-      Location		      [526, 467, 850, 955]
-      Open		      on
+      Location		      [951, 491, 1275, 979]
+      Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "xonly"
       List {
@@ -3914,7 +3824,7 @@ Model {
 	axes3			"Point 3"
       }
       YMin		      "-9~-8~-8"
-      YMax		      "1~3~4"
+      YMax		      "4~6~6"
       SaveName		      "ScopeData9"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -3947,296 +3857,6 @@ Model {
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
       SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "visualization"
-      Ports		      [1]
-      Position		      [805, 14, 905, 56]
-      BackgroundColor	      "green"
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      System {
-	Name			"visualization"
-	Location		[198, 446, 1022, 840]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"A4"
-	PaperUnits		"centimeters"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "eta"
-	  Position		  [20, 98, 50, 112]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Gain
-	  Name			  "-z"
-	  Position		  [210, 155, 235, 175]
-	  Gain			  "-1"
-	  ParameterDataTypeMode	  "Inherit via internal rule"
-	  ParameterDataType	  "sfix(16)"
-	  ParameterScaling	  "2^0"
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant"
-	  Position		  [150, 230, 180, 260]
-	  Value			  "pi/2"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux2"
-	  Ports			  [1, 2]
-	  Position		  [70, 29, 80, 176]
-	  ShowName		  off
-	  Outputs		  "2"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux3"
-	  Ports			  [1, 3]
-	  Position		  [185, 101, 190, 179]
-	  ShowName		  off
-	  Outputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Reference
-	  Name			  "Euler angles to\ninverse rotation\nmatrix"
-	  Ports			  [1, 1]
-	  Position		  [320, 113, 395, 167]
-	  BackgroundColor	  "yellow"
-	  SourceBlock		  "marine_gnc/Models/ Kinematics/Euler angles to\ninverse rotation\nmatrix"
-	  SourceType		  "Rbn"
-	  ShowPortLabels	  "FromPortIcon"
-	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData off
-	  RTWMemSecFuncInitTerm	  "Inherit from model"
-	  RTWMemSecFuncExecute	  "Inherit from model"
-	  RTWMemSecDataConstants  "Inherit from model"
-	  RTWMemSecDataInternal	  "Inherit from model"
-	  RTWMemSecDataParameters "Inherit from model"
-	}
-	Block {
-	  BlockType		  Mux
-	  Name			  "Mux"
-	  Ports			  [3, 1]
-	  Position		  [285, 101, 290, 179]
-	  BackgroundColor	  "yellow"
-	  ShowName		  off
-	  Inputs		  "3"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Reference
-	  Name			  "Rotation Matrix\nto VRML Rotation"
-	  Ports			  [1, 1]
-	  Position		  [425, 121, 520, 159]
-	  SourceBlock		  "vrlib/Utilities/Rotation Matrix\nto VRML Rotation"
-	  SourceType		  "Rotation Matrix to VRML Rotation"
-	  ShowPortLabels	  "FromPortIcon"
-	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData off
-	  RTWMemSecFuncInitTerm	  "Inherit from model"
-	  RTWMemSecFuncExecute	  "Inherit from model"
-	  RTWMemSecDataConstants  "Inherit from model"
-	  RTWMemSecDataInternal	  "Inherit from model"
-	  RTWMemSecDataParameters "Inherit from model"
-	  maxzero		  "1e-12"
-	}
-	Block {
-	  BlockType		  Selector
-	  Name			  "Selector"
-	  Ports			  [1, 1]
-	  Position		  [145, 46, 185, 84]
-	  InputPortWidth	  "3"
-	  IndexOptions		  "Index vector (dialog)"
-	  Indices		  "[2 3 1]"
-	  OutputSizes		  "1"
-	}
-	Block {
-	  BlockType		  Selector
-	  Name			  "Selector1"
-	  Ports			  [1, 1]
-	  Position		  [120, 121, 160, 159]
-	  InputPortWidth	  "3"
-	  IndexOptions		  "Index vector (dialog)"
-	  Indices		  "[2 1 3]"
-	  OutputSizes		  "1"
-	}
-	Block {
-	  BlockType		  Sum
-	  Name			  "Sum"
-	  Ports			  [2, 1]
-	  Position		  [220, 105, 240, 125]
-	  ShowName		  off
-	  IconShape		  "round"
-	  Inputs		  "|++"
-	  CollapseMode		  "All dimensions"
-	  InputSameDT		  off
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	  SaturateOnIntegerOverflow off
-	}
-	Block {
-	  BlockType		  Reference
-	  Name			  "VR Sink"
-	  Ports			  [4]
-	  Position		  [670, 12, 765, 218]
-	  SourceBlock		  "vrlib/VR Sink"
-	  SourceType		  "Virtual Reality Sink"
-	  SampleTime		  "-1"
-	  ViewEnable		  on
-	  RemoteChange		  off
-	  RemoteView		  off
-	  FieldsWritten		  "Mounted.orientation.4.1.double#Mounted.position.3.1.double#Hugin1000.rotation.4.1.double#Hugin1000.translation.3.1.double"
-	  WorldFileName		  "M:\\tex\\svn\\3d-modell\\hugin.WRL"
-	  WorldDescription	  "HUGIN 1000"
-	  AutoView		  on
-	  VideoDimensions	  "[]"
-	  FigureProperties	  "{'Position', 'Name', 'Viewpoint', 'CameraBound', 'CameraDirection', 'CameraPosition', 'CameraUpVector', 'ZoomFactor', 'Antialiasing', 'Headlight', 'Lighting', 'NavPanel', 'StatusBar', 'ToolBar', 'Textures', 'Transparency', 'Wireframe', 'NavZones', 'NavMode', 'NavSpeed', 'Record2DCompressMethod', 'Record2DCompressQuality', 'Record2D', 'Record2DFileName', 'Record2DFPS'; [1.7000000000000000e+001  7.2000000000000000e+001  5.7600000000000000e+002  3.8000000000000000e+002], '', 'Overview', 'on', [0.0000000000000000e+000  0.0000000000000000e+000 -1.0000000000000000e+000], [0.0000000000000000e+000  0.0000000000000000e+000  1.4400000000000000e+002], [0.0000000000000000e+000  1.0000000000000000e+000  0.0000000000000000e+000], [1.0000000000000000e+000], 'off', 'on', 'on', 'halfbar', 'off', 'on', 'on', 'on', 'off', 'off', 'fly', 'normal', 'auto', [7.5000000000000000e+001], 'off', '%f_anim_%n.avi', [1.5000000000000000e+001]} "
-	}
-	Block {
-	  BlockType		  Gain
-	  Name			  "scale gain"
-	  Position		  [265, 48, 300, 82]
-	  Gain			  "diag([10 10 10])"
-	  Multiplication	  "Matrix(K*u)"
-	  ParameterDataTypeMode	  "Inherit via internal rule"
-	  ParameterDataType	  "sfix(16)"
-	  ParameterScaling	  "2^0"
-	  OutDataTypeMode	  "Inherit via internal rule"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	  SaturateOnIntegerOverflow off
-	}
-	Line {
-	  SrcBlock		  "Demux2"
-	  SrcPort		  1
-	  DstBlock		  "Selector"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Selector"
-	  SrcPort		  1
-	  DstBlock		  "scale gain"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Euler angles to\ninverse rotation\nmatrix"
-	  SrcPort		  1
-	  DstBlock		  "Rotation Matrix\nto VRML Rotation"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux2"
-	  SrcPort		  2
-	  DstBlock		  "Selector1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Selector1"
-	  SrcPort		  1
-	  DstBlock		  "Demux3"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Mux"
-	  SrcPort		  1
-	  DstBlock		  "Euler angles to\ninverse rotation\nmatrix"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux3"
-	  SrcPort		  3
-	  DstBlock		  "-z"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Constant"
-	  SrcPort		  1
-	  Points		  [45, 0]
-	  DstBlock		  "Sum"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Demux3"
-	  SrcPort		  1
-	  DstBlock		  "Sum"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Sum"
-	  SrcPort		  1
-	  DstBlock		  "Mux"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux3"
-	  SrcPort		  2
-	  DstBlock		  "Mux"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "-z"
-	  SrcPort		  1
-	  DstBlock		  "Mux"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "eta"
-	  SrcPort		  1
-	  DstBlock		  "Demux2"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Rotation Matrix\nto VRML Rotation"
-	  SrcPort		  1
-	  Points		  [115, 0]
-	  Branch {
-	    DstBlock		    "VR Sink"
-	    DstPort		    3
-	  }
-	  Branch {
-	    Points		    [0, -100]
-	    DstBlock		    "VR Sink"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "scale gain"
-	  SrcPort		  1
-	  Points		  [350, 0; 0, 25]
-	  Branch {
-	    DstBlock		    "VR Sink"
-	    DstPort		    2
-	  }
-	  Branch {
-	    DstBlock		    "VR Sink"
-	    DstPort		    4
-	  }
-	}
-      }
     }
     Line {
       SrcBlock		      "HUGIN 1000"
