@@ -1,9 +1,6 @@
 function [x] = ekf(u)
 
-global Mass D T eta0 nu0 P0 h Q R focus bottom zg W Xuu
-
-N = 10;
-M = N;
+global M D T eta0 nu0 P0 h Q R focus bottom zg W Xuu
 
 persistent x_apr P_apr
 
@@ -100,7 +97,7 @@ x(7:12) = x_post(7:12) + h.*(L*x_post(19:24)); %point speed
 x(13:18) = x_post(13:18) + h.*(-inv(T)*x_post(13:18)); %bias
 x(19:24) = x_post(19:24) + h.*inv(M)*(inv(J)*x_post(13:18) - D_nl*x_post(19:24) - G + tau); %velocity
 
-x_apr = x'; %remember untill next time
+x_apr = x' %remember untill next time
 
 %% jacboian of f
 u = x_post(7);
@@ -110,13 +107,13 @@ p = x_post(10);
 q = x_post(11);
 r = x_post(12);
 
-jacobiJ = [0,0,0,-cos(psi)*sin(phi)*u+(sin(psi)*sin(phi)+cos(psi)*cos(phi)*sin(theta))*v+(sin(psi)*cos(phi)-cos(psi)*sin(theta)*sin(phi))*w,cos(psi)*cos(theta)*sin(phi)*v+cos(psi)*cos(phi)*cos(theta)*w,  -sin(psi)*cos(phi)*u+(-cos(psi)*cos(phi)-sin(phi)*sin(theta)*sin(psi))*v+(cos(psi)*sin(phi)-sin(theta)*sin(psi)*cos(phi))*w;
-           0,0,0,(-cos(psi)*sin(phi)+sin(theta)*sin(psi)*cos(phi))*v+(-cos(psi)*cos(phi)-sin(phi)*sin(theta)*sin(psi))*w,-sin(psi)*sin(theta)*u+sin(phi)*cos(theta)*sin(psi)*v+cos(theta)*sin(psi)*cos(phi)*w, cos(psi)*cos(theta)*u+(-sin(psi)*cos(phi)+cos(psi)*sin(theta)*sin(phi))*v+(sin(psi)*sin(phi)+cos(psi)*cos(phi)*sin(theta))*w;
-           0,0,0,-cos(theta)*cos(phi)*v-cos(theta)*sin(phi)*w,-cos(theta)*u+sin(theta)*sin(phi)*v-sin(theta)*cos(phi)*w,0;
-           0,0,0,cos(phi)*tan(theta)*q-sin(phi)*tan(theta)*r,sin(phi)*(1+tan(theta)^2)*q+cos(phi)*(1+tan(theta)^2)*r,0;
-           0,0,0,-sin(phi)*q-cos(phi)*r,0,0;
-           0,0,0,cos(phi)/cos(theta)*q-sin(phi)/cos(theta)*r,sin(phi)/cos(theta)^2*q*sin(theta)+cos(phi)/cos(theta)^2*r*sin(theta),0];
-
+% jacobiJ = [0,0,0,-cos(psi)*sin(phi)*u+(sin(psi)*sin(phi)+cos(psi)*cos(phi)*sin(theta))*v+(sin(psi)*cos(phi)-cos(psi)*sin(theta)*sin(phi))*w,cos(psi)*cos(theta)*sin(phi)*v+cos(psi)*cos(phi)*cos(theta)*w,  -sin(psi)*cos(phi)*u+(-cos(psi)*cos(phi)-sin(phi)*sin(theta)*sin(psi))*v+(cos(psi)*sin(phi)-sin(theta)*sin(psi)*cos(phi))*w;
+%            0,0,0,(-cos(psi)*sin(phi)+sin(theta)*sin(psi)*cos(phi))*v+(-cos(psi)*cos(phi)-sin(phi)*sin(theta)*sin(psi))*w,-sin(psi)*sin(theta)*u+sin(phi)*cos(theta)*sin(psi)*v+cos(theta)*sin(psi)*cos(phi)*w, cos(psi)*cos(theta)*u+(-sin(psi)*cos(phi)+cos(psi)*sin(theta)*sin(phi))*v+(sin(psi)*sin(phi)+cos(psi)*cos(phi)*sin(theta))*w;
+%            0,0,0,-cos(theta)*cos(phi)*v-cos(theta)*sin(phi)*w,-cos(theta)*u+sin(theta)*sin(phi)*v-sin(theta)*cos(phi)*w,0;
+%            0,0,0,cos(phi)*tan(theta)*q-sin(phi)*tan(theta)*r,sin(phi)*(1+tan(theta)^2)*q+cos(phi)*(1+tan(theta)^2)*r,0;
+%            0,0,0,-sin(phi)*q-cos(phi)*r,0,0;
+%            0,0,0,cos(phi)/cos(theta)*q-sin(phi)/cos(theta)*r,sin(phi)/cos(theta)^2*q*sin(theta)+cos(phi)/cos(theta)^2*r*sin(theta),0];
+% 
 % jacobiL = [1/z*w+p1y/focus*p-2*p1x/focus*q,p1x/focus*p+r,0,0,0,0;
 %            -p1y/focus*q-r, 1/z*w+2*p1y/focus*p-p1x/focus*q,0,0,0,0;
 %            0,0, 1/z*w+p2y/focus*p-2*p2x/focus*q,p2x/focus*p+r,0,0;
@@ -130,7 +127,7 @@ jacobiJ = [0,0,0,-cos(psi)*sin(phi)*u+(sin(psi)*sin(phi)+cos(psi)*cos(phi)*sin(t
 
 L1_star = [zeros(2, 6);
            0 0 1/z 0 0 0;
-           0 0 0   0 0 0;
+           0 0 0 0 0 0 0;
            0 0 0 0 -2/focus*N 1;
            0 0 0 0 -M/focus 0];
        
@@ -141,17 +138,20 @@ L2_star =  [-focus/z, 0, -N/z -N*-M/focus, -(N^2)/focus-focus, -M;
             -focus/z, 0, N/z, N*M/focus, -(N^2)/focus-focus, M;
             0, -focus/z, M/z, (M^2)/focus+focus, -N*M/focus, -N];
 
+ 
+       
 
-PHI = eye(24) + h.*[zeros(6,18) eye(6);
-                    zeros(6) L1_star zeros(6) L2_star;
+
+
+PHI = eye(24) + h.*[zeros(6,18) jacobiJ;
+                    zeros(6) L1_star zerso(6) L2_star;
                     zeros(6,12) -inv(T) zeros(6);
                     zeros(6,12) eye(6) -inv(M)*D_nl];
-
-              
+                   
 GAMMA = h.*[zeros(6,24);
-            zeros(6), 10.*eye(6), zeros(6, 12);
-            zeros(6,12), eye(6), zeros(6);
-            zeros(6, 18), inv(Mass)];
+         zeros(6) 10.*eye(6) zeros(6, 12);
+         zeros(6,12) eye(6) zeros(6);
+         zeros(6, 18) inv(M)];
 
 %% Error Covariance propagation
 

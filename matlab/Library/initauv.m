@@ -1,8 +1,9 @@
 clear all;
 close all;
 
-global Mass D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down bottom G L pipeline
+global M D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down bottom G L pipeline
 
+%Pipeline Coordinates
 North = [-10 -5 10];
 East = [-10 5 10];
 Down = [10 10 10];
@@ -24,16 +25,10 @@ pipeline = [t_s', pipeline_xy', pipeline_xz'];
 bottom = 10;
 
 focus = 1; % camera focus
-eta0 = [-10 -10 6 0 0 0]'; %initial position
+eta0 = [-10 -5 6 0 0 0]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
-% kalman filter parameters
-P0 = eye(24);
-h = 0.1; % sampling interval
-Q = diag([10 10 10 10 10 10 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1]);
-% Q = 100.*eye(24);
-R = 100.*eye(12);
-% R = diag([1 1 1 1 1 1 .04 .04 .04 .04 .04 .04]);
+h = 0.5; % sampling interval
 
 %model parameters
 m = 1380;
@@ -75,28 +70,13 @@ D = [Xdu 0 0 0 0 0;
       0 Ndv 0 0 0 Ndr];
 
 
-Mass = [m-Xu   0       0       0       m*zg    -m*yg;
+M = [m-Xu   0       0       0       m*zg    -m*yg;
      0      m-Yv    0       -m*zg   0       m*xg-Yr;
      0      0       m-Zw    m*yg    -m*xg-Zq 0;
      0      -m*zg   m*yg    Ix      0        0;
      m*zg   0       -m*xg-Zq 0      Iy-Mq    0;
      -m*yg  m*xg-Yr 0       0       0       Iz-Nr];
 
-G = [zeros(3, 6);
-     zeros(3) diag([-zg*W -zg*W 0])];
 
 z = 10-7;
      
-L = [zeros(2, 6);
-     0 0 1/z -10 0 0;
-     0 0 0 2/focus*(-10) 0 0;
-     0 0 0 0 -2/focus*(-10) 1;
-     0 0 0 0 10/focus 0];
-     
-     
-     
-%bias parameter
-
-T = 1000*eye(6);
-
- sim auv_modell_camsim_kalman
