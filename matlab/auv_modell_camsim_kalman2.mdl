@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.96"
+    ComputedModelVersion    "1.98"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,9 +44,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 15 13:50:03 2008"
+  LastModifiedDate	  "Wed Oct 15 17:30:37 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:96>"
+  ModelVersionFormat	  "1.%<AutoIncrement:98>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -792,7 +792,7 @@ Model {
   }
   System {
     Name		    "auv_modell_camsim_kalman2"
-    Location		    [194, 138, 1204, 732]
+    Location		    [97, 157, 1107, 751]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -835,7 +835,7 @@ Model {
       Ports		      [1]
       Position		      [900, 324, 930, 356]
       Floating		      off
-      Location		      [345, 755, 669, 994]
+      Location		      [331, 699, 655, 938]
       Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
@@ -941,7 +941,7 @@ Model {
       FunctionWithSeparateData off
       System {
 	Name			"Kalman filter"
-	Location		[474, 518, 972, 823]
+	Location		[471, 568, 969, 873]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1116,7 +1116,7 @@ Model {
       BlockType		      Scope
       Name		      "Lin Velocity"
       Ports		      [1]
-      Position		      [815, 279, 845, 311]
+      Position		      [850, 274, 880, 306]
       Floating		      off
       Location		      [951, 89, 1275, 328]
       Open		      off
@@ -1243,10 +1243,10 @@ Model {
       BlockType		      Scope
       Name		      "Yaw"
       Ports		      [1]
-      Position		      [905, 254, 935, 286]
+      Position		      [905, 249, 935, 281]
       Floating		      off
-      Location		      [168, 423, 492, 662]
-      Open		      on
+      Location		      [277, 503, 601, 742]
+      Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
@@ -1528,7 +1528,7 @@ Model {
     Block {
       BlockType		      Gain
       Name		      "rad to deg2"
-      Position		      [780, 325, 810, 355]
+      Position		      [845, 325, 875, 355]
       Gain		      "diag([180/pi 180/pi 180/pi])"
       Multiplication	      "Matrix(K*u)"
       ParameterDataTypeMode   "Inherit via internal rule"
@@ -1566,7 +1566,7 @@ Model {
       Ports		      [1]
       Position		      [725, 359, 755, 391]
       Floating		      off
-      Location		      [957, 751, 1279, 990]
+      Location		      [459, 745, 781, 984]
       Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
@@ -1643,7 +1643,7 @@ Model {
     Line {
       SrcBlock		      "Demux"
       SrcPort		      6
-      Points		      [25, 0; 0, 30]
+      Points		      [25, 0; 0, 25]
       DstBlock		      "Yaw"
       DstPort		      1
     }
@@ -1671,7 +1671,7 @@ Model {
     Line {
       SrcBlock		      "Demux1"
       SrcPort		      1
-      Points		      [50, 0]
+      Points		      [85, 0]
       DstBlock		      "Lin Velocity"
       DstPort		      1
     }
