@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.82"
+    ComputedModelVersion    "1.85"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,9 +44,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 08 20:25:25 2008"
+  LastModifiedDate	  "Wed Oct 15 09:39:52 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:82>"
+  ModelVersionFormat	  "1.%<AutoIncrement:85>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -1614,8 +1614,8 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "HUGIN 1000"
-      Ports		      [1, 2]
-      Position		      [335, 191, 450, 269]
+      Ports		      [1, 3]
+      Position		      [335, 196, 450, 274]
       BackgroundColor	      "orange"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
@@ -1664,7 +1664,7 @@ Model {
 	Block {
 	  BlockType		  SubSystem
 	  Name			  "6 DOF Eqs. of motion"
-	  Ports			  [2, 2]
+	  Ports			  [2, 3]
 	  Position		  [385, 102, 475, 198]
 	  BackgroundColor	  "yellow"
 	  AncestorBlock		  "marine_gnc/Models/ Kinetics /6 DOF Eqs. of motion"
@@ -1850,7 +1850,7 @@ Model {
 	      BlockType		      Product
 	      Name		      "Product"
 	      Ports		      [2, 1]
-	      Position		      [365, 169, 410, 216]
+	      Position		      [350, 169, 395, 216]
 	      BackgroundColor	      "yellow"
 	      Inputs		      "/*"
 	      Multiplication	      "Matrix(*)"
@@ -1956,6 +1956,16 @@ Model {
 	      Position		      [1105, 393, 1135, 407]
 	      BackgroundColor	      "red"
 	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "nu_dot"
+	      Position		      [515, 303, 545, 317]
+	      BackgroundColor	      "red"
+	      Port		      "3"
 	      IconDisplay	      "Port number"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
@@ -2101,8 +2111,16 @@ Model {
 	      Labels		      [1, 1]
 	      SrcBlock		      "Product"
 	      SrcPort		      1
-	      DstBlock		      "Integrator"
-	      DstPort		      1
+	      Points		      [60, 0]
+	      Branch {
+		DstBlock		"Integrator"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 115]
+		DstBlock		"nu_dot"
+		DstPort			1
+	      }
 	    }
 	    Line {
 	      Name		      "M"
@@ -2779,6 +2797,15 @@ Model {
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^0"
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "nu_dot"
+	  Position		  [705, 213, 735, 227]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
 	Line {
 	  SrcBlock		  "Mass/Inertia matrix"
 	  SrcPort		  1
@@ -2789,7 +2816,7 @@ Model {
 	Line {
 	  SrcBlock		  "6 DOF Eqs. of motion"
 	  SrcPort		  2
-	  Points		  [0, -5; 85, 0]
+	  Points		  [0, 20; 85, 0]
 	  Branch {
 	    DstBlock		    "nu"
 	    DstPort		    1
@@ -2810,7 +2837,7 @@ Model {
 	Line {
 	  SrcBlock		  "6 DOF Eqs. of motion"
 	  SrcPort		  1
-	  Points		  [45, 0]
+	  Points		  [0, 5; 45, 0]
 	  Branch {
 	    Points		    [0, 130]
 	    DstBlock		    "restoring forces"
@@ -2877,6 +2904,13 @@ Model {
 	    DstBlock		    "D(nu)*nu"
 	    DstPort		    1
 	  }
+	}
+	Line {
+	  SrcBlock		  "6 DOF Eqs. of motion"
+	  SrcPort		  3
+	  Points		  [210, 0]
+	  DstBlock		  "nu_dot"
+	  DstPort		  1
 	}
       }
     }
@@ -3348,10 +3382,26 @@ Model {
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
+      MaskPromptString	      "Depth PID|Roll PID|Pitch PID|NE-yaw PID Kp|NE-yaw PID Kd|NE-yaw PID Ki"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on"
+      MaskCallbackString      "|||||"
+      MaskEnableString	      "on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,"
+      MaskVariables	      "depthPID=@1;rollPID=@2;pitchPID=@3;Kp=@4;Kd=@5;Ki=@6;"
+      MaskInitialization      "if isempty(Kp)\n    Kp = diag([230 300 1000]);\nend\nif isempty(Kd)\n    Kd = diag([750 700 0]);\nend\nif isempty(Ki)\n    Ki = diag([2 5 0]);\nend\nif isempty(depthPID)\n    depthPID = [50, 1, 0];\nend\nif isempty(rollPID)\n    rollPID = [0 0 0];\nend\nif isempty(pitchPID)\n    pitchPID = [500, 2, 50];\nend"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "0|0|0|0|0|0"
+      MaskTabNameString	      ",,,,,"
       System {
 	Name			"Set-Point Controller"
 	Location		[597, 328, 1233, 899]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -3440,9 +3490,9 @@ Model {
 	  RTWMemSecDataConstants  "Inherit from model"
 	  RTWMemSecDataInternal	  "Inherit from model"
 	  RTWMemSecDataParameters "Inherit from model"
-	  P			  "50"
-	  I			  "1"
-	  D			  "0"
+	  P			  "depthPID(1)"
+	  I			  "depthPID(2)"
+	  D			  "depthPID(3)"
 	}
 	Block {
 	  BlockType		  Selector
@@ -3527,16 +3577,16 @@ Model {
 	  RTWMemSecDataConstants  "Inherit from model"
 	  RTWMemSecDataInternal	  "Inherit from model"
 	  RTWMemSecDataParameters "Inherit from model"
-	  P			  "500"
-	  I			  "2"
-	  D			  "50"
+	  P			  "pitchPID(1)"
+	  I			  "pitchPID(2)"
+	  D			  "pitchPID(3)"
 	}
 	Block {
 	  BlockType		  Saturate
 	  Name			  "Saturation"
 	  Position		  [520, 95, 550, 125]
-	  UpperLimit		  "100"
-	  LowerLimit		  "-100"
+	  UpperLimit		  "1000"
+	  LowerLimit		  "-1000"
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^0"
 	}
@@ -3580,9 +3630,9 @@ Model {
 	  RTWMemSecDataConstants  "Inherit from model"
 	  RTWMemSecDataInternal	  "Inherit from model"
 	  RTWMemSecDataParameters "Inherit from model"
-	  P			  "0"
-	  I			  "0"
-	  D			  "0"
+	  P			  "rollPID(1)"
+	  I			  "rollPID(2)"
+	  D			  "rollPID(3)"
 	}
 	Block {
 	  BlockType		  Outport
@@ -3747,16 +3797,37 @@ Model {
       Ports		      [1]
       Position		      [460, 154, 490, 186]
       Floating		      off
-      Location		      [147, 629, 471, 868]
-      Open		      off
+      Location		      [930, 238, 1254, 477]
+      Open		      on
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-100"
-      YMax		      "100"
+      YMin		      "-3.25"
+      YMax		      "0.25"
       SaveName		      "ScopeData11"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Tau1"
+      Ports		      [1]
+      Position		      [560, 244, 590, 276]
+      Floating		      off
+      Location		      [616, 539, 940, 778]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-8e-008"
+      YMax		      "3e-008"
+      SaveName		      "ScopeData9"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
       SampleTime	      "0"
@@ -3834,8 +3905,8 @@ Model {
       Ports		      [3]
       Position		      [485, 364, 515, 396]
       Floating		      off
-      Location		      [11, 94, 389, 694]
-      Open		      on
+      Location		      [30, 57, 408, 657]
+      Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "xonly"
       List {
@@ -3844,8 +3915,8 @@ Model {
 	axes2			"Point 2"
 	axes3			"Point 3"
       }
-      YMin		      "-10~-10~-10"
-      YMax		      "10~10~10"
+      YMin		      "-6~-5~-4"
+      YMax		      "4~6~6"
       SaveToWorkspace	      on
       SaveName		      "points"
       DataFormat	      "StructureWithTime"
@@ -3983,12 +4054,12 @@ Model {
       SrcPort		      2
       Points		      [25, 0]
       Branch {
-	Points			[205, 0; 0, 185]
+	Points			[205, 0; 0, 200]
 	DstBlock		"Demux1"
 	DstPort			1
       }
       Branch {
-	Points			[0, 35]
+	Points			[0, 50]
 	Branch {
 	  Points		  [0, 25; -225, 0; 0, 80]
 	  DstBlock		  "CAMSim"
@@ -4025,6 +4096,7 @@ Model {
       SrcPort		      1
       Points		      [10, 0]
       Branch {
+	Points			[5, 0]
 	DstBlock		"HUGIN 1000"
 	DstPort			1
       }
@@ -4107,6 +4179,12 @@ Model {
       SrcPort		      6
       DstBlock		      "e_Euler"
       DstPort		      3
+    }
+    Line {
+      SrcBlock		      "HUGIN 1000"
+      SrcPort		      3
+      DstBlock		      "Tau1"
+      DstPort		      1
     }
   }
 }

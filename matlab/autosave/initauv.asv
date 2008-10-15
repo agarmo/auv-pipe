@@ -27,13 +27,22 @@ focus = 1; % camera focus
 eta0 = [-10 -10 6 0 0 0]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
-% kalman filter parameters
-P0 = eye(24);
+% % kalman filter parameters
+% P0 = eye(24);
+% h = 0.1; % sampling interval
+% Q = diag([1 1 1 1 1 1 .001 .001 .001 .001 .001 .001 10 10 10 10 10 10 .01 .01 .01 .01 .01 .01]);
+% % Q = 1.*eye(24);
+% % R = 100.*eye(12);
+% R = diag([0.1 0.1 0.1 0.1 0.1 0.1 .01 .01 .01 .01 .01 .01]);
+
+% kalman filter 2 parameters
+P0 = eye(18);
 h = 0.1; % sampling interval
-% Q = diag([10 10 10 10 10 10 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1 .1]);
-% Q = 100.*eye(24);
-R = 100.*eye(12);
-% R = diag([1 1 1 1 1 1 .04 .04 .04 .04 .04 .04]);
+Q = diag([.01 .01 .01 .01 .01 .01 .1 .1 .1 .1 .1 .1]);
+% R = .01.*eye(12);
+R = diag([10 5 3 2 2 6 .1 .1 .1 .1 .1 .1]);
+
+
 
 %model parameters
 m = 1380;
@@ -99,4 +108,4 @@ L = [zeros(2, 6);
 
 T = 1000*eye(6);
 
- sim auv_modell_camsim_kalman
+ sim auv_modell_camsim_kalman2

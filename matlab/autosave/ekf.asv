@@ -46,7 +46,7 @@ K = P_apr*H'*inv(H*P_apr*H'+R); %compute Kalman gain
 x_post = x_apr + K*(u(1:12) - H*x_apr); %State estimate update
 P_post = (eye(24) - K*H)*P_apr*(eye(24) - K*H)' + K*R*K'; %Error covariance update
 
-psi = x_post(4);
+p = x_post(4);
 theta = x_post(5);
 phi = x_post(6);
 
@@ -100,12 +100,12 @@ x(19:24) = x_post(19:24) + h.*inv(Mass)*(inv(J)*x_post(13:18) - D_nl*x_post(19:2
 x_apr = x'; %remember untill next time
 
 %% jacboian of f
-u = x_post(7);
-v = x_post(8);
-w = x_post(9);
-p = x_post(10);
-q = x_post(11);
-r = x_post(12);
+u = x_post(19);
+v = x_post(20);
+w = x_post(21);
+p = x_post(22);
+q = x_post(23);
+r = x_post(24);
 
 jacobiJ_eta = [0,0,0,-cos(psi)*sin(phi)*u+(sin(psi)*sin(phi)+cos(psi)*cos(phi)*sin(theta))*v+(sin(psi)*cos(phi)-cos(psi)*sin(theta)*sin(phi))*w,cos(psi)*cos(theta)*sin(phi)*v+cos(psi)*cos(phi)*cos(theta)*w,  -sin(psi)*cos(phi)*u+(-cos(psi)*cos(phi)-sin(phi)*sin(theta)*sin(psi))*v+(cos(psi)*sin(phi)-sin(theta)*sin(psi)*cos(phi))*w;
            0,0,0,(-cos(psi)*sin(phi)+sin(theta)*sin(psi)*cos(phi))*v+(-cos(psi)*cos(phi)-sin(phi)*sin(theta)*sin(psi))*w,-sin(psi)*sin(theta)*u+sin(phi)*cos(theta)*sin(psi)*v+cos(theta)*sin(psi)*cos(phi)*w, cos(psi)*cos(theta)*u+(-sin(psi)*cos(phi)+cos(psi)*sin(theta)*sin(phi))*v+(sin(psi)*sin(phi)+cos(psi)*cos(phi)*sin(theta))*w;
@@ -147,7 +147,7 @@ L2_star =  [-focus/z, 0, p1x/z p1y*p1x/focus, -(p1x^2)/focus-focus, p1y;
 PHI = eye(24) + h.*[jacobiJ_eta zeros(6,12) jacobiJ_nu;
                     zeros(6) L1_star zeros(6) L2_star;
                     zeros(6,12) -inv(T) zeros(6);
-                    zeros(6,12) eye(6) -inv(M)*D_nl];
+                    zeros(6,12) eye(6) -inv(Mass)*D_nl];
 
 % PHI = eye(18) + h.*[L1_star zeros(6) L2_star;
 %                     zeros(6) -inv(T) zeros(6);
@@ -160,7 +160,7 @@ PHI = eye(24) + h.*[jacobiJ_eta zeros(6,12) jacobiJ_nu;
 %                 
                 
 GAMMA = h.*[zeros(6,24);
-            zeros(6), 10.*eye(6), zeros(6, 12);
+            zeros(6), 100.*eye(6), zeros(6, 12);
             zeros(6,12), eye(6), zeros(6);
             zeros(6, 18), inv(Mass)];
 
