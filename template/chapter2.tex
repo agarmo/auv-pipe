@@ -5,11 +5,14 @@
 	The model used is the one from \cite{fossen}, and is written in the previous chapter, equation \eqref{eq:chp1-model}.
 	
 	\subsection{Assumptions}
-	To simplify the model and implementations of the model. 
+	Assumtions that where made to simplify the modelling and implementation of the AUV system.
 		\subsubsection{Low-speed assumption}
-		The speed regieme of \textit{HUGIN 1000} is about 1-3 m/s. This is a good idea to check. Run a simulation in simulink with the low speed model and the nonlinear model and compare. Discuss later in the report.
+		The speed regieme of \textit{HUGIN 1000} is about 1-3 $m/s$. The design speed is around 2 $m/s$. Then the assumtion about low-speed should be adequate.  
 
-		\subsubsection{Small roll and pitch angles}
+		This is a good idea to check. Run a simulation in simulink with the low speed model and the nonlinear model and compare. Discuss later in the report, maybe.
+		
+		\subsubsection{Measurements}
+		The vessel should have enough instrumentation available to measure $\eta$, $\nu$, and $\dot{\nu}$. The distance to the sea bottom should also be available. All this instrumentation is common to include in an standar AUV instrumentation package. 
 
 
 \section{Camera modelling}
@@ -18,12 +21,57 @@
 
 
 \section{Pipeline representation}
+	In the simulations the pipelines are represented as interpolated waypoints. Waypoint on where the pipeline are going is supplied by the user and interpolated using the \textit{matlab}-function \textit{pchip}. 
 
 
 \section{Kalman filter}
-	The state equations for the filter are the kinematic vector equation, the vector equation relating the motion of a point in the camera field of view to the motion of the AUV and the model of the bias, which represent the model uncertanties and current forces and moments acting on the AUV. The resulting dimention of the state is then $ X \in R^18$ 
+	The Kalman filter is designed with the purpose to smooth the output from the camera, estimate the trajectory of the pipeline if it is lost, and estimate the current forces and moments which is acting on the vessel. The bias is modelled as a \textit{1st order Markov}-model.
+	\begin{equation}
+		\label{eq:chp2-biasmodel}
+		\dot{\mathbf{b}} = -\mathbf{T}^{-1} \mathbf{b} + \mathbf{w} \quad \mathbf{b}, \mathbf{w} \in \mathbb{R}^6
+	\end{equation}
+	where $\mathbf{w}$ is zero-mean guassian distributed white noise, and $\mathbf{T}$ is a diagonal matrix with large time constants, to model the slowly varying current forces. 
+	Equation \eqref{eq:chp2-biasmodel} is restructured by inserting the kinetics equation from the model and gives:
+	\begin{equation}
+		\dot{\mathbf{b}} = -\mathbf{T}^{-1} \rotation (\restoring) - \mathbf{T}^{-1} \rotation (\mass - \tau + \damping) + \mathbf{w}
+	\end{equation}
+
+	
+	The state used in the Kalman filter model is $\mathbf{x} = [\mathbf{\eta}^T \quad x_i^T \quad \mathbf{b}^T]^T$, $\mathbf{x} \in \mathbb{R}^{18}$. The velocity vector, $\mathbf{\nu}$, the acceleration, $\dot{\mathbf{\nu}}$, and the forces and moments from the regulator, $\mathbf{\tau}$ is used as input to drive the filter, $\mathbf{u} = [\tau^T \quad \mathbf{\nu}^T \quad \mathbf{\dot{\nu}}^T]^T$. The systems measurement is the position, $\mathbf{\eta}$ and the camera output, $x_i$. The measurement is assumed affected by gaussian distributed white noise, with zero-mean.
+	
+	The mathematical model used for the Kalman filter is summarized here:
+		\begin{align}
+			\mathbf{\dot{x}} &= \mathbf{f(x)} + \mathbf{B(x, u) u} + \mathbf{E w} \\
+			\mathbf{y} &= \mathbf{H x} + \mathbf{v}
+		\end{align}
+	where
+		\begin{align}
+			\mathbf{f(x)} &= \left[ \begin{array}{c}
+						\mathbf{0}\\
+						\mathbf{0}\\
+						-\mathbf{T}^{-1} \rotation \restoring
+						\end{array} \right] \quad 
+			\mathbf{E} = \left[ \begin{array}{cc}
+			                      	\mathbf{0} & \mathbf{0} \\
+			                      	\mathbf{I} & \mathbf{0}\\
+			                      	\mathbf{0} & \mathbf{I}
+			                     \end{array} \right] \quad
+			\mathbf{H} = \left[ \begin{array}{ccc}
+			                      	\mathbf{I} & \mathbf{0} & \mathbf{0}\\
+			                      	\mathbf{0} & \mathbf{I} & \mathbf{0}
+			                     \end{array} \right] \\
+			\mathbf{B(x, u)} &= \left[ \begin{array}{ccc}
+			                      	\mathbf{0} & \rotation & \mathbf{0}\\
+			                      	\mathbf{0} & \interaction & \mathbf{0}\\
+			                      	\mathbf{T}^{-1} & -\mathbf{T}^{-1}\rotation \mathbf{D(\nu)} & -\mathbf{T}^{-1} \rotation \mathbf{M}
+			                     \end{array} \right] &
+		\end{align}
+
+	The equations used for the Extended Kalman Filter can be found in \cite{fossen} p199.
 	
 	
 	
 
 \section{Guidance system}
+	The guidance system should be able to handle different situations, and one should use different guidance scheems in different situations, threfore a state machine approach is used to design the guidance system.
+	

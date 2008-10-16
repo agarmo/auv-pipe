@@ -48,5 +48,8 @@
 \section{Kalman Filter}
 	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is usually employd in navigation applications to fuse GPS and INS together. By this way one will have the speed and resolution of an INS system and the precission of the GPS system. 
 
-	The Kalman Filter is as stated befor a very versatile tool which can be employed allmost in any application. The downside with the Kalman filter is that it is a Linear system, and can only guarantee optimality for linear systems. The system considered in this report is nonlinear and one can not use the Kalman filter directly on this system. There is a nonlinear version of the Kalman filter, the Extended Kalman Filter, which uses the same assumptions as the linear version but uses the nonlinear model to predict the state forward. 
+	The Kalman Filter is as stated befor a very versatile tool which can be employed allmost in any application. The downside with the Kalman filter is that it is a Linear system, and can only guarantee optimality for linear systems. The system considered in this report is nonlinear and one can not use the Kalman filter directly on this system. There is a nonlinear version of the Kalman filter, the Extended Kalman Filter, which uses the same assumptions as the linear version but uses the nonlinear model to predict the state forward. When updating the Covariance matrix the system equations are linearized around the current estimate and updated according to certain update laws. This introduces some significant problems. First the filter might converge towards wrong values, because of a non-positive-definite covariance matrix. This is mostly due to poor linearization of the state equations. \cite{kalman}
+	
+	
+	
 

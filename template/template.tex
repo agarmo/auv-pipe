@@ -7,6 +7,8 @@
 \usepackage{amssymb,amsmath,amssymb,amsthm} %Math stuff
 \usepackage{graphicx} %Including images
 \usepackage{epstopdf} %Useful if using pdflatex
+
+
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png} %Used with the above
 
 \renewcommand{\abstractnamefont}{\normalfont\Large\bfseries}%Formats abstract 
@@ -85,7 +87,6 @@ Abstract goes here. Remember to make it good.
 
 \input{abbreviations}
 \input{introduction}
-
 \mainmatter%Main matter begins
 %\renewcommand{\chaptername}{Assignment}%Uses the word 'Assignment' instead of 'Chapter' in chapter headings
 
