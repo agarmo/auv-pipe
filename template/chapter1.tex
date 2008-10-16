@@ -45,3 +45,8 @@
 	There are a couple of different guidance algorithms which can be used on this problem. The obvious and simplest is the Line-of-Sight-algorithm (LoS). 	
 		
 
+\section{Kalman Filter}
+	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is usually employd in navigation applications to fuse GPS and INS together. By this way one will have the speed and resolution of an INS system and the precission of the GPS system. 
+
+	The Kalman Filter is as stated befor a very versatile tool which can be employed allmost in any application. The downside with the Kalman filter is that it is a Linear system, and can only guarantee optimality for linear systems. The system considered in this report is nonlinear and one can not use the Kalman filter directly on this system. There is a nonlinear version of the Kalman filter, the Extended Kalman Filter, which uses the same assumptions as the linear version but uses the nonlinear model to predict the state forward. 
+
