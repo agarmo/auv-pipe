@@ -1,12 +1,12 @@
 Model {
-  Name			  "Backstep"
+  Name			  "Backstep2"
   Version		  7.0
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.29"
+    ComputedModelVersion    "1.27"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,9 +44,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Oct 21 16:44:39 2008"
+  LastModifiedDate	  "Tue Oct 21 16:12:23 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:29>"
+  ModelVersionFormat	  "1.%<AutoIncrement:27>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -502,10 +502,6 @@ Model {
       BusSelectionMode	      off
     }
     Block {
-      BlockType		      Derivative
-      LinearizePole	      "inf"
-    }
-    Block {
       BlockType		      Fcn
       Expr		      "sin(u[1])"
       SampleTime	      "-1"
@@ -563,6 +559,20 @@ Model {
       IgnoreLimit	      off
       ZeroCross		      on
       ContinuousStateAttributes	"''"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
     }
     Block {
       BlockType		      MATLABFcn
@@ -681,22 +691,6 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      Switch
-      Criteria		      "u2 >= Threshold"
-      Threshold		      "0"
-      InputSameDT	      on
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Inherit via internal rule"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
-      ZeroCross		      on
-      SampleTime	      "-1"
-    }
-    Block {
       BlockType		      Terminator
     }
     Block {
@@ -731,6 +725,26 @@ Model {
       FramePeriod	      "inf"
     }
     Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      LockScale		      off
+      RndMeth		      "Floor"
+    }
+    Block {
+      BlockType		      Signum
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Trigonometry
       Operator		      "sin"
       OutputSignalType	      "auto"
@@ -756,8 +770,8 @@ Model {
     FontAngle		    "normal"
   }
   System {
-    Name		    "Backstep"
-    Location		    [1, 91, 1126, 699]
+    Name		    "Backstep2"
+    Location		    [71, 225, 1196, 833]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -789,9 +803,17 @@ Model {
     }
     Block {
       BlockType		      Constant
+      Name		      "Constant"
+      Position		      [75, 75, 105, 105]
+      Value		      "pi"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Constant
       Name		      "Constant1"
-      Position		      [75, 190, 105, 220]
-      Value		      "2"
+      Position		      [180, 210, 210, 240]
+      Value		      "[10 5 pi]"
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
     }
@@ -804,1229 +826,24 @@ Model {
       OutScaling	      "2^0"
     }
     Block {
-      BlockType		      Constant
-      Name		      "Constant3"
-      Position		      [80, 265, 110, 295]
-      Value		      "[-500 500]"
-      OutDataType	      "sfix(16)"
-      OutScaling	      "2^0"
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "Crusing controller"
-      Ports		      [7, 2]
-      Position		      [260, 155, 375, 275]
-      MinAlgLoopOccurrences   off
-      RTWSystemCode	      "Auto"
+      BlockType		      Reference
+      Name		      "DP controller"
+      Ports		      [3, 1]
+      Position		      [230, 276, 360, 354]
+      BackgroundColor	      "yellow"
+      SourceBlock	      "marine_gnc/Control/Dynamic \nPositioning /DP controller"
+      SourceType	      "Nonlinear DP Controller"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
       FunctionWithSeparateData off
-      MaskPromptString	      "Kp Speed controller|Ki Speed Controller|Kp Course Controller|Kd Course Controller|Kp1 Depth Controller|Kp2 Depth controller|Kd Depth Controller"
-      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit"
-      MaskTunableValueString  "on,on,on,on,on,on,on"
-      MaskCallbackString      "||||||"
-      MaskEnableString	      "on,on,on,on,on,on,on"
-      MaskVisibilityString    "on,on,on,on,on,on,on"
-      MaskToolTipString	      "on,on,on,on,on,on,on"
-      MaskVarAliasString      ",,,,,,"
-      MaskVariables	      "Kp_u=@1;Ki_u=@2;Kp_c=@3;Kd_c=@4;Kp_d=@5;Kp2_d=@6;Kd_d=@7;"
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "5|1|1000|10|5|2|4"
-      MaskTabNameString	      ",,,,,,"
-      System {
-	Name			"Crusing controller"
-	Location		[60, 133, 1187, 929]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"A4"
-	PaperUnits		"centimeters"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "psi_d"
-	  Position		  [95, 23, 125, 37]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "D_d"
-	  Position		  [95, 68, 125, 82]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "u_d"
-	  Position		  [95, 123, 125, 137]
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "eta"
-	  Position		  [85, 203, 115, 217]
-	  Port			  "4"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "nu"
-	  Position		  [65, 283, 95, 297]
-	  Port			  "5"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "nu_dot"
-	  Position		  [60, 398, 90, 412]
-	  Port			  "6"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "xy_d"
-	  Position		  [400, 498, 430, 512]
-	  Port			  "7"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Constant
-	  Name			  "Constant"
-	  Position		  [300, 730, 330, 760]
-	  Value			  "[0 0]'"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 6]
-	  Position		  [145, 217, 155, 358]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "6"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux1"
-	  Ports			  [1, 6]
-	  Position		  [365, 137, 375, 278]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "6"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Mux
-	  Name			  "Mux"
-	  Ports			  [6, 1]
-	  Position		  [975, 93, 985, 302]
-	  ShowName		  off
-	  Inputs		  "6"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Mux
-	  Name			  "Mux1"
-	  Ports			  [6, 1]
-	  Position		  [940, 478, 950, 687]
-	  ShowName		  off
-	  Inputs		  "6"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "Subsystem"
-	  Ports			  [4, 2]
-	  Position		  [460, 536, 615, 774]
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  System {
-	    Name		    "Subsystem"
-	    Location		    [105, 315, 705, 834]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "A4"
-	    PaperUnits		    "centimeters"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "eta_d"
-	      Position		      [40, 23, 70, 37]
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "eta"
-	      Position		      [35, 188, 65, 202]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "nu"
-	      Position		      [35, 293, 65, 307]
-	      Port		      "3"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "b"
-	      Position		      [35, 408, 65, 422]
-	      Port		      "4"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      "Demux1"
-	      Ports		      [1, 3]
-	      Position		      [120, 152, 125, 238]
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      Outputs		      "3"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      "Demux2"
-	      Ports		      [1, 3]
-	      Position		      [120, 257, 125, 343]
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      Outputs		      "3"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      "Demux3"
-	      Ports		      [1, 2]
-	      Position		      [150, 213, 155, 242]
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      Outputs		      "2"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      "Demux4"
-	      Ports		      [1, 2]
-	      Position		      [150, 313, 155, 342]
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      Outputs		      "2"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Demux
-	      Name		      "Demux5"
-	      Ports		      [1, 2]
-	      Position		      [435, 35, 440, 190]
-	      BackgroundColor	      "black"
-	      ShowName		      off
-	      Outputs		      "2"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Derivative
-	      Name		      "Derivative"
-	      Position		      [140, 34, 170, 66]
-	    }
-	    Block {
-	      BlockType		      Derivative
-	      Name		      "Derivative1"
-	      Position		      [205, 55, 235, 85]
-	    }
-	    Block {
-	      BlockType		      MATLABFcn
-	      Name		      "MATLAB Fcn"
-	      Ports		      [1, 1]
-	      Position		      [350, 100, 410, 130]
-	      MATLABFcn		      "xyreg(u)"
-	    }
-	    Block {
-	      BlockType		      Mux
-	      Name		      "Mux"
-	      Ports		      [8, 1]
-	      Position		      [320, 14, 325, 211]
-	      ShowName		      off
-	      Inputs		      "8"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "tau1"
-	      Position		      [480, 68, 510, 82]
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "tau2"
-	      Position		      [485, 143, 515, 157]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Line {
-	      SrcBlock		      "eta"
-	      SrcPort		      1
-	      DstBlock		      "Demux1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "nu"
-	      SrcPort		      1
-	      DstBlock		      "Demux2"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "eta_d"
-	      SrcPort		      1
-	      Points		      [20, 0]
-	      Branch {
-		Points			[210, 0]
-		DstBlock		"Mux"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 20]
-		DstBlock		"Derivative"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Derivative"
-	      SrcPort		      1
-	      Points		      [10, 0]
-	      Branch {
-		DstBlock		"Mux"
-		DstPort			2
-	      }
-	      Branch {
-		Points			[0, 15; 0, 5]
-		DstBlock		"Derivative1"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Derivative1"
-	      SrcPort		      1
-	      Points		      [65, 0]
-	      DstBlock		      "Mux"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "Demux1"
-	      SrcPort		      1
-	      Points		      [35, 0; 0, -65]
-	      DstBlock		      "Mux"
-	      DstPort		      4
-	    }
-	    Line {
-	      SrcBlock		      "Demux2"
-	      SrcPort		      1
-	      Points		      [45, 0; 0, -145]
-	      DstBlock		      "Mux"
-	      DstPort		      5
-	    }
-	    Line {
-	      SrcBlock		      "Demux1"
-	      SrcPort		      3
-	      Points		      [0, 5]
-	      DstBlock		      "Demux3"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Demux2"
-	      SrcPort		      3
-	      DstBlock		      "Demux4"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Demux3"
-	      SrcPort		      2
-	      Points		      [65, 0; 0, -80; 10, 0; 0, -5]
-	      DstBlock		      "Mux"
-	      DstPort		      6
-	    }
-	    Line {
-	      SrcBlock		      "Demux4"
-	      SrcPort		      2
-	      Points		      [70, 0; 0, -160]
-	      DstBlock		      "Mux"
-	      DstPort		      7
-	    }
-	    Line {
-	      SrcBlock		      "b"
-	      SrcPort		      1
-	      Points		      [235, 0]
-	      DstBlock		      "Mux"
-	      DstPort		      8
-	    }
-	    Line {
-	      SrcBlock		      "Mux"
-	      SrcPort		      1
-	      DstBlock		      "MATLAB Fcn"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "MATLAB Fcn"
-	      SrcPort		      1
-	      DstBlock		      "Demux5"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Demux5"
-	      SrcPort		      1
-	      DstBlock		      "tau1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Demux5"
-	      SrcPort		      2
-	      DstBlock		      "tau2"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "course control"
-	  Ports			  [3, 2]
-	  Position		  [490, 247, 595, 333]
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  System {
-	    Name		    "course control"
-	    Location		    [223, 410, 969, 802]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "A4"
-	    PaperUnits		    "centimeters"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "psi"
-	      Position		      [35, 123, 65, 137]
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "psi_d"
-	      Position		      [40, 193, 70, 207]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "r"
-	      Position		      [40, 303, 70, 317]
-	      Port		      "3"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain"
-	      Position		      [340, 115, 365, 145]
-	      Gain		      "Kp_c"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain1"
-	      Position		      [400, 180, 425, 210]
-	      Gain		      "Kd_c"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain2"
-	      Position		      [575, 135, 600, 165]
-	      Gain		      "3"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum"
-	      Ports		      [2, 1]
-	      Position		      [495, 120, 515, 140]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "|+-"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum1"
-	      Ports		      [2, 1]
-	      Position		      [145, 120, 165, 140]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "|-+"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "tau_2"
-	      Position		      [670, 88, 700, 102]
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "tau_6"
-	      Position		      [670, 143, 700, 157]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Line {
-	      SrcBlock		      "Sum1"
-	      SrcPort		      1
-	      DstBlock		      "Gain"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Gain1"
-	      SrcPort		      1
-	      Points		      [75, 0]
-	      DstBlock		      "Sum"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "psi"
-	      SrcPort		      1
-	      DstBlock		      "Sum1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "psi_d"
-	      SrcPort		      1
-	      Points		      [80, 0]
-	      DstBlock		      "Sum1"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Gain"
-	      SrcPort		      1
-	      DstBlock		      "Sum"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "r"
-	      SrcPort		      1
-	      Points		      [155, 0; 0, -115]
-	      DstBlock		      "Gain1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Sum"
-	      SrcPort		      1
-	      Points		      [10, 0]
-	      Branch {
-		Points			[0, 20]
-		DstBlock		"Gain2"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, -35]
-		DstBlock		"tau_2"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Gain2"
-	      SrcPort		      1
-	      DstBlock		      "tau_6"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "depth"
-	  Ports			  [4, 2]
-	  Position		  [490, 407, 595, 493]
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  System {
-	    Name		    "depth"
-	    Location		    [256, 507, 1002, 888]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "A4"
-	    PaperUnits		    "centimeters"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "D"
-	      Position		      [35, 123, 65, 137]
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "D_d"
-	      Position		      [40, 193, 70, 207]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "q"
-	      Position		      [220, 173, 250, 187]
-	      Port		      "3"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "theta"
-	      Position		      [135, 243, 165, 257]
-	      Port		      "4"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain"
-	      Position		      [340, 115, 365, 145]
-	      Gain		      "Kp_d"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain1"
-	      Position		      [400, 145, 425, 175]
-	      Gain		      "Kd_d"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain2"
-	      Position		      [575, 170, 600, 200]
-	      Gain		      "-3"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain3"
-	      Position		      [260, 235, 285, 265]
-	      Gain		      "Kp2_d"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum"
-	      Ports		      [3, 1]
-	      Position		      [495, 118, 515, 202]
-	      ShowName		      off
-	      Inputs		      "+--"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum1"
-	      Ports		      [2, 1]
-	      Position		      [145, 120, 165, 140]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "|-+"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "tau_3"
-	      Position		      [670, 123, 700, 137]
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "tau_5"
-	      Position		      [670, 178, 700, 192]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Line {
-	      SrcBlock		      "Gain2"
-	      SrcPort		      1
-	      DstBlock		      "tau_5"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Sum"
-	      SrcPort		      1
-	      Points		      [10, 0]
-	      Branch {
-		Points			[0, -30]
-		DstBlock		"tau_3"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 25]
-		DstBlock		"Gain2"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "q"
-	      SrcPort		      1
-	      Points		      [130, 0]
-	      DstBlock		      "Gain1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Gain"
-	      SrcPort		      1
-	      DstBlock		      "Sum"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "D_d"
-	      SrcPort		      1
-	      Points		      [80, 0]
-	      DstBlock		      "Sum1"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "D"
-	      SrcPort		      1
-	      DstBlock		      "Sum1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Gain1"
-	      SrcPort		      1
-	      DstBlock		      "Sum"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Sum1"
-	      SrcPort		      1
-	      DstBlock		      "Gain"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "theta"
-	      SrcPort		      1
-	      DstBlock		      "Gain3"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Gain3"
-	      SrcPort		      1
-	      Points		      [190, 0]
-	      DstBlock		      "Sum"
-	      DstPort		      3
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "speed"
-	  Ports			  [2, 1]
-	  Position		  [435, 62, 545, 153]
-	  MinAlgLoopOccurrences	  off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  System {
-	    Name		    "speed"
-	    Location		    [542, 526, 1040, 826]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "A4"
-	    PaperUnits		    "centimeters"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "u"
-	      Position		      [40, 108, 70, 122]
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Inport
-	      Name		      "u_d"
-	      Position		      [40, 178, 70, 192]
-	      Port		      "2"
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain"
-	      Position		      [185, 100, 210, 130]
-	      Gain		      "Ki_u"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Gain
-	      Name		      "Gain1"
-	      Position		      [245, 165, 270, 195]
-	      Gain		      "Kp_u"
-	      ParameterDataTypeMode   "Inherit via internal rule"
-	      ParameterDataType	      "sfix(16)"
-	      ParameterScaling	      "2^0"
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Integrator
-	      Name		      "Integrator"
-	      Ports		      [1, 1]
-	      Position		      [255, 100, 285, 130]
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum"
-	      Ports		      [2, 1]
-	      Position		      [340, 105, 360, 125]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "|--"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Sum
-	      Name		      "Sum1"
-	      Ports		      [2, 1]
-	      Position		      [130, 105, 150, 125]
-	      ShowName		      off
-	      IconShape		      "round"
-	      Inputs		      "|+-"
-	      CollapseMode	      "All dimensions"
-	      InputSameDT	      off
-	      OutDataTypeMode	      "Inherit via internal rule"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      SaturateOnIntegerOverflow	off
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Out1"
-	      Position		      [415, 108, 445, 122]
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Line {
-	      SrcBlock		      "Sum"
-	      SrcPort		      1
-	      DstBlock		      "Out1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "u"
-	      SrcPort		      1
-	      DstBlock		      "Sum1"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "u_d"
-	      SrcPort		      1
-	      Points		      [65, 0]
-	      DstBlock		      "Sum1"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "Sum1"
-	      SrcPort		      1
-	      Points		      [10, 0]
-	      Branch {
-		DstBlock		"Gain"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 65]
-		DstBlock		"Gain1"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Integrator"
-	      SrcPort		      1
-	      DstBlock		      "Sum"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Gain"
-	      SrcPort		      1
-	      DstBlock		      "Integrator"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Gain1"
-	      SrcPort		      1
-	      Points		      [75, 0]
-	      DstBlock		      "Sum"
-	      DstPort		      2
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "3subcontrol"
-	  Position		  [1045, 193, 1075, 207]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "xy_control"
-	  Position		  [1035, 578, 1065, 592]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Line {
-	  SrcBlock		  "nu"
-	  SrcPort		  1
-	  Points		  [25, 0]
-	  Branch {
-	    DstBlock		    "Demux"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 395]
-	    DstBlock		    "Subsystem"
-	    DstPort		    3
-	  }
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  Points		  [180, 0; 0, -140]
-	  DstBlock		  "speed"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "u_d"
-	  SrcPort		  1
-	  DstBlock		  "speed"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "eta"
-	  SrcPort		  1
-	  Points		  [95, 0]
-	  Branch {
-	    DstBlock		    "Demux1"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 415]
-	    DstBlock		    "Subsystem"
-	    DstPort		    2
-	  }
-	}
-	Line {
-	  SrcBlock		  "Demux1"
-	  SrcPort		  6
-	  Points		  [95, 0]
-	  DstBlock		  "course control"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "psi_d"
-	  SrcPort		  1
-	  Points		  [100, 0; 0, 260]
-	  DstBlock		  "course control"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  6
-	  Points		  [315, 0]
-	  DstBlock		  "course control"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "speed"
-	  SrcPort		  1
-	  DstBlock		  "Mux"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Mux"
-	  SrcPort		  1
-	  DstBlock		  "3subcontrol"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "course control"
-	  SrcPort		  1
-	  Points		  [160, 0; 0, -125]
-	  DstBlock		  "Mux"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "course control"
-	  SrcPort		  2
-	  Points		  [220, 0]
-	  Branch {
-	    Points		    [140, 0]
-	    DstBlock		    "Mux"
-	    DstPort		    6
-	  }
-	  Branch {
-	    Points		    [0, 355]
-	    DstBlock		    "Mux1"
-	    DstPort		    6
-	  }
-	}
-	Line {
-	  SrcBlock		  "D_d"
-	  SrcPort		  1
-	  Points		  [155, 0; 0, 365]
-	  DstBlock		  "depth"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Demux1"
-	  SrcPort		  3
-	  Points		  [45, 0; 0, 225]
-	  DstBlock		  "depth"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  5
-	  Points		  [30, 0; 0, 135]
-	  DstBlock		  "depth"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "Demux1"
-	  SrcPort		  5
-	  Points		  [30, 0; 0, 235]
-	  DstBlock		  "depth"
-	  DstPort		  4
-	}
-	Line {
-	  SrcBlock		  "depth"
-	  SrcPort		  1
-	  Points		  [75, 0]
-	  Branch {
-	    Points		    [110, 0; 0, -250]
-	    DstBlock		    "Mux"
-	    DstPort		    3
-	  }
-	  Branch {
-	    Points		    [0, 135]
-	    DstBlock		    "Mux1"
-	    DstPort		    3
-	  }
-	}
-	Line {
-	  SrcBlock		  "depth"
-	  SrcPort		  2
-	  Points		  [125, 0]
-	  Branch {
-	    Points		    [80, 0; 0, -225]
-	    DstBlock		    "Mux"
-	    DstPort		    5
-	  }
-	  Branch {
-	    Points		    [0, 160]
-	    DstBlock		    "Mux1"
-	    DstPort		    5
-	  }
-	}
-	Line {
-	  SrcBlock		  "xy_d"
-	  SrcPort		  1
-	  Points		  [0, 60]
-	  DstBlock		  "Subsystem"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Constant"
-	  SrcPort		  1
-	  DstBlock		  "Subsystem"
-	  DstPort		  4
-	}
-	Line {
-	  SrcBlock		  "Subsystem"
-	  SrcPort		  1
-	  Points		  [150, 0; 0, -100]
-	  DstBlock		  "Mux1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Subsystem"
-	  SrcPort		  2
-	  Points		  [165, 0; 0, -185]
-	  DstBlock		  "Mux1"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Mux1"
-	  SrcPort		  1
-	  Points		  [0, -10; -5, 0; 0, 10]
-	  DstBlock		  "xy_control"
-	  DstPort		  1
-	}
-      }
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      Kp		      "diag([1 1 1])"
+      Kd		      "diag([1 1 1])"
+      Ki		      "diag([1 1 1])"
     }
     Block {
       BlockType		      Demux
@@ -2041,20 +858,32 @@ Model {
     Block {
       BlockType		      Demux
       Name		      "Demux1"
-      Ports		      [1, 2]
-      Position		      [375, 15, 380, 55]
+      Ports		      [1, 3]
+      Position		      [380, 295, 385, 335]
       BackgroundColor	      "black"
       ShowName		      off
-      Outputs		      "2"
+      Outputs		      "3"
       DisplayOption	      "bar"
     }
     Block {
-      BlockType		      Fcn
-      Name		      "Fcn"
-      Position		      [435, 485, 495, 515]
-      Orientation	      "left"
-      NamePlacement	      "alternate"
-      Expr		      "atan2(u[2]-u[4], u[1]-u[3])"
+      BlockType		      Demux
+      Name		      "Demux2"
+      Ports		      [1, 6]
+      Position		      [30, 174, 40, 271]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "6"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux3"
+      Ports		      [1, 6]
+      Position		      [105, 217, 115, 283]
+      BackgroundColor	      "black"
+      ShowName		      off
+      Outputs		      "6"
+      DisplayOption	      "bar"
     }
     Block {
       BlockType		      SubSystem
@@ -3435,25 +2264,6 @@ Model {
       }
     }
     Block {
-      BlockType		      Reference
-      Name		      "Manual Switch"
-      Ports		      [2, 1]
-      Position		      [410, 192, 440, 228]
-      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
-      SourceType	      "Manual Switch"
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      sw		      "0"
-      action		      "0"
-      varsize		      off
-    }
-    Block {
       BlockType		      Mux
       Name		      "Mux"
       Ports		      [6, 1]
@@ -3465,23 +2275,28 @@ Model {
     Block {
       BlockType		      Mux
       Name		      "Mux1"
-      Ports		      [2, 1]
-      Position		      [640, 433, 645, 522]
-      Orientation	      "left"
-      NamePlacement	      "alternate"
+      Ports		      [6, 1]
+      Position		      [430, 168, 435, 257]
       ShowName		      off
-      Inputs		      "2"
+      Inputs		      "6"
       DisplayOption	      "bar"
     }
     Block {
       BlockType		      Mux
       Name		      "Mux2"
-      Ports		      [2, 1]
-      Position		      [515, 453, 520, 542]
-      Orientation	      "left"
-      NamePlacement	      "alternate"
+      Ports		      [3, 1]
+      Position		      [190, 295, 195, 335]
       ShowName		      off
-      Inputs		      "2"
+      Inputs		      "3"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux3"
+      Ports		      [3, 1]
+      Position		      [150, 335, 155, 375]
+      ShowName		      off
+      Inputs		      "3"
       DisplayOption	      "bar"
     }
     Block {
@@ -3510,8 +2325,8 @@ Model {
       Ports		      [1]
       Position		      [945, 129, 975, 161]
       Floating		      off
-      Location		      [29, 709, 353, 948]
-      Open		      on
+      Location		      [601, 693, 925, 932]
+      Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "xonly"
       List {
@@ -3519,8 +2334,8 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "1000"
-      YMin		      "-50"
-      YMax		      "275"
+      YMin		      "0"
+      YMax		      "45"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
     }
@@ -3530,16 +2345,16 @@ Model {
       Ports		      [1]
       Position		      [910, 19, 940, 51]
       Floating		      off
-      Location		      [927, 372, 1251, 611]
-      Open		      on
+      Location		      [431, 161, 755, 400]
+      Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "1000"
-      YMin		      "-500"
-      YMax		      "100"
+      YMin		      "-1750"
+      YMax		      "0"
       SaveName		      "ScopeData2"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
@@ -3550,15 +2365,15 @@ Model {
       Ports		      [1]
       Position		      [965, 74, 995, 106]
       Floating		      off
-      Location		      [932, 671, 1256, 910]
-      Open		      on
+      Location		      [888, 55, 1212, 294]
+      Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
       YMin		      "0"
-      YMax		      "500"
+      YMax		      "275"
       SaveName		      "ScopeData3"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
@@ -3587,7 +2402,7 @@ Model {
       BlockType		      Scope
       Name		      "Scope6"
       Ports		      [1]
-      Position		      [490, 114, 520, 146]
+      Position		      [425, 114, 455, 146]
       Floating		      off
       Location		      [98, 304, 422, 543]
       Open		      off
@@ -3597,8 +2412,7 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-50"
-      YMax		      "400"
+      YMax		      "55"
       SaveName		      "ScopeData5"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
@@ -3644,6 +2458,234 @@ Model {
       ymax		      "1000"
       st		      "-1"
     }
+    Block {
+      BlockType		      SubSystem
+      Name		      "depth"
+      Ports		      [4, 2]
+      Position		      [245, 142, 350, 228]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      System {
+	Name			"depth"
+	Location		[256, 507, 1002, 888]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "D"
+	  Position		  [35, 123, 65, 137]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "D_d"
+	  Position		  [40, 193, 70, 207]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "q"
+	  Position		  [220, 173, 250, 187]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "theta"
+	  Position		  [135, 243, 165, 257]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [340, 115, 365, 145]
+	  Gain			  "3"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain1"
+	  Position		  [400, 145, 425, 175]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain2"
+	  Position		  [575, 170, 600, 200]
+	  Gain			  "-3"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain3"
+	  Position		  [260, 235, 285, 265]
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  ParameterDataType	  "sfix(16)"
+	  ParameterScaling	  "2^0"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [3, 1]
+	  Position		  [495, 118, 515, 202]
+	  ShowName		  off
+	  Inputs		  "+--"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  Ports			  [2, 1]
+	  Position		  [145, 120, 165, 140]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|-+"
+	  CollapseMode		  "All dimensions"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "tau_3"
+	  Position		  [670, 123, 700, 137]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "tau_5"
+	  Position		  [670, 178, 700, 192]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "Gain2"
+	  SrcPort		  1
+	  DstBlock		  "tau_5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, -30]
+	    DstBlock		    "tau_3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 25]
+	    DstBlock		    "Gain2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "q"
+	  SrcPort		  1
+	  Points		  [130, 0]
+	  DstBlock		  "Gain1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "D_d"
+	  SrcPort		  1
+	  Points		  [80, 0]
+	  DstBlock		  "Sum1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "D"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain1"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "theta"
+	  SrcPort		  1
+	  DstBlock		  "Gain3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain3"
+	  SrcPort		  1
+	  Points		  [190, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  3
+	}
+      }
+    }
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      1
@@ -3654,15 +2696,15 @@ Model {
 	DstPort			2
       }
       Branch {
-	Points			[0, 200; -5, 0]
+	Points			[0, 195]
 	Branch {
-	  Points		  [-430, 0; 0, -175]
-	  DstBlock		  "Crusing controller"
-	  DstPort		  4
+	  Points		  [0, 5; -5, 0; 0, 20]
+	  DstBlock		  "Demux"
+	  DstPort		  1
 	}
 	Branch {
-	  Points		  [0, 20]
-	  DstBlock		  "Demux"
+	  Points		  [-530, 0; 0, -135]
+	  DstBlock		  "Demux3"
 	  DstPort		  1
 	}
       }
@@ -3670,31 +2712,23 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      2
-      Points		      [15, 0; 0, 5]
+      Points		      [15, 0; 0, 45]
       Branch {
-	Points			[0, 115; -410, 0; 0, -105]
-	DstBlock		"Crusing controller"
-	DstPort			5
+	DstBlock		"Scope1"
+	DstPort			1
       }
       Branch {
-	Points			[0, 40]
-	DstBlock		"Scope1"
+	Points			[0, 245; -585, 0]
+	DstBlock		"Demux2"
 	DstPort			1
       }
     }
     Line {
-      SrcBlock		      "HUGIN 1000"
-      SrcPort		      3
-      Points		      [0, 85; -350, 0; 0, -80]
-      DstBlock		      "Crusing controller"
-      DstPort		      6
-    }
-    Line {
-      SrcBlock		      "Constant1"
+      SrcBlock		      "Constant"
       SrcPort		      1
-      Points		      [135, 0]
-      DstBlock		      "Crusing controller"
-      DstPort		      3
+      Points		      [340, 0]
+      DstBlock		      "Mux"
+      DstPort		      6
     }
     Line {
       SrcBlock		      "6DOF Plot"
@@ -3732,16 +2766,16 @@ Model {
     Line {
       SrcBlock		      "Constant2"
       SrcPort		      1
-      Points		      [25, 0]
+      Points		      [20, 0]
       Branch {
-	Points			[20, 0; 0, 40]
-	DstBlock		"Crusing controller"
-	DstPort			2
-      }
-      Branch {
-	Points			[0, -90]
+	Points			[5, 0; 0, -90]
 	DstBlock		"Mux"
 	DstPort			3
+      }
+      Branch {
+	Points			[0, 30]
+	DstBlock		"depth"
+	DstPort			2
       }
     }
     Line {
@@ -3754,123 +2788,145 @@ Model {
     Line {
       SrcBlock		      "Demux"
       SrcPort		      2
-      Points		      [35, 0]
-      Branch {
-	Points			[0, -10]
-	DstBlock		"XY Graph"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, 100]
-	DstBlock		"Mux1"
-	DstPort			2
-      }
+      Points		      [35, 0; 0, -10]
+      DstBlock		      "XY Graph"
+      DstPort		      1
     }
     Line {
       SrcBlock		      "Demux"
       SrcPort		      1
+      Points		      [70, 0; 0, 10]
+      DstBlock		      "XY Graph"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "DP controller"
+      SrcPort		      1
+      DstBlock		      "Demux1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      1
+      Points		      [10, 0; 0, -125]
+      DstBlock		      "Mux1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      2
+      Points		      [15, 0; 0, -125]
+      DstBlock		      "Mux1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux1"
+      SrcPort		      3
       Points		      [25, 0]
-      Branch {
-	Points			[45, 0; 0, 10]
-	DstBlock		"XY Graph"
-	DstPort			2
-      }
-      Branch {
-	Points			[0, 60]
-	DstBlock		"Mux1"
-	DstPort			1
-      }
+      DstBlock		      "Mux1"
+      DstPort		      6
     }
     Line {
-      SrcBlock		      "Constant3"
+      SrcBlock		      "depth"
       SrcPort		      1
-      Points		      [20, 0]
-      Branch {
-	Points			[20, 0]
-	Branch {
-	  Points		  [90, 0]
-	  DstBlock		  "Crusing controller"
-	  DstPort		  7
-	}
-	Branch {
-	  Points		  [0, -245]
-	  DstBlock		  "Demux1"
-	  DstPort		  1
-	}
-      }
-      Branch {
-	Points			[-10, 0; 0, 300; 410, 0]
-	DstBlock		"Mux2"
-	DstPort			2
-      }
+      Points		      [55, 0; 0, 40]
+      DstBlock		      "Mux1"
+      DstPort		      3
     }
     Line {
-      SrcBlock		      "Manual Switch"
-      SrcPort		      1
-      Points		      [0, 5; 5, 0]
-      Branch {
-	DstBlock		"HUGIN 1000"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, -85]
-	DstBlock		"Scope6"
-	DstPort			1
-      }
-    }
-    Line {
-      SrcBlock		      "Crusing controller"
-      SrcPort		      1
-      Points		      [5, 0; 0, 15]
-      DstBlock		      "Manual Switch"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Crusing controller"
+      SrcBlock		      "depth"
       SrcPort		      2
-      Points		      [5, 0; 0, -25]
-      DstBlock		      "Manual Switch"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Demux1"
-      SrcPort		      1
-      DstBlock		      "Mux"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Demux1"
-      SrcPort		      2
-      Points		      [30, 0; 0, -5]
-      DstBlock		      "Mux"
-      DstPort		      2
+      Points		      [55, 0; 0, 25]
+      DstBlock		      "Mux1"
+      DstPort		      5
     }
     Line {
       SrcBlock		      "Mux1"
       SrcPort		      1
-      Points		      [-50, 0; 0, -5]
-      DstBlock		      "Mux2"
+      DstBlock		      "HUGIN 1000"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "DP controller"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Mux2"
       SrcPort		      1
-      DstBlock		      "Fcn"
+      DstBlock		      "DP controller"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux3"
+      SrcPort		      1
+      Points		      [30, 0; 0, 75]
+      DstBlock		      "Mux2"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Fcn"
+      SrcBlock		      "Demux3"
+      SrcPort		      2
+      Points		      [20, 0; 0, 80]
+      DstBlock		      "Mux2"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux3"
+      SrcPort		      6
+      Points		      [10, 0; 0, 55]
+      DstBlock		      "Mux2"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Demux3"
+      SrcPort		      3
+      Points		      [40, 0; 0, -90]
+      DstBlock		      "depth"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux3"
+      SrcPort		      5
+      Points		      [110, 0]
+      DstBlock		      "depth"
+      DstPort		      4
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      5
+      Points		      [40, 0; 0, -50]
+      DstBlock		      "depth"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Demux2"
       SrcPort		      1
-      Points		      [-260, 0; 0, -330; 45, 0]
-      Branch {
-	DstBlock		"Crusing controller"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, -70]
-	DstBlock		"Mux"
-	DstPort			6
-      }
+      Points		      [30, 0; 0, 155]
+      DstBlock		      "Mux3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      2
+      Points		      [25, 0; 0, 155]
+      DstBlock		      "Mux3"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Demux2"
+      SrcPort		      6
+      Points		      [20, 0; 0, 110]
+      DstBlock		      "Mux3"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Mux3"
+      SrcPort		      1
+      Points		      [25, 0; 0, -15]
+      DstBlock		      "DP controller"
+      DstPort		      3
     }
   }
 }
@@ -3884,7 +2940,7 @@ Model {
 Stateflow {
   machine {
     id			    1
-    name		    "Backstep"
+    name		    "Backstep2"
     created		    "20-Oct-2008 18:42:46"
     isLibrary		    0
     firstTarget		    2
