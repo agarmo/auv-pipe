@@ -108,4 +108,4 @@ L = [zeros(2, 6);
 
 T = 1000*eye(6);
 
- sim auv_modell_camsim_kalman2
+%  sim auv_modell_camsim_kalman2
