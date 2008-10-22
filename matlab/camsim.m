@@ -70,7 +70,7 @@ pos_auv = [pos(1:3)', 1]';
 depth = bottom-pos_auv(3);
 fov = depth*tand(25/2);
 
-if pos_auv(1) > 0
+if pos_auv(1) <= 0
     x_max = pos_auv(1) - fov;
     x_min = pos_auv(1) + fov;
 else
@@ -78,7 +78,7 @@ else
     x_min = pos_auv(1) - fov;
 end
 
-if pos_auv(2) > 0
+if pos_auv(2) <= 0
     y_max = pos_auv(2) - fov;
     y_min = pos_auv(2) + fov;
 else
@@ -106,7 +106,7 @@ for i = 1:size(pipeline,1)
 end
 
 if isempty(pipeline_inside)
-    disp('ingen punkter i området');
+    disp('ingen punkter i omrï¿½det');
     P = zeros(6,1);
 else
 
@@ -121,7 +121,7 @@ end
 % 
 % %% Transform pipeline inside FOV cone back to NED coordinates
 % if isempty(pipeline_inside) %check if there are points inside
-%     disp('Ingen punkter i området')
+%     disp('Ingen punkter i omrï¿½det')
 %     P = zeros(9,1);
 % else
 %     pipeline_inside_NED = [];

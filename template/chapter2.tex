@@ -69,9 +69,39 @@
 
 	The equations used for the Extended Kalman Filter can be found in \cite{fossen} p199.
 	
+\section{Controller Design}
+	The control system which supply the lower-level control system with forces and moments references, is divided into 3 sub systems:
+		\begin{itemize}
+		 \item Speed control
+		 \item Depth control
+		 \item Heading control
+		\end{itemize}
+	This is called the flightmode controller, which is used for normal pipeline tracking, descent and ascent. 
+	
+	The \textit{HUGIN 1000} is a sleender-body type AUV. The coupling effects in in the surge and sway can be neglected, and therfor decoupled. This means that one can create two subsystems from the AUV model: The \textit{surge} subsystem, and the \textit{sway-yaw} subsystem. 
 	
 	
+	TODO:Too keep the AUV right on top of the pipeline one can use kinematic control to with feedback from the camera too keep the AUV right on top of the pipeline using theory from robot control by visual means.
+	
+	
+	TODO:************Utledning og stabilitetsbevis for alle kontrollerene********
+	\subsection{Speed Controller}
+	
+	
+	
+	\subsection{Depth Controller}
+
+	
+	
+	\subsection{Heading Controller}
+	
+	
+	
+\section{Trajectory Generation}
+
 
 \section{Guidance system}
 	The guidance system should be able to handle different situations, and one should use different guidance scheems in different situations, threfore a state machine approach is used to design the guidance system.
+	
+	
 	

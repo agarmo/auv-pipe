@@ -8,13 +8,15 @@
 	The last reference system used is the Body-frame, which all forces, moments, linear velocities and angular velocities will be expressed in. This frame has it's center in the Center of Gravitiy (CG) of the vessel. The x-axis is defined in the logitudinal axis of the vessel, y-axis to the right, and the z-axis is directed downwards to complete the right hand-system. The body-frame values are transformed to the NED-frame by the means of a Rotataion matrix.
 	
 	
+	
+	
 
 \section{Hydrodynamic Model}
 	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this report uses the 6 DOF model described in \cite{fossen}.
 		\begin{align}
 			\label{eq:chp1-model}
 			\mathbf{\dot{\eta}} &= \rotation \mathbf{\nu} \\
-			\mass + \coriolis + \damping + \restoring &= \force
+			\mass + \coriolis + \damping + \restoring &= \force \\
 		\end{align}
 	The equations \eqref{eq:chp1-model} describes the kinematics and kinetics for the model. It is in the mathematical sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is a skew-symmetric matrix.
 	
@@ -42,8 +44,7 @@
 	<<<<<<<<<---------------------->>>>>>>>>>>>>>
 
 \section{Guidance Algorithms}
-	There are a couple of different guidance algorithms which can be used on this problem. The obvious and simplest is the Line-of-Sight-algorithm (LoS). 	
-		
+	There are a couple of different guidance algorithms which can be used on this problem. The obvious and simplest is the Line-of-Sight-algorithm (LoS).
 
 \section{Kalman Filter}
 	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is usually employd in navigation applications to fuse GPS and INS together. By this way one will have the speed and resolution of an INS system and the precission of the GPS system. 
