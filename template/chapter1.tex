@@ -44,7 +44,20 @@
 	<<<<<<<<<---------------------->>>>>>>>>>>>>>
 
 \section{Guidance Algorithms}
-	There are a couple of different guidance algorithms which can be used on this problem. The obvious and simplest is the Line-of-Sight-algorithm (LoS).
+	The guidance algorithm is one of the most important part of an autonomous vehicles control system. It needs to be robust and be able to handle moast situations. A guidance system should be able to give feasible commands to the lower level control system which controls the actuators, and should be able to handle most situations with care. The guidance system should decide the best trajectory to be followed based on the target location and physical capabilities of the system.\cite{GuidanceReview}
+
+	Most of the guidance algorithms originates from airborne missile systems. This have been well documented and proven to work in numerous cases. Common guidance scheems such as Line-of-sight (LOS) and Proportional Navigation Guidance (PNG) and vareious implementations of these are employed in numerous guidance systems.
+
+	Line-of-sight-guidance are the most common principle used. The LOS-algorithm computes the line-of-sight angle from the present location to the target location, and uses this angle as a reference heading.
+
+	Proportional Navigation Guidance is more effective that LOS-guidance in case of a non-maneuvering target. It gives less interception time than LOS. The PNG-law can be stated as the following: \cite{GuidanceReview}
+	\begin{equation}
+		\eta_c = N' V_c \dot{\lambda}
+	\end{equation}
+	where $\eta_c$ is the acceleration command, $N'$ is the navigation ratio, $V_c$ is the closing velocity, and $\dot{\lambda}$ is the line of sight angular velocity. The navigation ratio is a tuning parameter which will give higher demanded acceleration and therby reacing the target in less time.
+
+	These laws does not work so well with maneuvering targets and lots of solutions have been proposed to make these laws more effective when dealing with moving targets. In this case the targets will be non-moving waypoints and the maneuvering laws will not be discussed here.
+
 
 \section{Kalman Filter}
 	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is usually employd in navigation applications to fuse GPS and INS together. By this way one will have the speed and resolution of an INS system and the precission of the GPS system. 
