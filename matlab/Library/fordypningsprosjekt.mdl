@@ -34,9 +34,9 @@ Library {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Oct 20 20:33:48 2008"
+  LastModifiedDate	  "Thu Oct 23 19:25:02 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:6>"
+  ModelVersionFormat	  "1.%<AutoIncrement:10>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -358,6 +358,11 @@ Library {
       InputPortOffsets	      "[]"
     }
     Block {
+      BlockType		      Reshape
+      OutputDimensionality    "1-D array"
+      OutputDimensions	      "[1,1]"
+    }
+    Block {
       BlockType		      Abs
       ZeroCross		      on
       SampleTime	      "-1"
@@ -446,7 +451,7 @@ Library {
   }
   System {
     Name		    "fordypningsprosjekt"
-    Location		    [757, 543, 1293, 996]
+    Location		    [317, 365, 853, 818]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1989,7 +1994,7 @@ Library {
       BlockType		      SubSystem
       Name		      "Crusing controller"
       Ports		      [6, 1]
-      Position		      [195, 255, 310, 375]
+      Position		      [45, 275, 160, 395]
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
@@ -2824,32 +2829,33 @@ Library {
       BlockType		      SubSystem
       Name		      "HUGIN 1000"
       Ports		      [1, 3]
-      Position		      [365, 136, 480, 214]
+      Position		      [370, 131, 485, 209]
       BackgroundColor	      "orange"
+      AncestorBlock	      "fordypningsprosjekt/HUGIN 1000"
       MinAlgLoopOccurrences   off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       MaskType		      "HUGIN 1000 AUV"
       MaskDescription	      "The hydrodynamic model of Kongsberg Maritimes \nAUV type HUGIN 1000.\n\nImplemented using\n\neta_dot = J(eta)*nu\nM*nu_dot + C(nu)*nu + D(nu)*nu + g(eta) = tau\n\nand the MMS toolbox from www.marinecybernetics.org\n\n"
-      MaskPromptString	      "Initial Position [x y z phi theta psi]|Initial speed [u v w p q r]"
-      MaskStyleString	      "edit,edit"
-      MaskTunableValueString  "on,on"
-      MaskCallbackString      "|"
-      MaskEnableString	      "on,on"
-      MaskVisibilityString    "on,on"
-      MaskToolTipString	      "on,on"
-      MaskVarAliasString      ","
-      MaskVariables	      "eta_0=@1;nu_0=@2;"
+      MaskPromptString	      "Initial Position [x y z phi theta psi]|Initial speed [u v w p q r]|Current on off|Current heading(deg)|Current Velocity"
+      MaskStyleString	      "edit,edit,checkbox,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on"
+      MaskCallbackString      "||||"
+      MaskEnableString	      "on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on"
+      MaskVarAliasString      ",,,,"
+      MaskVariables	      "eta_0=@1;nu_0=@2;c_on_off=@3;beta_c=@4;V_c=@5;"
       MaskInitialization      "m = 1380;\nxg = 0;\nyg = 0;\nzg = 0.0328;\nIx = 86.53;\nIy = 1247;\nIz = 1247;\n\nXu = -85.57;\nYv = -1092.9;\nYr = -84.1448;\nZw = -1092.9;\nZq = 84.1448;\nMq = -795.1686;\nNr = -795.1686;\n    \nM = [m-Xu   0       0       0       m*zg    -m*yg;\n     0      m-Yv    0       -m*zg   0       m*xg-Yr;\n     0      0       m-Zw    m*yg    -m*xg-Zq 0;\n     0      -m*zg   m*yg    Ix      0        0;\n     m*zg   0       -m*xg-Zq 0      Iy-Mq    0;\n     -m*yg  m*xg-Yr 0       0       0       Iz-Nr];\n        "
       MaskIconFrame	      on
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "eta0|[0 0 0 0 0 0]"
-      MaskTabNameString	      ","
+      MaskValueString	      "[0 0 0 0 0 0]|[0 0 0 0 0 0]|off|-45|0.3"
+      MaskTabNameString	      ",,,,"
       System {
 	Name			"HUGIN 1000"
-	Location		[30, 333, 810, 862]
+	Location		[113, 278, 893, 807]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2899,7 +2905,7 @@ Library {
 	  MaskTabNameString	  ","
 	  System {
 	    Name		    "6 DOF Eqs. of motion"
-	    Location		    [37, 336, 1189, 845]
+	    Location		    [42, 244, 1194, 865]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -2938,6 +2944,35 @@ Library {
 	      OutScaling	      "2^0"
 	    }
 	    Block {
+	      BlockType		      Constant
+	      Name		      "Current Heading"
+	      Position		      [625, 438, 660, 472]
+	      Value		      "beta_c"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Current Velocity"
+	      Position		      [620, 493, 655, 527]
+	      Value		      "V_c"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Current on off"
+	      Position		      [975, 460, 1005, 490]
+	      Gain		      "c_on_off"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "sfix(16)"
+	      ParameterScaling	      "2^0"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
 	      BlockType		      Reference
 	      Name		      "Euler angles to\nrotation matrix"
 	      Ports		      [1, 1]
@@ -2948,7 +2983,7 @@ Library {
 	      SourceType	      "Euler2R"
 	      ShowPortLabels	      "none"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -2972,7 +3007,7 @@ Library {
 	      SourceType	      "Euler2T"
 	      ShowPortLabels	      "none"
 	      SystemSampleTime	      "-1"
-	      FunctionWithSeparateData "off"
+	      FunctionWithSeparateData off
 	      RTWMemSecFuncInitTerm   "Inherit from model"
 	      RTWMemSecFuncExecute    "Inherit from model"
 	      RTWMemSecDataConstants  "Inherit from model"
@@ -3054,6 +3089,23 @@ Library {
 		RTWStorageClass		"Auto"
 		DataLoggingNameMode	"SignalName"
 	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "North-East current"
+	      Ports		      [2, 1]
+	      Position		      [840, 443, 945, 507]
+	      BackgroundColor	      "yellow"
+	      SourceBlock	      "marine_gnc/Environment/Current/North-East current"
+	      SourceType	      "SubSystem"
+	      ShowPortLabels	      "FromPortIcon"
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
 	    }
 	    Block {
 	      BlockType		      Product
@@ -3150,6 +3202,21 @@ Library {
 	      }
 	    }
 	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [995, 380, 1065, 420]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	      CollapseMode	      "All dimensions"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
 	      BlockType		      Outport
 	      Name		      "eta"
 	      Position		      [1100, 213, 1130, 227]
@@ -3178,6 +3245,47 @@ Library {
 	      IconDisplay	      "Port number"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	    }
+	    Line {
+	      SrcBlock		      "Current on off"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Current Velocity"
+	      SrcPort		      1
+	      Points		      [115, 0; 0, -20]
+	      DstBlock		      "North-East current"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Current Heading"
+	      SrcPort		      1
+	      Points		      [110, 0; 0, 5]
+	      DstBlock		      "North-East current"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "North-East current"
+	      SrcPort		      1
+	      DstBlock		      "Current on off"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "nu"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "nu"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Mux1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
 	    }
 	    Line {
 	      Name		      "M"
@@ -3317,14 +3425,6 @@ Library {
 	      SrcBlock		      "Mux"
 	      SrcPort		      1
 	      DstBlock		      "eta"
-	      DstPort		      1
-	    }
-	    Line {
-	      Name		      "nu"
-	      Labels		      [0, 0]
-	      SrcBlock		      "Mux1"
-	      SrcPort		      1
-	      DstBlock		      "nu"
 	      DstPort		      1
 	    }
 	    Line {
@@ -4468,7 +4568,7 @@ Library {
 	  FieldsWritten		  "Mounted.orientation.4.1.double#Mounted.position.3.1.double#Hugin1000.rotation.4.1.double#Hugin1000.translation.3.1.double"
 	  WorldFileName		  "M:\\tex\\svn\\3d-modell\\hugin.WRL"
 	  WorldDescription	  "HUGIN 1000"
-	  AutoView		  on
+	  AutoView		  off
 	  VideoDimensions	  "[]"
 	  FigureProperties	  "{'Position', 'Name', 'Viewpoint', 'CameraBound', 'CameraDirection', 'CameraPosition', 'CameraUpVector', 'ZoomFactor', 'Antialiasing', 'Headlight', 'Lighting', 'NavPanel', 'StatusBar', 'ToolBar', 'Textures', 'Transparency', 'Wireframe', 'NavZones', 'NavMode', 'NavSpeed', 'Record2DCompressMethod', 'Record2DCompressQuality', 'Record2D', 'Record2DFileName', 'Record2DFPS'; [1.7000000000000000e+001  7.2000000000000000e+001  5.7600000000000000e+002  3.8000000000000000e+002], '', 'Overview', 'on', [0.0000000000000000e+000  0.0000000000000000e+000 -1.0000000000000000e+000], [0.0000000000000000e+000  0.0000000000000000e+000  1.4400000000000000e+002], [0.0000000000000000e+000  1.0000000000000000e+000  0.0000000000000000e+000], [1.0000000000000000e+000], 'off', 'on', 'on', 'halfbar', 'off', 'on', 'on', 'on', 'off', 'off', 'fly', 'normal', 'auto', [7.5000000000000000e+001], 'off', '%f_anim_%n.avi', [1.5000000000000000e+001]} "
 	}

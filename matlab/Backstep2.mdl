@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.27"
+    ComputedModelVersion    "1.28"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -44,9 +44,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Oct 21 16:12:23 2008"
+  LastModifiedDate	  "Thu Oct 23 19:21:13 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:27>"
+  ModelVersionFormat	  "1.%<AutoIncrement:28>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -561,20 +561,6 @@ Model {
       ContinuousStateAttributes	"''"
     }
     Block {
-      BlockType		      Math
-      Operator		      "exp"
-      OutputSignalType	      "auto"
-      SampleTime	      "-1"
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Same as first input"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
-    }
-    Block {
       BlockType		      MATLABFcn
       MATLABFcn		      "sin"
       OutputDimensions	      "-1"
@@ -624,6 +610,9 @@ Model {
       RndMeth		      "Zero"
       SaturateOnIntegerOverflow	on
       SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Reference
     }
     Block {
       BlockType		      Scope
@@ -694,11 +683,6 @@ Model {
       BlockType		      Terminator
     }
     Block {
-      BlockType		      Reshape
-      OutputDimensionality    "1-D array"
-      OutputDimensions	      "[1,1]"
-    }
-    Block {
       BlockType		      Abs
       ZeroCross		      on
       SampleTime	      "-1"
@@ -723,26 +707,6 @@ Model {
       OutScaling	      "[]"
       SampleTime	      "inf"
       FramePeriod	      "inf"
-    }
-    Block {
-      BlockType		      Saturate
-      UpperLimit	      "0.5"
-      LowerLimit	      "-0.5"
-      LinearizeAsGain	      on
-      ZeroCross		      on
-      SampleTime	      "-1"
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Same as input"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      LockScale		      off
-      RndMeth		      "Floor"
-    }
-    Block {
-      BlockType		      Signum
-      ZeroCross		      on
-      SampleTime	      "-1"
     }
     Block {
       BlockType		      Trigonometry
@@ -897,26 +861,26 @@ Model {
       FunctionWithSeparateData off
       MaskType		      "HUGIN 1000 AUV"
       MaskDescription	      "The hydrodynamic model of Kongsberg Maritimes \nAUV type HUGIN 1000.\n\nImplemented using\n\neta_dot = J(eta)*nu\nM*nu_dot + C(nu)*nu + D(nu)*nu + g(eta) = tau\n\nand the MMS toolbox from www.marinecybernetics.org\n\n"
-      MaskPromptString	      "Initial Position [x y z phi theta psi]|Initial speed [u v w p q r]"
-      MaskStyleString	      "edit,edit"
-      MaskTunableValueString  "on,on"
-      MaskCallbackString      "|"
-      MaskEnableString	      "on,on"
-      MaskVisibilityString    "on,on"
-      MaskToolTipString	      "on,on"
-      MaskVarAliasString      ","
-      MaskVariables	      "eta_0=@1;nu_0=@2;"
+      MaskPromptString	      "Initial Position [x y z phi theta psi]|Initial speed [u v w p q r]|Current on off|Current heading(deg)|Current Velocity"
+      MaskStyleString	      "edit,edit,checkbox,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on"
+      MaskCallbackString      "||||"
+      MaskEnableString	      "on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on"
+      MaskVarAliasString      ",,,,"
+      MaskVariables	      "eta_0=@1;nu_0=@2;c_on_off=@3;beta_c=@4;V_c=@5;"
       MaskInitialization      "m = 1380;\nxg = 0;\nyg = 0;\nzg = 0.0328;\nIx = 86.53;\nIy = 1247;\nIz = 1247;\n\nXu = -85.57;\nYv = -1092.9;\nYr = -84.1448;\nZw = -1092.9;\nZq = 84.1448;\nMq = -795.1686;\nNr = -795.1686;\n    \nM = [m-Xu   0       0       0       m*zg    -m*yg;\n     0      m-Yv    0       -m*zg   0       m*xg-Yr;\n     0      0       m-Zw    m*yg    -m*xg-Zq 0;\n     0      -m*zg   m*yg    Ix      0        0;\n     m*zg   0       -m*xg-Zq 0      Iy-Mq    0;\n     -m*yg  m*xg-Yr 0       0       0       Iz-Nr];\n        "
       MaskIconFrame	      on
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "[0 0 0 0 0 0]|[0 0 0 0 0 0]"
-      MaskTabNameString	      ","
+      MaskValueString	      "[0 0 0 0 0 0]|[0 0 0 0 0 0]|off|0|0"
+      MaskTabNameString	      ",,,,"
       System {
 	Name			"HUGIN 1000"
 	Location		[113, 278, 893, 807]
-	Open			off
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -965,8 +929,8 @@ Model {
 	  MaskTabNameString	  ","
 	  System {
 	    Name		    "6 DOF Eqs. of motion"
-	    Location		    [35, 266, 1187, 887]
-	    Open		    off
+	    Location		    [42, 244, 1194, 865]
+	    Open		    on
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
 	    ScreenColor		    "white"
@@ -1002,6 +966,35 @@ Model {
 	      IconDisplay	      "Port number"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Current Heading"
+	      Position		      [625, 438, 660, 472]
+	      Value		      "beta_c"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Current Velocity"
+	      Position		      [620, 493, 655, 527]
+	      Value		      "V_c"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Current on off"
+	      Position		      [975, 460, 1005, 490]
+	      Gain		      "c_on_off"
+	      ParameterDataTypeMode   "Inherit via internal rule"
+	      ParameterDataType	      "sfix(16)"
+	      ParameterScaling	      "2^0"
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^0"
+	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
 	      BlockType		      Reference
@@ -1086,21 +1079,6 @@ Model {
 		RTWStorageClass		"Auto"
 		DataLoggingNameMode	"SignalName"
 	      }
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Mass/Inertia matrix"
-	      Position		      [685, 438, 720, 472]
-	      Value		      "245"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Mass/Inertia matrix1"
-	      Position		      [685, 493, 720, 527]
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
 	    }
 	    Block {
 	      BlockType		      Mux
@@ -1462,22 +1440,28 @@ Model {
 	    Line {
 	      SrcBlock		      "North-East current"
 	      SrcPort		      1
-	      Points		      [80, 0]
-	      DstBlock		      "Sum"
-	      DstPort		      2
+	      DstBlock		      "Current on off"
+	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Mass/Inertia matrix"
+	      SrcBlock		      "Current Heading"
 	      SrcPort		      1
-	      Points		      [50, 0; 0, 5]
+	      Points		      [110, 0; 0, 5]
 	      DstBlock		      "North-East current"
 	      DstPort		      1
 	    }
 	    Line {
-	      SrcBlock		      "Mass/Inertia matrix1"
+	      SrcBlock		      "Current Velocity"
 	      SrcPort		      1
-	      Points		      [50, 0; 0, -20]
+	      Points		      [115, 0; 0, -20]
 	      DstBlock		      "North-East current"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Current on off"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      DstBlock		      "Sum"
 	      DstPort		      2
 	    }
 	  }
