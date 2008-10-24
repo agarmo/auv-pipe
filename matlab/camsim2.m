@@ -102,24 +102,27 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
 
     pipeline_inside = [];
     for i = 1:size(pipeline,1)
-        pipeline_b(i,:)= (inv(Rot)*pipeline(i,:)')';
-        if (pipeline_b(i,1) <= x_max) && (pipeline_b(i,1) >= x_min) %inside x direction
-            if (pipeline_b(i,2) <= y_max) && (pipeline_b(i, 2) >= y_min) %inside y direction
-    % 
-    %             x_max
-    %             x_min
-    %             y_max
-    %             y_min
-    %      
-                pipeline_inside = [pipeline_inside; (Rot*pipeline_b(i,:)')']; %#ok<AGROW>
+        if z <= 5
+            pipeline_b(i,:)= (inv(Rot)*pipeline(i,:)')';
+            if (pipeline_b(i,1) <= x_max) && (pipeline_b(i,1) >= x_min) %inside x direction
+                if (pipeline_b(i,2) <= y_max) && (pipeline_b(i, 2) >= y_min) %inside y direction
+                    %
+                    %                 x_max
+                    %                 x_min
+                    %                 y_max
+                    %                 y_min
+                    pipeline_inside = [pipeline_inside; (Rot*pipeline_b(i,:)')']; %#ok<AGROW>
 
-                %         disp('ingen punkter')
+                    %         disp('ingen punkter')
+                end
             end
+        else
+%             disp('for mÃ¸rkt');
         end
     end
 
     if isempty(pipeline_inside)
-    %     disp('ingen punkter i området');
+    %     disp('ingen punkter i omrï¿½det');
         P = zeros(6,1);
     else
         temp = size(pipeline_inside, 1);
@@ -137,6 +140,6 @@ else
         output = zeros(6,1);
         x = output;
     else
-    x = output; 
+        x = output; 
     end
 end

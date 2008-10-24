@@ -13,7 +13,8 @@ if isempty(last)
     last = 0;
 end
 
-r0 = 6; %circle of acceptance
+%r0 = 6; %circle of acceptance Too big!
+r0 = 2;
 
 eta = u(1:6);
 nu = u(7:12);

@@ -1,11 +1,14 @@
 clear all;
 close all;
 
-global Mass D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down bottom G L pipeline
+global Mass D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down G L pipeline WP
 
-North = [-10 -5 10];
-East = [-10 5 10];
-Down = [10 10 10];
+North = [10 15 100 300 400];
+East = [10 11 14 15 20];
+Down = [100 100 100 100 100];
+
+WP = [North;
+      East];
 
 %% interpolation of pipeline
 N = North;
@@ -13,18 +16,17 @@ E = East;
 D = Down;
 
 %interpolate the waypoints of the pipeline
-t_s = -10:0.1:10;
+t_s = 10:0.1:400;
 pipeline_xy = pchip(N, E, t_s);
-pipeline_xz = pchip(N, D, t_s);
+% pipeline_xz = pchip(N, D, t_s);
+pipeline_xz = 60.*ones(1,3901);
 temp2 = size(t_s');
 pipeline = [t_s', pipeline_xy', pipeline_xz'];
 
-
-
-bottom = 10;
+bottom = 4;
 
 focus = 1; % camera focus
-eta0 = [-10 -10 6 0 0 0]'; %initial position
+eta0 = [0 0 0 0 0 0]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
 % % kalman filter parameters
@@ -108,4 +110,59 @@ L = [zeros(2, 6);
 
 T = 1000*eye(6);
 
-%  sim auv_modell_camsim_kalman2
+sim los_test_with_camsim
+
+figure(1)
+plot(eta.signals.values(:,2), eta.signals.values(:,1))
+hold on
+plot(WP(2,:), WP(1,:), 'r*');
+plot(pipeline(:,2), pipeline(:,1), 'r--');
+
+% plot(eta_beta.signals.values(:,2), eta_beta.signals.values(:,1), 'r')
+
+legend('NE trajectory of AUV', 'LOS Guidance Waypoints', 'Pipeline Trajectory');
+title('NE position of AUV movement along waypoints with LOS guidance.');
+xlabel('East [m]');
+ylabel('North [m]')
+hold off
+% 
+
+figure(2)
+subplot(2, 1, 1)
+plot(Translation_ref.time, Translation_ref.signals(1,3).values)
+xlabel('Time [s]');
+ylabel('Down [m]');
+title('Depth of AUV versus Reference');
+legend('Depth Reference', 'AUV depth');
+grid on
+
+subplot(2,1, 2)
+plot(Attitude_ref.time, Attitude_ref.signals(1,3).values)
+xlabel('Time [s]');
+ylabel('Heading [degrees]');
+title('Heading reference versus Heading');
+legend('\psi_d', '\psi');
+grid on
+
+
+figure(3)
+plot3(eta.signals.values(:,2), eta.signals.values(:,1), -eta.signals.values(:,3));
+xlabel('East [m]');
+ylabel('North [m]');
+zlabel('Down [m]');
+grid on;
+hold on
+plot3(pipeline(:,2), pipeline(:,1), -pipeline(:,3), 'r--')
+% legend('AUV Trajectory', 'Pipeline Trajectory');
+hold off;
+
+figure(4)
+plot3(eta.signals.values(:,2), eta.signals.values(:,1), -eta.signals.values(:,3));
+xlabel('East [m]');
+ylabel('North [m]');
+zlabel('Down [m]');
+grid on;
+hold on
+plot3(Camsim_output(:,5), Camsim_output(:,4), -Translation_ref.signals(1,3).values(:,1)-bottom, 'r.')
+% legend('AUV Trajectory', 'Observed pipeline trajectory from camera');
+hold off;
