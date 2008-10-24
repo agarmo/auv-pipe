@@ -3,17 +3,17 @@
 %calculate the LOS angle.
 function psi = los_calc(u)
 
-%need a circle off acceptance
-
 global WP %global waypoint vector
-persistent current %current WP
+persistent current last %current WP
 
 if isempty(current)
     current = 1;
 end
+if isempty(last)
+    last = 0;
+end
 
-
-r0 = 10; %circle of acceptance
+r0 = 6; %circle of acceptance
 
 eta = u(1:6);
 nu = u(7:12);
@@ -26,21 +26,23 @@ if r <= r0^2
     if size(WP, 2) ~= current
         current = current +1
     else
+        last = 1;
         disp('last waypoint')
     end
 end
 
 %compute line of sight angle
+if last ~= 1
+   
+    psi_d = atan2(WP(2, current)-eta(2), WP(1, current)-eta(1));
+    
+    %calculate sideslip angle
+    beta = atan2(nu(2), nu(1));
 
-psi_d = atan2(WP(2, current)-eta(2), WP(1, current)-eta(1));
-
-%calculate sideslip angle
-beta = atan2(nu(2), nu(1));
-
-
-
-%actual heading command
-psi = psi_d - beta;
-
+    %actual heading command
+    psi = psi_d - beta;
+else
+    psi = 0;
+end
 
 end
