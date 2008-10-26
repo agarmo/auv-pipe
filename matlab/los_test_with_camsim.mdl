@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.17"
+    ComputedModelVersion    "1.35"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anders"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Oct 24 16:48:05 2008"
+  LastModifiedDate	  "Sun Oct 26 17:24:14 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:17>"
+  ModelVersionFormat	  "1.%<AutoIncrement:35>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -789,7 +789,7 @@ Model {
   }
   System {
     Name		    "los_test_with_camsim"
-    Location		    [334, 54, 1321, 607]
+    Location		    [468, 72, 1464, 625]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -842,7 +842,7 @@ Model {
       Position		      [930, 231, 960, 299]
       Floating		      off
       Location		      [112, 52, 436, 582]
-      Open		      on
+      Open		      off
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -850,8 +850,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-2~-9~-12.5"
-      YMax		      "2~1~5"
+      YMin		      "-0.8~-9~-3.5"
+      YMax		      "0.5~1~2"
       SaveName		      "ScopeData3"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -863,8 +863,8 @@ Model {
       Ports		      [3]
       Position		      [705, 76, 735, 144]
       Floating		      off
-      Location		      [1338, 52, 1675, 556]
-      Open		      on
+      Location		      [1336, 52, 1673, 556]
+      Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
       List {
@@ -873,8 +873,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-4~-50~-25"
-      YMax		      "4~10~125"
+      YMin		      "-1.5~-50~-40"
+      YMax		      "2~10~50"
       SaveToWorkspace	      on
       SaveName		      "Attitude_ref"
       DataFormat	      "StructureWithTime"
@@ -885,7 +885,7 @@ Model {
       BlockType		      SubSystem
       Name		      "CAMSim"
       Ports		      [3, 1]
-      Position		      [145, 429, 245, 471]
+      Position		      [125, 429, 225, 471]
       AncestorBlock	      "fordypningsprosjekt/CAMSim"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
@@ -1674,6 +1674,146 @@ Model {
       DisplayOption	      "bar"
     }
     Block {
+      BlockType		      SubSystem
+      Name		      "Embedded\nMATLAB Function"
+      Ports		      [3, 1]
+      Position		      [295, 431, 365, 479]
+      ForegroundColor	      "blue"
+      PermitHierarchicalResolution "ExplicitOnly"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      Array {
+	Type			"Handle"
+	Dimension		0
+	PropName		"AvailSigsLoadSave"
+      }
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskType		      "Stateflow"
+      MaskDescription	      "Embedded MATLAB block"
+      MaskDisplay	      "disp('fcn');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Embedded\nMATLAB Function"
+	Location		[257, 457, 812, 717]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "u"
+	  Position		  [20, 101, 40, 119]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "psi_d"
+	  Position		  [20, 136, 40, 154]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "eta"
+	  Position		  [20, 171, 40, 189]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  " Demux "
+	  Ports			  [1, 1]
+	  Position		  [270, 180, 320, 220]
+	  Outputs		  "1"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  " SFunction "
+	  Tag			  "Stateflow S-Function los_test_with_camsim 2"
+	  Ports			  [3, 2]
+	  Position		  [180, 100, 230, 180]
+	  FunctionName		  "sf_sfun"
+	  PortCounts		  "[3 2]"
+	  EnableBusSupport	  on
+	  Port {
+	    PortNumber		    2
+	    Name		    "y"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  " Terminator "
+	  Position		  [460, 191, 480, 209]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "y"
+	  Position		  [460, 101, 480, 119]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  " SFunction "
+	  SrcPort		  1
+	  DstBlock		  " Demux "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "u"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "psi_d"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "eta"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  3
+	}
+	Line {
+	  Name			  "y"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  2
+	  DstBlock		  "y"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " Demux "
+	  SrcPort		  1
+	  DstBlock		  " Terminator "
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
       BlockType		      Reference
       Name		      "HUGIN 1000"
       Ports		      [1, 3]
@@ -1692,14 +1832,14 @@ Model {
       eta_0		      "[0 0 0 0 0 0]"
       nu_0		      "[0 0 0 0 0 0]"
       c_on_off		      on
-      beta_c		      "45"
+      beta_c		      "-45"
       V_c		      "0.3"
     }
     Block {
       BlockType		      SubSystem
       Name		      "LOS"
       Ports		      [2, 1]
-      Position		      [115, 149, 215, 191]
+      Position		      [135, 284, 235, 326]
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -1709,7 +1849,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"LOS"
-	Location		[251, 387, 930, 740]
+	Location		[510, 442, 1189, 795]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1799,7 +1939,7 @@ Model {
       Position		      [880, 156, 910, 224]
       Floating		      off
       Location		      [1335, 541, 1675, 1025]
-      Open		      on
+      Open		      off
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -1807,8 +1947,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "0~-0.1~-0.1"
-      YMax		      "1.5~0.15~0.6"
+      YMin		      "0.2~-0.3~-0.1"
+      YMax		      "1.3~0.4~0.6"
       SaveName		      "ScopeData2"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -1863,14 +2003,14 @@ Model {
       Position		      [645, 254, 675, 286]
       Floating		      off
       Location		      [1050, 497, 1374, 1017]
-      Open		      on
+      Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-1750"
-      YMax		      "3000"
+      YMin		      "-7000"
+      YMax		      "7000"
       SaveName		      "ScopeData4"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -1891,8 +2031,8 @@ Model {
       Ports		      [3]
       Position		      [650, 16, 680, 84]
       Floating		      off
-      Location		      [6, 398, 330, 988]
-      Open		      on
+      Location		      [1327, 391, 1651, 981]
+      Open		      off
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -1900,8 +2040,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-10~-2.5~0"
-      YMax		      "70~12.5~60"
+      YMin		      "0~0~48"
+      YMax		      "250~35~57"
       SaveToWorkspace	      on
       SaveName		      "Translation_ref"
       DataFormat	      "StructureWithTime"
@@ -1953,18 +2093,17 @@ Model {
       BlockType		      Scope
       Name		      "points"
       Ports		      [1]
-      Position		      [295, 434, 325, 466]
+      Position		      [305, 374, 335, 406]
       Floating		      off
-      Location		      [586, 496, 1149, 969]
+      Location		      [18, 61, 456, 583]
       Open		      off
       NumInputPorts	      "1"
-      ZoomMode		      "xonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
       YMin		      "0"
-      YMax		      "110"
+      YMax		      "325"
       SaveToWorkspace	      on
       SaveName		      "Camsim_output"
       DataFormat	      "Array"
@@ -2006,16 +2145,23 @@ Model {
 	      DstPort		      4
 	    }
 	    Branch {
-	      Points		      [-265, 0]
+	      Points		      [-245, 0]
 	      Branch {
-		Points			[0, 160]
-		DstBlock		"CAMSim"
+		Points			[0, 20]
+		DstBlock		"LOS"
 		DstPort			1
 	      }
 	      Branch {
-		Points			[0, -115]
-		DstBlock		"LOS"
-		DstPort			1
+		Points			[0, 125]
+		Branch {
+		  DstBlock		  "CAMSim"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [125, 0; 0, 70]
+		  DstBlock		  "Embedded\nMATLAB Function"
+		  DstPort		  3
+		}
 	      }
 	    }
 	  }
@@ -2046,6 +2192,7 @@ Model {
 	Branch {
 	  Points		  [-260, 0]
 	  Branch {
+	    Points		    [0, 55]
 	    DstBlock		    "LOS"
 	    DstPort		    2
 	  }
@@ -2107,16 +2254,9 @@ Model {
     Line {
       SrcBlock		      "LOS"
       SrcPort		      1
-      Points		      [175, 0]
-      Branch {
-	DstBlock		"Crusing controller"
-	DstPort			1
-      }
-      Branch {
-	Points			[-20, 0; 0, -50]
-	DstBlock		"Mux"
-	DstPort			6
-      }
+      Points		      [10, 0; 0, 150]
+      DstBlock		      "Embedded\nMATLAB Function"
+      DstPort		      2
     }
     Line {
       SrcBlock		      "Mux"
@@ -2237,8 +2377,216 @@ Model {
     Line {
       SrcBlock		      "CAMSim"
       SrcPort		      1
-      DstBlock		      "points"
-      DstPort		      1
+      Points		      [35, 0]
+      Branch {
+	Points			[15, 0]
+	DstBlock		"Embedded\nMATLAB Function"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -60]
+	DstBlock		"points"
+	DstPort			1
+      }
     }
+    Line {
+      SrcBlock		      "Embedded\nMATLAB Function"
+      SrcPort		      1
+      Points		      [10, 0; 0, -285]
+      Branch {
+	DstBlock		"Crusing controller"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -50]
+	DstBlock		"Mux"
+	DstPort			6
+      }
+    }
+  }
+}
+# Finite State Machines
+#
+#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 22:47:12
+#
+#
+
+
+Stateflow {
+  machine {
+    id			    1
+    name		    "los_test_with_camsim"
+    created		    "24-Oct-2008 17:40:20"
+    isLibrary		    0
+    firstTarget		    11
+    sfVersion		    71014000.000003
+  }
+  chart {
+    id			    2
+    name		    "Embedded\nMATLAB Function"
+    windowPosition	    [375.75 203.25 200.25 189.75]
+    viewLimits		    [0 156.75 0 153.75]
+    screen		    [1 1 1680 1050 1.25]
+    treeNode		    [0 3 0 0]
+    firstTransition	    5
+    firstJunction	    4
+    viewObj		    2
+    machine		    1
+    toolbarMode		    LIBRARY_TOOLBAR
+    subviewS {
+    }
+    ssIdHighWaterMark	    7
+    decomposition	    CLUSTER_CHART
+    type		    EML_CHART
+    firstData		    6
+    chartFileNumber	    2
+    disableImplicitCasting  1
+    eml {
+      name		      "fcn"
+    }
+  }
+  state {
+    id			    3
+    labelString		    "eML_blk_kernel()"
+    position		    [18 64.5 118 66]
+    fontSize		    12
+    chart		    2
+    treeNode		    [2 0 0 0]
+    superState		    SUBCHART
+    subviewer		    2
+    ssIdNumber		    1
+    type		    FUNC_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
+      isEML		      1
+      script		      "function y = fcn(u, psi_d, eta)\n% This block supports the Embedded MATLAB subset.\n% See the help menu for details. \n\n\nxi1 = u(1);\nyi1 = u(2);\nxi2 = u(3);\nyi2 = u(4);\nxi3 = u(5);\nyi3 = u(6);\n\n\nif xi1 ~= 0 && yi1 ~= 0\n    y = atan2(yi3 - yi2, xi3 - xi2);\nelse\n    y = psi_d;\nend\n\n"
+      editorLayout	      "100 M4x1[85 83 945 656]"
+    }
+  }
+  junction {
+    id			    4
+    position		    [23.5747 49.5747 7]
+    chart		    2
+    linkNode		    [2 0 0]
+    subviewer		    2
+    ssIdNumber		    3
+    type		    CONNECTIVE_JUNCTION
+  }
+  transition {
+    id			    5
+    labelString		    "{eML_blk_kernel();}"
+    labelPosition	    [32.125 19.875 102.544 14.964]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 23.5747 14.625 0 0]
+    }
+    dst {
+      id		      4
+      intersection	      [7 0 -1 -1 23.5747 42.5747 0 0]
+    }
+    midPoint		    [23.5747 24.9468]
+    chart		    2
+    linkNode		    [2 0 0]
+    dataLimits		    [23.575 23.575 14.625 34.575]
+    subviewer		    2
+    drawStyle		    SMART
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  data {
+    id			    6
+    ssIdNumber		    4
+    name		    "u"
+    linkNode		    [2 0 7]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    7
+    ssIdNumber		    5
+    name		    "y"
+    linkNode		    [2 6 8]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    8
+    ssIdNumber		    6
+    name		    "psi_d"
+    linkNode		    [2 7 9]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    9
+    ssIdNumber		    7
+    name		    "eta"
+    linkNode		    [2 8 0]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  instance {
+    id			    10
+    name		    "Embedded\nMATLAB Function"
+    machine		    1
+    chart		    2
+  }
+  target {
+    id			    11
+    name		    "sfun"
+    description		    "Default Simulink S-Function Target."
+    machine		    1
+    linkNode		    [1 0 0]
   }
 }
