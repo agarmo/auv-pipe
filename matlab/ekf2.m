@@ -36,7 +36,7 @@ nu_dot = u(25:30);
 
 
 
-% ha to måle matriser, en når det er en pipeline å observere og en når det
+% ha to mï¿½le matriser, en nï¿½r det er en pipeline ï¿½ observere og en nï¿½r det
 % ikke er det.
 H = [eye(6) zeros(6, 12);
      zeros(6) eye(6) zeros(6)];
@@ -46,7 +46,7 @@ H = [eye(6) zeros(6, 12);
 %% Update estimate
  % problem med kalman gain, matrisen blir ikke inverterbar!
 K = P_apr*H'*inv(H*P_apr*H'+R); %compute Kalman gain
-x_post = x_apr + K*(u(1:12) - H*x_apr); %State estimate update %Må ha annen update når Pipeline ikke er tilgjengelig
+x_post = x_apr + K*(u(1:12) - H*x_apr); %State estimate update %Mï¿½ ha annen update nï¿½r Pipeline ikke er tilgjengelig
 P_post = (eye(18) - K*H)*P_apr*(eye(18) - K*H)' + K*R*K'; %Error covariance update
 
 phi = u(4);
@@ -96,7 +96,7 @@ L = [-focus/z, 0, p1x/z p1x*p1y/focus, -(p1x^2)/focus-focus, p1y;
 D_nl = D + (Xuu*abs(u(7))).*diag([1 0 0 0 0 0]); %nonlinear damping
 
 x(1:6) = x_post(1:6) + h.*(J*nu); %eta
-x(7:12) = x_post(7:12) + h.*(L*J*nu); %point speed
+x(7:12) = x_post(7:12) + h.*(L*nu); %point speed
 x(13:18) = x_post(13:18) + h.*(inv(T)*J*(-G + tau - D_nl*nu - Mass*nu_dot)); %bias
 
 x_apr = x'; %remember untill next time

@@ -99,7 +99,31 @@
 	
 	
 \section{Guidance system}
-	The guidance system on the \texit{HUGIN1000} AUV needs to be robust and tolerant to wind. The vessel will be operating in the vicinity of ocean currents and other unpredictable factors which have to be countered by the guidance system in a smart and robust way. 
+	The guidance system on the \textit{HUGIN1000} AUV needs to be robust and tolerant to disturbances. The vessel will be operating in the vicinity of ocean currents and other unpredictable factors which have to be countered by the guidance system in a smart and robust way.
+	
+	
+	
+	\subsection{Line-of-Sight Guidance Law with Current Compensation}
+		This is described in Section \ref{chap1-guidance-alg}. The LOS-angle is fed directly into the heading controller as a reference. When ocean currents and disturbances are present, a modified guidance law is presented. This uses the Side Slip angle, defined as:
+		\begin{equation}
+			\label{eq:chap2-sideslip}
+			\beta = \sin^{-1} ( \frac{v}{\sqrt{u^2 + v^2 + w^2}})
+		\end{equation}
+		an alternative defenition of the side slip angle:
+		\begin{equation*}
+			\beta = \tan^{-1} (\frac{v}{u})
+		\end{equation*}
+		The new heading reference is then taken as
+		\begin{equation}
+			\label{eq:chap2-los-law}
+			\psi_d = \psi_{LOS} - \beta
+		\end{equation}
+		Where $\psi_{LOS}$ is the LOS-angle from the current position to the next waypoint.
+		
+		The guidance law \eqref{eq:chap2-los-law} is used in the initial descent from the sea surface to the starting position on the pipeline and final ascent to the surface, and other long-distance guidance.
+		
+	\subsection{Cross-Track Error Controller}
+		The cross-track error is defined as the distance from the vessel to the Line-of-Sight line between two waypoints. This controller seeks to minimize this error. The idea behind this controller is that this should keep the AUV on top of the pipeline in the presence of current. 
 	
 	
 \section{Trajectory Generation}

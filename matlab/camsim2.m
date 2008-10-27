@@ -133,7 +133,9 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
              pipeline_inside(temp,1:2)'];
     end
 
-    output = P;
+    noise = 0.01.*randn(6,1);
+    
+    output = P + noise;
     x = P;
 else
     if isempty(output)

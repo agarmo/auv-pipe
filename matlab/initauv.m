@@ -1,7 +1,7 @@
 clear all;
 close all;
 
-global Mass D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down G L pipeline WP
+global Mass D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down G L pipeline WP bottom
 
 North = [10 15 100 300 400];
 East = [10 11 14 15 20];
@@ -41,8 +41,8 @@ nu0 = zeros(6,1); %initial velocity
 P0 = eye(18);
 h = 0.1; % sampling interval
 Q = diag([.1 .1 .01 .01 .01 .01 .1 .1 .1 .1 .1 .1]);
-% R = .01.*eye(12);
-R = diag([10 5 3 2 2 6 .1 .1 .1 .1 .1 .1]);
+R = .01.*eye(12);
+% R = diag([10 5 3 2 2 6 .1 .1 .1 .1 .1 .1]);
 
 
 
@@ -110,7 +110,7 @@ L = [zeros(2, 6);
 
 T = 1000*eye(6);
 
-sim los_test_with_camsim
+sim los_test_with_camsim_kalman
 
 figure(1)
 plot(eta.signals.values(:,2), eta.signals.values(:,1))

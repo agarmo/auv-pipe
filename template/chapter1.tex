@@ -44,6 +44,7 @@
 	<<<<<<<<<---------------------->>>>>>>>>>>>>>
 
 \section{Guidance Algorithms}
+	\label{chap1-guidance-alg}
 	The guidance algorithm is one of the most important part of an autonomous vehicles control system. It needs to be robust and be able to handle moast situations. A guidance system should be able to give feasible commands to the lower level control system which controls the actuators, and should be able to handle most situations with care. The guidance system should decide the best trajectory to be followed based on the target location and physical capabilities of the system.\cite{GuidanceReview}
 
 	Most of the guidance algorithms originates from airborne missile systems. This have been well documented and proven to work in numerous cases. Common guidance scheems such as Line-of-sight (LOS) and Proportional Navigation Guidance (PNG) and vareious implementations of these are employed in numerous guidance systems.
@@ -58,7 +59,7 @@
 
 	These laws does not work so well with maneuvering targets and lots of solutions have been proposed to make these laws more effective when dealing with moving targets. In this case the targets will be non-moving waypoints and the maneuvering laws will not be discussed here.
 	
-	
+
 
 
 \section{Kalman Filter}
@@ -67,5 +68,16 @@
 	The Kalman Filter is as stated befor a very versatile tool which can be employed allmost in any application. The downside with the Kalman filter is that it is a Linear system, and can only guarantee optimality for linear systems. The system considered in this report is nonlinear and one can not use the Kalman filter directly on this system. There is a nonlinear version of the Kalman filter, the Extended Kalman Filter, which uses the same assumptions as the linear version but uses the nonlinear model to predict the state forward. When updating the Covariance matrix the system equations are linearized around the current estimate and updated according to certain update laws. This introduces some significant problems. First the filter might converge towards wrong values, because of a non-positive-definite covariance matrix. This is mostly due to poor linearization of the state equations. \cite{kalman}
 	
 	
+\section{Different methods for pipeline following}
+	A literature study was performed to see what other people have acomplished on the subject on AUV and pipeline following. 
 	
+	\cite{GuidanceReview} proposes a 2-stage guidance problem. When submerging and ascending to the surface, the AUV uses a LOS guidance law at full speed. When the pipeline is aqcuired the guidacen law is switched to a visual guidance scheem, which allows for a precise guidance over the subsea cable or pipeline. 
+		
+	In \cite{MPC_pure_pursuit} a guidance system using Model Predictive Control (MPC) and PNG law was used to make a guidance system able to track cables and pipelines on the sea bed using Doppler Velocity Log and Electro-Magnetic sensors to find the cable/pipeline. The report utilizes the pure pursuit scheeme, similiar to what predadtors do when they are hunting the pray. The cable/pipeline and AUV is formulated as moving points with mass. The engages in a tail chase with the pipeline ``point``, but the AUV never catches up with it. This method is robust to model uncertanties and handles constraints of the vessel in a systematic way. The controller however shows problems when a current is introduced in the system. The AUV drifts of the pipeline, but catches up with the waypoints in the end.
+	
+	In \cite{Visual_inpsection_of_seabottom_by_AUV} a visual guidance system for inspection of undewater structures is presented. The visual system uses an Extended Kalman Filter to smooth and predict where the structure i.e. pipeline will move in the next sample interval of for the image processing software. A 3 dimentional model of the scene is constructed which then allows the guidance sytem to calculate an input to the controllers.
+	
+	\cite{reactive_control_AUV} proposes a reactive control approach to pipeline tracking together with a profiling sonar. Reactive control originated from the field of obstacle avoidance in autonomous land and air vehicles. It uses \textit{Deformed Virtual Zones} (DVZ) which describes the interaction between the AUV and the pipeline. The controller tries to minimize the defromation of the DVZ and calculates a feasible control input. The DVZ in this case is a prism with a cylidrical cavity directly underneth the AUV. If the AUV moves away from the pipeline the DVZ will be deformed and the controller will try to counteract the motion. This is a computational inexpensive way of achieving a good pipeline following. This method shows promising results but has yet to be implemented and tested in real-life scenarios. 
+	
+	In \cite{fuel_optimal_control} a fuel-optimal tracking controller is derived to minimalize the fuel consumption of the AUV. The controller minimizes the fuel consumption needed to reach the terminal position. 
 
