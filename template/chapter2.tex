@@ -79,6 +79,8 @@
 		\end{itemize}
 	This is called the flightmode controller, which is used for normal pipeline tracking, descent and ascent. 
 	
+	A fine-positioning controller is used to position the AUV on top of the pipeline and keep it there regadless of ocean currents. This is to provide good pictures for the pipeline inspection mission.
+	
 	The \textit{HUGIN 1000} is a sleender-body type AUV. The coupling effects in in the surge and sway can be neglected, and therfor decoupled. This means that one can create two subsystems from the AUV model: The \textit{surge} subsystem, and the \textit{sway-yaw} subsystem. 
 	
 	TODO: Lage en figur som viser hvordan kontrollsystemet er bygget opp.
@@ -98,6 +100,11 @@
 	\subsection{Heading Controller}
 	
 	
+	\subsection{Over-Pipeline Tracking Controller}
+		When the AUV is over the pipeline the need to keep the AUV on top of the pipeline to get deecent pictures for the pipeline inspection, presents itself. To solve this problem a second controller have been created just for this purpose. Since the vessel is controllable in 5 DOF the ability to create a good controller for this purpose is good. 
+		
+		The controller uses input form the camera to get the position of the AUV relative to the pipeline and give a suitable input to the controller.
+		
 \section{Guidance system}
 	The guidance system on the \textit{HUGIN1000} AUV needs to be robust and tolerant to disturbances. The vessel will be operating in the vicinity of ocean currents and other unpredictable factors which have to be countered by the guidance system in a smart and robust way.
 	
@@ -123,9 +130,13 @@
 		The guidance law \eqref{eq:chap2-los-law} is used in the initial descent from the sea surface to the starting position on the pipeline and final ascent to the surface, and other long-distance guidance.
 		
 	\subsection{Cross-Track Error Controller}
-		The cross-track error is defined as the distance from the vessel to the Line-of-Sight line between two waypoints. This controller seeks to minimize this error. The idea behind this controller is that this should keep the AUV on top of the pipeline in the presence of current. 
-	
+		The cross-track error is defined as the distance from the vessel to the Line-of-Sight line between two waypoints. This controller seeks to minimize this error. The idea behind this controller is that this should keep the AUV on top of the pipeline in the presence of current.
+		
+		TODO: Derive the Cross-track error guidance law. \cite{cross-track}
+		
+		
+		
 	
 \section{Trajectory Generation}
-
+	Do I need trajectory generation? 	
 	
