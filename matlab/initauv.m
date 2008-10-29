@@ -111,10 +111,5 @@ L = [zeros(2, 6);
 
 T = 1000*eye(6);
 
-<<<<<<< .mine
-sim cross_track
-=======
-sim los_test_with_camsim_kalman
->>>>>>> .r62
+sim pipeline_controller
 
-plots

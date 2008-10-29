@@ -46,6 +46,6 @@ else
     psi = 0;
 end
 
-y = [psi; beta];
+y = [psi];
 
 end
