@@ -4,6 +4,8 @@ plot(eta.signals.values(:,2), eta.signals.values(:,1))
 hold on
 plot(WP(2,:), WP(1,:), 'r*');
 plot(pipeline(:,2), pipeline(:,1), 'r--');
+% plot(Camsim_output(:,5), Camsim_output(:,4), 'b*');
+
 
 % plot(eta_beta.signals.values(:,2), eta_beta.signals.values(:,1), 'r')
 
@@ -11,6 +13,7 @@ legend('NE trajectory of AUV', 'LOS Guidance Waypoints', 'Pipeline Trajectory');
 title('NE position of AUV movement along waypoints with LOS guidance.');
 xlabel('East [m]');
 ylabel('North [m]')
+
 hold off
 % 
 
@@ -24,11 +27,11 @@ legend('Depth Reference', 'AUV depth');
 grid on
 
 subplot(2,1, 2)
-plot(Attitude_ref.time, Attitude_ref.signals(1,3).values)
+plot(Attitude_ref.time, Attitude_ref.signals(1,3).values, Attitude_ref.time, (Attitude_ref.signals(1,3).values(:,2)+(180/pi).*atan2(Lin_veloc.signals(1,2).values(:,2), sqrt(Lin_veloc.signals(1,2).values(:,2).^2 + Lin_veloc.signals(1,1).values(:,2).^2))))
 xlabel('Time [s]');
 ylabel('Heading [degrees]');
 title('Heading reference versus Heading');
-legend('\psi_d', '\psi');
+legend('\psi_d', '\psi', '\beta');
 grid on
 
 

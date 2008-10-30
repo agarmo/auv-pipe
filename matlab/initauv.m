@@ -1,7 +1,7 @@
 clear all;
 close all;
 
-global Mass D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down G L pipeline WP bottom
+global Mass D T eta0 nu0 P0 h Q R focus zg W Xuu North East Down G pipeline WP bottom
 
 North = [10 15 100 300 400];
 East = [10 11 14 15 20];
@@ -21,7 +21,11 @@ pipeline_xz = 60.*ones(1,3901);
 temp2 = size(t_s');
 pipeline = [t_s', pipeline_xy', pipeline_xz'];
 
-WP = [pipeline(1,1:2)' pipeline(100,1:2)' pipeline(200,1:2)' pipeline(300,1:2)' pipeline(500,1:2)' pipeline(600,1:2)' pipeline(700,1:2)' pipeline(1000,1:2)' [300 15]' [400 20]'];
+WP = [];
+
+for i = 1:200:size(pipeline, 1)
+    WP = [WP pipeline(i, 1:2)'];
+end
 
 bottom = 4;
 
@@ -96,20 +100,12 @@ Mass = [m-Xu   0       0       0       m*zg    -m*yg;
 
 G = [zeros(3, 6);
      zeros(3) diag([-zg*W -zg*W 0])];
-
-z = 10-7;
-     
-L = [zeros(2, 6);
-     0 0 1/z -10 0 0;
-     0 0 0 2/focus*(-10) 0 0;
-     0 0 0 0 -2/focus*(-10) 1;
-     0 0 0 0 10/focus 0];
-     
      
      
 %bias parameter
 
 T = 1000*eye(6);
 
-sim pipeline_controller
+sim los_test_with_camsim
+plots
 

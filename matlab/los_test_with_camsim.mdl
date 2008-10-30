@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.35"
+    ComputedModelVersion    "1.73"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -43,11 +43,11 @@ Model {
   Creator		  "anderga"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "anders"
+  LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Oct 26 17:24:14 2008"
+  LastModifiedDate	  "Thu Oct 30 20:44:10 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:35>"
+  ModelVersionFormat	  "1.%<AutoIncrement:73>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -106,7 +106,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.4.0"
 	  StartTime		  "0.0"
-	  StopTime		  "500"
+	  StopTime		  "700"
 	  AbsTol		  "auto"
 	  FixedStep		  "0.1"
 	  InitialStep		  "auto"
@@ -789,7 +789,7 @@ Model {
   }
   System {
     Name		    "los_test_with_camsim"
-    Location		    [468, 72, 1464, 625]
+    Location		    [93, 98, 1089, 651]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -839,31 +839,9 @@ Model {
       BlockType		      Scope
       Name		      "Angular Velocity"
       Ports		      [3]
-      Position		      [930, 231, 960, 299]
+      Position		      [920, 216, 950, 284]
       Floating		      off
-      Location		      [112, 52, 436, 582]
-      Open		      off
-      NumInputPorts	      "3"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-	axes2			"%<SignalLabel>"
-	axes3			"%<SignalLabel>"
-      }
-      YMin		      "-0.8~-9~-3.5"
-      YMax		      "0.5~1~2"
-      SaveName		      "ScopeData3"
-      DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "Attitude"
-      Ports		      [3]
-      Position		      [705, 76, 735, 144]
-      Floating		      off
-      Location		      [1336, 52, 1673, 556]
+      Location		      [393, 163, 717, 693]
       Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
@@ -873,8 +851,31 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-1.5~-50~-40"
-      YMax		      "2~10~50"
+      YMin		      "-5~0~-40"
+      YMax		      "5~0.3~40"
+      SaveName		      "ScopeData3"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Attitude"
+      Ports		      [3]
+      Position		      [710, 76, 740, 144]
+      Floating		      off
+      Location		      [920, 478, 1257, 982]
+      Open		      off
+      NumInputPorts	      "3"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+	axes2			"%<SignalLabel>"
+	axes3			"%<SignalLabel>"
+      }
+      YMin		      "-10~-60~-125"
+      YMax		      "2~5~50"
       SaveToWorkspace	      on
       SaveName		      "Attitude_ref"
       DataFormat	      "StructureWithTime"
@@ -1641,10 +1642,27 @@ Model {
       }
     }
     Block {
+      BlockType		      Clock
+      Name		      "Clock"
+      Position		      [165, 503, 245, 527]
+      DisplayTime	      on
+      Decimation	      "1"
+    }
+    Block {
       BlockType		      Reference
       Name		      "Crusing controller"
       Ports		      [6, 1]
-      Position		      [400, 162, 455, 253]
+      Position		      [410, 162, 465, 253]
+      LinkData {
+	BlockName		"course control/Gain2"
+	DialogParameters {
+	  Gain			  "5"
+	}
+	BlockName		"depth/Gain2"
+	DialogParameters {
+	  Gain			  "-2"
+	}
+      }
       SourceBlock	      "fordypningsprosjekt/Crusing controller"
       SourceType	      ""
       ShowPortLabels	      "FromPortIcon"
@@ -1657,11 +1675,11 @@ Model {
       RTWMemSecDataParameters "Inherit from model"
       Kp_u		      "10"
       Ki_u		      "3"
-      Kp_c		      "600"
-      Kd_c		      "200"
-      Kp_d		      "10"
-      Kp2_d		      "3"
-      Kd_d		      "4"
+      Kp_c		      "300"
+      Kd_c		      "150"
+      Kp_d		      "50"
+      Kp2_d		      "20"
+      Kd_d		      "20"
     }
     Block {
       BlockType		      Demux
@@ -1676,8 +1694,8 @@ Model {
     Block {
       BlockType		      SubSystem
       Name		      "Embedded\nMATLAB Function"
-      Ports		      [3, 1]
-      Position		      [295, 431, 365, 479]
+      Ports		      [5, 1]
+      Position		      [300, 431, 370, 479]
       ForegroundColor	      "blue"
       PermitHierarchicalResolution "ExplicitOnly"
       MinAlgLoopOccurrences   off
@@ -1738,20 +1756,34 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Block {
+	  BlockType		  Inport
+	  Name			  "nu"
+	  Position		  [20, 206, 40, 224]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "t"
+	  Position		  [20, 246, 40, 264]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
 	  BlockType		  Demux
 	  Name			  " Demux "
 	  Ports			  [1, 1]
-	  Position		  [270, 180, 320, 220]
+	  Position		  [270, 220, 320, 260]
 	  Outputs		  "1"
 	}
 	Block {
 	  BlockType		  "S-Function"
 	  Name			  " SFunction "
 	  Tag			  "Stateflow S-Function los_test_with_camsim 2"
-	  Ports			  [3, 2]
-	  Position		  [180, 100, 230, 180]
+	  Ports			  [5, 2]
+	  Position		  [180, 100, 230, 220]
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[3 2]"
+	  PortCounts		  "[5 2]"
 	  EnableBusSupport	  on
 	  Port {
 	    PortNumber		    2
@@ -1763,7 +1795,7 @@ Model {
 	Block {
 	  BlockType		  Terminator
 	  Name			  " Terminator "
-	  Position		  [460, 191, 480, 209]
+	  Position		  [460, 231, 480, 249]
 	}
 	Block {
 	  BlockType		  Outport
@@ -1798,6 +1830,18 @@ Model {
 	  DstPort		  3
 	}
 	Line {
+	  SrcBlock		  "nu"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "t"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  5
+	}
+	Line {
 	  Name			  "y"
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
@@ -1817,7 +1861,7 @@ Model {
       BlockType		      Reference
       Name		      "HUGIN 1000"
       Ports		      [1, 3]
-      Position		      [525, 171, 640, 249]
+      Position		      [510, 171, 625, 249]
       BackgroundColor	      "orange"
       SourceBlock	      "fordypningsprosjekt/HUGIN 1000"
       SourceType	      "HUGIN 1000 AUV"
@@ -1832,14 +1876,14 @@ Model {
       eta_0		      "[0 0 0 0 0 0]"
       nu_0		      "[0 0 0 0 0 0]"
       c_on_off		      on
-      beta_c		      "-45"
-      V_c		      "0.3"
+      beta_c		      "-30"
+      V_c		      ".5"
     }
     Block {
       BlockType		      SubSystem
       Name		      "LOS"
       Ports		      [2, 1]
-      Position		      [135, 284, 235, 326]
+      Position		      [130, 294, 230, 336]
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -1849,7 +1893,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"LOS"
-	Location		[510, 442, 1189, 795]
+	Location		[312, 113, 991, 466]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1938,7 +1982,7 @@ Model {
       Ports		      [3]
       Position		      [880, 156, 910, 224]
       Floating		      off
-      Location		      [1335, 541, 1675, 1025]
+      Location		      [744, 146, 1084, 630]
       Open		      off
       NumInputPorts	      "3"
       List {
@@ -1947,9 +1991,10 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "0.2~-0.3~-0.1"
-      YMax		      "1.3~0.4~0.6"
-      SaveName		      "ScopeData2"
+      YMin		      "1~-0.0004~0"
+      YMax		      "1.00175~0.001~0.0275"
+      SaveToWorkspace	      on
+      SaveName		      "Lin_veloc"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
       SampleTime	      "0"
@@ -1975,7 +2020,7 @@ Model {
     Block {
       BlockType		      Constant
       Name		      "Speed_ref"
-      Position		      [285, 205, 315, 235]
+      Position		      [270, 205, 300, 235]
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
     }
@@ -2002,15 +2047,15 @@ Model {
       Ports		      [1]
       Position		      [645, 254, 675, 286]
       Floating		      off
-      Location		      [1050, 497, 1374, 1017]
+      Location		      [716, 359, 1040, 879]
       Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-7000"
-      YMax		      "7000"
+      YMin		      "-200"
+      YMax		      "100"
       SaveName		      "ScopeData4"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -2031,7 +2076,7 @@ Model {
       Ports		      [3]
       Position		      [650, 16, 680, 84]
       Floating		      off
-      Location		      [1327, 391, 1651, 981]
+      Location		      [940, 50, 1264, 640]
       Open		      off
       NumInputPorts	      "3"
       List {
@@ -2040,8 +2085,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "0~0~48"
-      YMax		      "250~35~57"
+      YMin		      "-25~0~0"
+      YMax		      "275~17.5~60"
       SaveToWorkspace	      on
       SaveName		      "Translation_ref"
       DataFormat	      "StructureWithTime"
@@ -2063,10 +2108,10 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      xmin		      "-1000"
-      xmax		      "1000"
-      ymin		      "-1000"
-      ymax		      "1000"
+      xmin		      "-100"
+      xmax		      "100"
+      ymin		      "-100"
+      ymax		      "500"
       st		      "-1"
     }
     Block {
@@ -2095,15 +2140,17 @@ Model {
       Ports		      [1]
       Position		      [305, 374, 335, 406]
       Floating		      off
-      Location		      [18, 61, 456, 583]
+      Location		      [15, 57, 453, 579]
       Open		      off
       NumInputPorts	      "1"
+      ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
+      TimeRange		      "500"
       YMin		      "0"
-      YMax		      "325"
+      YMax		      "425"
       SaveToWorkspace	      on
       SaveName		      "Camsim_output"
       DataFormat	      "Array"
@@ -2113,7 +2160,7 @@ Model {
     Line {
       SrcBlock		      "Crusing controller"
       SrcPort		      1
-      Points		      [25, 0]
+      Points		      [15, 0]
       Branch {
 	DstBlock		"HUGIN 1000"
 	DstPort			1
@@ -2127,9 +2174,9 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      1
-      Points		      [20, 0]
+      Points		      [35, 0]
       Branch {
-	Points			[0, -20; -170, 0]
+	Points			[0, -25; -170, 0]
 	DstBlock		"6DOF Plot"
 	DstPort			2
       }
@@ -2147,7 +2194,7 @@ Model {
 	    Branch {
 	      Points		      [-245, 0]
 	      Branch {
-		Points			[0, 20]
+		Points			[5, 0]
 		DstBlock		"LOS"
 		DstPort			1
 	      }
@@ -2158,7 +2205,7 @@ Model {
 		  DstPort		  1
 		}
 		Branch {
-		  Points		  [125, 0; 0, 70]
+		  Points		  [125, 0; 0, 55]
 		  DstBlock		  "Embedded\nMATLAB Function"
 		  DstPort		  3
 		}
@@ -2181,7 +2228,7 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      2
-      Points		      [55, 0; 0, 60]
+      Points		      [70, 0; 0, 60]
       Branch {
 	Points			[0, 45; -340, 0; 0, -55]
 	Branch {
@@ -2190,16 +2237,24 @@ Model {
 	  DstPort		  5
 	}
 	Branch {
-	  Points		  [-260, 0]
+	  Points		  [-80, 0]
 	  Branch {
-	    Points		    [0, 55]
-	    DstBlock		    "LOS"
-	    DstPort		    2
+	    Points		    [-180, 0]
+	    Branch {
+	      Points		      [0, 65]
+	      DstBlock		      "LOS"
+	      DstPort		      2
+	    }
+	    Branch {
+	      Points		      [0, 190]
+	      DstBlock		      "CAMSim"
+	      DstPort		      2
+	    }
 	  }
 	  Branch {
-	    Points		    [0, 190]
-	    DstBlock		    "CAMSim"
-	    DstPort		    2
+	    Points		    [0, 205]
+	    DstBlock		    "Embedded\nMATLAB Function"
+	    DstPort		    4
 	  }
 	}
       }
@@ -2211,7 +2266,7 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      3
-      Points		      [45, 0; 0, 70; -325, 0; 0, -60]
+      Points		      [60, 0; 0, 70; -325, 0; 0, -60]
       DstBlock		      "Crusing controller"
       DstPort		      6
     }
@@ -2240,7 +2295,7 @@ Model {
     Line {
       SrcBlock		      "Speed_ref"
       SrcPort		      1
-      Points		      [0, -20; 20, 0]
+      Points		      [0, -20; 35, 0]
       Branch {
 	DstBlock		"Crusing controller"
 	DstPort			3
@@ -2250,13 +2305,6 @@ Model {
 	DstBlock		"Mux1"
 	DstPort			1
       }
-    }
-    Line {
-      SrcBlock		      "LOS"
-      SrcPort		      1
-      Points		      [10, 0; 0, 150]
-      DstBlock		      "Embedded\nMATLAB Function"
-      DstPort		      2
     }
     Line {
       SrcBlock		      "Mux"
@@ -2332,18 +2380,21 @@ Model {
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      4
+      Points		      [60, 0]
       DstBlock		      "Angular Velocity"
       DstPort		      1
     }
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      5
+      Points		      [60, 0]
       DstBlock		      "Angular Velocity"
       DstPort		      2
     }
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      6
+      Points		      [60, 0]
       DstBlock		      "Angular Velocity"
       DstPort		      3
     }
@@ -2375,24 +2426,9 @@ Model {
       DstPort		      2
     }
     Line {
-      SrcBlock		      "CAMSim"
-      SrcPort		      1
-      Points		      [35, 0]
-      Branch {
-	Points			[15, 0]
-	DstBlock		"Embedded\nMATLAB Function"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, -60]
-	DstBlock		"points"
-	DstPort			1
-      }
-    }
-    Line {
       SrcBlock		      "Embedded\nMATLAB Function"
       SrcPort		      1
-      Points		      [10, 0; 0, -285]
+      Points		      [0, -285]
       Branch {
 	DstBlock		"Crusing controller"
 	DstPort			1
@@ -2403,11 +2439,40 @@ Model {
 	DstPort			6
       }
     }
+    Line {
+      SrcBlock		      "LOS"
+      SrcPort		      1
+      Points		      [15, 0; 0, 130]
+      DstBlock		      "Embedded\nMATLAB Function"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "CAMSim"
+      SrcPort		      1
+      Points		      [35, 0; 0, -5]
+      Branch {
+	Points			[0, -10]
+	DstBlock		"Embedded\nMATLAB Function"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -55]
+	DstBlock		"points"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Clock"
+      SrcPort		      1
+      Points		      [35, 0]
+      DstBlock		      "Embedded\nMATLAB Function"
+      DstPort		      5
+    }
   }
 }
 # Finite State Machines
 #
-#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 22:47:12
+#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 21:38:28
 #
 #
 
@@ -2418,7 +2483,7 @@ Stateflow {
     name		    "los_test_with_camsim"
     created		    "24-Oct-2008 17:40:20"
     isLibrary		    0
-    firstTarget		    11
+    firstTarget		    13
     sfVersion		    71014000.000003
   }
   chart {
@@ -2433,9 +2498,7 @@ Stateflow {
     viewObj		    2
     machine		    1
     toolbarMode		    LIBRARY_TOOLBAR
-    subviewS {
-    }
-    ssIdHighWaterMark	    7
+    ssIdHighWaterMark	    9
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
     firstData		    6
@@ -2459,8 +2522,8 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function y = fcn(u, psi_d, eta)\n% This block supports the Embedded MATLAB subset.\n% See the help menu for details. \n\n\nxi1 = u(1);\nyi1 = u(2);\nxi2 = u(3);\nyi2 = u(4);\nxi3 = u(5);\nyi3 = u(6);\n\n\nif xi1 ~= 0 && yi1 ~= 0\n    y = atan2(yi3 - yi2, xi3 - xi2);\nelse\n    y = psi_d;\nend\n\n"
-      editorLayout	      "100 M4x1[85 83 945 656]"
+      script		      "function y = fcn(u, psi_d, eta , nu ,t)\n% This block supports the Embedded MATLAB subset.\n% See the help menu for details. \n\npersistent temp\n\nif isempty(temp)\n    temp = 0;\nend\n\nxi1 = u(1);\nyi1 = u(2);\nxi2 = u(3);\nyi2 = u(4);\nxi3 = u(5);\nyi3 = u(6);\n\nbeta = atan2(nu(2), sqrt(nu(1)^2 + nu(2)^2));\n\nif mod(t, 1) == 0\n    if yi1 ~= 0 && xi1 ~= 0\n        \n        if xi1 >= eta(1)\n            temp = atan2((yi1 - eta(2)),(xi1 - eta(1))) + beta;\n        else\n            temp = atan2((yi3 - eta(2)), (xi3-eta(1))) + beta;\n        end\n     else\n         temp = psi_d;  \n    end   \nend\n    \ny = temp;"
+      editorLayout	      "100 M4x1[175 135 720 621]"
     }
   }
   junction {
@@ -2558,7 +2621,51 @@ Stateflow {
     id			    9
     ssIdNumber		    7
     name		    "eta"
-    linkNode		    [2 8 0]
+    linkNode		    [2 8 10]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    10
+    ssIdNumber		    9
+    name		    "nu"
+    linkNode		    [2 9 11]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    11
+    ssIdNumber		    8
+    name		    "t"
+    linkNode		    [2 10 0]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2577,13 +2684,13 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   instance {
-    id			    10
+    id			    12
     name		    "Embedded\nMATLAB Function"
     machine		    1
     chart		    2
   }
   target {
-    id			    11
+    id			    13
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1

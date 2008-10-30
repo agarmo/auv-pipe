@@ -14,7 +14,7 @@ if isempty(last)
 end
 
 %r0 = 6; %circle of acceptance Too big!
-r0 = 2;
+r0 = 4;
 
 eta = u(1:6);
 nu = u(7:12);
@@ -41,11 +41,11 @@ if last ~= 1
     beta = atan2(nu(2), nu(1));
 
     %actual heading command
-    psi = psi_d - beta;
+    psi = psi_d + beta;
 else
     psi = 0;
 end
 
-y = [psi];
+y = psi;
 
 end

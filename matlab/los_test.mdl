@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.11"
+    ComputedModelVersion    "1.14"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -43,11 +43,11 @@ Model {
   Creator		  "anderga"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "anders"
+  LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Oct 23 23:36:27 2008"
+  LastModifiedDate	  "Thu Oct 30 16:17:03 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:11>"
+  ModelVersionFormat	  "1.%<AutoIncrement:14>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -108,7 +108,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "1500"
 	  AbsTol		  "auto"
-	  FixedStep		  "auto"
+	  FixedStep		  "0.1"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -122,8 +122,8 @@ Model {
 	  MaxConsecutiveMinStep	  "1"
 	  RelTol		  "1e-3"
 	  SolverMode		  "Auto"
-	  Solver		  "ode45"
-	  SolverName		  "ode45"
+	  Solver		  "ode4"
+	  SolverName		  "ode4"
 	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
 	  ZeroCrossAlgorithm	  "Non-adaptive"
@@ -785,7 +785,7 @@ Model {
   }
   System {
     Name		    "los_test"
-    Location		    [362, 60, 1349, 613]
+    Location		    [206, 252, 1193, 805]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -837,8 +837,8 @@ Model {
       Ports		      [3]
       Position		      [930, 231, 960, 299]
       Floating		      off
-      Location		      [311, 497, 635, 1027]
-      Open		      on
+      Location		      [311, 488, 635, 1018]
+      Open		      off
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -846,8 +846,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-3.5~-4.5~-40"
-      YMax		      "0.5~0.5~5"
+      YMin		      "-3~0~-25"
+      YMax		      "3~0.125~25"
       SaveName		      "ScopeData3"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -859,8 +859,8 @@ Model {
       Ports		      [3]
       Position		      [705, 76, 735, 144]
       Floating		      off
-      Location		      [1338, 52, 1675, 556]
-      Open		      on
+      Location		      [911, 58, 1248, 562]
+      Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
       List {
@@ -869,9 +869,10 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-1.5~-30~-75"
-      YMax		      "0.75~5~125"
-      SaveName		      "ScopeData1"
+      YMin		      "-1~-45~-40"
+      YMax		      "1.25~5~40"
+      SaveToWorkspace	      on
+      SaveName		      "Attitude_ref"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
       SampleTime	      "0"
@@ -895,7 +896,7 @@ Model {
       Ki_u		      "3"
       Kp_c		      "400"
       Kd_c		      "200"
-      Kp_d		      "5"
+      Kp_d		      "10"
       Kp2_d		      "3"
       Kd_d		      "4"
     }
@@ -925,7 +926,7 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      eta_0		      "[0 0 0 0 0 0]"
+      eta_0		      "[-100 -100 40 0 0 0]"
       nu_0		      "[0 0 0 0 0 0]"
       c_on_off		      on
       beta_c		      "45"
@@ -1034,7 +1035,7 @@ Model {
       Ports		      [3]
       Position		      [880, 156, 910, 224]
       Floating		      off
-      Location		      [1335, 541, 1675, 1025]
+      Location		      [935, 505, 1275, 989]
       Open		      on
       NumInputPorts	      "3"
       List {
@@ -1043,8 +1044,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "0~-0.8~-0.05"
-      YMax		      "1.75~0.3~0.3"
+      YMin		      "0.7~-0.8~0"
+      YMax		      "1.9~0.5~0.1"
       SaveName		      "ScopeData2"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -1081,15 +1082,15 @@ Model {
       Ports		      [1]
       Position		      [645, 254, 675, 286]
       Floating		      off
-      Location		      [1050, 576, 1374, 1017]
-      Open		      on
+      Location		      [951, 576, 1275, 1017]
+      Open		      off
       NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-2750"
-      YMax		      "500"
+      YMin		      "-5000"
+      YMax		      "4500"
       SaveName		      "ScopeData4"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -1110,7 +1111,7 @@ Model {
       Ports		      [3]
       Position		      [650, 16, 680, 84]
       Floating		      off
-      Location		      [14, 285, 338, 875]
+      Location		      [26, 295, 350, 885]
       Open		      on
       NumInputPorts	      "3"
       List {
@@ -1119,10 +1120,11 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "0~-150~0"
-      YMax		      "1750~300~70"
-      SaveName		      "Translation"
-      DataFormat	      "Array"
+      YMin		      "0~0~44.1"
+      YMax		      "450~12~45.2"
+      SaveToWorkspace	      on
+      SaveName		      "Translation_ref"
+      DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
       SampleTime	      "0"
     }

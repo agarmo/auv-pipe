@@ -135,7 +135,7 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
 
     noise = 0.01.*randn(6,1);
     
-    output = P% + noise;
+    output = P;% + noise;
     x = P;
 else
     if isempty(output)
