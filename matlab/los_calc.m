@@ -14,7 +14,7 @@ if isempty(last)
 end
 
 %r0 = 6; %circle of acceptance Too big!
-r0 = 4;
+r0 = 2;
 
 eta = u(1:6);
 nu = u(7:12);
