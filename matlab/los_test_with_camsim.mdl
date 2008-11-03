@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.75"
+    ComputedModelVersion    "1.76"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Oct 31 13:05:05 2008"
+  LastModifiedDate	  "Fri Oct 31 15:24:56 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:75>"
+  ModelVersionFormat	  "1.%<AutoIncrement:76>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -750,6 +750,22 @@ Model {
       FramePeriod	      "inf"
     }
     Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+    }
+    Block {
       BlockType		      Sin
       SineType		      "Time based"
       TimeSource	      "Use simulation time"
@@ -789,7 +805,7 @@ Model {
   }
   System {
     Name		    "los_test_with_camsim"
-    Location		    [59, 139, 1055, 692]
+    Location		    [61, 332, 1057, 885]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -864,8 +880,8 @@ Model {
       Ports		      [3]
       Position		      [710, 76, 740, 144]
       Floating		      off
-      Location		      [934, 469, 1271, 973]
-      Open		      on
+      Location		      [816, 91, 1271, 595]
+      Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
       List {
@@ -874,8 +890,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-11~-60~-200"
-      YMax		      "2~5~200"
+      YMin		      "-30~-10~-200"
+      YMax		      "30~60~250"
       SaveToWorkspace	      on
       SaveName		      "Attitude_ref"
       DataFormat	      "StructureWithTime"
@@ -1678,8 +1694,8 @@ Model {
       MaskTabNameString	      ",,,,,,"
       System {
 	Name			"Crusing controller"
-	Location		[42, 169, 1161, 861]
-	Open			off
+	Location		[41, 125, 1164, 869]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1787,7 +1803,7 @@ Model {
 	  MaskHideContents	  off
 	  System {
 	    Name		    "course control"
-	    Location		    [395, 481, 1141, 873]
+	    Location		    [285, 461, 1031, 853]
 	    Open		    off
 	    ModelBrowserVisibility  off
 	    ModelBrowserWidth	    200
@@ -2690,7 +2706,7 @@ Model {
       BlockType		      Reference
       Name		      "HUGIN 1000"
       Ports		      [1, 3]
-      Position		      [510, 171, 625, 249]
+      Position		      [540, 171, 655, 249]
       BackgroundColor	      "orange"
       SourceBlock	      "fordypningsprosjekt/HUGIN 1000"
       SourceType	      "HUGIN 1000 AUV"
@@ -2706,7 +2722,7 @@ Model {
       nu_0		      "[0 0 0 0 0 0]"
       c_on_off		      on
       beta_c		      "60"
-      V_c		      "1"
+      V_c		      "0.5"
     }
     Block {
       BlockType		      SubSystem
@@ -2811,8 +2827,8 @@ Model {
       Ports		      [3]
       Position		      [880, 156, 910, 224]
       Floating		      off
-      Location		      [744, 146, 1084, 630]
-      Open		      on
+      Location		      [580, 96, 920, 580]
+      Open		      off
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -2820,8 +2836,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "0.5~-0.15~-0.1"
-      YMax		      "1.9~0.25~1"
+      YMin		      "0.25~-0.1~-0.25"
+      YMax		      "2~0.9~2.25"
       SaveToWorkspace	      on
       SaveName		      "Lin_veloc"
       DataFormat	      "StructureWithTime"
@@ -2845,6 +2861,15 @@ Model {
       ShowName		      off
       Inputs		      "6"
       DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Saturate
+      Name		      "Saturation"
+      Position		      [485, 195, 515, 225]
+      UpperLimit	      "1500.*ones(6,1)"
+      LowerLimit	      "-1500.*ones(6,1)"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
     }
     Block {
       BlockType		      Constant
@@ -2876,15 +2901,16 @@ Model {
       Ports		      [1]
       Position		      [645, 254, 675, 286]
       Floating		      off
-      Location		      [646, 408, 970, 928]
-      Open		      on
+      Location		      [572, 479, 896, 999]
+      Open		      off
       NumInputPorts	      "1"
+      ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-9000"
-      YMax		      "8000"
+      YMin		      "-1500"
+      YMax		      "1500"
       SaveName		      "ScopeData4"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -2905,8 +2931,8 @@ Model {
       Ports		      [3]
       Position		      [650, 16, 680, 84]
       Floating		      off
-      Location		      [937, 49, 1261, 639]
-      Open		      on
+      Location		      [947, 57, 1271, 647]
+      Open		      off
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -2914,8 +2940,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-10~-30~0"
-      YMax		      "50~15~60"
+      YMin		      "0~0~54.8"
+      YMax		      "200~10~55.7"
       SaveToWorkspace	      on
       SaveName		      "Translation_ref"
       DataFormat	      "StructureWithTime"
@@ -2969,8 +2995,8 @@ Model {
       Ports		      [1]
       Position		      [305, 374, 335, 406]
       Floating		      off
-      Location		      [86, 99, 524, 621]
-      Open		      on
+      Location		      [64, 85, 502, 607]
+      Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
@@ -2979,7 +3005,7 @@ Model {
       }
       TimeRange		      "500"
       YMin		      "0"
-      YMax		      "375"
+      YMax		      "425"
       SaveToWorkspace	      on
       SaveName		      "Camsim_output"
       DataFormat	      "Array"
@@ -2989,21 +3015,13 @@ Model {
     Line {
       SrcBlock		      "Crusing controller"
       SrcPort		      1
-      Points		      [15, 0]
-      Branch {
-	DstBlock		"HUGIN 1000"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, 60]
-	DstBlock		"Tau"
-	DstPort			1
-      }
+      DstBlock		      "Saturation"
+      DstPort		      1
     }
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      1
-      Points		      [35, 0]
+      Points		      [5, 0]
       Branch {
 	Points			[0, -25; -170, 0]
 	DstBlock		"6DOF Plot"
@@ -3057,7 +3075,7 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      2
-      Points		      [70, 0; 0, 60]
+      Points		      [40, 0; 0, 60]
       Branch {
 	Points			[0, 45; -340, 0; 0, -55]
 	Branch {
@@ -3095,7 +3113,7 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      3
-      Points		      [60, 0; 0, 70; -325, 0; 0, -60]
+      Points		      [30, 0; 0, 70; -325, 0; 0, -60]
       DstBlock		      "Crusing controller"
       DstPort		      6
     }
@@ -3296,6 +3314,20 @@ Model {
       Points		      [35, 0]
       DstBlock		      "Embedded\nMATLAB Function"
       DstPort		      5
+    }
+    Line {
+      SrcBlock		      "Saturation"
+      SrcPort		      1
+      Points		      [5, 0]
+      Branch {
+	DstBlock		"HUGIN 1000"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 60]
+	DstBlock		"Tau"
+	DstPort			1
+      }
     }
   }
 }
