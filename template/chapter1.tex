@@ -1,11 +1,25 @@
 \chapter{Theory}
 	
 \section{Reference systems}
-	Reference systems is an important part of analysis of moving dynamical systems. When one derive the motion of a system one will need some reference fram to calculate the motion relative too. There are a couple of different reference systems used today. One is the ECEF-frame (Earth-Centered, Earth-Fixed), which has the center of the earth as the origin of the frame. The frame rotates with the earth, but when the speed of the vessel is low, this frame can be considered inertial. \cite{forsell}
+	Reference systems is an important part of analysis of moving dynamical systems. When one derive the motion of 
+	a system one will need some reference fram to calculate the motion relative too. There are a couple of different 
+	reference systems used today. One is the ECEF-frame (Earth-Centered, Earth-Fixed), which has the center of the 
+	earth as the origin of the frame. The frame rotates with the earth, but when the speed of the vessel is low, 
+	this frame can be considered inertial. \cite{forsell}
 	
-	Another common reference frame are the NED frame (North-East-Down). It is defined as the tangetial plane at the earth's surface moving with the vessel. This frame is not valid for inter-continental travel. It is defined with the x-axis pointing towards the Earth's true north, the y-axis pointing towards the east, and the z-axis pointing downwards toward Earth's center. The NED-frame is defined relative to the ECEF-frame by the means of two angles, \textit{longitude} and \textit{latitude}. This is the global reference system that will be used in this report. \cite{fossen}
+	Another common reference frame are the NED frame (North-East-Down). It is defined as the tangetial plane at 
+	the earth's surface moving with the vessel. It assumes that the Earth's rotation can be neglected, and this means 
+	that frame is not valid for inter-continental travel, because it is not strictly inertial. It is defined with 
+	the x-axis pointing towards the Earth's true north, the y-axis pointing towards the east, and the z-axis 
+	pointing downwards toward Earth's center. The NED-frame is defined relative to the ECEF-frame by the means of 
+	two angles, \textit{longitude} and \textit{latitude}. This is the global reference system that will be used 
+	in this report. \cite{fossen}
 	
-	The last reference system used is the Body-frame, which all forces, moments, linear velocities and angular velocities will be expressed in. This frame has it's center in the Center of Gravitiy (CG) of the vessel. The x-axis is defined in the logitudinal axis of the vessel, y-axis to the right, and the z-axis is directed downwards to complete the right hand-system. The body-frame values are transformed to the NED-frame by the means of a Rotataion matrix.
+	The last reference system used is the Body-frame, which all forces, moments, linear velocities and angular 
+	velocities will be expressed in. This frame has it's center in the Center of Gravitiy (CG) of the vessel. The 
+	x-axis is defined in the logitudinal axis of the vessel, y-axis to the right, and the z-axis is directed 
+	downwards to complete the right hand-system. The body-frame values are transformed to the NED-frame by the means 
+	of a Rotataion matrix.
 	
 	
 	
@@ -26,60 +40,120 @@
 
 
 \section{Camera therory}
-	Using camera for control is not a stright forward problem. Calculations are needed to relate the data discovered by the camera to the real world which the vessel is opperating in. This imply that coordinates of a 2D point in the camera have to be transformed into a 3D point which can be used by the control system onboard the AUV. Since we are going from less knowledge about a point to more knowledge about a point, some things are needed to be estimated or measured to gain the ability to solve the 2D to 3D problem exactely.
+	Using camera for control is not a stright forward problem. Calculations are needed to relate the data discovered 
+	by the camera to the real world which the vessel is opperating in. This imply that coordinates of a 2D point in 
+	the camera have to be transformed into a 3D point which can be used by the control system onboard the AUV. Since 
+	we are going from less knowledge about a point to more knowledge about a point, some things are needed to be 
+	estimated or measured to gain the ability to solve the 2D to 3D problem exactely.
 	
-	The camera properties or parameters can be devided into two cathegories; the intrinsic parameters and extrinsic parameters. The intrinsic parameters are constant parameters and vary from camera to camera. It is the focus distance and image distortion of the pixels away from the center of the camera. The extrincic parameters relate the position of the point relative to camera coordinates. These parameters are ofcourse dependant on the position of the camera and change with time. \cite{robotbok}
+	The camera properties or parameters can be devided into two cathegories; the intrinsic parameters and extrinsic 
+	parameters. The intrinsic parameters are constant parameters and vary from camera to camera. It is the focus 
+	distance and image distortion of the pixels away from the center of the camera. The extrincic parameters relate 
+	the position of the point relative to camera coordinates. These parameters are ofcourse dependant on the 
+	position of the camera and change with time. \cite{robotbok}
 	
-	To solve the problem, it is least complicated to look at the velocity of the points in the camera view. The motion of the point in the camera view is then represented in the real world coordinates by a so called interaction matrix. \cite{robotbok}
+
+	*****NOE FEIL HER*****	
+	
+	To solve the problem, it is least complicated to look at the velocity of the points in the camera view. 
+	The motion of the point in the camera view is then represented in the real world coordinates by a so called 
+	interaction matrix. \cite{robotbok}
 	\begin{equation}
-		\label{eq:ch1-camcord2worldcord}
+		\label{eq:ch1-image_point_veloc}
 		\dot{\mathbf{x}}_i = \interaction \mathbf{\nu}
 	\end{equation}
-	$\mathbf{x}_i$ is the coordinates of the point in image coordinates, $\mathbf{\nu}$ is the linear and angular velocity of the camera in 6 DOFs in this case this is the same velocities as the vessel, since the camera is locked in a fixed position on the AUV. The matrix $\interaction$ is the Interaction matrix. This matrix is a nonlinear combination of intrinsic and extrinsic parameters of the camera, and is dependent on the distance to the point in space.
+	$\mathbf{x}_i$ is the coordinates of the point in image coordinates, $\mathbf{\nu}$ is the linear and angular 
+	velocity of the camera in 6 DOFs in this case this is the same velocities as the vessel, since the camera is 
+	locked in a fixed position on the AUV. The matrix $\interaction$ is the Interaction matrix. This matrix is a 
+	nonlinear combination of intrinsic and extrinsic parameters of the camera, and is dependent on the distance 
+	to the point in space.
 	
 	<<<<<<<<<---------------------->>>>>>>>>>>>>>	
 	
-	The control problem is to follow the points in the camera image and keep them relatively close to the AUV. This is done by controlling the velocities of the AUV. 
+	The control problem is to follow the points in the camera image and keep them relatively close to the AUV. 
+	This is done by controlling the velocities of the AUV. 
 
 	<<<<<<<<<---------------------->>>>>>>>>>>>>>
 
 \section{Guidance Algorithms}
 	\label{chap1-guidance-alg}
-	The guidance algorithm is one of the most important part of an autonomous vehicles control system. It needs to be robust and be able to handle moast situations. A guidance system should be able to give feasible commands to the lower level control system which controls the actuators, and should be able to handle most situations with care. The guidance system should decide the best trajectory to be followed based on the target location and physical capabilities of the system.\cite{GuidanceReview}
+	The guidance algorithm is one of the most important part of an autonomous vehicles control system. It needs to be 
+	robust and be able to handle moast situations. A guidance system should be able to give feasible commands to the 
+	lower level control system which controls the actuators, and should be able to handle most situations with care. 
+	The guidance system should decide the best trajectory to be followed based on the target location and physical 
+	capabilities of the system.\cite{GuidanceReview}
 
-	Most of the guidance algorithms originates from airborne missile systems. This have been well documented and proven to work in numerous cases. Common guidance scheems such as Line-of-sight (LOS) and Proportional Navigation Guidance (PNG) and vareious implementations of these are employed in numerous guidance systems.
+	Most of the guidance algorithms originates from airborne missile systems. This have been well documented and 
+	proven to work in numerous cases. Common guidance scheems such as Line-of-sight (LOS) and Proportional Navigation 
+	Guidance (PNG) and vareious implementations of these are employed in numerous guidance systems.
 
-	Line-of-sight-guidance are the most common principle used. The LOS-algorithm computes the line-of-sight angle from the present location to the target location, and uses this angle as a reference heading.
+	Line-of-sight-guidance are the most common principle used. The LOS-algorithm computes the line-of-sight angle 
+	from the present location to the target location, and uses this angle as a reference heading.
 
-	Proportional Navigation Guidance is more effective that LOS-guidance in case of a non-maneuvering target. It gives less interception time than LOS. The PNG-law can be stated as the following: \cite{GuidanceReview}
+	Proportional Navigation Guidance is more effective that LOS-guidance in case of a non-maneuvering target. It 
+	gives less interception time than LOS. The PNG-law can be stated as the following: \cite{GuidanceReview}
 	\begin{equation}
 		\eta_c = N' V_c \dot{\lambda}
 	\end{equation}
-	where $\eta_c$ is the acceleration command, $N'$ is the navigation ratio, $V_c$ is the closing velocity, and $\dot{\lambda}$ is the line of sight angular velocity. The navigation ratio is a tuning parameter which will give higher demanded acceleration and therby reacing the target in less time.
+	where $\eta_c$ is the acceleration command, $N'$ is the navigation ratio, $V_c$ is the closing velocity, 
+	and $\dot{\lambda}$ is the line of sight angular velocity. The navigation ratio is a tuning parameter which 
+	will give higher demanded acceleration and therby reacing the target in less time.
 
-	These laws does not work so well with maneuvering targets and lots of solutions have been proposed to make these laws more effective when dealing with moving targets. In this case the targets will be non-moving waypoints and the maneuvering laws will not be discussed here.
+	These laws does not work so well with maneuvering targets and lots of solutions have been proposed to make 
+	these laws more effective when dealing with moving targets. In this case the targets will be non-moving waypoints 
+	and the maneuvering laws will not be discussed here.
 	
 
 
 
 \section{Kalman Filter}
-	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is usually employd in navigation applications to fuse GPS and INS together. By this way one will have the speed and resolution of an INS system and the precission of the GPS system. 
+	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is usually 
+	employd in navigation applications to fuse GPS and INS together. By this way one will have the speed and 
+	resolution of an INS system and the precission of the GPS system. 
 
-	The Kalman Filter is as stated befor a very versatile tool which can be employed allmost in any application. The downside with the Kalman filter is that it is a Linear system, and can only guarantee optimality for linear systems. The system considered in this report is nonlinear and one can not use the Kalman filter directly on this system. There is a nonlinear version of the Kalman filter, the Extended Kalman Filter, which uses the same assumptions as the linear version but uses the nonlinear model to predict the state forward. When updating the Covariance matrix the system equations are linearized around the current estimate and updated according to certain update laws. This introduces some significant problems. First the filter might converge towards wrong values, because of a non-positive-definite covariance matrix. This is mostly due to poor linearization of the state equations. \cite{kalman}
+	The Kalman Filter is as stated befor a very versatile tool which can be employed allmost in any application. 
+	The downside with the Kalman filter is that it is a Linear system, and can only guarantee optimality for linear 
+	systems. The system considered in this report is nonlinear and one can not use the Kalman filter directly on 
+	this system. There is a nonlinear version of the Kalman filter, the Extended Kalman Filter, which uses the same 
+	assumptions as the linear version but uses the nonlinear model to predict the state forward. When updating the 
+	Covariance matrix the system equations are linearized around the current estimate and updated according to certain 
+	update laws. This introduces some significant problems. First the filter might converge towards wrong values, 
+	because of a non-positive-definite covariance matrix. This is mostly due to poor linearization of the 
+	state equations. \cite{kalman}
 	
 	
 \section{Different methods for pipeline following}
 	A literature study was performed to see what other people have acomplished on the subject on AUV and pipeline following. 
 	
-	\cite{GuidanceReview} proposes a 2-stage guidance problem. When submerging and ascending to the surface, the AUV uses a LOS guidance law at full speed. When the pipeline is aqcuired the guidacen law is switched to a visual guidance scheem, which allows for a precise guidance over the subsea cable or pipeline. 
+	\cite{GuidanceReview} proposes a 2-stage guidance problem. When submerging and ascending to the surface, 
+	the AUV uses a LOS guidance law at full speed. When the pipeline is aqcuired the guidacen law is switched 
+	to a visual guidance scheem, which allows for a precise guidance over the subsea cable or pipeline. 
 		
-	In \cite{MPC_pure_pursuit} a guidance system using Model Predictive Control (MPC) and PNG law was used to make a guidance system able to track cables and pipelines on the sea bed using Doppler Velocity Log and Electro-Magnetic sensors to find the cable/pipeline. The report utilizes the pure pursuit scheeme, similiar to what predadtors do when they are hunting the pray. The cable/pipeline and AUV is formulated as moving points with mass. The engages in a tail chase with the pipeline ``point``, but the AUV never catches up with it. This method is robust to model uncertanties and handles constraints of the vessel in a systematic way. The controller however shows problems when a current is introduced in the system. The AUV drifts of the pipeline, but catches up with the waypoints in the end.
+	In \cite{MPC_pure_pursuit} a guidance system using Model Predictive Control (MPC) and PNG law was used to make 
+	a guidance system able to track cables and pipelines on the sea bed using Doppler Velocity Log and Electro-Magnetic 
+	sensors to find the cable/pipeline. The report utilizes the pure pursuit scheeme, similiar to what predadtors 
+	do when they are hunting the pray. The cable/pipeline and AUV is formulated as moving points with mass. The 
+	engages in a tail chase with the pipeline ``point``, but the AUV never catches up with it. This method is robust 
+	to model uncertanties and handles constraints of the vessel in a systematic way. The controller however shows 
+	problems when a current is introduced in the system. The AUV drifts of the pipeline, but catches up with the 
+	waypoints in the end.
 	
-	In \cite{Visual_inpsection_of_seabottom_by_AUV} a visual guidance system for inspection of undewater structures is presented. The visual system uses an Extended Kalman Filter to smooth and predict where the structure i.e. pipeline will move in the next sample interval of for the image processing software. A 3 dimentional model of the scene is constructed which then allows the guidance sytem to calculate an input to the controllers.
+	In \cite{Visual_inpsection_of_seabottom_by_AUV} a visual guidance system for inspection of undewater structures 
+	is presented. The visual system uses an Extended Kalman Filter to smooth and predict where the structure i.e. 
+	pipeline will move in the next sample interval of for the image processing software. A 3 dimentional model 
+	of the scene is constructed which then allows the guidance sytem to calculate an input to the controllers.
 	
-	\cite{reactive_control_AUV} proposes a reactive control approach to pipeline tracking together with a profiling sonar. Reactive control originated from the field of obstacle avoidance in autonomous land and air vehicles. It uses \textit{Deformed Virtual Zones} (DVZ) which describes the interaction between the AUV and the pipeline. The controller tries to minimize the defromation of the DVZ and calculates a feasible control input. The DVZ in this case is a prism with a cylidrical cavity directly underneth the AUV. If the AUV moves away from the pipeline the DVZ will be deformed and the controller will try to counteract the motion. This is a computational inexpensive way of achieving a good pipeline following. This method shows promising results but has yet to be implemented and tested in real-life scenarios. 
+	\cite{reactive_control_AUV} proposes a reactive control approach to pipeline tracking together with a 
+	profiling sonar. Reactive control originated from the field of obstacle avoidance in autonomous land and air 
+	vehicles. It uses \textit{Deformed Virtual Zones} (DVZ) which describes the interaction between the AUV and 
+	the pipeline. The controller tries to minimize the defromation of the DVZ and calculates a feasible control input. 
+	The DVZ in this case is a prism with a cylidrical cavity directly underneth the AUV. If the AUV moves away from 
+	the pipeline the DVZ will be deformed and the controller will try to counteract the motion. This is a 
+	computational inexpensive way of achieving a good pipeline following. This method shows promising results 
+	but has yet to be implemented and tested in real-life scenarios. 
 	
-	In \cite{fuel_optimal_control} a fuel-optimal tracking controller is derived to minimalize the fuel consumption of the AUV. The controller minimizes the fuel consumption needed to reach the terminal position. 
+	In \cite{fuel_optimal_control} a fuel-optimal tracking controller is derived to minimalize the fuel consumption 
+	of the AUV. The controller minimizes the fuel consumption needed to reach the terminal position. 
 	
 	
 

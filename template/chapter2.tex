@@ -1,5 +1,21 @@
 \chapter{Modelling}
 
+\section{Control Problem Formulation}
+\label{chap2:problem}
+	To solve the pipeline following problem it is important to have a clear and distinct problem formulation. 
+	The case where the AUV is guided towards the pipeline is not so much of an interrest because it is a stright 
+	forward problem which are the subject of many articles. 
+
+	***WARNING, Usammenhengende*** b√r flyttes
+
+	The interresting case is when the AUV is to acquire the pipeline and track it by the means of a camera. The
+	camera will output three points, distorted by noise. Since the AUV preferebly will travel with the
+	pipeline, the coordinates of interrest will be the y-coordinates of the different points. It would be
+	a good idea to formulate the points as points on the pipeline with a velocity moving with the AUV.
+
+	This gives rise to formulate the pipeline as a point moving ahead of the AUV. The vessel will pursue
+	this but it is convenient that it will never catch up with it.
+
 
 \section{AUV model}
 	The model used is the one from \cite{fossen}, and is written in the previous chapter, equation \eqref{eq:chp1-model}.
@@ -7,38 +23,64 @@
 	\subsection{Assumptions}
 	Assumtions that where made to simplify the modelling and implementation of the AUV system.
 		\subsubsection{Low-speed assumption}
-		The speed regieme of \textit{HUGIN 1000} is about 1-3 $m/s$. The design speed is around 2 $m/s$. Then the assumtion about low-speed should be adequate.  
+		The speed regieme of \textit{HUGIN 1000} is about 1-3 $m/s$. The design speed is around 2 $m/s$. 
+		Then the assumtion about low-speed should be adequate.  
 
-		This is a good idea to check. Run a simulation in simulink with the low speed model and the nonlinear model and compare. Discuss later in the report, maybe.
+		This is a good idea to check. Run a simulation in simulink with the low speed model and the 
+		nonlinear model and compare. Discuss later in the report, maybe.
 		
 		\subsubsection{Measurements}
-		The vessel should have enough instrumentation available to measure $\eta$, $\nu$, and $\dot{\nu}$. The distance to the sea bottom should also be available. All this instrumentation is common to include in an standar AUV instrumentation package. 
+		The vessel should have enough instrumentation available to measure $\eta$, $\nu$, and $\dot{\nu}$. 
+		The distance to the sea bottom should also be available. All this instrumentation is common to 
+		include in an standar AUV instrumentation package. 
 
 
 \section{Camera modelling}
-	The camera is modeled using a pinhole camera model. It assumes that the lense is an infintiesmall hole which all light passes through. The image plane is located in the front of the projection plane at a distance $f$, which is called the focus distance. This is not possible in real life, but simplyfies the mathematics a little. This model is used to derive the interaction matrix, $\interaction$, which describes the movement of the points in the image plane to the movement of the camera.\cite{robotbok} 
+	The camera is modeled using a pinhole camera model. It assumes that the lense is an infintiesmall hole which 
+	all light passes through. The image plane is located in the front of the projection plane at a distance $f$, 
+	which is called the focus distance. This is not possible in real life, but simplyfies the mathematics a little. 
+	This model is used to derive the interaction matrix, $\interaction$, which describes the movement of the 
+	points in the image plane to the movement of the camera.\cite{robotbok} 
+
+	The solution of equation \eqref{eq:ch1-image_point_veloc} gives the position of the points relative
+	to the AUV. The x-axis of the camera coordinate system is defined along the pipeline, while the y-axis 
+	is defined toward the left of the pipeline. This means that the points are moving out of the camera
+	field-of-view after a short time, given non-zero \textit{surge}-velocity. Since the goal is to follow
+	the pipeline and not a single point, it is convenient to formulate the pipeline as a point moving with
+	the AUV with equal velocities. 
 
 	
 
 
 \section{Pipeline representation}
-	In the simulations the pipelines are represented as interpolated waypoints. Waypoint on where the pipeline are going is supplied by the user and interpolated using the \textit{matlab}-function \textit{pchip}. 
+	In the simulations the pipelines are represented as interpolated waypoints. Waypoint on where the pipeline are
+	going is supplied by the user and interpolated using the \textit{matlab}-function \textit{pchip}. 
+
 
 
 \section{Kalman filter}
-	The Kalman filter is designed with the purpose to smooth the output from the camera, estimate the trajectory of the pipeline if it is lost, and estimate the current forces and moments which is acting on the vessel. The bias is modelled as a \textit{1st order Markov}-model.
+	The Kalman filter is designed with the purpose to smooth the output from the camera, estimate the trajectory 
+	of the pipeline if it is lost, and estimate the current forces and moments which is acting on the vessel. 
+	The bias is modelled as a \textit{1st order Markov}-model.
 	\begin{equation}
 		\label{eq:chp2-biasmodel}
 		\dot{\mathbf{b}} = -\mathbf{T}^{-1} \mathbf{b} + \mathbf{w} \quad \mathbf{b}, \mathbf{w} \in \mathbb{R}^6
 	\end{equation}
-	where $\mathbf{w}$ is zero-mean guassian distributed white noise, and $\mathbf{T}$ is a diagonal matrix with large time constants, to model the slowly varying current forces. 
+	where $\mathbf{w}$ is zero-mean guassian distributed white noise, and $\mathbf{T}$ is a diagonal matrix with 
+	large time constants, to model the slowly varying current forces. 
 	Equation \eqref{eq:chp2-biasmodel} is restructured by inserting the kinetics equation from the model and gives:
 	\begin{equation}
-		\dot{\mathbf{b}} = -\mathbf{T}^{-1} \rotation (\restoring) - \mathbf{T}^{-1} \rotation (\mass - \tau + \damping) + \mathbf{w}
+		\dot{\mathbf{b}} = -\mathbf{T}^{-1} \rotation (\restoring) - \mathbf{T}^{-1} 
+		\rotation (\mass - \tau + \damping) + \mathbf{w}
 	\end{equation}
 
 	
-	The state used in the Kalman filter model is $\mathbf{x} = [\mathbf{\eta}^T \quad x_i^T \quad \mathbf{b}^T]^T$, $\mathbf{x} \in \mathbb{R}^{18}$. The velocity vector, $\mathbf{\nu}$, the acceleration, $\dot{\mathbf{\nu}}$, and the forces and moments from the regulator, $\mathbf{\tau}$ is used as input to drive the filter, $\mathbf{u} = [\tau^T \quad \mathbf{\nu}^T \quad \mathbf{\dot{\nu}}^T]^T$. The systems measurement is the position, $\mathbf{\eta}$ and the camera output, $x_i$. The measurement is assumed affected by gaussian distributed white noise, with zero-mean.
+	The state used in the Kalman filter model is $\mathbf{x} = [\mathbf{\eta}^T \quad x_i^T 
+	\quad \mathbf{b}^T]^T$, $\mathbf{x} \in \mathbb{R}^{18}$. The velocity vector, $\mathbf{\nu}$, 
+	the acceleration, $\dot{\mathbf{\nu}}$, and the forces and moments from the regulator, $\mathbf{\tau}$ is 
+	used as input to drive the filter, $\mathbf{u} = [\tau^T \quad \mathbf{\nu}^T \quad \mathbf{\dot{\nu}}^T]^T$. 
+	The systems measurement is the position, $\mathbf{\eta}$ and the camera output, $x_i$. The measurement is 
+	assumed affected by gaussian distributed white noise, with zero-mean.
 	
 	The mathematical model used for the Kalman filter is summarized here:
 		\begin{align}
@@ -64,14 +106,16 @@
 			\mathbf{B(x, u)} &= \left[ \begin{array}{ccc}
 			                      	\mathbf{0} & \rotation & \mathbf{0}\\
 			                      	\mathbf{0} & \interaction & \mathbf{0}\\
-			                      	\mathbf{T}^{-1} & -\mathbf{T}^{-1}\rotation \mathbf{D(\nu)} & -\mathbf{T}^{-1} \rotation \mathbf{M}
+			                      	\mathbf{T}^{-1} & -\mathbf{T}^{-1}\rotation \mathbf{D(\nu)} 
+						& -\mathbf{T}^{-1} \rotation \mathbf{M}
 			                     \end{array} \right] &
 		\end{align}
 
 	The equations used for the Extended Kalman Filter can be found in \cite{fossen} p199.
 	
 \section{Controller Design}
-	The control system which supply the lower-level control system with forces and moments references, is divided into 3 sub systems:
+	The control system which supply the lower-level control system with forces and moments references, is 
+	divided into 3 sub systems:
 		\begin{itemize}
 		 \item Speed control
 		 \item Depth control
@@ -79,53 +123,113 @@
 		\end{itemize}
 	This is called the flightmode controller, which is used for normal pipeline tracking, descent and ascent. 
 	
-	A fine-positioning controller is used to position the AUV on top of the pipeline and keep it there regadless of ocean currents. This is to provide good pictures for the pipeline inspection mission.
+	A fine-positioning controller is used to position the AUV on top of the pipeline and keep it there regadless 
+	of ocean currents. This is to provide good pictures for the pipeline inspection mission.
 	
-	The \textit{HUGIN 1000} is a sleender-body type AUV. The coupling effects in in the surge and sway can be neglected, and therfor decoupled. This means that one can create two subsystems from the AUV model: The \textit{surge} subsystem, and the \textit{sway-yaw} subsystem. 
+	The \textit{HUGIN 1000} is a sleender-body type AUV. The coupling effects in in the surge and sway can be 
+	neglected, and therfor decoupled. This means that one can create two subsystems from the AUV model: 
+	The \textit{surge} subsystem, and the \textit{sway-yaw} subsystem. 
 	
 	TODO: Lage en figur som viser hvordan kontrollsystemet er bygget opp.
 	
-	TODO:Too keep the AUV right on top of the pipeline one can use kinematic control to with feedback from the camera too keep the AUV right on top of the pipeline using theory from robot control by visual means.
+	TODO:Too keep the AUV right on top of the pipeline one can use kinematic control to with feedback from the 
+	camera too keep the AUV right on top of the pipeline using theory from robot control by visual means.
 	
 	
 	TODO:********Utledning og stabilitetsbevis for alle kontrollerene*******
 	\subsection{Speed Controller}
+		The speed controller is derived form the \textit{surge}-subsystem, called \textit{surge}-model
+		\cite{fossen}. Under the slow speed assumption, the coriolis/centripetal-matrix is assumed
+		zero, $\coriolis \approx 0$  
+		\begin{equation}
+			(m - X_{\dot{u}})\dot{u} - X_u u - X_{|u|u}|u| u = \tau_1
+		\end{equation}
 	
 	
 	
 	\subsection{Depth Controller}
+		
 
 	
 	
 	\subsection{Heading Controller}
-	
+		Using the \textit{lateral}-subsystem representation from \cite{fossen}. Under the assumtions
+		that $u, w, p, q, r, \phi,$ and $\theta$ from the longitudinal subsyustem are small, the
+		kinematics are reduced to:
+		\begin{align}
+			\dot{\phi} &= p \\
+			\dot{\psi} &= r 
+		\end{align}
+		The low-speed assumtions is utilized and higher order velocity terms are neglected, and
+		constant \textit{surge}-velocity are assumed. This gives the following system:
+		\begin{equation}
+			\begin{aligned}
+				\left [ \begin{array}{ccc}
+					m - Y_{\dot{v}} & - m z_g - Y_{\dot{p}} & m x_g - Y_{\dot{r}} \\
+					-m z_g - Y_{\dot{p}} & I_x - K_{\dot{p}} & I_{zx} - K_{\dot{r}} \\
+					m x_g - Y_{\dot{r}} & I_{zg} - K_{\dot{r}} & I_z - N_{\dot{r}} 
+					\end{array} \right]
+				\left [ \begin{array}{c}
+					\dot{v} \\
+					\dot{p} \\
+					\dot{r} 
+					\end{array} \right] \\
+				+ \left [ \begin{array}{ccc}
+					-Y_v	&	-Y_p 	&	-Y_r \\
+					-M_v	&	-M_p	&	-M_r \\
+					-N_v	&	-N_P	&	-N_r
+					\end{array} \right]
+				\left [ \begin{array}{c}
+					v \\
+					p \\
+					r 
+				\end{array} \right] + 
+				\left [ \begin{array}{ccc} 
+					0 & 0 & (m - X_{\dot{u}})u \\
+					0 & 0 &  0 \\
+					(X_{\dot{u}} - Y_{\dot{v}}) u & 0 & m x_g u 
+					\end{array} \right]	
+				\left [ \begin{array}{c}
+					v \\
+					p \\
+					r 
+				\end{array} \right] \\
+				+  \left [ \begin{array}{c}
+					0 \\
+					W z_b \sin \phi \\
+					0 
+					\end{array} \right] = \left [ \begin{array}{c}
+									\tau_2 \\
+									\tau_4 \\
+									\tau_6
+								      \end{array} \right ]
+			\end{aligned}
+		\end{equation}
+		The \textit{roll}-state can be removed from the equations because of the assumtions of small
+		$\dot{p}, p$. 
+
+
 	
 	\subsection{Over-Pipeline Tracking Controller}
-		When the AUV is over the pipeline the need to keep the AUV on top of the pipeline to get deecent pictures for the pipeline inspection, presents itself. To solve this problem a second controller have been created just for this purpose. Since the vessel is controllable in 5 DOF the ability to create a good controller for this purpose is good. 
+		When the AUV is over the pipeline the need to keep the AUV on top of the pipeline to get deecent 
+		pictures for the pipeline inspection, presents itself. To solve this problem a second controller 
+		have been created just for this purpose. Since the vessel is controllable in 5 DOF the ability to 
+		create a good controller for this purpose is good. 
 		
-		The controller uses input form the camera to get the position of the AUV relative to the pipeline and give a suitable input to the controller.
-		
-		Hva med visual guidance fra robotboken?! 
-		
-		problemet er:
-		
-		\begin {align}
-			x_i = \interaction \nu \\
-			x_i = [x_1, y_1, x_2, y_2, x_3, y_3]^T \\
-			x_2, y_2 \rightarrow 0 , t \rightarrow \infty \\
-			\psi_p = \tan^{-1} (\frac{y_1 - y_3}{x_1 - x_3}) \\
-		\end {align}
-			
-		
-		
+		The controller uses input form the camera to get the position of the AUV relative to the pipeline 
+		and give a suitable input to the controller.
 		
 \section{Guidance system}
-	The guidance system on the \textit{HUGIN1000} AUV needs to be robust and tolerant to disturbances. The vessel will be operating in the vicinity of ocean currents and other unpredictable factors which have to be countered by the guidance system in a smart and robust way.
+	The guidAnce system on the \textit{HUGIN1000} AUV needs to be robust and tolerant to disturbances. The 
+	vessel will be operating in the vicinity of ocean currents and other unpredictable factors which have to 
+	be countered by the guidance system in a smart and robust way.
 	
 	
 	
 	\subsection{Line-of-Sight Guidance Law with Current Compensation}
-		This is described in Section \ref{chap1-guidance-alg}. The LOS-angle is fed directly into the heading controller as a reference. When ocean currents and disturbances are present, a modified guidance law is presented. This uses the Side Slip angle, defined as:
+		This is described in Section \ref{chap1-guidance-alg}. The LOS-angle is fed directly into the 
+		heading controller as a reference. When ocean currents and disturbances are present, a modified 
+		guidance law is presented. This uses the Side Slip angle, defined as:
 		\begin{equation}
 			\label{eq:chap2-sideslip}
 			\beta = \sin^{-1} ( \frac{v}{\sqrt{u^2 + v^2 + w^2}})
@@ -141,10 +245,13 @@
 		\end{equation}
 		Where $\psi_{LOS}$ is the LOS-angle from the current position to the next waypoint.
 		
-		The guidance law \eqref{eq:chap2-los-law} is used in the initial descent from the sea surface to the starting position on the pipeline and final ascent to the surface, and other long-distance guidance.
+		The guidance law \eqref{eq:chap2-los-law} is used in the initial descent from the sea surface to the 
+		starting position on the pipeline and final ascent to the surface, and other long-distance guidance.
 		
 	\subsection{Cross-Track Error Controller}
-		The cross-track error is defined as the distance from the vessel to the Line-of-Sight line between two waypoints. This controller seeks to minimize this error. The idea behind this controller is that this should keep the AUV on top of the pipeline in the presence of current.
+		The cross-track error is defined as the distance from the vessel to the Line-of-Sight line between 
+		two waypoints. This controller seeks to minimize this error. The idea behind this controller is that 
+		this should keep the AUV on top of the pipeline in the presence of current.
 		
 		TODO: Derive the Cross-track error guidance law. \cite{cross-track}
 		
@@ -152,5 +259,5 @@
 		
 	
 \section{Trajectory Generation}
-	Do I need trajectory generation? 
+	Do I need trajectory generation? 	
 	
