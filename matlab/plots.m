@@ -27,7 +27,7 @@ legend('Depth Reference', 'AUV depth');
 grid on
 
 subplot(2,1, 2)
-plot(Attitude_ref.time, Attitude_ref.signals(1,3).values, Attitude_ref.time, (Attitude_ref.signals(1,3).values(:,2)+(180/pi).*atan2(Lin_veloc.signals(1,2).values(:,2), sqrt(Lin_veloc.signals(1,2).values(:,2).^2 + Lin_veloc.signals(1,1).values(:,2).^2))))
+plot(Attitude_ref.time, Attitude_ref.signals(1,3).values, Attitude_ref.time, (Attitude_ref.signals(1,3).values(:,1)+(180/pi).*atan2(Lin_veloc.signals(1,2).values(:,2), sqrt(Lin_veloc.signals(1,2).values(:,2).^2 + Lin_veloc.signals(1,1).values(:,2).^2))))
 xlabel('Time [s]');
 ylabel('Heading [degrees]');
 title('Heading reference versus Heading');

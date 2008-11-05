@@ -105,6 +105,20 @@
 		
 		The controller uses input form the camera to get the position of the AUV relative to the pipeline and give a suitable input to the controller.
 		
+		Hva med visual guidance fra robotboken?! 
+		
+		problemet er:
+		
+		\begin {align}
+			x_i = \interaction \nu \\
+			x_i = [x_1, y_1, x_2, y_2, x_3, y_3]^T \\
+			x_2, y_2 \rightarrow 0 , t \rightarrow \infty \\
+			\psi_p = \tan^{-1} (\frac{y_1 - y_3}{x_1 - x_3}) \\
+		\end {align}
+			
+		
+		
+		
 \section{Guidance system}
 	The guidance system on the \textit{HUGIN1000} AUV needs to be robust and tolerant to disturbances. The vessel will be operating in the vicinity of ocean currents and other unpredictable factors which have to be countered by the guidance system in a smart and robust way.
 	
@@ -138,5 +152,5 @@
 		
 	
 \section{Trajectory Generation}
-	Do I need trajectory generation? 	
+	Do I need trajectory generation? 
 	

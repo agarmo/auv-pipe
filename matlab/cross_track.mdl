@@ -1,12 +1,12 @@
 Model {
   Name			  "cross_track"
-  Version		  7.0
+  Version		  7.1
   MdlSubVersion		  0
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.17"
+    ComputedModelVersion    "1.20"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -21,6 +21,7 @@ Model {
   IgnoreBidirectionalLines off
   ShowStorageClass	  off
   ShowTestPointIcons	  on
+  ShowSignalResolutionIcons on
   ShowViewerIcons	  on
   SortedOrder		  off
   ExecutionContextIcon	  off
@@ -42,11 +43,11 @@ Model {
   Creator		  "anderga"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "anderga"
+  LastModifiedBy	  "anders"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Oct 28 17:28:22 2008"
+  LastModifiedDate	  "Tue Oct 28 22:19:04 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:17>"
+  ModelVersionFormat	  "1.%<AutoIncrement:20>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -67,6 +68,7 @@ Model {
   CovCumulativeVarName	  "covCumulativeData"
   CovCumulativeReport	  off
   CovReportOnPause	  on
+  CovModelRefEnable	  "Off"
   ExtModeBatchMode	  off
   ExtModeEnableFloating	  on
   ExtModeTrigType	  "manual"
@@ -96,20 +98,21 @@ Model {
     Dimension		    1
     Simulink.ConfigSet {
       $ObjectID		      1
-      Version		      "1.3.0"
+      Version		      "1.4.0"
       Array {
 	Type			"Handle"
 	Dimension		7
 	Simulink.SolverCC {
 	  $ObjectID		  2
-	  Version		  "1.3.0"
+	  Version		  "1.4.0"
 	  StartTime		  "0.0"
 	  StopTime		  "1500"
 	  AbsTol		  "auto"
-	  FixedStep		  "auto"
+	  FixedStep		  "0.1"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
+	  ZcThreshold		  "auto"
 	  ConsecutiveZCsStepRelTol "10*128*eps"
 	  MaxConsecutiveZCs	  "1000"
 	  ExtrapolationOrder	  4
@@ -119,19 +122,21 @@ Model {
 	  MaxConsecutiveMinStep	  "1"
 	  RelTol		  "1e-3"
 	  SolverMode		  "Auto"
-	  Solver		  "ode45"
-	  SolverName		  "ode45"
+	  Solver		  "ode4"
+	  SolverName		  "ode4"
+	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
+	  ZeroCrossAlgorithm	  "Non-adaptive"
 	  AlgebraicLoopSolver	  "TrustRegion"
 	  SolverResetMethod	  "Fast"
 	  PositivePriorityOrder	  off
 	  AutoInsertRateTranBlk	  off
 	  SampleTimeConstraint	  "Unconstrained"
-	  RateTranMode		  "Deterministic"
+	  InsertRTBMode		  "Whenever possible"
 	}
 	Simulink.DataIOCC {
 	  $ObjectID		  3
-	  Version		  "1.3.0"
+	  Version		  "1.4.0"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
 	  FinalStateName	  "xFinal"
@@ -167,7 +172,7 @@ Model {
 	    Cell		    "NoFixptDivByZeroProtection"
 	    PropName		    "DisabledProps"
 	  }
-	  Version		  "1.3.0"
+	  Version		  "1.4.0"
 	  BlockReduction	  on
 	  BooleanDataType	  on
 	  ConditionallyExecuteInputs on
@@ -175,6 +180,7 @@ Model {
 	  InlineInvariantSignals  off
 	  OptimizeBlockIOStorage  on
 	  BufferReuse		  on
+	  EnhancedBackFolding	  off
 	  EnforceIntegerDowncast  on
 	  ExpressionFolding	  on
 	  ExpressionDepthLimit	  2147483647
@@ -198,7 +204,7 @@ Model {
 	}
 	Simulink.DebuggingCC {
 	  $ObjectID		  5
-	  Version		  "1.3.0"
+	  Version		  "1.4.0"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
 	  ArrayBoundsChecking	  "none"
@@ -263,10 +269,11 @@ Model {
 	  StateNameClashWarn	  "warning"
 	  StrictBusMsg		  "Warning"
 	  LoggingUnavailableSignals "error"
+	  BlockIODiagnostic	  "none"
 	}
 	Simulink.HardwareCC {
 	  $ObjectID		  6
-	  Version		  "1.3.0"
+	  Version		  "1.4.0"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
 	  ProdBitPerInt		  32
@@ -293,10 +300,11 @@ Model {
 	}
 	Simulink.ModelReferenceCC {
 	  $ObjectID		  7
-	  Version		  "1.3.0"
+	  Version		  "1.4.0"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  CheckModelReferenceTargetMessage "error"
 	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferenceSigSizeVariationType "Always allowed"
 	  ModelReferencePassRootInputsByReference on
 	  ModelReferenceMinAlgLoopOccurrences off
 	}
@@ -310,7 +318,7 @@ Model {
 	    Cell		    "GenerateTraceInfo"
 	    PropName		    "DisabledProps"
 	  }
-	  Version		  "1.3.0"
+	  Version		  "1.4.0"
 	  SystemTargetFile	  "grt.tlc"
 	  GenCodeOnly		  off
 	  MakeCommand		  "make_rtw"
@@ -333,6 +341,11 @@ Model {
 	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
 	  IncludeERTFirstTime	  off
 	  GenerateTraceInfo	  off
+	  GenerateTraceReport	  off
+	  GenerateTraceReportSl	  off
+	  GenerateTraceReportSf	  off
+	  GenerateTraceReportEml  off
+	  GenerateCodeInfo	  off
 	  RTWCompilerOptimization "Off"
 	  Array {
 	    Type		    "Handle"
@@ -360,7 +373,7 @@ Model {
 		Cell			"CustomSymbolStrMacro"
 		PropName		"DisabledProps"
 	      }
-	      Version		      "1.3.0"
+	      Version		      "1.4.0"
 	      ForceParamTrailComments off
 	      GenerateComments	      on
 	      IgnoreCustomStorageClasses on
@@ -413,11 +426,11 @@ Model {
 		Cell			"PortableWordSizes"
 		PropName		"DisabledProps"
 	      }
-	      Version		      "1.3.0"
+	      Version		      "1.4.0"
 	      TargetFcnLib	      "ansi_tfl_table_tmw.mat"
 	      TargetLibSuffix	      ""
 	      TargetPreCompLibLocation ""
-	      GenFloatMathFcnCalls    "ANSI_C"
+	      TargetFunctionLibrary   "ANSI_C"
 	      UtilityFuncGeneration   "Auto"
 	      GenerateFullHeader      on
 	      GenerateSampleERTMain   off
@@ -428,6 +441,7 @@ Model {
 	      IncludeMdlTerminateFcn  on
 	      CombineOutputUpdateFcns off
 	      SuppressErrorStatus     off
+	      ERTFirstTimeCompliant   off
 	      IncludeFileDelimiter    "Auto"
 	      ERTCustomFileBanners    off
 	      SupportAbsoluteTime     on
@@ -443,6 +457,7 @@ Model {
 	      ParenthesesLevel	      "Nominal"
 	      PortableWordSizes	      off
 	      ModelStepFunctionPrototypeControlCompliant off
+	      AutosarCompliant	      off
 	      ExtMode		      off
 	      ExtModeStaticAlloc      off
 	      ExtModeTesting	      off
@@ -489,6 +504,7 @@ Model {
       OutDataTypeMode	      "Inherit via back propagation"
       OutDataType	      "fixdt(1,16,0)"
       OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via back propagation"
       LockScale		      off
       ConvertRealWorld	      "Real World Value (RWV)"
       RndMeth		      "Zero"
@@ -516,11 +532,13 @@ Model {
       ParameterDataType	      "fixdt(1,16,0)"
       ParameterScalingMode    "Best Precision: Matrix-wise"
       ParameterScaling	      "[]"
+      ParamDataTypeStr	      "Inherit: Same as input"
       OutMin		      "[]"
       OutMax		      "[]"
       OutDataTypeMode	      "Same as input"
       OutDataType	      "fixdt(1,16,0)"
       OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
       LockScale		      off
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	on
@@ -539,6 +557,7 @@ Model {
       DataType		      "auto"
       OutDataType	      "fixdt(1,16,0)"
       OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: auto"
       SignalType	      "auto"
       SamplingMode	      "auto"
       LatchByDelayingOutsideSignal off
@@ -589,6 +608,7 @@ Model {
       DataType		      "auto"
       OutDataType	      "fixdt(1,16,0)"
       OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: auto"
       SignalType	      "auto"
       SamplingMode	      "auto"
       OutputWhenDisabled      "held"
@@ -606,6 +626,7 @@ Model {
       OutDataTypeMode	      "Same as first input"
       OutDataType	      "fixdt(1,16,0)"
       OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
       LockScale		      off
       RndMeth		      "Zero"
       SaturateOnIntegerOverflow	on
@@ -640,6 +661,7 @@ Model {
       FunctionName	      "system"
       SFunctionModules	      "''"
       PortCounts	      "[]"
+      SFunctionDeploymentMode off
     }
     Block {
       BlockType		      SubSystem
@@ -647,6 +669,7 @@ Model {
       Permissions	      "ReadWrite"
       PermitHierarchicalResolution "All"
       TreatAsAtomicUnit	      off
+      CheckFcnCallInpInsideContextMsg off
       SystemSampleTime	      "-1"
       RTWFcnNameOpts	      "Auto"
       RTWFileNameOpts	      "Auto"
@@ -666,11 +689,13 @@ Model {
       CollapseMode	      "All dimensions"
       CollapseDim	      "1"
       InputSameDT	      on
+      AccumDataTypeStr	      "Inherit: Inherit via internal rule"
       OutMin		      "[]"
       OutMax		      "[]"
       OutDataTypeMode	      "Same as first input"
       OutDataType	      "fixdt(1,16,0)"
       OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
       LockScale		      off
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	on
@@ -700,6 +725,7 @@ Model {
       OutDataTypeMode	      "Same as input"
       OutDataType	      "fixdt(1,16,0)"
       OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
       LockScale		      off
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	on
@@ -715,6 +741,7 @@ Model {
       OutDataType	      "fixdt(1,16,0)"
       ConRadixGroup	      "Use specified scaling"
       OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit from 'Constant value'"
       SampleTime	      "inf"
       FramePeriod	      "inf"
     }
@@ -758,7 +785,7 @@ Model {
   }
   System {
     Name		    "cross_track"
-    Location		    [159, 69, 1146, 621]
+    Location		    [335, 258, 1387, 831]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -832,7 +859,7 @@ Model {
       Ports		      [3]
       Position		      [705, 76, 735, 144]
       Floating		      off
-      Location		      [822, 80, 1159, 584]
+      Location		      [1315, 75, 1652, 579]
       Open		      on
       NumInputPorts	      "3"
       ZoomMode		      "xonly"
@@ -842,8 +869,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-0.0125~-27.5~-45"
-      YMax		      "0.005~2.5~0"
+      YMin		      "-7~-25~0"
+      YMax		      "1~5~90"
       SaveToWorkspace	      on
       SaveName		      "Attitude_ref"
       DataFormat	      "StructureWithTime"
@@ -857,8 +884,12 @@ Model {
       Position		      [400, 162, 455, 253]
       AncestorBlock	      "fordypningsprosjekt/Crusing controller"
       MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
       MaskPromptString	      "Kp Speed controller|Ki Speed Controller|Kp Course Controller|Kd Course Controller|Kp1 Depth Controller|Kp2 Depth controller|Kd Depth Controller"
       MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit"
       MaskTunableValueString  "on,on,on,on,on,on,on"
@@ -876,7 +907,7 @@ Model {
       MaskTabNameString	      ",,,,,,"
       System {
 	Name			"Crusing controller"
-	Location		[112, 202, 1231, 894]
+	Location		[275, 246, 1394, 938]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -956,7 +987,7 @@ Model {
 	  BlockType		  Demux
 	  Name			  "Demux1"
 	  Ports			  [1, 6]
-	  Position		  [365, 137, 375, 278]
+	  Position		  [365, 139, 375, 251]
 	  BackgroundColor	  "black"
 	  ShowName		  off
 	  Outputs		  "6"
@@ -975,10 +1006,14 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "course control"
 	  Ports			  [3, 2]
-	  Position		  [490, 247, 595, 333]
+	  Position		  [490, 192, 595, 278]
 	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
 	  System {
 	    Name		    "course control"
 	    Location		    [223, 410, 969, 802]
@@ -1028,9 +1063,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1041,9 +1078,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1054,9 +1093,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1067,11 +1108,11 @@ Model {
 	      ShowName		      off
 	      IconShape		      "round"
 	      Inputs		      "|+-"
-	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1082,11 +1123,11 @@ Model {
 	      ShowName		      off
 	      IconShape		      "round"
 	      Inputs		      "|-+"
-	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1172,10 +1213,14 @@ Model {
 	  BlockType		  SubSystem
 	  Name			  "depth"
 	  Ports			  [4, 2]
-	  Position		  [490, 407, 595, 493]
+	  Position		  [490, 307, 595, 393]
 	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
 	  System {
 	    Name		    "depth"
 	    Location		    [342, 541, 1088, 933]
@@ -1234,9 +1279,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1247,9 +1294,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1260,9 +1309,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1273,9 +1324,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1285,11 +1338,11 @@ Model {
 	      Position		      [495, 118, 515, 202]
 	      ShowName		      off
 	      Inputs		      "+--"
-	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1300,11 +1353,11 @@ Model {
 	      ShowName		      off
 	      IconShape		      "round"
 	      Inputs		      "|-+"
-	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1404,8 +1457,12 @@ Model {
 	  Ports			  [2, 1]
 	  Position		  [435, 62, 545, 153]
 	  MinAlgLoopOccurrences	  off
+	  PropExecContextOutsideSubsystem off
 	  RTWSystemCode		  "Auto"
 	  FunctionWithSeparateData off
+	  Opaque		  off
+	  RequestExecContextInheritance	off
+	  MaskHideContents	  off
 	  System {
 	    Name		    "speed"
 	    Location		    [542, 526, 1040, 826]
@@ -1446,9 +1503,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1459,9 +1518,11 @@ Model {
 	      ParameterDataTypeMode   "Inherit via internal rule"
 	      ParameterDataType	      "sfix(16)"
 	      ParameterScaling	      "2^0"
+	      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1478,11 +1539,11 @@ Model {
 	      ShowName		      off
 	      IconShape		      "round"
 	      Inputs		      "|--"
-	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1493,11 +1554,11 @@ Model {
 	      ShowName		      off
 	      IconShape		      "round"
 	      Inputs		      "|+-"
-	      CollapseMode	      "All dimensions"
 	      InputSameDT	      off
 	      OutDataTypeMode	      "Inherit via internal rule"
 	      OutDataType	      "sfix(16)"
 	      OutScaling	      "2^0"
+	      OutDataTypeStr	      "Inherit: Inherit via internal rule"
 	      SaturateOnIntegerOverflow	off
 	    }
 	    Block {
@@ -1592,6 +1653,7 @@ Model {
 	Line {
 	  SrcBlock		  "eta"
 	  SrcPort		  1
+	  Points		  [230, 0]
 	  DstBlock		  "Demux1"
 	  DstPort		  1
 	}
@@ -1605,14 +1667,14 @@ Model {
 	Line {
 	  SrcBlock		  "psi_d"
 	  SrcPort		  1
-	  Points		  [100, 0; 0, 260]
+	  Points		  [100, 0; 0, 205]
 	  DstBlock		  "course control"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "Demux"
 	  SrcPort		  6
-	  Points		  [315, 0]
+	  Points		  [0, -40; 315, 0]
 	  DstBlock		  "course control"
 	  DstPort		  3
 	}
@@ -1631,49 +1693,56 @@ Model {
 	Line {
 	  SrcBlock		  "D_d"
 	  SrcPort		  1
-	  Points		  [155, 0; 0, 365]
+	  Points		  [155, 0; 0, 265]
 	  DstBlock		  "depth"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "Demux1"
 	  SrcPort		  3
-	  Points		  [45, 0; 0, 225]
+	  Points		  [45, 0; 0, 135]
 	  DstBlock		  "depth"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "Demux"
 	  SrcPort		  5
-	  Points		  [30, 0; 0, 135]
+	  Points		  [30, 0; 0, 35]
 	  DstBlock		  "depth"
 	  DstPort		  3
 	}
 	Line {
 	  SrcBlock		  "Demux1"
 	  SrcPort		  5
-	  Points		  [30, 0; 0, 235]
+	  Points		  [30, 0; 0, 155]
 	  DstBlock		  "depth"
 	  DstPort		  4
 	}
 	Line {
 	  SrcBlock		  "depth"
 	  SrcPort		  1
-	  Points		  [185, 0; 0, -250]
+	  Points		  [185, 0; 0, -150]
 	  DstBlock		  "Mux"
 	  DstPort		  3
 	}
 	Line {
 	  SrcBlock		  "depth"
 	  SrcPort		  2
-	  Points		  [205, 0; 0, -225]
+	  Points		  [205, 0; 0, -125]
 	  DstBlock		  "Mux"
 	  DstPort		  5
 	}
 	Line {
-	  SrcBlock		  "tau6"
+	  SrcBlock		  "course control"
 	  SrcPort		  1
-	  Points		  [25, 0; 0, -125]
+	  Points		  [175, 0; 0, -70]
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "course control"
+	  SrcPort		  2
+	  Points		  [0, 25]
 	  DstBlock		  "Mux"
 	  DstPort		  6
 	}
@@ -1705,7 +1774,7 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      eta_0		      "[0 10 0 0 0 pi/4]"
+      eta_0		      "[0 10 0 0 0 pi/6]"
       nu_0		      "[0 0 0 0 0 0]"
       c_on_off		      off
       beta_c		      "45"
@@ -1754,7 +1823,7 @@ Model {
     Block {
       BlockType		      Constant
       Name		      "Speed_ref"
-      Position		      [285, 205, 315, 235]
+      Position		      [280, 195, 310, 225]
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
     }
@@ -1771,8 +1840,8 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-800"
-      YMax		      "300"
+      YMin		      "-600"
+      YMax		      "600"
       SaveName		      "ScopeData4"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -1835,8 +1904,7 @@ Model {
       BlockType		      Sin
       Name		      "bottom signature"
       Ports		      [0, 1]
-      Position		      [215, 195, 245, 225]
-      SineType		      "Time based"
+      Position		      [210, 80, 240, 110]
       Amplitude		      "6"
       Bias		      "50"
       Frequency		      "0.01"
@@ -1848,8 +1916,12 @@ Model {
       Ports		      [2, 1]
       Position		      [85, 149, 185, 191]
       MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
       System {
 	Name			"cte"
 	Location		[211, 386, 890, 739]
@@ -2013,7 +2085,7 @@ Model {
     Line {
       SrcBlock		      "bottom signature"
       SrcPort		      1
-      Points		      [0, -25; 65, 0]
+      Points		      [0, 90; 70, 0]
       Branch {
 	DstBlock		"Crusing controller"
 	DstPort			2
@@ -2027,7 +2099,7 @@ Model {
     Line {
       SrcBlock		      "Speed_ref"
       SrcPort		      1
-      Points		      [0, -20; 20, 0]
+      Points		      [0, -10; 25, 0]
       Branch {
 	DstBlock		"Crusing controller"
 	DstPort			3
@@ -2148,5 +2220,29 @@ Model {
       DstBlock		      "XY Graph"
       DstPort		      1
     }
+  }
+}
+# Finite State Machines
+#
+#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 22:47:12
+#
+#
+
+
+Stateflow {
+  machine {
+    id			    1
+    name		    "cross_track"
+    created		    "28-Oct-2008 22:17:55"
+    isLibrary		    0
+    firstTarget		    2
+    sfVersion		    71014000.000003
+  }
+  target {
+    id			    2
+    name		    "sfun"
+    description		    "Default Simulink S-Function Target."
+    machine		    1
+    linkNode		    [1 0 0]
   }
 }

@@ -30,7 +30,7 @@ end
 bottom = 4;
 
 focus = 1; % camera focus
-eta0 = [0 0 0 0 0 0]'; %initial position
+eta0 = [100 -100 0 0 0 pi]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
 % % kalman filter parameters
@@ -42,12 +42,13 @@ nu0 = zeros(6,1); %initial velocity
 % R = diag([0.1 0.1 0.1 0.1 0.1 0.1 .01 .01 .01 .01 .01 .01]);
 
 % kalman filter 2 parameters
-P0 = eye(18);
+P0 = 0.1.*eye(12);
 h = 0.1; % sampling interval
-Q = eye(12);
-% Q = diag([.1 .1 .01 .01 .01 .01 .1 .1 .1 .1 .1 .1]);
-R = .01.*eye(12);
-% R = diag([10 5 3 2 2 6 .1 .1 .1 .1 .1 .1]);
+% Q = 10.*eye(12);
+% Q = 1.*diag([10 10 10 10 10 10 .01 .01 .01 .01 .01 .01]);
+Q = eye(6);
+R = 0.1.*eye(6);
+% R = diag([10 .1 10 .1 10 .1]);
 
 
 
@@ -106,6 +107,5 @@ G = [zeros(3, 6);
 
 T = 1000*eye(6);
 
-sim los_test_with_camsim
+sim los_test_with_camsim_kalman2
 plots
-

@@ -22,10 +22,10 @@ nu = u(7:12);
 U = nu(1);
 r = nu(6);
 
-lambda1 = 6;
+lambda1 = 0.5;
 lambda2 = 0.1;
-n = 0.1;
-phi = 0.5;
+n = 1;
+phi = 0.1;
 
 
 if current == 1
@@ -37,11 +37,11 @@ else
     S = (WP(1, current)-eta(1)*(WP(1, current)-WP(1, current-1)) + (WP(2, current)-eta(2)*(WP(2, current)-WP(2, current-1))))/Li;
     psi_track = atan2(WP(2, current)-WP(2, current-1), WP(1, current)-WP(1,current-1));
     psi_cte = eta(6) - psi_track;
-    sigma = U*r*cos(psi_cte) + lambda1*U*sin(psi_cte) + lambda2*S*sin(delta_p)
+    sigma = U*r*cos(psi_cte) + lambda1*U*sin(psi_cte) + lambda2*S*sin(delta_p);
     if cos(psi_cte) == 0
         tau6 = 0;
     else
-       tau6 = Iz*(r^2*tan(psi_cte) - lambda1*r - lambda2*tan(psi_cte) - n*(sigma/phi)/(cos(psi_cte)))
+       tau6 = Iz*(r^2*tan(psi_cte) - lambda1*r - lambda2*tan(psi_cte) - n*(sigma/phi)/(cos(psi_cte)));
     end
 end
 
