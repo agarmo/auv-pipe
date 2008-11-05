@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.97"
+    ComputedModelVersion    "1.98"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -43,11 +43,11 @@ Model {
   Creator		  "anderga"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "anders"
+  LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Nov  5 11:47:41 2008"
+  LastModifiedDate	  "Wed Nov 05 21:11:09 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:97>"
+  ModelVersionFormat	  "1.%<AutoIncrement:98>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -637,6 +637,9 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Reference
+    }
+    Block {
       BlockType		      Scope
       ModelBased	      off
       TickLabels	      "OneTimeTick"
@@ -717,11 +720,6 @@ Model {
       BlockType		      Terminator
     }
     Block {
-      BlockType		      Reshape
-      OutputDimensionality    "1-D array"
-      OutputDimensions	      "[1,1]"
-    }
-    Block {
       BlockType		      Abs
       ZeroCross		      on
       SampleTime	      "-1"
@@ -789,7 +787,7 @@ Model {
   }
   System {
     Name		    "los_test_with_camsim_kalman2"
-    Location		    [314, 53, 1378, 781]
+    Location		    [230, 74, 1603, 973]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1218,7 +1216,7 @@ Model {
       BlockType		      SubSystem
       Name		      "CAMSim"
       Ports		      [3, 2]
-      Position		      [125, 429, 225, 471]
+      Position		      [125, 439, 225, 481]
       AncestorBlock	      "fordypningsprosjekt/CAMSim"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
@@ -2943,11 +2941,6 @@ Model {
       RTWSystemCode	      "Auto"
       FunctionWithSeparateData off
       Opaque		      off
-      Array {
-	Type			"Handle"
-	Dimension		0
-	PropName		"AvailSigsLoadSave"
-      }
       RequestExecContextInheritance off
       MaskHideContents	      off
       MaskType		      "Stateflow"
@@ -3774,7 +3767,7 @@ Model {
 		DstPort			2
 	      }
 	      Branch {
-		Points			[0, 190]
+		Points			[0, 200]
 		DstBlock		"CAMSim"
 		DstPort			2
 	      }
@@ -3953,13 +3946,13 @@ Model {
     Line {
       SrcBlock		      "Sum"
       SrcPort		      1
-      Points		      [0, 75]
+      Points		      [0, 85]
       Branch {
 	DstBlock		"CAMSim"
 	DstPort			3
       }
       Branch {
-	Points			[0, 95; 420, 0]
+	Points			[0, 85; 420, 0]
 	DstBlock		"Kalman filter"
 	DstPort			6
       }
@@ -3994,7 +3987,7 @@ Model {
     Line {
       SrcBlock		      "CAMSim"
       SrcPort		      1
-      Points		      [0, 10; 35, 0]
+      Points		      [35, 0]
       Branch {
 	Points			[0, -5]
 	Branch {
@@ -4112,7 +4105,7 @@ Model {
     Line {
       SrcBlock		      "CAMSim"
       SrcPort		      2
-      Points		      [50, 0; 0, 40]
+      Points		      [50, 0; 0, 30]
       Branch {
 	DstBlock		"Embedded\nMATLAB Function"
 	DstPort			6
@@ -4127,7 +4120,7 @@ Model {
 }
 # Finite State Machines
 #
-#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 22:47:12
+#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 21:38:28
 #
 #
 
