@@ -22,10 +22,10 @@ nu = u(7:12);
 %distance to target
 r = (WP(1, current)-eta(1))^2 + (WP(2, current)-eta(2))^2;
 
-r_dot = (WP(1, current)-eta(1))*(cos(eta(6))*nu(1)-sin(eta(6))*nu(2)) + (WP(2, current)-eta(2))*(sin(eta(6))*nu(1)+cos(eta(6))*nu(2))
+% r_dot = (WP(1, current)-eta(1))*(cos(eta(6))*nu(1)-sin(eta(6))*nu(2)) + (WP(2, current)-eta(2))*(sin(eta(6))*nu(1)+cos(eta(6))*nu(2))
 
 %check if distance to wp is less than r0
-if r <= r0^2 && r_dot < 0
+if r <= r0^2 %&& r_dot < 0
     if size(WP, 2) ~= current 
         current = current +1
     else

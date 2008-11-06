@@ -23,18 +23,20 @@
 	
 	
 	
-	
 
 \section{Hydrodynamic Model}
-	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this report uses the 6 DOF model described in \cite{fossen}.
+	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this report uses 
+	the 6 DOF model described in \cite{fossen}.
 		\begin{align}
 			\label{eq:chp1-model}
 			\mathbf{\dot{\eta}} &= \rotation \mathbf{\nu} \\
 			\mass + \coriolis + \damping + \restoring &= \force \\
 		\end{align}
-	The equations \eqref{eq:chp1-model} describes the kinematics and kinetics for the model. It is in the mathematical sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is a skew-symmetric matrix.
+	The equations \eqref{eq:chp1-model} describes the kinematics and kinetics for the model. It is in the mathematical 
+	sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is a skew-symmetric matrix.
 	
-	The $\rotation$ matrix is the rotation matrix of euler coordinates which relates the velocity of the vessel to actual movment in the global reference system.
+	The $\rotation$ matrix is the rotation matrix of euler coordinates which relates the velocity of the vessel to actual 
+	movment in the global reference system.
 
 
 

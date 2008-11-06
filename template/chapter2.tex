@@ -1,6 +1,6 @@
 \chapter{Modelling}
 
-\section{Control Problem Formulation}
+\section{Problem Formulation}
 \label{chap2:problem}
 	To solve the pipeline following problem it is important to have a clear and distinct problem formulation. 
 	The case where the AUV is guided towards the pipeline is not so much of an interrest because it is a stright 
@@ -8,10 +8,20 @@
 
 	***WARNING, Usammenhengende*** bÃr flyttes
 
+	The following assumptions are needed to define the guidance problem:
+		\begin{enumerate}
+			\item The pipeline is layed on the sea bottom, which gives the pipeline the same
+			height signature as the sea bottom. The guidance problem is then reduced to a
+			two-dimentional problem.
+			\item The pipeline is modelled as a point in space with a specific velocity which
+			moves in the direction of the pipeline.
+		\end{enumerate}
+
 	The interresting case is when the AUV is to acquire the pipeline and track it by the means of a camera. The
 	camera will output three points, distorted by noise. Since the AUV preferebly will travel with the
 	pipeline, the coordinates of interrest will be the y-coordinates of the different points. It would be
-	a good idea to formulate the points as points on the pipeline with a velocity moving with the AUV.
+	a good ideeg øl gjennom offentlig område er jo en vederstyggelighet,  
+	men styret er vel ikke dto formulate the points as points on the pipeline with a velocity moving with the AUV.
 
 	This gives rise to formulate the pipeline as a point moving ahead of the AUV. The vessel will pursue
 	this but it is convenient that it will never catch up with it.

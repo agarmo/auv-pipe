@@ -1,35 +1,58 @@
 \chapter{Introduction}
 
-	The use of Autonomous Underwater Vehicles (AUV) in pipeline following and inspection is of major interrest of oil exploiting enterprises. Today most of the inspection and maintainence of subsea pipelines are done using Remotly Operated Vehicles (ROV). They represent an substantial amount of expences for the oil companies, because of the fact that they are operated by humans. 
+	The use of Autonomous Underwater Vehicles (AUV) in pipeline following and inspection is of major
+	interrest of oil exploiting enterprises. Today most of the inspection and maintainence of subsea
+	pipelines are done using Remotly Operated Vehicles (ROV). They represent an substantial amount of
+	expences for the oil companies, because of the fact that they are operated by humans. 
 	
-	An AUV may both improve the data acquisition process and reduce the expences introduced by the inspection procedure. 
+	An AUV may both improve the data acquisition process and reduce the expences introduced by the
+	inspection procedure. 
 	
-	The vessel in question is a Kongsberg Maritime \textit{HUGIN 1000} Autonomous Underwater Vehicle, which is controllable in 5 degrees of freedom (DOF), which gives the AUV hovering capabilities. The pipeline detection equipment is a downward looking camera with sufficient lighting to operate at about 3-5 meters above the seabottom. Ofcourse the visibility conditions will change according to depth and amount of poarticles in the water(naval snow). In the simulations this will be regarded as measurement noise from the image porcessing system. 
+	The vessel in question is a Kongsberg Maritime \textit{HUGIN 1000} Autonomous Underwater Vehicle,
+	which is controllable in 5 degrees of freedom (DOF), which gives the AUV hovering capabilities. The
+	pipeline detection equipment is a downward looking camera with sufficient lighting to operate at about
+	3-5 meters above the seabottom. Ofcourse the visibility conditions will change according to depth and
+	amount of poarticles in the water(navalsnow). In the simulations this will be regarded as measurement
+	noise from the image porcessing system. 
 	
-	This report considers how to automate the pipeline inspections process. It will take into account the possible current that may be present at the sea bottom. It will consider the posibility that the pipeline is burried under mud and not visible to the camera. In that case some kind of an estimator will be used to predict where the pipeline is headed.
 	
-	The AUV might contain a set of guidance algorthms which considers what is the current mission. A mission can be devided into 4 parts:
+	This report considers how to automate the pipeline inspections process. It will take into account the
+	possible current that may be present at the sea bottom. It will consider the posibility that the
+	pipeline is burried under mud and not visible to the camera. In that case some kind of an estimator
+	will be used to predict where the pipeline is headed.
+	
+	The AUV might contain a set of guidance algorthms which considers what is the current mission. A 
+	mission can be devided into 4 parts:
 	\begin{enumerate}
 	 \item Initialization and initial descent
 	 \item Search for and Accuire pipeline
 	 \item Track and Inspect pipeline
 	 \item Ascent to the surface and deliver the accuired data
 	\end{enumerate}
-	Each of these parts requier a different guidance scheem, except for the descent and ascent parts which will employ the same guidance scheem. 
+	Each of these parts requier a different guidance scheem, except for the descent and ascent parts
+	which will employ the same guidance scheem. 
 	
-	The \textit{Seach and Accuire} part will need the vessel to move in some kind of search pattern if the pipeline is not located exactly where the initial position data states it to be. This search pattern should also be used if the pipeline is lost during tracking. 
+	The \textit{Seach and Accuire} part will need the vessel to move in some kind of search pattern if
+	the pipeline is not located exactly where the initial position data states it to be. This search
+	pattern should also be used if the pipeline is lost during tracking. 
 	
-	The \textit{Track and Inspect} part needs a guidance system which is capable of keeping the vessel on top of the pipeline independent of the current in the area and other possible disturbances. This is necesary because the primary mission for the AUV is to provide video of the pipeline which can be used to determine the state and well-being of the pipeline.
+	The \textit{Track and Inspect} part needs a guidance system which is capable of keeping the vessel 
+	on top of the pipeline independent of the current in the area and other possible disturbances. This is
+	necesary because the primary mission for the AUV is to provide video of the pipeline which can be used
+	to determine the state and well-being of the pipeline.
 	
 	This report is devided into four chapters;
 	\begin{enumerate}
-	 \item Theory. Describes the neccesary theory needed to understand the problem, and contains a summary of literature on the pipeline following subject.
+	 \item Theory. Describes the neccesary theory needed to understand the problem, and contains a summary
+	of literature on the pipeline following subject.
 	 \item Modeling, assumptions about the model and how it is modeled.
 	 \item The simulation and implementation of the model.
 	 \item Discussion of the results given by the simulations.
 	\end{enumerate}
 
-	Last, this report will consider the simulation, and document on the results given by the implemented guidance system. There will be a discussion on how well the guidance system prefomed and how acurate the data from the simulation is. 
+	Last, this report will consider the simulation, and document on the results given by the implemented 
+	guidance system. There will be a discussion on how well the guidance system prefomed and how acurate
+	the data from the simulation is. 
 	
 	
 	

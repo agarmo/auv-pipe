@@ -43,9 +43,9 @@ Model {
   Creator		  "anderga"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "anderga"
+  LastModifiedBy	  "anders"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Nov 05 21:11:09 2008"
+  LastModifiedDate	  "Wed Nov  5 21:26:04 2008"
   RTWModifiedTimeStamp	  0
   ModelVersionFormat	  "1.%<AutoIncrement:98>"
   ConfigurationManager	  "None"
@@ -787,7 +787,7 @@ Model {
   }
   System {
     Name		    "los_test_with_camsim_kalman2"
-    Location		    [230, 74, 1603, 973]
+    Location		    [288, 114, 1352, 842]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -4120,7 +4120,7 @@ Model {
 }
 # Finite State Machines
 #
-#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 21:38:28
+#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 22:47:12
 #
 #
 

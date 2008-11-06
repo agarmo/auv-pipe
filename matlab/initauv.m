@@ -30,7 +30,7 @@ end
 bottom = 4;
 
 focus = 1; % camera focus
-eta0 = [100 -100 0 0 0 pi]'; %initial position
+eta0 = [-100 -100 0 0 0 pi]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
 % % kalman filter parameters
@@ -46,9 +46,9 @@ P0 = 0.1.*eye(12);
 h = 0.1; % sampling interval
 % Q = 10.*eye(12);
 % Q = 1.*diag([10 10 10 10 10 10 .01 .01 .01 .01 .01 .01]);
-Q = eye(6);
-R = 0.1.*eye(6);
-% R = diag([10 .1 10 .1 10 .1]);
+Q = 10.*eye(6);
+R = 0.01.*eye(6);
+% R = diag([1 .1 1 .1 1 .1]);
 
 
 

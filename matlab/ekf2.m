@@ -31,7 +31,7 @@ camOutput = u(32);
 
 
 
-if camOutput == 1 
+if camOutput == 1  
 
 %% Model parameters
 
@@ -139,20 +139,20 @@ r = nu(6);
            
            
 %            
-% L1_star = [1/z*w+p1y/focus*p-2*p1x/focus*q,p1x/focus*p+r,0,0,0,0;
-%            -p1y/focus*q-r, 1/z*w+2*p1y/focus*p-p1x/focus*q,0,0,0,0;
-%            0,0, 1/z*w+p2y/focus*p-2*p2x/focus*q,p2x/focus*p+r,0,0;
-%            0,0,-p2y/focus*q-r, 1/z*w+2*p2y/focus*p-p2x/focus*q,0,0;
-%            0,0,0,0, 1/z*w+p3y/focus*p-2*p3x/focus*q,p3x/focus*p+r;
-%            0,0,0,0,-p3y/focus*q-r, 1/z*w+2*p3y/focus*p-p3x/focus*q];
+L1_star = [1/z*w+p1y/focus*p-2*p1x/focus*q,p1x/focus*p+r,0,0,0,0;
+           -p1y/focus*q-r, 1/z*w+2*p1y/focus*p-p1x/focus*q,0,0,0,0;
+           0,0, 1/z*w+p2y/focus*p-2*p2x/focus*q,p2x/focus*p+r,0,0;
+           0,0,-p2y/focus*q-r, 1/z*w+2*p2y/focus*p-p2x/focus*q,0,0;
+           0,0,0,0, 1/z*w+p3y/focus*p-2*p3x/focus*q,p3x/focus*p+r;
+           0,0,0,0,-p3y/focus*q-r, 1/z*w+2*p3y/focus*p-p3x/focus*q];
 
 % 
-L1_star = [zeros(2, 6);
-           0 0 1/z*nu(3) 0 0 0;
-           0 0 0   0 0 0;
-           0 0 0 0 -2/focus*p3x*nu(5) 1*nu(6);
-           0 0 0 0 -p3y/focus*nu(5) 0];
-       
+% L1_star = [zeros(2, 6);
+%            0 0 1/z*nu(3) 0 0 0;
+%            0 0 0   0 0 0;
+%            0 0 0 0 -2/focus*p3x*nu(5) 1*nu(6);
+%            0 0 0 0 -p3y/focus*nu(5) 0];
+%        
 % L2_star =  [-focus/z, 0, p1x/z p1y*p1x/focus, -(p1x^2)/focus-focus, p1y;
 %             0, -focus/z, -p1y/z, (p1y^2)/focus+focus, -p1x*p1y/focus, -p1x;
 %             -focus/z, 0, p2x/z, p2x*p2y/focus, -(p2x^2)/focus-focus, p2y;
