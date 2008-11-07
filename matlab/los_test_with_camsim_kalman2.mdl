@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.98"
+    ComputedModelVersion    "1.100"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anders"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Nov  5 21:26:04 2008"
+  LastModifiedDate	  "Fri Nov  7 15:30:55 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:98>"
+  ModelVersionFormat	  "1.%<AutoIncrement:100>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -637,9 +637,6 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      Reference
-    }
-    Block {
       BlockType		      Scope
       ModelBased	      off
       TickLabels	      "OneTimeTick"
@@ -720,6 +717,11 @@ Model {
       BlockType		      Terminator
     }
     Block {
+      BlockType		      Reshape
+      OutputDimensionality    "1-D array"
+      OutputDimensions	      "[1,1]"
+    }
+    Block {
       BlockType		      Abs
       ZeroCross		      on
       SampleTime	      "-1"
@@ -787,7 +789,7 @@ Model {
   }
   System {
     Name		    "los_test_with_camsim_kalman2"
-    Location		    [288, 114, 1352, 842]
+    Location		    [96, 91, 1160, 819]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -1227,7 +1229,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"CAMSim"
-	Location		[454, 349, 1325, 836]
+	Location		[231, 182, 1102, 669]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -2930,180 +2932,6 @@ Model {
       DisplayOption	      "bar"
     }
     Block {
-      BlockType		      SubSystem
-      Name		      "Embedded\nMATLAB Function"
-      Ports		      [6, 1]
-      Position		      [300, 413, 370, 512]
-      ForegroundColor	      "blue"
-      PermitHierarchicalResolution "ExplicitOnly"
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      Opaque		      off
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      MaskType		      "Stateflow"
-      MaskDescription	      "Embedded MATLAB block"
-      MaskDisplay	      "disp('fcn');"
-      MaskSelfModifiable      on
-      MaskIconFrame	      on
-      MaskIconOpaque	      off
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      System {
-	Name			"Embedded\nMATLAB Function"
-	Location		[257, 457, 812, 717]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "u"
-	  Position		  [20, 101, 40, 119]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "psi_d"
-	  Position		  [20, 136, 40, 154]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "eta"
-	  Position		  [20, 171, 40, 189]
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "nu"
-	  Position		  [20, 206, 40, 224]
-	  Port			  "4"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "t"
-	  Position		  [20, 246, 40, 264]
-	  Port			  "5"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "output"
-	  Position		  [20, 281, 40, 299]
-	  Port			  "6"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  " Demux "
-	  Ports			  [1, 1]
-	  Position		  [270, 245, 320, 285]
-	  Outputs		  "1"
-	}
-	Block {
-	  BlockType		  "S-Function"
-	  Name			  " SFunction "
-	  Tag			  "Stateflow S-Function los_test_with_camsim_kalman2 2"
-	  Ports			  [6, 2]
-	  Position		  [180, 102, 230, 243]
-	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[6 2]"
-	  EnableBusSupport	  on
-	  Port {
-	    PortNumber		    2
-	    Name		    "y"
-	    RTWStorageClass	    "Auto"
-	    DataLoggingNameMode	    "SignalName"
-	  }
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  " Terminator "
-	  Position		  [460, 256, 480, 274]
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "y"
-	  Position		  [460, 101, 480, 119]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Line {
-	  SrcBlock		  " SFunction "
-	  SrcPort		  1
-	  DstBlock		  " Demux "
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "u"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "psi_d"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "eta"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "nu"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  4
-	}
-	Line {
-	  SrcBlock		  "t"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  5
-	}
-	Line {
-	  SrcBlock		  "output"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  6
-	}
-	Line {
-	  Name			  "y"
-	  Labels		  [0, 0]
-	  SrcBlock		  " SFunction "
-	  SrcPort		  2
-	  DstBlock		  "y"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  " Demux "
-	  SrcPort		  1
-	  DstBlock		  " Terminator "
-	  DstPort		  1
-	}
-      }
-    }
-    Block {
       BlockType		      Reference
       Name		      "HUGIN 1000"
       Ports		      [1, 3]
@@ -3140,7 +2968,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Kalman filter"
-	Location		[690, 520, 1188, 825]
+	Location		[644, 334, 1142, 639]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -3479,7 +3307,7 @@ Model {
       Ports		      [3]
       Position		      [860, 526, 890, 594]
       Floating		      off
-      Location		      [1336, 54, 1676, 532]
+      Location		      [1030, 92, 1370, 570]
       Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
@@ -3489,8 +3317,9 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-1.75~-0.5~-1.75"
-      YMax		      "0.5~0.5~0.5"
+      TimeRange		      "700"
+      YMin		      "-12.5~-0.075~-12.5"
+      YMax		      "2.5~0.125~2.5"
       SaveToWorkspace	      on
       SaveName		      "Translation_ref1"
       DataFormat	      "StructureWithTime"
@@ -3503,7 +3332,7 @@ Model {
       Ports		      [3]
       Position		      [860, 606, 890, 674]
       Floating		      off
-      Location		      [1339, 589, 1676, 998]
+      Location		      [1339, 592, 1676, 1001]
       Open		      off
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
@@ -3514,8 +3343,8 @@ Model {
 	axes3			"%<SignalLabel>"
       }
       TimeRange		      "700"
-      YMin		      "-0.4~-1.25~-0.5"
-      YMax		      "0.5~0.5~0.5"
+      YMin		      "-900~-900~-900"
+      YMax		      "100~400~100"
       SaveToWorkspace	      on
       SaveName		      "Attitude_ref1"
       DataFormat	      "StructureWithTime"
@@ -3560,6 +3389,185 @@ Model {
       OutScaling	      "2^0"
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Switching logic"
+      Ports		      [6, 1]
+      Position		      [300, 413, 370, 512]
+      ForegroundColor	      "blue"
+      PermitHierarchicalResolution "ExplicitOnly"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      Array {
+	Type			"Handle"
+	Dimension		0
+	PropName		"AvailSigsLoadSave"
+      }
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      MaskType		      "Stateflow"
+      MaskDescription	      "Embedded MATLAB block"
+      MaskDisplay	      "disp('fcn');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Switching logic"
+	Location		[257, 457, 812, 717]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "u"
+	  Position		  [20, 101, 40, 119]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "psi_d"
+	  Position		  [20, 136, 40, 154]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "eta"
+	  Position		  [20, 171, 40, 189]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "nu"
+	  Position		  [20, 206, 40, 224]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "t"
+	  Position		  [20, 246, 40, 264]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "output"
+	  Position		  [20, 281, 40, 299]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  " Demux "
+	  Ports			  [1, 1]
+	  Position		  [270, 245, 320, 285]
+	  Outputs		  "1"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  " SFunction "
+	  Tag			  "Stateflow S-Function los_test_with_camsim_kalman2 2"
+	  Ports			  [6, 2]
+	  Position		  [180, 102, 230, 243]
+	  FunctionName		  "sf_sfun"
+	  PortCounts		  "[6 2]"
+	  EnableBusSupport	  on
+	  Port {
+	    PortNumber		    2
+	    Name		    "y"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  " Terminator "
+	  Position		  [460, 256, 480, 274]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "y"
+	  Position		  [460, 101, 480, 119]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  " SFunction "
+	  SrcPort		  1
+	  DstBlock		  " Demux "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "u"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "psi_d"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "eta"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "nu"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "t"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "output"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  6
+	}
+	Line {
+	  Name			  "y"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  2
+	  DstBlock		  "y"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " Demux "
+	  SrcPort		  1
+	  DstBlock		  " Terminator "
+	  DstPort		  1
+	}
+      }
     }
     Block {
       BlockType		      Scope
@@ -3661,7 +3669,7 @@ Model {
       Ports		      [1]
       Position		      [300, 329, 330, 361]
       Floating		      off
-      Location		      [622, 54, 1135, 576]
+      Location		      [151, 148, 664, 670]
       Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
@@ -3669,9 +3677,8 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      TimeRange		      "500"
-      YMin		      "-0.035"
-      YMax		      "0.035"
+      YMin		      "-0.45"
+      YMax		      "0.45"
       SaveToWorkspace	      on
       SaveName		      "Camsim_output"
       DataFormat	      "Array"
@@ -3720,7 +3727,7 @@ Model {
 		  }
 		  Branch {
 		    Points		    [125, 0; 0, 55]
-		    DstBlock		    "Embedded\nMATLAB Function"
+		    DstBlock		    "Switching logic"
 		    DstPort		    3
 		  }
 		}
@@ -3774,7 +3781,7 @@ Model {
 	    }
 	    Branch {
 	      Points		      [0, 210]
-	      DstBlock		      "Embedded\nMATLAB Function"
+	      DstBlock		      "Switching logic"
 	      DstPort		      4
 	    }
 	  }
@@ -3964,7 +3971,7 @@ Model {
       DstPort		      2
     }
     Line {
-      SrcBlock		      "Embedded\nMATLAB Function"
+      SrcBlock		      "Switching logic"
       SrcPort		      1
       Points		      [0, -295]
       Branch {
@@ -3981,7 +3988,7 @@ Model {
       SrcBlock		      "LOS"
       SrcPort		      1
       Points		      [15, 0; 0, 125]
-      DstBlock		      "Embedded\nMATLAB Function"
+      DstBlock		      "Switching logic"
       DstPort		      2
     }
     Line {
@@ -3992,7 +3999,7 @@ Model {
 	Points			[0, -5]
 	Branch {
 	  Points		  [0, -20]
-	  DstBlock		  "Embedded\nMATLAB Function"
+	  DstBlock		  "Switching logic"
 	  DstPort		  1
 	}
 	Branch {
@@ -4019,7 +4026,7 @@ Model {
       SrcBlock		      "Clock"
       SrcPort		      1
       Points		      [35, 0]
-      DstBlock		      "Embedded\nMATLAB Function"
+      DstBlock		      "Switching logic"
       DstPort		      5
     }
     Line {
@@ -4107,7 +4114,7 @@ Model {
       SrcPort		      2
       Points		      [50, 0; 0, 30]
       Branch {
-	DstBlock		"Embedded\nMATLAB Function"
+	DstBlock		"Switching logic"
 	DstPort			6
       }
       Branch {
@@ -4136,7 +4143,7 @@ Stateflow {
   }
   chart {
     id			    2
-    name		    "Embedded\nMATLAB Function"
+    name		    "Switching logic"
     windowPosition	    [375.75 203.25 200.25 189.75]
     viewLimits		    [0 156.75 0 153.75]
     screen		    [1 1 1680 1050 1.25]
@@ -4355,7 +4362,7 @@ Stateflow {
   }
   instance {
     id			    13
-    name		    "Embedded\nMATLAB Function"
+    name		    "Switching logic"
     machine		    1
     chart		    2
   }
