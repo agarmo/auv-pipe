@@ -6,7 +6,7 @@
 	The case where the AUV is guided towards the pipeline is not so much of an interrest because it is a stright 
 	forward problem which are the subject of many articles. 
 
-	***WARNING, Usammenhengende*** bÃr flyttes
+	***WARNING, Usammenhengende*** bÃ¸ flyttes
 
 	The following assumptions are needed to define the guidance problem:
 		\begin{enumerate}
@@ -20,8 +20,7 @@
 	The interresting case is when the AUV is to acquire the pipeline and track it by the means of a camera. The
 	camera will output three points, distorted by noise. Since the AUV preferebly will travel with the
 	pipeline, the coordinates of interrest will be the y-coordinates of the different points. It would be
-	a good ideeg øl gjennom offentlig område er jo en vederstyggelighet,  
-	men styret er vel ikke dto formulate the points as points on the pipeline with a velocity moving with the AUV.
+	a good idea to formulate the points as points on the pipeline with a velocity moving with the AUV.
 
 	This gives rise to formulate the pipeline as a point moving ahead of the AUV. The vessel will pursue
 	this but it is convenient that it will never catch up with it.
@@ -271,3 +270,6 @@
 \section{Trajectory Generation}
 	Do I need trajectory generation? 	
 	
+	The goal states, which are the desired location for the AUV are filtered through a simplyfied
+	reference model of the auv. This gives the desired trajectories for the vehicle to follow.
+

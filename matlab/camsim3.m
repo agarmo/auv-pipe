@@ -4,6 +4,8 @@ function [x] = camsim3(u)
 global pipeline focus
 
 t = u(32);
+noise = u(33);
+variance = u(34);
 
 DimX = 400;
 DimY = 400;
@@ -147,9 +149,15 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
          isOutput = 1;
     end
 
-    noise = 0.01.*randn(6,1);
+    if noise == 1
     
-    output = P + noise;
+        noise = variance.*randn(6,1);
+    
+        output = P + noise;
+    else
+        output = P;
+    end
+    
     x = [output; isOutput];
 else
     if isempty(output)

@@ -25,18 +25,19 @@
 	
 
 \section{Hydrodynamic Model}
-	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this report uses 
-	the 6 DOF model described in \cite{fossen}.
+	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this
+	report uses the 6 DOF model described in \cite{fossen}.
 		\begin{align}
 			\label{eq:chp1-model}
 			\mathbf{\dot{\eta}} &= \rotation \mathbf{\nu} \\
 			\mass + \coriolis + \damping + \restoring &= \force \\
 		\end{align}
-	The equations \eqref{eq:chp1-model} describes the kinematics and kinetics for the model. It is in the mathematical 
-	sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is a skew-symmetric matrix.
+	The equations \eqref{eq:chp1-model} describes the kinematics and kinetics for the model. It is in the 
+	mathematical sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is 
+	a skew-symmetric matrix.
 	
-	The $\rotation$ matrix is the rotation matrix of euler coordinates which relates the velocity of the vessel to actual 
-	movment in the global reference system.
+	The $\rotation$ matrix is the rotation matrix of euler coordinates which relates the velocity of the 
+	vessel to actual movment in the global reference system.
 
 
 
@@ -125,20 +126,21 @@
 	
 	
 \section{Different methods for pipeline following}
-	A literature study was performed to see what other people have acomplished on the subject on AUV and pipeline following. 
+	A literature study was performed to see what other people have acomplished on the subject on AUV and 
+	pipeline following. 
 	
 	\cite{GuidanceReview} proposes a 2-stage guidance problem. When submerging and ascending to the surface, 
 	the AUV uses a LOS guidance law at full speed. When the pipeline is aqcuired the guidacen law is switched 
 	to a visual guidance scheem, which allows for a precise guidance over the subsea cable or pipeline. 
 		
 	In \cite{MPC_pure_pursuit} a guidance system using Model Predictive Control (MPC) and PNG law was used to make 
-	a guidance system able to track cables and pipelines on the sea bed using Doppler Velocity Log and Electro-Magnetic 
-	sensors to find the cable/pipeline. The report utilizes the pure pursuit scheeme, similiar to what predadtors 
-	do when they are hunting the pray. The cable/pipeline and AUV is formulated as moving points with mass. The 
-	engages in a tail chase with the pipeline ``point``, but the AUV never catches up with it. This method is robust 
-	to model uncertanties and handles constraints of the vessel in a systematic way. The controller however shows 
-	problems when a current is introduced in the system. The AUV drifts of the pipeline, but catches up with the 
-	waypoints in the end.
+	a guidance system able to track cables and pipelines on the sea bed using Doppler Velocity Log and Electro-
+	Magnetic sensors to find the cable/pipeline. The report utilizes the pure pursuit scheeme, similiar to what 
+	predadtors do when they are hunting the pray. The cable/pipeline and AUV is formulated as moving points with 
+	mass. The engages in a tail chase with the pipeline ``point``, but the AUV never catches up with it. This 
+	method is robust to model uncertanties and handles constraints of the vessel in a systematic way. The controller
+	however shows problems when a current is introduced in the system. The AUV drifts of the pipeline, but catches 
+	up with the waypoints in the end.
 	
 	In \cite{Visual_inpsection_of_seabottom_by_AUV} a visual guidance system for inspection of undewater structures 
 	is presented. The visual system uses an Extended Kalman Filter to smooth and predict where the structure i.e. 

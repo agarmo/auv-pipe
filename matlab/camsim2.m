@@ -7,11 +7,14 @@ t = u(32);
 
 persistent output
 
-
+noise = u(33);
+variance = u(34);
 
 if mod(t, 1) == 0 %Every 1 second there is a new sample
     eta = u(1:6);
     bottom = u(13);
+    
+    
 %% Rotation matrix    
     Rot = [u(14:16)';
              u(17:19)';
@@ -132,10 +135,13 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
              pipeline_inside(temp3, 1:2)';
              pipeline_inside(temp,1:2)'];
     end
-
-    noise = 0.01.*randn(6,1);
     
-    output = P + noise;
+    if noise == 1
+        noise = variance.*randn(6,1);
+        output = P + noise;
+    else
+        output = P;
+    end
     x = P;
 else
     if isempty(output)
