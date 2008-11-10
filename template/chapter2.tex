@@ -6,6 +6,7 @@
 	The case where the AUV is guided towards the pipeline is not so much of an interrest because it is a stright 
 	forward problem which are the subject of many articles. 
 
+
 	***WARNING, Usammenhengende*** bø flyttes
 
 	The following assumptions are needed to define the guidance problem:
@@ -83,7 +84,8 @@
 		\rotation (\mass - \tau + \damping) + \mathbf{w}
 	\end{equation}
 
-	
+	****************FEIL************** M� FIKSES
+
 	The state used in the Kalman filter model is $\mathbf{x} = [\mathbf{\eta}^T \quad x_i^T 
 	\quad \mathbf{b}^T]^T$, $\mathbf{x} \in \mathbb{R}^{18}$. The velocity vector, $\mathbf{\nu}$, 
 	the acceleration, $\dot{\mathbf{\nu}}$, and the forces and moments from the regulator, $\mathbf{\tau}$ is 
@@ -265,10 +267,18 @@
 		TODO: Derive the Cross-track error guidance law. \cite{cross-track}
 		
 		
-		
 	
 \section{Trajectory Generation}
-	Do I need trajectory generation? 	
+	
+
+	When the AUV does not find the pipeline exactly where it is, a certain search procedure are initiated.
+	The AUV enters Search Mode and engages uses a maneuvering and tracking controller which follows a
+	specified pattern inside a search corridor. The search corridor is specified by the user before the
+	Pipeline inspeciton mission are initiated. 
+
+	The AUV utilizes a tracking and maneuvering controller to follow the predetermined pattern. When the
+	AUV picks up signs of where the pipeline is, the position is marked and a trajectory are created to
+	turn the AUV in the right direction and give a good startpoint for the pipeline inspection procedure. 
 	
 	The goal states, which are the desired location for the AUV are filtered through a simplyfied
 	reference model of the auv. This gives the desired trajectories for the vehicle to follow.

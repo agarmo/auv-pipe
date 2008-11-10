@@ -33,11 +33,11 @@ Library {
   Creator		  "anderga"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "anderga"
+  LastModifiedBy	  "anders"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Nov 09 19:22:46 2008"
+  LastModifiedDate	  "Mon Nov 10 11:09:25 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:17>"
+  ModelVersionFormat	  "1.%<AutoIncrement:25>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -501,7 +501,7 @@ Library {
   }
   System {
     Name		    "fordypningsprosjekt"
-    Location		    [12, 164, 555, 877]
+    Location		    [66, 106, 609, 819]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -3167,7 +3167,7 @@ Library {
       System {
 	Name			"CAMSim_v2"
 	Location		[231, 182, 1102, 669]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -5681,7 +5681,7 @@ Library {
       BlockType		      SubSystem
       Name		      "HUGIN 1000"
       Ports		      [1, 3]
-      Position		      [355, 276, 470, 354]
+      Position		      [380, 271, 495, 349]
       BackgroundColor	      "orange"
       AncestorBlock	      "fordypningsprosjekt/HUGIN 1000"
       MinAlgLoopOccurrences   off
@@ -7592,6 +7592,277 @@ Library {
     }
     Block {
       BlockType		      SubSystem
+      Name		      "NE Splitter"
+      Ports		      [2, 4]
+      Position		      [315, 619, 415, 661]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"NE Splitter"
+	Location		[732, 153, 1230, 453]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Eta"
+	  Position		  [65, 68, 95, 82]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Nu"
+	  Position		  [65, 173, 95, 187]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 2]
+	  Position		  [325, 61, 330, 99]
+	  ShowName		  off
+	  Outputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux1"
+	  Ports			  [1, 2]
+	  Position		  [305, 161, 310, 199]
+	  ShowName		  off
+	  Outputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector1"
+	  Ports			  [1, 1]
+	  Position		  [195, 141, 235, 219]
+	  InputPortWidth	  "6"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[1 2]"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector2"
+	  Ports			  [1, 1]
+	  Position		  [195, 36, 235, 114]
+	  InputPortWidth	  "6"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[1 2]"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "E"
+	  Position		  [400, 93, 430, 107]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "N"
+	  Position		  [400, 48, 430, 62]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "v"
+	  Position		  [395, 193, 425, 207]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "u"
+	  Position		  [405, 143, 435, 157]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "Eta"
+	  SrcPort		  1
+	  DstBlock		  "Selector2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Nu"
+	  SrcPort		  1
+	  DstBlock		  "Selector1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector2"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, 5]
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [25, 0; 0, -15]
+	  DstBlock		  "N"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [25, 0; 0, 10]
+	  DstBlock		  "E"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector1"
+	  SrcPort		  1
+	  DstBlock		  "Demux1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -20]
+	  DstBlock		  "u"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux1"
+	  SrcPort		  2
+	  Points		  [30, 0; 0, 10]
+	  DstBlock		  "v"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Scopes"
+      Ports		      []
+      Position		      [110, 619, 210, 661]
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Scopes"
+	Location		[402, 218, 900, 518]
+	Open			on
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Scope
+	  Name			  "Attitude"
+	  Ports			  [3]
+	  Position		  [355, 132, 390, 218]
+	  NamePlacement		  "alternate"
+	  Floating		  off
+	  Location		  [188, 390, 512, 629]
+	  Open			  off
+	  NumInputPorts		  "3"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	    axes2		    "%<SignalLabel>"
+	    axes3		    "%<SignalLabel>"
+	  }
+	  YMin			  "-5~-5~-5"
+	  YMax			  "5~5~5"
+	  SaveToWorkspace	  on
+	  SaveName		  "Attitiude"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Sonar"
+	  Ports			  [2]
+	  Position		  [120, 70, 165, 125]
+	  Floating		  off
+	  Location		  [188, 384, 512, 623]
+	  Open			  off
+	  NumInputPorts		  "2"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	    axes2		    "%<SignalLabel>"
+	  }
+	  YMin			  "-5~-5"
+	  YMax			  "5~5"
+	  SaveToWorkspace	  on
+	  SaveName		  "Sonar_data"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Translation"
+	  Ports			  [3]
+	  Position		  [350, 28, 385, 102]
+	  NamePlacement		  "alternate"
+	  Floating		  off
+	  Location		  [188, 390, 512, 629]
+	  Open			  off
+	  NumInputPorts		  "3"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	    axes2		    "%<SignalLabel>"
+	    axes3		    "%<SignalLabel>"
+	  }
+	  YMin			  "-5~-5~-5"
+	  YMax			  "5~5~5"
+	  SaveToWorkspace	  on
+	  SaveName		  "Translation"
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	  SampleTime		  "0"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
       Name		      "Sonar system"
       Ports		      [1, 2]
       Position		      [160, 243, 220, 287]
@@ -7728,7 +7999,7 @@ Library {
       MaskEnableString	      "on"
       MaskVisibilityString    "on"
       MaskToolTipString	      "on"
-      MaskVariables	      "sea_botto=@1;"
+      MaskVariables	      "sea_bottom=@1;"
       MaskInitialization      "load('bottom_signature')"
       MaskIconFrame	      on
       MaskIconOpaque	      on
@@ -7737,7 +8008,7 @@ Library {
       MaskValueString	      "50"
       System {
 	Name			"Sonar system V2"
-	Location		[670, 595, 1168, 895]
+	Location		[1004, 607, 1502, 907]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -7770,7 +8041,7 @@ Library {
 	  BlockType		  Selector
 	  Name			  "Down"
 	  Ports			  [1, 1]
-	  Position		  [135, 189, 160, 211]
+	  Position		  [140, 165, 170, 235]
 	  InputPortWidth	  "6"
 	  IndexOptions		  "Index vector (dialog)"
 	  Indices		  "[3]"
@@ -7831,7 +8102,7 @@ Library {
 	  Position		  [280, 40, 300, 60]
 	  ShowName		  off
 	  IconShape		  "round"
-	  Inputs		  "|+-"
+	  Inputs		  "|++"
 	  InputSameDT		  off
 	  OutDataTypeMode	  "Inherit via internal rule"
 	  OutDataType		  "sfix(16)"
@@ -7927,7 +8198,7 @@ Library {
 	Line {
 	  SrcBlock		  "Down"
 	  SrcPort		  1
-	  Points		  [190, 0]
+	  Points		  [180, 0]
 	  DstBlock		  "Sum1"
 	  DstPort		  2
 	}
@@ -8106,6 +8377,27 @@ Library {
 	  DstPort		  1
 	}
       }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "XY Graph"
+      Ports		      [2]
+      Position		      [455, 605, 485, 640]
+      SourceBlock	      "simulink/Sinks/XY Graph"
+      SourceType	      "XY scope."
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      xmin		      "-1000"
+      xmax		      "1000"
+      ymin		      "-1000"
+      ymax		      "1000"
+      st		      "-1"
     }
     Block {
       BlockType		      SubSystem
@@ -8409,7 +8701,7 @@ Library {
 }
 # Finite State Machines
 #
-#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 21:38:28
+#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 22:47:12
 #
 #
 
