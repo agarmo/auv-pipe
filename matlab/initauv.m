@@ -30,7 +30,7 @@ end
 bottom = 4;
 
 focus = 1; % camera focus
-eta0 = [-100 -100 0 0 0 pi]'; %initial position
+eta0 = [-100 -100 0 0 0 0]'; %initial position
 nu0 = zeros(6,1); %initial velocity
 
 % % kalman filter parameters
@@ -107,5 +107,5 @@ G = [zeros(3, 6);
 
 T = 1000*eye(6);
 
-sim los_test_with_camsim_kalman2
+sim los_test_with_camsim
 plots

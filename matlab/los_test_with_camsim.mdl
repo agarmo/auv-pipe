@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.76"
+    ComputedModelVersion    "1.78"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Oct 31 15:24:56 2008"
+  LastModifiedDate	  "Tue Nov 11 15:53:53 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:76>"
+  ModelVersionFormat	  "1.%<AutoIncrement:78>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -502,20 +502,6 @@ Model {
       DisplayTime	      off
     }
     Block {
-      BlockType		      DataTypeConversion
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Inherit via back propagation"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      OutDataTypeStr	      "Inherit: Inherit via back propagation"
-      LockScale		      off
-      ConvertRealWorld	      "Real World Value (RWV)"
-      RndMeth		      "Zero"
-      SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
       BlockType		      Demux
       Outputs		      "4"
       DisplayOption	      "none"
@@ -582,6 +568,30 @@ Model {
       IgnoreLimit	      off
       ZeroCross		      on
       ContinuousStateAttributes	"''"
+    }
+    Block {
+      BlockType		      Lookup2D
+      RowIndex		      "[0 1]"
+      ColumnIndex	      "[0 1]"
+      Table		      "[0 0;0 0]"
+      LookUpMeth	      "Interpolation-Extrapolation"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
     }
     Block {
       BlockType		      MATLABFcn
@@ -766,19 +776,6 @@ Model {
       RndMeth		      "Floor"
     }
     Block {
-      BlockType		      Sin
-      SineType		      "Time based"
-      TimeSource	      "Use simulation time"
-      Amplitude		      "1"
-      Bias		      "0"
-      Frequency		      "1"
-      Phase		      "0"
-      Samples		      "10"
-      Offset		      "0"
-      SampleTime	      "-1"
-      VectorParams1D	      on
-    }
-    Block {
       BlockType		      Trigonometry
       Operator		      "sin"
       OutputSignalType	      "auto"
@@ -805,7 +802,7 @@ Model {
   }
   System {
     Name		    "los_test_with_camsim"
-    Location		    [61, 332, 1057, 885]
+    Location		    [12, 87, 1274, 947]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -823,7 +820,7 @@ Model {
       BlockType		      Reference
       Name		      "6DOF Plot"
       Ports		      [2, 6]
-      Position		      [510, 15, 585, 145]
+      Position		      [855, 15, 930, 145]
       SourceBlock	      "fordypningsprosjekt/6DOF Plot"
       SourceType	      "6 DOF plot reference versus eta"
       ShowPortLabels	      "FromPortIcon"
@@ -839,7 +836,7 @@ Model {
       BlockType		      Reference
       Name		      "6DOF Plot1"
       Ports		      [2, 6]
-      Position		      [765, 170, 840, 300]
+      Position		      [1020, 170, 1095, 300]
       SourceBlock	      "fordypningsprosjekt/6DOF Plot"
       SourceType	      "6 DOF plot reference versus eta"
       ShowPortLabels	      "FromPortIcon"
@@ -855,7 +852,7 @@ Model {
       BlockType		      Scope
       Name		      "Angular Velocity"
       Ports		      [3]
-      Position		      [920, 216, 950, 284]
+      Position		      [1185, 241, 1215, 309]
       Floating		      off
       Location		      [393, 163, 717, 693]
       Open		      off
@@ -867,8 +864,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-5~0~-40"
-      YMax		      "5~0.3~40"
+      YMin		      "-25~-7~-7.5"
+      YMax		      "15~0~15"
       SaveName		      "ScopeData3"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -878,10 +875,10 @@ Model {
       BlockType		      Scope
       Name		      "Attitude"
       Ports		      [3]
-      Position		      [710, 76, 740, 144]
+      Position		      [975, 76, 1005, 144]
       Floating		      off
-      Location		      [816, 91, 1271, 595]
-      Open		      off
+      Location		      [729, 371, 1184, 875]
+      Open		      on
       NumInputPorts	      "3"
       ZoomMode		      "yonly"
       List {
@@ -890,8 +887,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-30~-10~-200"
-      YMax		      "30~60~250"
+      YMin		      "-0.75~-0.55~-200"
+      YMax		      "0.75~0.1~200"
       SaveToWorkspace	      on
       SaveName		      "Attitude_ref"
       DataFormat	      "StructureWithTime"
@@ -899,770 +896,33 @@ Model {
       SampleTime	      "0"
     }
     Block {
-      BlockType		      SubSystem
-      Name		      "CAMSim"
-      Ports		      [3, 1]
-      Position		      [125, 429, 225, 471]
-      AncestorBlock	      "fordypningsprosjekt/CAMSim"
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
+      BlockType		      Reference
+      Name		      "CAMSim_v3"
+      Ports		      [3, 2]
+      Position		      [530, 421, 640, 469]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      SourceBlock	      "fordypningsprosjekt/CAMSim_v3"
+      SourceType	      ""
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
       FunctionWithSeparateData off
-      Opaque		      off
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      MaskType		      "CAMSim"
-      MaskDescription	      "Outputs 3 points along the pipeline in the field of view"
-      MaskPromptString	      "Sea Bottom [m]"
-      MaskStyleString	      "edit"
-      MaskTunableValueString  "on"
-      MaskEnableString	      "on"
-      MaskVisibilityString    "on"
-      MaskToolTipString	      "on"
-      MaskVariables	      "bottom=@1;"
-      MaskIconFrame	      on
-      MaskIconOpaque	      on
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      MaskValueString	      "10"
-      System {
-	Name			"CAMSim"
-	Location		[540, 151, 1157, 638]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "Eta"
-	  Position		  [20, 43, 50, 57]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "Nu"
-	  Position		  [20, 103, 50, 117]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "bottom_signature"
-	  Position		  [20, 163, 50, 177]
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Clock
-	  Name			  "Clock"
-	  Position		  [230, 403, 310, 427]
-	  DisplayTime		  on
-	  Decimation		  "1"
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 2]
-	  Position		  [105, 231, 110, 269]
-	  BackgroundColor	  "black"
-	  ShowName		  off
-	  Outputs		  "2"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "Euler angles to\nrotation matrix"
-	  Ports			  [1, 1]
-	  Position		  [195, 184, 280, 246]
-	  BackgroundColor	  "yellow"
-	  AncestorBlock		  "marine_gnc/Models/ Kinematics/Euler angles to\nrotation matrix"
-	  ShowPortLabels	  "none"
-	  MinAlgLoopOccurrences	  off
-	  PropExecContextOutsideSubsystem off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  Opaque		  off
-	  RequestExecContextInheritance	off
-	  MaskHideContents	  off
-	  MaskType		  "Euler2R"
-	  MaskDescription	  "Determine the 3-by-3 rotation matrix from the Euler angles (roll, pitch, yaw) using the zyx convention.\n\nOutput is a 9x1 vector\n"
-	  MaskDisplay		  "port_label('input',1,'theta')\nport_label('output',1,'R')"
-	  MaskIconFrame		  on
-	  MaskIconOpaque	  on
-	  MaskIconRotate	  "none"
-	  MaskIconUnits		  "autoscale"
-	  System {
-	    Name		    "Euler angles to\nrotation matrix"
-	    Location		    [147, 238, 1075, 773]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "theta"
-	      Position		      [15, 148, 45, 162]
-	      BackgroundColor	      "green"
-	      DropShadow	      on
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Mux
-	      Name		      "Mux"
-	      Ports		      [2, 1]
-	      Position		      [155, 121, 160, 259]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      ShowName		      off
-	      Inputs		      "2"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Mux
-	      Name		      "Mux2"
-	      Ports		      [9, 1]
-	      Position		      [370, 12, 375, 368]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      ShowName		      off
-	      Inputs		      "9"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R11"
-	      Position		      [235, 21, 300, 39]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "u(6)*u(5)"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R12"
-	      Position		      [215, 139, 330, 161]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "u(6)*u(2)*u(1)-u(3)*u(4)"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R13"
-	      Position		      [220, 260, 350, 280]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "u(4)*u(2)*u(6)+u(3)*u(1)"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R21 "
-	      Position		      [230, 62, 305, 78]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "u(3)*u(5)"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R22"
-	      Position		      [210, 178, 335, 202]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "u(3)*u(2)*u(1)+u(6)*u(4)"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R23"
-	      Position		      [215, 301, 345, 319]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "u(3)*u(2)*u(4)-u(6)*u(1)"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R31 "
-	      Position		      [245, 99, 290, 121]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "-u(2)"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R32"
-	      Position		      [240, 219, 310, 241]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "u(5)*u(1)"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "R33"
-	      Position		      [240, 339, 315, 361]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "u(5)*u(4)"
-	    }
-	    Block {
-	      BlockType		      Trigonometry
-	      Name		      "cos(theta)"
-	      Ports		      [1, 1]
-	      Position		      [95, 210, 125, 240]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Operator		      "cos"
-	    }
-	    Block {
-	      BlockType		      Trigonometry
-	      Name		      "sin(theta)"
-	      Ports		      [1, 1]
-	      Position		      [95, 140, 125, 170]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "Rzyx"
-	      Position		      [510, 183, 540, 197]
-	      BackgroundColor	      "red"
-	      DropShadow	      on
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      InitialOutput	      "0"
-	    }
-	    Line {
-	      SrcBlock		      "R33"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      9
-	    }
-	    Line {
-	      SrcBlock		      "R32"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      6
-	    }
-	    Line {
-	      SrcBlock		      "R21 "
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "R31 "
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      3
-	    }
-	    Line {
-	      SrcBlock		      "R12"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      4
-	    }
-	    Line {
-	      SrcBlock		      "R22"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      5
-	    }
-	    Line {
-	      SrcBlock		      "R13"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      7
-	    }
-	    Line {
-	      SrcBlock		      "R23"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      8
-	    }
-	    Line {
-	      SrcBlock		      "Mux"
-	      SrcPort		      1
-	      Points		      [0, 0; 20, 0]
-	      Branch {
-		Points			[0, -40]
-		Branch {
-		  DstBlock		  "R12"
-		  DstPort		  1
-		}
-		Branch {
-		  Points		  [0, -40]
-		  Branch {
-		    Points		    [0, -40]
-		    Branch {
-		    DstBlock		    "R21 "
-		    DstPort		    1
-		    }
-		    Branch {
-		    Points		    [0, -40]
-		    DstBlock		    "R11"
-		    DstPort		    1
-		    }
-		  }
-		  Branch {
-		    DstBlock		    "R31 "
-		    DstPort		    1
-		  }
-		}
-	      }
-	      Branch {
-		DstBlock		"R22"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 40]
-		Branch {
-		  Points		  [0, 40]
-		  Branch {
-		    Points		    [0, 40]
-		    Branch {
-		    DstBlock		    "R23"
-		    DstPort		    1
-		    }
-		    Branch {
-		    Points		    [0, 40]
-		    DstBlock		    "R33"
-		    DstPort		    1
-		    }
-		  }
-		  Branch {
-		    DstBlock		    "R13"
-		    DstPort		    1
-		  }
-		}
-		Branch {
-		  DstBlock		  "R32"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "theta"
-	      SrcPort		      1
-	      Points		      [15, 0]
-	      Branch {
-		Points			[0, 70]
-		DstBlock		"cos(theta)"
-		DstPort			1
-	      }
-	      Branch {
-		DstBlock		"sin(theta)"
-		DstPort			1
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "cos(theta)"
-	      SrcPort		      1
-	      DstBlock		      "Mux"
-	      DstPort		      2
-	    }
-	    Line {
-	      SrcBlock		      "sin(theta)"
-	      SrcPort		      1
-	      DstBlock		      "Mux"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Mux2"
-	      SrcPort		      1
-	      DstBlock		      "Rzyx"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "R11"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  SubSystem
-	  Name			  "Euler angles to attitude\ntransformation matrix"
-	  Ports			  [1, 1]
-	  Position		  [195, 285, 280, 345]
-	  BackgroundColor	  "yellow"
-	  AncestorBlock		  "marine_gnc/Models/ Kinematics/Euler angles to attitude\ntransformation matrix"
-	  ShowPortLabels	  "none"
-	  MinAlgLoopOccurrences	  off
-	  PropExecContextOutsideSubsystem off
-	  RTWSystemCode		  "Auto"
-	  FunctionWithSeparateData off
-	  Opaque		  off
-	  RequestExecContextInheritance	off
-	  MaskHideContents	  off
-	  MaskType		  "Euler2T"
-	  MaskDescription	  "Determine the 3-by-3 attitude transformation matrix  from the Euler angles (roll, pitch, yaw). "
-	  MaskDisplay		  "port_label('input',1,'theta')\nport_label('output',1,'T')"
-	  MaskIconFrame		  on
-	  MaskIconOpaque	  on
-	  MaskIconRotate	  "none"
-	  MaskIconUnits		  "autoscale"
-	  System {
-	    Name		    "Euler angles to attitude\ntransformation matrix"
-	    Location		    [309, 139, 880, 622]
-	    Open		    off
-	    ModelBrowserVisibility  off
-	    ModelBrowserWidth	    200
-	    ScreenColor		    "white"
-	    PaperOrientation	    "landscape"
-	    PaperPositionMode	    "auto"
-	    PaperType		    "usletter"
-	    PaperUnits		    "inches"
-	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
-	    TiledPageScale	    1
-	    ShowPageBoundaries	    off
-	    ZoomFactor		    "100"
-	    Block {
-	      BlockType		      Inport
-	      Name		      "theta"
-	      Position		      [80, 183, 110, 197]
-	      BackgroundColor	      "green"
-	      DropShadow	      on
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Constant"
-	      Position		      [100, 15, 130, 45]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Constant
-	      Name		      "Constant "
-	      Position		      [100, 75, 130, 105]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Value		      "0"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	    }
-	    Block {
-	      BlockType		      Mux
-	      Name		      "Mux2"
-	      Ports		      [9, 1]
-	      Position		      [370, 12, 375, 368]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      ShowName		      off
-	      Inputs		      "9"
-	      DisplayOption	      "bar"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "T21 "
-	      Position		      [235, 141, 340, 159]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "sin(u(1))*tan(u(2))"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "T22"
-	      Position		      [245, 178, 310, 202]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "cos(u(1))"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "T23"
-	      Position		      [210, 219, 340, 241]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "sin(u(1))/cos(u(2))"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "T31 "
-	      Position		      [225, 257, 330, 283]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "cos(u(1))*tan(u(2))"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "T32"
-	      Position		      [250, 299, 315, 321]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "-sin(u(1))"
-	    }
-	    Block {
-	      BlockType		      Fcn
-	      Name		      "T33"
-	      Position		      [235, 338, 340, 362]
-	      BackgroundColor	      "yellow"
-	      DropShadow	      on
-	      Expr		      "cos(u(1))/cos(u(2))"
-	    }
-	    Block {
-	      BlockType		      Outport
-	      Name		      "T"
-	      Position		      [500, 183, 530, 197]
-	      BackgroundColor	      "red"
-	      DropShadow	      on
-	      IconDisplay	      "Port number"
-	      OutDataType	      "sfix(16)"
-	      OutScaling	      "2^0"
-	      InitialOutput	      "0"
-	    }
-	    Line {
-	      SrcBlock		      "T32"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      8
-	    }
-	    Line {
-	      SrcBlock		      "T31 "
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      7
-	    }
-	    Line {
-	      SrcBlock		      "T21 "
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      4
-	    }
-	    Line {
-	      SrcBlock		      "Constant "
-	      SrcPort		      1
-	      Points		      [20, 0]
-	      Branch {
-		Points			[0, 20]
-		DstBlock		"Mux2"
-		DstPort			3
-	      }
-	      Branch {
-		Points			[0, -20]
-		DstBlock		"Mux2"
-		DstPort			2
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "T33"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      9
-	    }
-	    Line {
-	      SrcBlock		      "T22"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      5
-	    }
-	    Line {
-	      SrcBlock		      "T23"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      6
-	    }
-	    Line {
-	      SrcBlock		      "theta"
-	      SrcPort		      1
-	      Points		      [70, 0]
-	      Branch {
-		Points			[0, -40]
-		DstBlock		"T21 "
-		DstPort			1
-	      }
-	      Branch {
-		DstBlock		"T22"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 40]
-		Branch {
-		  Points		  [0, 40]
-		  Branch {
-		    DstBlock		    "T31 "
-		    DstPort		    1
-		  }
-		  Branch {
-		    Points		    [0, 40]
-		    Branch {
-		    DstBlock		    "T32"
-		    DstPort		    1
-		    }
-		    Branch {
-		    Points		    [0, 40]
-		    DstBlock		    "T33"
-		    DstPort		    1
-		    }
-		  }
-		}
-		Branch {
-		  DstBlock		  "T23"
-		  DstPort		  1
-		}
-	      }
-	    }
-	    Line {
-	      SrcBlock		      "Mux2"
-	      SrcPort		      1
-	      DstBlock		      "T"
-	      DstPort		      1
-	    }
-	    Line {
-	      SrcBlock		      "Constant"
-	      SrcPort		      1
-	      DstBlock		      "Mux2"
-	      DstPort		      1
-	    }
-	  }
-	}
-	Block {
-	  BlockType		  MATLABFcn
-	  Name			  "MATLAB Fcn"
-	  Ports			  [1, 1]
-	  Position		  [395, 180, 455, 210]
-	  MATLABFcn		  "camsim2"
-	  OutputDimensions	  "6"
-	}
-	Block {
-	  BlockType		  Mux
-	  Name			  "Mux"
-	  Ports			  [6, 1]
-	  Position		  [355, 14, 365, 386]
-	  ShowName		  off
-	  Inputs		  "6"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  "Terminator"
-	  Position		  [140, 175, 160, 195]
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "P"
-	  Position		  [575, 193, 605, 207]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Line {
-	  SrcBlock		  "Eta"
-	  SrcPort		  1
-	  Points		  [20, 0]
-	  Branch {
-	    DstBlock		    "Mux"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 200]
-	    DstBlock		    "Demux"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "Nu"
-	  SrcPort		  1
-	  DstBlock		  "Mux"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "bottom_signature"
-	  SrcPort		  1
-	  DstBlock		  "Mux"
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "Mux"
-	  SrcPort		  1
-	  Points		  [10, 0]
-	  DstBlock		  "MATLAB Fcn"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "MATLAB Fcn"
-	  SrcPort		  1
-	  Points		  [0, 5]
-	  DstBlock		  "P"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  Points		  [30, 0; 0, -5]
-	  Branch {
-	    Points		    [0, 60]
-	    DstBlock		    "Euler angles to attitude\ntransformation matrix"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, -40]
-	    DstBlock		    "Euler angles to\nrotation matrix"
-	    DstPort		    1
-	  }
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  1
-	  Points		  [0, -55]
-	  DstBlock		  "Terminator"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Euler angles to\nrotation matrix"
-	  SrcPort		  1
-	  Points		  [30, 0; 0, 15]
-	  DstBlock		  "Mux"
-	  DstPort		  4
-	}
-	Line {
-	  SrcBlock		  "Euler angles to attitude\ntransformation matrix"
-	  SrcPort		  1
-	  Points		  [30, 0; 0, -25]
-	  DstBlock		  "Mux"
-	  DstPort		  5
-	}
-	Line {
-	  SrcBlock		  "Clock"
-	  SrcPort		  1
-	  Points		  [25, 0]
-	  DstBlock		  "Mux"
-	  DstPort		  6
-	}
-      }
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      noise		      on
+      variance		      "0.01"
     }
     Block {
       BlockType		      Clock
       Name		      "Clock"
-      Position		      [165, 503, 245, 527]
+      Position		      [425, 489, 490, 511]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
       DisplayTime	      on
-      Decimation	      "1"
+      Decimation	      "10"
     }
     Block {
       BlockType		      SubSystem
@@ -1690,12 +950,12 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "10|3|300|150|50|20|20"
+      MaskValueString	      "10|3|50|10|20|10|20"
       MaskTabNameString	      ",,,,,,"
       System {
 	Name			"Crusing controller"
 	Location		[41, 125, 1164, 869]
-	Open			on
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -2527,182 +1787,6 @@ Model {
       }
     }
     Block {
-      BlockType		      Demux
-      Name		      "Demux"
-      Ports		      [1, 6]
-      Position		      [735, 418, 740, 457]
-      BackgroundColor	      "black"
-      ShowName		      off
-      Outputs		      "6"
-      DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "Embedded\nMATLAB Function"
-      Ports		      [5, 1]
-      Position		      [300, 431, 370, 479]
-      ForegroundColor	      "blue"
-      PermitHierarchicalResolution "ExplicitOnly"
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      Opaque		      off
-      Array {
-	Type			"Handle"
-	Dimension		0
-	PropName		"AvailSigsLoadSave"
-      }
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      MaskType		      "Stateflow"
-      MaskDescription	      "Embedded MATLAB block"
-      MaskDisplay	      "disp('fcn');"
-      MaskSelfModifiable      on
-      MaskIconFrame	      on
-      MaskIconOpaque	      off
-      MaskIconRotate	      "none"
-      MaskIconUnits	      "autoscale"
-      System {
-	Name			"Embedded\nMATLAB Function"
-	Location		[257, 457, 812, 717]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "u"
-	  Position		  [20, 101, 40, 119]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "psi_d"
-	  Position		  [20, 136, 40, 154]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "eta"
-	  Position		  [20, 171, 40, 189]
-	  Port			  "3"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "nu"
-	  Position		  [20, 206, 40, 224]
-	  Port			  "4"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "t"
-	  Position		  [20, 246, 40, 264]
-	  Port			  "5"
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  Demux
-	  Name			  " Demux "
-	  Ports			  [1, 1]
-	  Position		  [270, 220, 320, 260]
-	  Outputs		  "1"
-	}
-	Block {
-	  BlockType		  "S-Function"
-	  Name			  " SFunction "
-	  Tag			  "Stateflow S-Function los_test_with_camsim 2"
-	  Ports			  [5, 2]
-	  Position		  [180, 100, 230, 220]
-	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[5 2]"
-	  EnableBusSupport	  on
-	  Port {
-	    PortNumber		    2
-	    Name		    "y"
-	    RTWStorageClass	    "Auto"
-	    DataLoggingNameMode	    "SignalName"
-	  }
-	}
-	Block {
-	  BlockType		  Terminator
-	  Name			  " Terminator "
-	  Position		  [460, 231, 480, 249]
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "y"
-	  Position		  [460, 101, 480, 119]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Line {
-	  SrcBlock		  " SFunction "
-	  SrcPort		  1
-	  DstBlock		  " Demux "
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "u"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "psi_d"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "eta"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  3
-	}
-	Line {
-	  SrcBlock		  "nu"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  4
-	}
-	Line {
-	  SrcBlock		  "t"
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  5
-	}
-	Line {
-	  Name			  "y"
-	  Labels		  [0, 0]
-	  SrcBlock		  " SFunction "
-	  SrcPort		  2
-	  DstBlock		  "y"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  " Demux "
-	  SrcPort		  1
-	  DstBlock		  " Terminator "
-	  DstPort		  1
-	}
-      }
-    }
-    Block {
       BlockType		      Reference
       Name		      "HUGIN 1000"
       Ports		      [1, 3]
@@ -2718,116 +1802,45 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      eta_0		      "[0 0 0 0 0 0]"
+      eta_0		      "eta0"
       nu_0		      "[0 0 0 0 0 0]"
-      c_on_off		      on
+      c_on_off		      off
       beta_c		      "60"
       V_c		      "0.5"
     }
     Block {
-      BlockType		      SubSystem
+      BlockType		      Constant
+      Name		      "Height"
+      Position		      [45, 165, 75, 195]
+      Value		      "3"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Reference
       Name		      "LOS"
       Ports		      [2, 1]
-      Position		      [130, 294, 230, 336]
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
+      Position		      [525, 354, 625, 396]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      SourceBlock	      "fordypningsprosjekt/LOS"
+      SourceType	      "SubSystem"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
       FunctionWithSeparateData off
-      Opaque		      off
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      System {
-	Name			"LOS"
-	Location		[312, 113, 991, 466]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"A4"
-	PaperUnits		"centimeters"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"100"
-	Block {
-	  BlockType		  Inport
-	  Name			  "eta"
-	  Position		  [45, 58, 75, 72]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  Inport
-	  Name			  "nu"
-	  Position		  [50, 258, 80, 272]
-	  Port			  "2"
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Block {
-	  BlockType		  MATLABFcn
-	  Name			  "MATLAB Fcn"
-	  Ports			  [1, 1]
-	  Position		  [310, 155, 370, 185]
-	  MATLABFcn		  "los_calc"
-	  OutputDimensions	  "1"
-	}
-	Block {
-	  BlockType		  Mux
-	  Name			  "Mux"
-	  Ports			  [2, 1]
-	  Position		  [160, 82, 170, 253]
-	  ShowName		  off
-	  Inputs		  "2"
-	  DisplayOption		  "bar"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Psi_d"
-	  Position		  [540, 163, 570, 177]
-	  IconDisplay		  "Port number"
-	  OutDataType		  "sfix(16)"
-	  OutScaling		  "2^0"
-	}
-	Line {
-	  SrcBlock		  "eta"
-	  SrcPort		  1
-	  Points		  [55, 0; 0, 60]
-	  DstBlock		  "Mux"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "nu"
-	  SrcPort		  1
-	  Points		  [50, 0; 0, -55]
-	  DstBlock		  "Mux"
-	  DstPort		  2
-	}
-	Line {
-	  SrcBlock		  "Mux"
-	  SrcPort		  1
-	  DstBlock		  "MATLAB Fcn"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "MATLAB Fcn"
-	  SrcPort		  1
-	  DstBlock		  "Psi_d"
-	  DstPort		  1
-	}
-      }
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
     }
     Block {
       BlockType		      Scope
       Name		      "Linear velocity"
       Ports		      [3]
-      Position		      [880, 156, 910, 224]
+      Position		      [1185, 156, 1215, 224]
       Floating		      off
-      Location		      [580, 96, 920, 580]
+      Location		      [226, 408, 566, 892]
       Open		      off
       NumInputPorts	      "3"
       List {
@@ -2836,8 +1849,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "0.25~-0.1~-0.25"
-      YMax		      "2~0.9~2.25"
+      YMin		      "0.2~-0.15~-0.1"
+      YMax		      "1.4~0.45~1"
       SaveToWorkspace	      on
       SaveName		      "Lin_veloc"
       DataFormat	      "StructureWithTime"
@@ -2848,7 +1861,7 @@ Model {
       BlockType		      Mux
       Name		      "Mux"
       Ports		      [6, 1]
-      Position		      [405, 15, 410, 125]
+      Position		      [535, 15, 540, 125]
       ShowName		      off
       Inputs		      "6"
       DisplayOption	      "bar"
@@ -2857,10 +1870,32 @@ Model {
       BlockType		      Mux
       Name		      "Mux1"
       Ports		      [6, 1]
-      Position		      [740, 176, 745, 234]
+      Position		      [990, 176, 995, 234]
       ShowName		      off
       Inputs		      "6"
       DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Points"
+      Ports		      [1]
+      Position		      [550, 584, 580, 616]
+      Floating		      off
+      Location		      [1157, 346, 1481, 866]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-0.0275"
+      YMax		      "0.025"
+      SaveToWorkspace	      on
+      SaveName		      "Camsim_output"
+      DataFormat	      "Array"
+      LimitDataPoints	      off
+      SampleTime	      "0"
     }
     Block {
       BlockType		      Saturate
@@ -2872,9 +1907,28 @@ Model {
       OutScaling	      "2^0"
     }
     Block {
+      BlockType		      Reference
+      Name		      "Sonar system V2"
+      Ports		      [1, 2]
+      Position		      [555, 507, 650, 558]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      SourceBlock	      "fordypningsprosjekt/Sonar system V2"
+      SourceType	      ""
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      sea_bottom	      "0"
+    }
+    Block {
       BlockType		      Constant
       Name		      "Speed_ref"
-      Position		      [270, 205, 300, 235]
+      Position		      [300, 185, 330, 215]
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
     }
@@ -2882,12 +1936,10 @@ Model {
       BlockType		      Sum
       Name		      "Sum"
       Ports		      [2, 1]
-      Position		      [55, 365, 75, 385]
-      Orientation	      "down"
-      NamePlacement	      "alternate"
+      Position		      [270, 170, 290, 190]
       ShowName		      off
       IconShape		      "round"
-      Inputs		      "|++"
+      Inputs		      "|-+"
       InputSameDT	      off
       OutDataTypeMode	      "Inherit via internal rule"
       OutDataType	      "sfix(16)"
@@ -2896,10 +1948,34 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      Reference
+      Name		      "Switching logic"
+      Ports		      [6, 1]
+      Position		      [310, 373, 380, 472]
+      Orientation	      "left"
+      ForegroundColor	      "blue"
+      NamePlacement	      "alternate"
+      SourceBlock	      "fordypningsprosjekt/Switching logic"
+      SourceType	      "Stateflow"
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      Array {
+	Type			"Handle"
+	Dimension		0
+	PropName		"AvailSigsLoadSave"
+      }
+    }
+    Block {
       BlockType		      Scope
       Name		      "Tau"
       Ports		      [1]
-      Position		      [645, 254, 675, 286]
+      Position		      [620, 264, 650, 296]
       Floating		      off
       Location		      [572, 479, 896, 999]
       Open		      off
@@ -2919,7 +1995,7 @@ Model {
     Block {
       BlockType		      ToWorkspace
       Name		      "To Workspace"
-      Position		      [845, 105, 905, 135]
+      Position		      [1100, 105, 1160, 135]
       VariableName	      "eta"
       MaxDataPoints	      "inf"
       SampleTime	      "-1"
@@ -2929,10 +2005,10 @@ Model {
       BlockType		      Scope
       Name		      "Translation"
       Ports		      [3]
-      Position		      [650, 16, 680, 84]
+      Position		      [1020, 16, 1050, 84]
       Floating		      off
-      Location		      [947, 57, 1271, 647]
-      Open		      off
+      Location		      [953, 217, 1277, 807]
+      Open		      on
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -2940,75 +2016,11 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "0~0~54.8"
-      YMax		      "200~10~55.7"
+      YMin		      "0~0~49.55"
+      YMax		      "450~14~49.85"
       SaveToWorkspace	      on
       SaveName		      "Translation_ref"
       DataFormat	      "StructureWithTime"
-      LimitDataPoints	      off
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "XY Graph"
-      Ports		      [2]
-      Position		      [835, 415, 865, 450]
-      SourceBlock	      "simulink/Sinks/XY Graph"
-      SourceType	      "XY scope."
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      xmin		      "-100"
-      xmax		      "100"
-      ymin		      "-100"
-      ymax		      "500"
-      st		      "-1"
-    }
-    Block {
-      BlockType		      Constant
-      Name		      "bottom"
-      Position		      [135, 360, 165, 390]
-      Orientation	      "left"
-      NamePlacement	      "alternate"
-      Value		      "bottom"
-      OutDataType	      "sfix(16)"
-      OutScaling	      "2^0"
-    }
-    Block {
-      BlockType		      Sin
-      Name		      "bottom signature"
-      Ports		      [0, 1]
-      Position		      [25, 210, 55, 240]
-      Amplitude		      "6"
-      Bias		      "50"
-      Frequency		      "0.01"
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "points"
-      Ports		      [1]
-      Position		      [305, 374, 335, 406]
-      Floating		      off
-      Location		      [64, 85, 502, 607]
-      Open		      off
-      NumInputPorts	      "1"
-      ZoomMode		      "yonly"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      TimeRange		      "500"
-      YMin		      "0"
-      YMax		      "425"
-      SaveToWorkspace	      on
-      SaveName		      "Camsim_output"
-      DataFormat	      "Array"
       LimitDataPoints	      off
       SampleTime	      "0"
     }
@@ -3023,52 +2035,51 @@ Model {
       SrcPort		      1
       Points		      [5, 0]
       Branch {
-	Points			[0, -25; -170, 0]
+	Points			[0, -70]
 	DstBlock		"6DOF Plot"
 	DstPort			2
       }
       Branch {
 	Points			[30, 0]
 	Branch {
-	  Points		  [20, 0; 0, 140; -5, 0]
+	  Points		  [0, -20; 330, 0; 0, -45]
+	  DstBlock		  "To Workspace"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [20, 0; 0, 140]
 	  Branch {
-	    Points		    [-355, 0; 0, -50]
+	    Points		    [0, 40]
 	    Branch {
-	      Points		      [0, -60]
+	      DstBlock		      "LOS"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, 65]
+	      Branch {
+		DstBlock		"CAMSim_v3"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 105]
+		DstBlock		"Sonar system V2"
+		DstPort			1
+	      }
+	    }
+	  }
+	  Branch {
+	    Points		    [-245, 0]
+	    Branch {
+	      Points		      [-115, 0; 0, -110]
 	      DstBlock		      "Crusing controller"
 	      DstPort		      4
 	    }
 	    Branch {
-	      Points		      [-245, 0]
-	      Branch {
-		Points			[5, 0]
-		DstBlock		"LOS"
-		DstPort			1
-	      }
-	      Branch {
-		Points			[0, 125]
-		Branch {
-		  DstBlock		  "CAMSim"
-		  DstPort		  1
-		}
-		Branch {
-		  Points		  [125, 0; 0, 55]
-		  DstBlock		  "Embedded\nMATLAB Function"
-		  DstPort		  3
-		}
-	      }
+	      Points		      [0, 90]
+	      DstBlock		      "Switching logic"
+	      DstPort		      3
 	    }
 	  }
-	  Branch {
-	    Points		    [0, 115]
-	    DstBlock		    "Demux"
-	    DstPort		    1
-	  }
-	}
-	Branch {
-	  Points		  [0, -20; 75, 0; 0, -45]
-	  DstBlock		  "To Workspace"
-	  DstPort		  1
 	}
       }
     }
@@ -3077,78 +2088,55 @@ Model {
       SrcPort		      2
       Points		      [40, 0; 0, 60]
       Branch {
-	Points			[0, 45; -340, 0; 0, -55]
+	DstBlock		"6DOF Plot1"
+	DstPort			2
+      }
+      Branch {
+	Points			[0, 45]
 	Branch {
-	  Points		  [0, -30]
-	  DstBlock		  "Crusing controller"
-	  DstPort		  5
-	}
-	Branch {
-	  Points		  [-80, 0]
+	  Points		  [0, 70]
 	  Branch {
-	    Points		    [-180, 0]
-	    Branch {
-	      Points		      [0, 65]
-	      DstBlock		      "LOS"
-	      DstPort		      2
-	    }
-	    Branch {
-	      Points		      [0, 190]
-	      DstBlock		      "CAMSim"
-	      DstPort		      2
-	    }
+	    DstBlock		    "LOS"
+	    DstPort		    2
 	  }
 	  Branch {
-	    Points		    [0, 205]
-	    DstBlock		    "Embedded\nMATLAB Function"
+	    Points		    [0, 60]
+	    DstBlock		    "CAMSim_v3"
+	    DstPort		    2
+	  }
+	}
+	Branch {
+	  Points		  [-240, 0]
+	  Branch {
+	    Points		    [-100, 0; 0, -85]
+	    DstBlock		    "Crusing controller"
+	    DstPort		    5
+	  }
+	  Branch {
+	    Points		    [0, 115]
+	    DstBlock		    "Switching logic"
 	    DstPort		    4
 	  }
 	}
-      }
-      Branch {
-	DstBlock		"6DOF Plot1"
-	DstPort			2
       }
     }
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      3
-      Points		      [30, 0; 0, 70; -325, 0; 0, -60]
+      Points		      [0, 70; -295, 0; 0, -60]
       DstBlock		      "Crusing controller"
       DstPort		      6
     }
     Line {
-      SrcBlock		      "bottom signature"
-      SrcPort		      1
-      Points		      [5, 0]
-      Branch {
-	Points			[195, 0; 0, -40; 85, 0]
-	Branch {
-	  DstBlock		  "Crusing controller"
-	  DstPort		  2
-	}
-	Branch {
-	  Points		  [0, -125]
-	  DstBlock		  "Mux"
-	  DstPort		  3
-	}
-      }
-      Branch {
-	Points			[5, 0; 0, 125]
-	DstBlock		"Sum"
-	DstPort			1
-      }
-    }
-    Line {
       SrcBlock		      "Speed_ref"
       SrcPort		      1
-      Points		      [0, -20; 35, 0]
+      Points		      [5, 0]
       Branch {
 	DstBlock		"Crusing controller"
 	DstPort			3
       }
       Branch {
-	Points			[0, 160; 385, 0]
+	Points			[0, 130; 635, 0]
 	DstBlock		"Mux1"
 	DstPort			1
       }
@@ -3156,7 +2144,7 @@ Model {
     Line {
       SrcBlock		      "Mux"
       SrcPort		      1
-      Points		      [40, 0; 0, -20]
+      Points		      [15, 0; 0, -20]
       DstBlock		      "6DOF Plot"
       DstPort		      1
     }
@@ -3206,114 +2194,44 @@ Model {
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      1
-      Points		      [20, 0]
+      Points		      [70, 0]
       DstBlock		      "Linear velocity"
       DstPort		      1
     }
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      2
-      Points		      [20, 0]
+      Points		      [70, 0]
       DstBlock		      "Linear velocity"
       DstPort		      2
     }
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      3
-      Points		      [20, 0]
+      Points		      [70, 0]
       DstBlock		      "Linear velocity"
       DstPort		      3
     }
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      4
-      Points		      [60, 0]
+      Points		      [70, 0]
       DstBlock		      "Angular Velocity"
       DstPort		      1
     }
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      5
-      Points		      [60, 0]
+      Points		      [70, 0]
       DstBlock		      "Angular Velocity"
       DstPort		      2
     }
     Line {
       SrcBlock		      "6DOF Plot1"
       SrcPort		      6
-      Points		      [60, 0]
+      Points		      [70, 0]
       DstBlock		      "Angular Velocity"
       DstPort		      3
-    }
-    Line {
-      SrcBlock		      "Demux"
-      SrcPort		      1
-      Points		      [45, 0; 0, 15]
-      DstBlock		      "XY Graph"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Demux"
-      SrcPort		      2
-      Points		      [75, 0]
-      DstBlock		      "XY Graph"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Sum"
-      SrcPort		      1
-      Points		      [0, 75]
-      DstBlock		      "CAMSim"
-      DstPort		      3
-    }
-    Line {
-      SrcBlock		      "bottom"
-      SrcPort		      1
-      DstBlock		      "Sum"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Embedded\nMATLAB Function"
-      SrcPort		      1
-      Points		      [0, -285]
-      Branch {
-	DstBlock		"Crusing controller"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, -50]
-	DstBlock		"Mux"
-	DstPort			6
-      }
-    }
-    Line {
-      SrcBlock		      "LOS"
-      SrcPort		      1
-      Points		      [15, 0; 0, 130]
-      DstBlock		      "Embedded\nMATLAB Function"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "CAMSim"
-      SrcPort		      1
-      Points		      [35, 0; 0, -5]
-      Branch {
-	Points			[0, -10]
-	DstBlock		"Embedded\nMATLAB Function"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, -55]
-	DstBlock		"points"
-	DstPort			1
-      }
-    }
-    Line {
-      SrcBlock		      "Clock"
-      SrcPort		      1
-      Points		      [35, 0]
-      DstBlock		      "Embedded\nMATLAB Function"
-      DstPort		      5
     }
     Line {
       SrcBlock		      "Saturation"
@@ -3324,10 +2242,96 @@ Model {
 	DstPort			1
       }
       Branch {
-	Points			[0, 60]
+	Points			[0, 70]
 	DstBlock		"Tau"
 	DstPort			1
       }
+    }
+    Line {
+      SrcBlock		      "Sonar system V2"
+      SrcPort		      1
+      Points		      [-25, 0; 0, -25]
+      Branch {
+	Points			[0, -15; 130, 0]
+	DstBlock		"CAMSim_v3"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, 30; -245, 0]
+	DstBlock		"Sum"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "Sum"
+      SrcPort		      1
+      Points		      [60, 0]
+      Branch {
+	Points			[40, 0]
+	DstBlock		"Crusing controller"
+	DstPort			2
+      }
+      Branch {
+	Points			[0, -120]
+	DstBlock		"Mux"
+	DstPort			3
+      }
+    }
+    Line {
+      SrcBlock		      "Height"
+      SrcPort		      1
+      DstBlock		      "Sum"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "LOS"
+      SrcPort		      1
+      Points		      [-45, 0]
+      Branch {
+	Points			[0, 25]
+	DstBlock		"Switching logic"
+	DstPort			2
+      }
+      Branch {
+	Points			[-80, 0; 0, -205]
+	Branch {
+	  DstBlock		  "Crusing controller"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [0, -50]
+	  DstBlock		  "Mux"
+	  DstPort		  6
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "CAMSim_v3"
+      SrcPort		      1
+      Points		      [-15, 0]
+      Branch {
+	Points			[-75, 0; 0, -50]
+	DstBlock		"Switching logic"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -5; -5, 0; 0, 170]
+	DstBlock		"Points"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "CAMSim_v3"
+      SrcPort		      2
+      DstBlock		      "Switching logic"
+      DstPort		      6
+    }
+    Line {
+      SrcBlock		      "Clock"
+      SrcPort		      1
+      Points		      [-20, 0; 0, -55]
+      DstBlock		      "Switching logic"
+      DstPort		      5
     }
   }
 }
@@ -3344,214 +2348,11 @@ Stateflow {
     name		    "los_test_with_camsim"
     created		    "24-Oct-2008 17:40:20"
     isLibrary		    0
-    firstTarget		    13
+    firstTarget		    2
     sfVersion		    71014000.000003
   }
-  chart {
-    id			    2
-    name		    "Embedded\nMATLAB Function"
-    windowPosition	    [375.75 203.25 200.25 189.75]
-    viewLimits		    [0 156.75 0 153.75]
-    screen		    [1 1 1680 1050 1.25]
-    treeNode		    [0 3 0 0]
-    firstTransition	    5
-    firstJunction	    4
-    viewObj		    2
-    machine		    1
-    toolbarMode		    LIBRARY_TOOLBAR
-    ssIdHighWaterMark	    9
-    decomposition	    CLUSTER_CHART
-    type		    EML_CHART
-    firstData		    6
-    chartFileNumber	    2
-    disableImplicitCasting  1
-    eml {
-      name		      "fcn"
-    }
-  }
-  state {
-    id			    3
-    labelString		    "eML_blk_kernel()"
-    position		    [18 64.5 118 66]
-    fontSize		    12
-    chart		    2
-    treeNode		    [2 0 0 0]
-    superState		    SUBCHART
-    subviewer		    2
-    ssIdNumber		    1
-    type		    FUNC_STATE
-    decomposition	    CLUSTER_STATE
-    eml {
-      isEML		      1
-      script		      "function y = fcn(u, psi_d, eta , nu ,t)\n% This block supports the Embedded MATLAB subset.\n% See the help menu for details. \n\npersistent temp\n\nif isempty(temp)\n    temp = 0;\nend\n\nxi1 = u(1);\nyi1 = u(2);\nxi2 = u(3);\nyi2 = u(4);\nxi3 = u(5);\nyi3 = u(6);\n\nbeta = atan2(nu(2), sqrt(nu(1)^2 + nu(2)^2));\n\nif mod(t, 1) == 0\n    if yi1 ~= 0 && xi1 ~= 0\n        \n        if xi1 >= eta(1)\n            temp = atan2((yi1 - eta(2)),(xi1 - eta(1))) + beta;\n        else\n            temp = atan2((yi3 - eta(2)), (xi3-eta(1))) + beta;\n        end\n     else\n         temp = psi_d;  \n    end   \nend\n    \ny = temp;"
-      editorLayout	      "100 M4x1[175 135 720 621]"
-    }
-  }
-  junction {
-    id			    4
-    position		    [23.5747 49.5747 7]
-    chart		    2
-    linkNode		    [2 0 0]
-    subviewer		    2
-    ssIdNumber		    3
-    type		    CONNECTIVE_JUNCTION
-  }
-  transition {
-    id			    5
-    labelString		    "{eML_blk_kernel();}"
-    labelPosition	    [32.125 19.875 102.544 14.964]
-    fontSize		    12
-    src {
-      intersection	      [0 0 1 0 23.5747 14.625 0 0]
-    }
-    dst {
-      id		      4
-      intersection	      [7 0 -1 -1 23.5747 42.5747 0 0]
-    }
-    midPoint		    [23.5747 24.9468]
-    chart		    2
-    linkNode		    [2 0 0]
-    dataLimits		    [23.575 23.575 14.625 34.575]
-    subviewer		    2
-    drawStyle		    SMART
-    executionOrder	    1
-    ssIdNumber		    2
-  }
-  data {
-    id			    6
-    ssIdNumber		    4
-    name		    "u"
-    linkNode		    [2 0 7]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-      }
-      complexity	      SF_COMPLEX_INHERITED
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    7
-    ssIdNumber		    5
-    name		    "y"
-    linkNode		    [2 6 8]
-    scope		    OUTPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    8
-    ssIdNumber		    6
-    name		    "psi_d"
-    linkNode		    [2 7 9]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    9
-    ssIdNumber		    7
-    name		    "eta"
-    linkNode		    [2 8 10]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    10
-    ssIdNumber		    9
-    name		    "nu"
-    linkNode		    [2 9 11]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  data {
-    id			    11
-    ssIdNumber		    8
-    name		    "t"
-    linkNode		    [2 10 0]
-    scope		    INPUT_DATA
-    machine		    1
-    props {
-      array {
-	size			"-1"
-      }
-      type {
-	method			SF_INHERITED_TYPE
-	primitive		SF_DOUBLE_TYPE
-	isSigned		1
-	wordLength		"16"
-      }
-      complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_INHERITED
-    }
-    dataType		    "Inherit: Same as Simulink"
-  }
-  instance {
-    id			    12
-    name		    "Embedded\nMATLAB Function"
-    machine		    1
-    chart		    2
-  }
   target {
-    id			    13
+    id			    2
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
