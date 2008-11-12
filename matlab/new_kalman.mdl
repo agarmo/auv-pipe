@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.13"
+    ComputedModelVersion    "1.43"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anderga"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Nov 11 23:01:05 2008"
+  LastModifiedDate	  "Wed Nov 12 21:42:02 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:13>"
+  ModelVersionFormat	  "1.%<AutoIncrement:43>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -106,7 +106,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.4.0"
 	  StartTime		  "0.0"
-	  StopTime		  "1500"
+	  StopTime		  "600"
 	  AbsTol		  "auto"
 	  FixedStep		  "0.1"
 	  InitialStep		  "auto"
@@ -122,8 +122,8 @@ Model {
 	  MaxConsecutiveMinStep	  "1"
 	  RelTol		  "1e-3"
 	  SolverMode		  "Auto"
-	  Solver		  "ode4"
-	  SolverName		  "ode4"
+	  Solver		  "ode3"
+	  SolverName		  "ode3"
 	  ShapePreserveControl	  "DisableAll"
 	  ZeroCrossControl	  "UseLocalSettings"
 	  ZeroCrossAlgorithm	  "Non-adaptive"
@@ -735,6 +735,23 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "fixdt(1,16,0)"
+      OutScaling	      "[]"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
       BlockType		      Terminator
     }
     Block {
@@ -797,7 +814,7 @@ Model {
   }
   System {
     Name		    "new_kalman"
-    Location		    [70, 128, 1129, 691]
+    Location		    [147, 369, 1201, 942]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -831,11 +848,11 @@ Model {
       BlockType		      Scope
       Name		      "Attitude"
       Ports		      [3]
-      Position		      [420, 422, 455, 508]
+      Position		      [415, 422, 450, 508]
       NamePlacement	      "alternate"
       Floating		      off
-      Location		      [113, 148, 437, 730]
-      Open		      off
+      Location		      [9, 82, 333, 598]
+      Open		      on
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -843,8 +860,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-0.3~-10~0"
-      YMax		      "0.2~1~90"
+      YMin		      "-1~-10~-100"
+      YMax		      "0.5~1~150"
       SaveToWorkspace	      on
       SaveName		      "Attitude"
       DataFormat	      "StructureWithTime"
@@ -866,7 +883,7 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      noise		      on
+      noise		      off
       variance		      "0.01"
     }
     Block {
@@ -885,10 +902,17 @@ Model {
       OutScaling	      "2^0"
     }
     Block {
+      BlockType		      Constant
+      Name		      "Constant3"
+      Position		      [600, 30, 630, 60]
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+    }
+    Block {
       BlockType		      Reference
       Name		      "Crusing controller"
       Ports		      [6, 1]
-      Position		      [215, 92, 270, 183]
+      Position		      [215, 97, 270, 188]
       SourceBlock	      "fordypningsprosjekt/Crusing controller"
       SourceType	      ""
       ShowPortLabels	      "FromPortIcon"
@@ -908,10 +932,33 @@ Model {
       Kd_d		      "20"
     }
     Block {
+      BlockType		      Scope
+      Name		      "Filtered Output"
+      Ports		      [1]
+      Position		      [985, 264, 1015, 296]
+      Floating		      off
+      Location		      [466, 654, 900, 920]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "yonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "600"
+      YMin		      "0"
+      YMax		      "900"
+      SaveToWorkspace	      on
+      SaveName		      "filtered_output"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
       BlockType		      Reference
       Name		      "HUGIN 1000"
       Ports		      [1, 3]
-      Position		      [310, 106, 425, 184]
+      Position		      [290, 106, 405, 184]
       BackgroundColor	      "orange"
       SourceBlock	      "fordypningsprosjekt/HUGIN 1000"
       SourceType	      "HUGIN 1000 AUV"
@@ -923,17 +970,40 @@ Model {
       RTWMemSecDataConstants  "Inherit from model"
       RTWMemSecDataInternal   "Inherit from model"
       RTWMemSecDataParameters "Inherit from model"
-      eta_0		      "[-30 0 0 0 0 0]"
+      eta_0		      "[-30 -30 0 0 0 0]"
       nu_0		      "[0 0 0 0 0 0]"
       c_on_off		      off
       beta_c		      "-45"
       V_c		      "0.3"
     }
     Block {
+      BlockType		      Scope
+      Name		      "Heading"
+      Ports		      [1]
+      Position		      [1005, 204, 1035, 236]
+      Floating		      off
+      Location		      [772, 437, 1206, 703]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "600"
+      YMin		      "0"
+      YMax		      "1.75"
+      SaveToWorkspace	      on
+      SaveName		      "heading"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
       BlockType		      SubSystem
       Name		      "Kalmanfilter"
-      Ports		      [4, 3]
-      Position		      [770, 80, 875, 215]
+      Ports		      [5, 5]
+      Position		      [810, 86, 915, 224]
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -943,8 +1013,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Kalmanfilter"
-	Location		[325, 357, 823, 657]
-	Open			on
+	Location		[455, 448, 953, 902]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -992,29 +1062,80 @@ Model {
 	  OutScaling		  "2^0"
 	}
 	Block {
-	  BlockType		  Demux
-	  Name			  "Demux"
-	  Ports			  [1, 3]
-	  Position		  [360, 86, 365, 124]
-	  ShowName		  off
-	  Outputs		  "3"
-	  DisplayOption		  "bar"
+	  BlockType		  Inport
+	  Name			  "output"
+	  Position		  [70, 258, 100, 272]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
 	}
 	Block {
 	  BlockType		  Mux
 	  Name			  "Mux"
-	  Ports			  [4, 1]
-	  Position		  [150, 15, 155, 190]
+	  Ports			  [5, 1]
+	  Position		  [145, 19, 155, 281]
 	  ShowName		  off
+	  Inputs		  "5"
 	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector"
+	  Ports			  [1, 1]
+	  Position		  [300, 14, 335, 56]
+	  InputPortWidth	  "29"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[1:9]"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector1"
+	  Ports			  [1, 1]
+	  Position		  [300, 84, 335, 126]
+	  InputPortWidth	  "29"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[10:12]"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector2"
+	  Ports			  [1, 1]
+	  Position		  [300, 149, 335, 191]
+	  InputPortWidth	  "29"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[13:21]"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector3"
+	  Ports			  [1, 1]
+	  Position		  [300, 209, 335, 251]
+	  InputPortWidth	  "29"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "22:23"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector4"
+	  Ports			  [1, 1]
+	  Position		  [300, 299, 335, 341]
+	  InputPortWidth	  "29"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "24:29"
+	  OutputSizes		  "1"
 	}
 	Block {
 	  BlockType		  MATLABFcn
 	  Name			  "kalmanfilter"
 	  Ports			  [1, 1]
-	  Position		  [235, 90, 295, 120]
+	  Position		  [190, 90, 250, 120]
 	  MATLABFcn		  "kalmanfilter(u)"
-	  OutputDimensions	  "9"
+	  OutputDimensions	  "29"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1027,7 +1148,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Pw_prediktert"
-	  Position		  [425, 73, 455, 87]
+	  Position		  [425, 98, 455, 112]
 	  Port			  "2"
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
@@ -1036,8 +1157,26 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Pw_målt"
-	  Position		  [425, 143, 455, 157]
+	  Position		  [425, 163, 455, 177]
 	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "heading"
+	  Position		  [425, 223, 455, 237]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "filtered output"
+	  Position		  [425, 313, 455, 327]
+	  Port			  "5"
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^0"
@@ -1045,62 +1184,108 @@ Model {
 	Line {
 	  SrcBlock		  "xi"
 	  SrcPort		  1
-	  Points		  [25, 0; 0, 15]
+	  Points		  [25, 0]
 	  DstBlock		  "Mux"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "eta"
 	  SrcPort		  1
-	  Points		  [20, 0; 0, 15]
+	  Points		  [20, 0; 0, 35]
 	  DstBlock		  "Mux"
 	  DstPort		  2
 	}
 	Line {
 	  SrcBlock		  "altitude"
 	  SrcPort		  1
+	  Points		  [25, 0]
 	  DstBlock		  "Mux"
 	  DstPort		  3
 	}
 	Line {
 	  SrcBlock		  "nu"
 	  SrcPort		  1
-	  Points		  [20, 0; 0, -15]
+	  Points		  [20, 0; 0, 15]
 	  DstBlock		  "Mux"
 	  DstPort		  4
 	}
 	Line {
 	  SrcBlock		  "Mux"
 	  SrcPort		  1
+	  Points		  [0, -45]
 	  DstBlock		  "kalmanfilter"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, 5]
+	  DstBlock		  "P_tilde"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "kalmanfilter"
 	  SrcPort		  1
-	  DstBlock		  "Demux"
-	  DstPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, -70]
+	    DstBlock		    "Selector"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Selector1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 65]
+	    Branch {
+	      DstBlock		      "Selector2"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, 60]
+	      Branch {
+		DstBlock		"Selector3"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 90]
+		DstBlock		"Selector4"
+		DstPort			1
+	      }
+	    }
+	  }
 	}
 	Line {
-	  SrcBlock		  "Demux"
+	  SrcBlock		  "Selector1"
 	  SrcPort		  1
-	  Points		  [20, 0; 0, -55]
-	  DstBlock		  "P_tilde"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  2
-	  Points		  [35, 0; 0, -25]
 	  DstBlock		  "Pw_prediktert"
 	  DstPort		  1
 	}
 	Line {
-	  SrcBlock		  "Demux"
-	  SrcPort		  3
-	  Points		  [20, 0; 0, 35]
+	  SrcBlock		  "Selector2"
+	  SrcPort		  1
 	  DstBlock		  "Pw_målt"
 	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector3"
+	  SrcPort		  1
+	  DstBlock		  "heading"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector4"
+	  SrcPort		  1
+	  DstBlock		  "filtered output"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "output"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -15]
+	  DstBlock		  "Mux"
+	  DstPort		  5
 	}
       }
     }
@@ -1108,7 +1293,7 @@ Model {
       BlockType		      SubSystem
       Name		      "LOS"
       Ports		      [2, 1]
-      Position		      [80, 39, 180, 81]
+      Position		      [55, 24, 155, 66]
       AncestorBlock	      "fordypningsprosjekt/LOS"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
@@ -1119,8 +1304,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"LOS"
-	Location		[412, 431, 1091, 784]
-	Open			on
+	Location		[446, 268, 1125, 621]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1154,7 +1339,7 @@ Model {
 	  Name			  "MATLAB Fcn"
 	  Ports			  [1, 1]
 	  Position		  [310, 155, 370, 185]
-	  MATLABFcn		  "los_calc"
+	  MATLABFcn		  "los_calc2"
 	  OutputDimensions	  "1"
 	}
 	Block {
@@ -1169,7 +1354,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Psi_d"
-	  Position		  [540, 163, 570, 177]
+	  Position		  [560, 158, 590, 172]
 	  IconDisplay		  "Port number"
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^0"
@@ -1197,8 +1382,158 @@ Model {
 	Line {
 	  SrcBlock		  "MATLAB Fcn"
 	  SrcPort		  1
+	  Points		  [170, 0]
 	  DstBlock		  "Psi_d"
 	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Look-ahead guidance"
+      Ports		      [4, 1]
+      Position		      [355, 44, 455, 86]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      AncestorBlock	      "fordypningsprosjekt/LOS"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Look-ahead guidance"
+	Location		[142, 576, 821, 929]
+	Open			on
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "eta"
+	  Position		  [45, 58, 75, 72]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "nu"
+	  Position		  [45, 183, 75, 197]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "points"
+	  Position		  [50, 233, 80, 247]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "heading"
+	  Position		  [50, 288, 80, 302]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [4, 1]
+	  Position		  [240, 86, 250, 259]
+	  ShowName		  off
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector"
+	  Ports			  [1, 1]
+	  Position		  [175, 276, 215, 314]
+	  InputPortWidth	  "2"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "[1]"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  MATLABFcn
+	  Name			  "lah-guidance"
+	  Ports			  [1, 1]
+	  Position		  [310, 155, 370, 185]
+	  MATLABFcn		  "lah_guidance"
+	  OutputDimensions	  "1"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Psi_d"
+	  Position		  [560, 158, 590, 172]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "lah-guidance"
+	  SrcPort		  1
+	  Points		  [170, 0]
+	  DstBlock		  "Psi_d"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  Points		  [0, -5]
+	  DstBlock		  "lah-guidance"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "nu"
+	  SrcPort		  1
+	  Points		  [55, 0; 0, -40]
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "eta"
+	  SrcPort		  1
+	  Points		  [55, 0; 0, 40]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "points"
+	  SrcPort		  1
+	  Points		  [130, 0; 0, -45]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "heading"
+	  SrcPort		  1
+	  DstBlock		  "Selector"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  4
 	}
       }
     }
@@ -1215,7 +1550,7 @@ Model {
       BlockType		      Reference
       Name		      "NE Splitter"
       Ports		      [2, 4]
-      Position		      [635, 349, 735, 391]
+      Position		      [640, 344, 740, 386]
       SourceBlock	      "fordypningsprosjekt/NE Splitter"
       SourceType	      "SubSystem"
       ShowPortLabels	      "FromPortIcon"
@@ -1231,18 +1566,18 @@ Model {
       BlockType		      Scope
       Name		      "P_målt"
       Ports		      [1]
-      Position		      [960, 179, 990, 211]
+      Position		      [1010, 144, 1040, 176]
       Floating		      off
-      Location		      [1186, 707, 1510, 946]
-      Open		      on
+      Location		      [922, 91, 1246, 330]
+      Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-35"
-      YMax		      "25"
+      YMin		      "-1"
+      YMax		      "1"
       SaveToWorkspace	      on
       SaveName		      "Pipeline_malt"
       DataFormat	      "StructureWithTime"
@@ -1253,10 +1588,10 @@ Model {
       BlockType		      Scope
       Name		      "P_pred"
       Ports		      [1]
-      Position		      [960, 134, 990, 166]
+      Position		      [970, 109, 1000, 141]
       Floating		      off
-      Location		      [1249, 381, 1573, 620]
-      Open		      on
+      Location		      [517, 86, 841, 325]
+      Open		      off
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
@@ -1264,7 +1599,7 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       YMin		      "0"
-      YMax		      "400"
+      YMax		      "2250"
       SaveToWorkspace	      on
       SaveName		      "Pipeline_pred"
       DataFormat	      "StructureWithTime"
@@ -1277,7 +1612,7 @@ Model {
       Ports		      [1]
       Position		      [960, 44, 990, 76]
       Floating		      off
-      Location		      [1230, 56, 1554, 295]
+      Location		      [927, 747, 1251, 986]
       Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
@@ -1285,8 +1620,9 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-27.5"
-      YMax		      "2.5"
+      TimeRange		      "600             "
+      YMin		      "-100"
+      YMax		      "1300"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
     }
@@ -1296,16 +1632,17 @@ Model {
       Ports		      [1]
       Position		      [825, 19, 855, 51]
       Floating		      off
-      Location		      [68, 514, 392, 753]
-      Open		      off
+      Location		      [100, 63, 892, 302]
+      Open		      on
       NumInputPorts	      "1"
-      ZoomMode		      "yonly"
+      ZoomMode		      "xonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-0.03"
-      YMax		      "0.025"
+      TimeRange		      "600"
+      YMin		      "-1.25"
+      YMax		      "1.25"
       SaveToWorkspace	      on
       SaveName		      "Cam_output"
       DataFormat	      "StructureWithTime"
@@ -1347,6 +1684,35 @@ Model {
       SaturateOnIntegerOverflow	off
     }
     Block {
+      BlockType		      Sum
+      Name		      "Sum1"
+      Ports		      [2, 1]
+      Position		      [680, 15, 700, 35]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      IconShape		      "round"
+      Inputs		      "|+-"
+      InputSameDT	      off
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Switch
+      Name		      "Switch"
+      Position		      [225, 45, 255, 75]
+      Orientation	      "down"
+      NamePlacement	      "alternate"
+      Criteria		      "u2 ~= 0"
+      InputSameDT	      off
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      Scope
       Name		      "Translation"
       Ports		      [3]
@@ -1354,7 +1720,7 @@ Model {
       NamePlacement	      "alternate"
       Floating		      off
       Location		      [38, 158, 362, 694]
-      Open		      on
+      Open		      off
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -1362,8 +1728,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-40~0~0"
-      YMax		      "80~450~10"
+      YMin		      "-30~-25~7"
+      YMax		      "50~125~9.75"
       SaveToWorkspace	      on
       SaveName		      "Translation"
       DataFormat	      "StructureWithTime"
@@ -1374,7 +1740,7 @@ Model {
       BlockType		      Reference
       Name		      "XY Graph"
       Ports		      [2]
-      Position		      [775, 345, 805, 380]
+      Position		      [850, 344, 875, 371]
       SourceBlock	      "simulink/Sinks/XY Graph"
       SourceType	      "XY scope."
       ShowPortLabels	      "FromPortIcon"
@@ -1395,29 +1761,55 @@ Model {
       BlockType		      Scope
       Name		      "altitude"
       Ports		      [1]
-      Position		      [700, 279, 730, 311]
+      Position		      [790, 269, 820, 301]
       Floating		      off
-      Location		      [124, 401, 448, 640]
+      Location		      [482, 280, 806, 519]
       Open		      off
       NumInputPorts	      "1"
-      ZoomMode		      "yonly"
+      ZoomMode		      "xonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "3.4225"
-      YMax		      "3.4525"
-      SaveName		      "ScopeData6"
+      YMin		      "2.8025"
+      YMax		      "2.8425"
+      SaveToWorkspace	      on
+      SaveName		      "heading1"
       DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
       SampleTime	      "0"
     }
     Block {
       BlockType		      Scope
-      Name		      "bottom"
+      Name		      "output"
       Ports		      [1]
-      Position		      [680, 219, 710, 251]
+      Position		      [765, 219, 795, 251]
       Floating		      off
-      Location		      [229, 763, 553, 1002]
+      Location		      [198, 684, 993, 923]
+      Open		      off
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      YMin		      "-1"
+      YMax		      "1"
+      SaveToWorkspace	      on
+      SaveName		      "Output"
+      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "output1"
+      Ports		      [1]
+      Position		      [280, 54, 310, 86]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      Floating		      off
+      Location		      [743, 67, 1067, 306]
       Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
@@ -1425,48 +1817,18 @@ Model {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "10.44"
-      YMax		      "10.57"
-      SaveName		      "ScopeData5"
+      YMin		      "-0.25"
+      YMax		      "2.5"
+      SaveToWorkspace	      on
+      SaveName		      "Output1"
       DataFormat	      "StructureWithTime"
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Scope
-      Name		      "output"
-      Ports		      [1]
-      Position		      [825, 264, 855, 296]
-      Floating		      off
-      Location		      [667, 762, 991, 1001]
-      Open		      off
-      NumInputPorts	      "1"
-      ZoomMode		      "yonly"
-      List {
-	ListType		AxesTitles
-	axes1			"%<SignalLabel>"
-      }
-      YMin		      "0"
-      YMax		      "1"
-      SaveName		      "ScopeData3"
-      DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
       SampleTime	      "0"
     }
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      1
-      Points		      [20, 0]
-      Branch {
-	Points			[80, 0]
-	Branch {
-	  DstBlock		  "CAMSim_v3"
-	  DstPort		  1
-	}
-	Branch {
-	  Points		  [0, -50; 225, 0]
-	  DstBlock		  "Kalmanfilter"
-	  DstPort		  2
-	}
-      }
+      Points		      [40, 0]
       Branch {
 	Points			[0, 95; -215, 0]
 	Branch {
@@ -1477,12 +1839,12 @@ Model {
 	Branch {
 	  Points		  [-65, 0; 0, -35]
 	  Branch {
-	    Points		    [0, -35]
+	    Points		    [0, -30]
 	    DstBlock		    "Crusing controller"
 	    DstPort		    4
 	  }
 	  Branch {
-	    Points		    [-110, 0; 0, -130]
+	    Points		    [-150, 0; 0, -145]
 	    DstBlock		    "LOS"
 	    DstPort		    1
 	  }
@@ -1495,8 +1857,28 @@ Model {
 	  DstPort		  1
 	}
 	Branch {
-	  Points		  [0, 95]
+	  Points		  [0, 90]
 	  DstBlock		  "NE Splitter"
+	  DstPort		  1
+	}
+      }
+      Branch {
+	Points			[40, 0]
+	Branch {
+	  Points		  [40, 0]
+	  Branch {
+	    DstBlock		    "CAMSim_v3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -35; 260, 0; 0, 45]
+	    DstBlock		    "Kalmanfilter"
+	    DstPort		    2
+	  }
+	}
+	Branch {
+	  Points		  [0, -70]
+	  DstBlock		  "Look-ahead guidance"
 	  DstPort		  1
 	}
       }
@@ -1504,28 +1886,37 @@ Model {
     Line {
       SrcBlock		      "HUGIN 1000"
       SrcPort		      2
-      Points		      [5, 0]
-      Branch {
-	Points			[100, 0]
-	Branch {
-	  DstBlock		  "CAMSim_v3"
-	  DstPort		  2
-	}
-	Branch {
-	  Points		  [0, 55]
-	  DstBlock		  "Kalmanfilter"
-	  DstPort		  4
-	}
-      }
+      Points		      [25, 0]
       Branch {
 	Points			[0, 65; -250, 0; 0, -50]
 	Branch {
+	  Points		  [15, 0]
 	  DstBlock		  "Crusing controller"
 	  DstPort		  5
 	}
 	Branch {
-	  Points		  [-120, 0]
+	  Points		  [-155, 0; 0, -105]
 	  DstBlock		  "LOS"
+	  DstPort		  2
+	}
+      }
+      Branch {
+	Points			[65, 0]
+	Branch {
+	  Points		  [35, 0]
+	  Branch {
+	    DstBlock		    "CAMSim_v3"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 35]
+	    DstBlock		    "Kalmanfilter"
+	    DstPort		    4
+	  }
+	}
+	Branch {
+	  Points		  [0, -85]
+	  DstBlock		  "Look-ahead guidance"
 	  DstPort		  2
 	}
       }
@@ -1533,23 +1924,16 @@ Model {
     Line {
       SrcBlock		      "Sonar system V2"
       SrcPort		      1
-      Points		      [0, -15]
+      Points		      [0, -30]
       Branch {
-	DstBlock		"bottom"
-	DstPort			1
+	Points			[0, -25; -20, 0]
+	DstBlock		"CAMSim_v3"
+	DstPort			3
       }
       Branch {
-	Points			[0, -15]
-	Branch {
-	  Points		  [0, -25; -20, 0]
-	  DstBlock		  "CAMSim_v3"
-	  DstPort		  3
-	}
-	Branch {
-	  Points		  [-120, 0; 0, 40]
-	  DstBlock		  "Sum"
-	  DstPort		  1
-	}
+	Points			[-120, 0; 0, 40]
+	DstBlock		"Sum"
+	DstPort			1
       }
     }
     Line {
@@ -1557,6 +1941,7 @@ Model {
       SrcPort		      1
       Points		      [20, 0; 0, -35; 10, 0]
       Branch {
+	Points			[60, 0]
 	DstBlock		"Kalmanfilter"
 	DstPort			1
       }
@@ -1569,14 +1954,14 @@ Model {
     Line {
       SrcBlock		      "Sonar system V2"
       SrcPort		      2
-      Points		      [90, 0]
+      Points		      [145, 0]
       Branch {
-	Points			[55, 0; 0, -110]
+	Points			[0, -120]
 	DstBlock		"Kalmanfilter"
 	DstPort			3
       }
       Branch {
-	Points			[0, 20]
+	Points			[0, 10]
 	DstBlock		"altitude"
 	DstPort			1
       }
@@ -1584,14 +1969,13 @@ Model {
     Line {
       SrcBlock		      "Crusing controller"
       SrcPort		      1
-      Points		      [0, 5]
       DstBlock		      "HUGIN 1000"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Kalmanfilter"
       SrcPort		      1
-      Points		      [65, 0]
+      Points		      [25, 0]
       DstBlock		      "P_tilde"
       DstPort		      1
     }
@@ -1618,14 +2002,14 @@ Model {
     Line {
       SrcBlock		      "6DOF Plot"
       SrcPort		      4
-      Points		      [10, 0]
+      Points		      [5, 0]
       DstBlock		      "Attitude"
       DstPort		      1
     }
     Line {
       SrcBlock		      "6DOF Plot"
       SrcPort		      5
-      Points		      [10, 0]
+      Points		      [5, 0]
       DstBlock		      "Attitude"
       DstPort		      2
     }
@@ -1637,30 +2021,17 @@ Model {
       DstPort		      3
     }
     Line {
+      Labels		      [0, 0]
       SrcBlock		      "HUGIN 1000"
       SrcPort		      3
-      Points		      [0, 35; -235, 0; 0, -30]
+      Points		      [0, 35; -215, 0; 0, -25]
       DstBlock		      "Crusing controller"
       DstPort		      6
     }
     Line {
-      SrcBlock		      "LOS"
-      SrcPort		      1
-      Points		      [0, 40]
-      Branch {
-	DstBlock		"Crusing controller"
-	DstPort			1
-      }
-      Branch {
-	Points			[-35, 0; 0, 315]
-	DstBlock		"Mux"
-	DstPort			6
-      }
-    }
-    Line {
       SrcBlock		      "Constant1"
       SrcPort		      1
-      Points		      [10, 0; 0, -95]
+      Points		      [10, 0; 0, -90]
       DstBlock		      "Crusing controller"
       DstPort		      3
     }
@@ -1680,27 +2051,21 @@ Model {
     Line {
       SrcBlock		      "NE Splitter"
       SrcPort		      2
-      Points		      [10, 0; 0, 5]
       DstBlock		      "XY Graph"
       DstPort		      2
     }
     Line {
       SrcBlock		      "Kalmanfilter"
       SrcPort		      2
+      Points		      [0, -5]
       DstBlock		      "P_pred"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Kalmanfilter"
       SrcPort		      3
+      Points		      [0, 5]
       DstBlock		      "P_målt"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "CAMSim_v3"
-      SrcPort		      2
-      Points		      [45, 0; 0, 115]
-      DstBlock		      "output"
       DstPort		      1
     }
     Line {
@@ -1715,7 +2080,7 @@ Model {
       SrcPort		      1
       Points		      [-195, 0]
       Branch {
-	Points			[-5, 0; 0, -145]
+	Points			[-5, 0; 0, -140]
 	DstBlock		"Crusing controller"
 	DstPort			2
       }
@@ -1724,6 +2089,102 @@ Model {
 	DstBlock		"Mux"
 	DstPort			3
       }
+    }
+    Line {
+      SrcBlock		      "Kalmanfilter"
+      SrcPort		      4
+      Points		      [15, 0; 0, 10; 15, 0]
+      Branch {
+	Points			[40, 0]
+	DstBlock		"Heading"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -110]
+	DstBlock		"Look-ahead guidance"
+	DstPort			4
+      }
+    }
+    Line {
+      SrcBlock		      "CAMSim_v3"
+      SrcPort		      2
+      Points		      [5, 0]
+      Branch {
+	Points			[0, -140]
+	DstBlock		"Sum1"
+	DstPort			1
+      }
+      Branch {
+	Points			[40, 0; 0, 40]
+	Branch {
+	  DstBlock		  "output"
+	  DstPort		  1
+	}
+	Branch {
+	  DstBlock		  "Kalmanfilter"
+	  DstPort		  5
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "Kalmanfilter"
+      SrcPort		      5
+      Points		      [10, 0]
+      Branch {
+	Points			[0, 35; -445, 0; 0, -170]
+	DstBlock		"Look-ahead guidance"
+	DstPort			3
+      }
+      Branch {
+	Points			[0, 75]
+	DstBlock		"Filtered Output"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Look-ahead guidance"
+      SrcPort		      1
+      Points		      [0, -15; -25, 0; 0, 20]
+      Branch {
+	DstBlock		"output1"
+	DstPort			1
+      }
+      Branch {
+	Points			[-125, 0; 0, 25]
+	Branch {
+	  DstBlock		  "Crusing controller"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [-80, 0; 0, 320]
+	  DstBlock		  "Mux"
+	  DstPort		  6
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "LOS"
+      SrcPort		      1
+      Points		      [35, 0; 0, -15]
+      DstBlock		      "Switch"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Sum1"
+      SrcPort		      1
+      Points		      [-190, 0; 0, -15; -245, 0]
+      DstBlock		      "Switch"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant3"
+      SrcPort		      1
+      Points		      [55, 0]
+      DstBlock		      "Sum1"
+      DstPort		      2
+    }
+    Annotation {
+      Position		      [659, 151]
     }
   }
 }

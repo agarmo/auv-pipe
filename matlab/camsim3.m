@@ -10,9 +10,9 @@ variance = u(34);
 DimX = 400;
 DimY = 400;
 
-isOutput = 0;
 
-persistent output
+
+persistent output isOutput
 
 
 
@@ -29,16 +29,14 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
            u(29:31)'];
 
 
-    J = [Rot      zeros(3);
-         zeros(3)   Trans];
-
     %% Check if pipeline is inside FOV
 
     % determine fov
     % eta_b = inv(J)*eta; %transform to body coorodinates
 
     z = bottom - eta(3); %altitude
-    fov = z*tand(45/2);
+
+    fov = z*tand(60/2);
 
     eta_b = inv(Rot(1:2, 1:2))*eta(1:2);
 
@@ -76,22 +74,22 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
 %     x_min = min(1);
 %     y_min = min(2);
 
-        if x_max < x_min
-            x_max2 = x_max;
-            x_max = x_min;
-            x_min = x_max2;
-        elseif x_max == x_min
-            x_max = x_max + fov;
-            x_min = x_max - fov;
-        end
-        if y_max < y_min
-            y_max2 = y_max;
-            y_max = y_min;
-            y_min = y_max2;
-        elseif y_max == y_min
-            y_max = y_max + fov;
-            y_min = y_max - fov;
-        end
+%         if x_max < x_min
+%             x_max2 = x_max;
+%             x_max = x_min;
+%             x_min = x_max2;
+%         elseif x_max == x_min
+%             x_max = x_max + fov;
+%             x_min = x_max - fov;
+%         end
+%         if y_max < y_min
+%             y_max2 = y_max;
+%             y_max = y_min;
+%             y_min = y_max2;
+%         elseif y_max == y_min
+%             y_max = y_max + fov;
+%             y_min = y_max - fov;
+%         end
 %     [max', min', min2', max2']'
 
     pipeline_b = zeros(size(pipeline,1), 3);
@@ -114,10 +112,10 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
             if (pipeline_b(i,1) <= x_max) && (pipeline_b(i,1) >= x_min) %inside x direction
                 if (pipeline_b(i,2) <= y_max) && (pipeline_b(i, 2) >= y_min) %inside y direction
                     %
-                    %                 x_max
-                    %                 x_min
-                    %                 y_max
-                    %                 y_min
+%                                     x_max
+%                                     x_min
+%                                     y_max
+%                                     y_min
 %                     pipeline_b(i,:)
                     pipeline_inside = [pipeline_inside; pipeline_b(i,:)]; %#ok<AGROW>
 
@@ -137,15 +135,25 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
         % convert pipeline_inside into screen cooridnates
         
         %perspektivligningene
-        
         perspektiv = [(1/z)*focus 0; 0 (1/z)*focus];
         
-        temp = size(pipeline_inside, 1);
-        temp3 = ceil(temp/2);
+        temp = size(pipeline_inside,1);
 
-        P = [perspektiv*(pipeline_inside(1,1:2)-eta_b(1:2)')';
-             perspektiv*(pipeline_inside(temp3, 1:2)-eta_b(1:2)')';
-             perspektiv*(pipeline_inside(temp,1:2)-eta_b(1:2)')'];
+%         if temp ~= 1
+%         
+%             [Cm,Im] = max(pipeline_inside);
+%         
+%             [Cmin, Imin] = min(pipeline_inside);
+%         else
+%             Cm = pipeline_inside;
+%             Cmin = pipeline_inside;
+%         end
+        
+        B = sort(pipeline_inside, 'descend');
+        
+        P = [perspektiv*(B(1,1:2)'-eta_b(1:2));
+             perspektiv*(B(ceil(size(B,1)/2), 1:2)'-eta_b(1:2));
+             perspektiv*(B(size(B,1),1:2)'-eta_b(1:2))];
          isOutput = 1;
     end
 

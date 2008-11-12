@@ -48,20 +48,39 @@ subplot(3,1,3)
 plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,3), Pipeline_pred.time, Pipeline_malt.signals.values(:,3));
 
 figure(4)
-plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values);
-
+subplot(3,1, 1)
+plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,1:3));
+title('Difference between measured and predicted');
+subplot(3, 1,2)
+plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,4:6));
+subplot(3, 1,3)
+plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,7:9));
 
 figure(5)
 plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
-legend('Pipeline Predicted', 'Pipeline Measured', 'AUV trajectory');
+hold on
+plot(pipeline(1:1000,2), pipeline(1:1000,1), '-.k');
+plot(WP(2,1:45), WP(1,1:45), '*m');
+hold off
+legend('Pipeline Predicted', 'Pipeline Measured', 'AUV trajectory', 'actual pipeline', 'Waypoints');
 
 figure(6)
 subplot(3,1,1)
 plot(Cam_output.time, Cam_output.signals.values(:,1:2));
+title('Camera output');
 subplot(3,1,2)
 plot(Cam_output.time, Cam_output.signals.values(:,3:4));
 subplot(3,1,3)
 plot(Cam_output.time, Cam_output.signals.values(:,5:6));
+
+
+figure(7)
+plot(heading.time, (180/pi).*heading.signals.values(:,1), heading.time, (180/pi).*heading.signals.values(:,2))
+title('Heading predicted versus measured');
+
+
+figure(8)
+plot(Cam_output.time, Cam_output.signals.values(:,3:4), heading1.time, heading1.signals.values);
 
 
 % 

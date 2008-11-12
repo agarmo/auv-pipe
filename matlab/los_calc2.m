@@ -1,7 +1,7 @@
 %This function takes the current state as input, including position,
 %velocity, a waypoint vector must be supplied. To
 %calculate the LOS angle.
-function y = los_calc(u)
+function y = los_calc2(u)
 
 global WP %global waypoint vector
 persistent current last %current WP
@@ -9,13 +9,13 @@ persistent current last %current WP
 eta = u(1:6);
 nu = u(7:12);
 
-r0 = 2;
+r0 = 6;
 nlpp = 2*r0;
 
 
 if isempty(current)
     current = 2;
-    WP = [[0; 0], WP];
+    WP = [eta(1:2), WP];
 end
 if isempty(last)
     last = 0;
