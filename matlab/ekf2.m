@@ -8,13 +8,13 @@ persistent x_apr P_apr
 
 
 if isempty(x_apr)
-    x_apr = zeros(12,1);
+    x_apr = [eta0; zeros(6,1)];
 end
 if isempty(P_apr)
     P_apr = P0;
 end
 
-
+% camOutput = 1;
 
 
 %% Position measurement

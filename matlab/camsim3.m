@@ -109,7 +109,7 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
 
     pipeline_inside = [];
     for i = 1:size(pipeline,1)
-        if z <= 5
+        if z <= 6
             pipeline_b(i,:)= (inv(Rot)*pipeline(i,:)')';
             if (pipeline_b(i,1) <= x_max) && (pipeline_b(i,1) >= x_min) %inside x direction
                 if (pipeline_b(i,2) <= y_max) && (pipeline_b(i, 2) >= y_min) %inside y direction
@@ -125,7 +125,7 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
                 end
             end
         else
-%             disp('for mørkt');
+            disp('for mørkt');
         end
     end
 

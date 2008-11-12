@@ -27,11 +27,11 @@ global focus
 
 x1c = x1*z_c/focus;
 y1c = y1*z_c/focus;
-z1c = z_b;
+z1c = z_c;
 
 Pc = [x1c y1c z1c]';
 
-Pwc = R*Pc + eta(1:3); % Måling;
+Pwc = R*Pc + eta(1:3); % Mï¿½ling;
 
 
 

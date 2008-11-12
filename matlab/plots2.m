@@ -38,23 +38,52 @@ grid on
 
 
 figure(3)
-plot3(Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), -Translation.signals(1,3).values(:,2));
-xlabel('East [m]');
-ylabel('North [m]');
-zlabel('Down [m]');
-grid on;
-hold on
-plot3(pipeline(:,2), pipeline(:,1), -pipeline(:,3), 'r--')
-% legend('AUV Trajectory', 'Pipeline Trajectory');
-hold off;
+subplot(3,1,1)
+plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,1), Pipeline_pred.time, Pipeline_malt.signals.values(:,1));
+title('Pipeline predicted vs Measured')
+subplot(3,1,2)
+plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,2), Pipeline_pred.time, Pipeline_malt.signals.values(:,2));
+
+subplot(3,1,3)
+plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,3), Pipeline_pred.time, Pipeline_malt.signals.values(:,3));
 
 figure(4)
-plot3(eta.signals.values(:,2), eta.signals.values(:,1), -eta.signals.values(:,3));
-xlabel('East [m]');
-ylabel('North [m]');
-zlabel('Down [m]');
-grid on;
-hold on
-plot3(Camsim_output(:,5), Camsim_output(:,4), -Translation_ref.signals(1,3).values(:,1)-bottom, 'r.')
-% legend('AUV Trajectory', 'Observed pipeline trajectory from camera');
-hold off;
+plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values);
+
+
+figure(5)
+plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
+legend('Pipeline Predicted', 'Pipeline Measured', 'AUV trajectory');
+
+figure(6)
+subplot(3,1,1)
+plot(Cam_output.time, Cam_output.signals.values(:,1:2));
+subplot(3,1,2)
+plot(Cam_output.time, Cam_output.signals.values(:,3:4));
+subplot(3,1,3)
+plot(Cam_output.time, Cam_output.signals.values(:,5:6));
+
+
+% 
+% figure(3)
+% plot3(Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), -Translation.signals(1,3).values(:,2));
+% xlabel('East [m]');
+% ylabel('North [m]');
+% zlabel('Down [m]');
+% grid on;
+% hold on
+% plot3(pipeline(:,2), pipeline(:,1), -pipeline(:,3), 'r--')
+% % legend('AUV Trajectory', 'Pipeline Trajectory');
+% hold off;
+% 
+% figure(4)
+% plot3(eta.signals.values(:,2), eta.signals.values(:,1), -eta.signals.values(:,3));
+% xlabel('East [m]');
+% ylabel('North [m]');
+% zlabel('Down [m]');
+% grid on;
+% hold on
+% plot3(Camsim_output(:,5), Camsim_output(:,4), -Translation_ref.signals(1,3).values(:,1)-bottom, 'r.')
+% % legend('AUV Trajectory', 'Observed pipeline trajectory from camera');
+% hold off;
+% 
