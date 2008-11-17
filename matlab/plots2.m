@@ -56,13 +56,27 @@ plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.valu
 subplot(3, 1,3)
 plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,7:9));
 
+dir = [];
+for i = 1:size(Pipeline_malt.signals.values(:,1))
+    dir = [dir; atan2(Pipeline_malt.signals.values(i,2)-Pipeline_malt.signals.values(i,8), Pipeline_malt.signals.values(i,1)-Pipeline_malt.signals.values(i,7))];
+end
+
+str = ceil(size(dir)/40);
+
+[u,v] = pol2cart(dir, ones(size(dir)));
+[headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),2), 1.*ones(str));
+[desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),1), 1.*ones(str));
+
 figure(5)
-plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
+plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4),'.b', Pipeline_malt.signals.values(:,8), Pipeline_malt.signals.values(:,7), '.k',  Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
 hold on
 plot(pipeline(1:1000,2), pipeline(1:1000,1), '-.k');
-plot(WP(2,1:45), WP(1,1:45), '*m');
+plot(WP(2,:), WP(1,:), '*m');
+quiver(Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4), v, u, 0.1)
+quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), heady, headx, 0.2, 'k');
+quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), desiry, desirx, 0.2, 'y');
 hold off
-legend('Pipeline Predicted', 'Pipeline Measured', 'AUV trajectory', 'actual pipeline', 'Waypoints');
+legend('Pipeline Predicted', 'Pipeline Point Stern', 'Pipeline Point Center', 'Pipeline Point Aft', 'AUV trajectory', 'actual pipeline', 'Waypoints', 'Measured Pipeline Direction', 'AUV Heading', 'AUV Desired Heading');
 
 figure(6)
 subplot(3,1,1)
@@ -80,7 +94,11 @@ title('Heading predicted versus measured');
 
 
 figure(8)
-plot(Cam_output.time, Cam_output.signals.values(:,3:4), heading1.time, heading1.signals.values);
+plot(P_post.signals.values(:,2),P_post.signals.values(:,1), P_apr.signals.values(:,2), P_apr.signals.values(:,1),'-r');
+hold on
+plot(pipeline(:,2), pipeline(:,1), '--r');
+legend('Pipeline Updated', 'Pipeline Predicted', 'Actual Pipeline')
+hold off
 
 
 % 

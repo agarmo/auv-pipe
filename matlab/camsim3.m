@@ -107,6 +107,8 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
 
     pipeline_inside = [];
     for i = 1:size(pipeline,1)
+
+        
         if z <= 6
             pipeline_b(i,:)= (inv(Rot)*pipeline(i,:)')';
             if (pipeline_b(i,1) <= x_max) && (pipeline_b(i,1) >= x_min) %inside x direction
@@ -135,7 +137,7 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
         % convert pipeline_inside into screen cooridnates
         
         %perspektivligningene
-        perspektiv = [(1/z)*focus 0; 0 (1/z)*focus];
+        perspektiv = diag([(1/z)*focus (1/z)*focus]);
         
         temp = size(pipeline_inside,1);
 
@@ -149,11 +151,33 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
 %             Cmin = pipeline_inside;
 %         end
         
-        B = sort(pipeline_inside, 'descend');
+%         [B] = sortrows(pipeline_inside);
+%         psi_p = atan2(pipeline(500,2)-pipeline(1,2),pipeline(500,1)-pipeline(1,1))
+%         pipeline_inside
+%         for i = 1:size(pipeline_inside)
+%             pipeline_inside_w = [pipeline_inside_w; 
+
         
-        P = [perspektiv*(B(1,1:2)'-eta_b(1:2));
-             perspektiv*(B(ceil(size(B,1)/2), 1:2)'-eta_b(1:2));
-             perspektiv*(B(size(B,1),1:2)'-eta_b(1:2))];
+%         B1 = interp(pipeline_inside(:,1), 10);
+%         B2 = interp(pipeline_inside(:,2), 10);
+%         B3 = interp(pipeline_inside(:,3), 10);
+% %         P3 = B(1, 1:2);
+% 
+%         B = [B1 B2 B3];
+        temparr = [];
+        for i = 1:size(pipeline_inside)
+            temparr = [temparr; (perspektiv*(pipeline_inside(i, 1:2)' - eta_b(1:2)))'];
+        end
+        [r, c, v] = find(0.05 > temparr & temparr > -0.05);
+        if isempty(r)
+            r = ceil(temp/2);
+        end
+        
+        B = sortrows(temparr, 1);
+        
+        P = [B(1,1:2)';
+             temparr(r(1),1:2)';
+             B(size(B,1),1:2)'];
          isOutput = 1;
     end
 

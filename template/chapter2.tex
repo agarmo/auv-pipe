@@ -153,7 +153,40 @@
 		\label{eq:ch2-measurement}
 		y = \mathbf{H R}^T \mathbf{C} x - \mathbf{H R}^T  \mathbf{O}(t)) = \mathbf{C}'x + \mathbf{D} u
 	\end{equation}
-
+	where $\mathbf{C'}$ and $\mathbf{D}$ are apropriate matrices for selecting the right states. $\mathbf{R}$
+	are the Rotation Matrix from World coordinates to Camera coordinates. This gives the following model
+	for the Kalman filter
+	\begin{align}
+		x &= \mathbf{A} x + \mathbf{B} u + \mathbf{E} w\\
+		y &= \mathbf{C}'x + \mathbf{D} u + v\\
+		\mathbf{A} &= \left [ \begin{matrix}
+					0 & 0 & -T_1 & 0 \\
+					0 & 0 & 0 & -T_2 \\
+					0 & 0 & -T_1 & 0 \\
+					0 & 0 & 0 & -T_2 
+					\end{matrix} \right] \quad \mathbf{B} = \left[ \begin{matrix}
+										1 & 0 & 0 \\
+										k_y & 0 & 0\\
+										0   & 0 & 0 \\
+										0 & 0 & 0
+										\end{matrix} \right]\\
+		\mathbf{E} &= \left [ \begin{matrix}
+					0 & 0 \\
+					0 & 0 \\
+					1 & 0 \\
+					0 & 1
+					\end{matrix} \right] \quad \mathbf{C}' = \left [ \begin{matrix}
+						\frac{f}{z_c} \cos{\psi} &\frac{f}{z_c} \sin{\psi} & 0 & 0 \\
+						-\frac{f}{z_c} \sin{\psi}& \frac{f}{z_c} \cos{\psi} & 0 & 0 
+								\end{matrix} \right] \\
+		\mathbf{D} &= \left [ \begin{matrix}
+					0 & 0 & 0\\
+					0 & -\frac{f}{z_c} \cos{\psi} & -\frac{f}{z_c} \sin{\psi} \\
+					0 & \frac{f}{z_c} \sin{\psi} & -\frac{f}{z_c} \cos{\psi}
+					\end{matrix} \right]
+	\end{align}
+	$w, v$ are a vectors of unity white noise and have covariance $E(ww^T) = \mathbf{Q}$ and $E(vv^T) =
+	\mathbf{W}$
 
 
 

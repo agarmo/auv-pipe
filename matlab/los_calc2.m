@@ -10,7 +10,7 @@ eta = u(1:6);
 nu = u(7:12);
 
 r0 = 6;
-nlpp = 2*r0;
+nlpp = 15;
 
 
 if isempty(current)
@@ -82,8 +82,11 @@ end
 
 %compute line of sight angle
 if last ~= 1
-   
-    psi_d = atan2((ylos-eta(2)),(xlos-eta(1)));
+    xp = atan2(WP(2, current) - WP(2, current-1), WP(1, current)-WP(1,current-1));
+
+   e = (eta(1) - WP(1,current-1))*cos(xp) - (eta(2) - WP(2, current-1))*sin(xp);
+%     psi_d = atan2((ylos-eta(2)),(xlos-eta(1)));
+    psi_d = atan2(ylos-eta(2), xlos - eta(1));
     
     %calculate sideslip angle
     beta = atan2(nu(2), nu(1));

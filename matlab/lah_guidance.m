@@ -6,23 +6,34 @@ function y = lah_guidance(u)
 
 eta = u(1:6);
 nu = u(7:12);
-p = u(13:18);
-heading = u(19);
+p = u(13:15);
+heading_p = u(16);
+heading_m = u(17);
 
-lookahead = 10;
+lookahead = 7;
 
 
 
 
-xp = atan2(p(5)-eta(2),p(4)-eta(1));
+xp = heading_m;
+
+if abs(xp-eta(6)) > pi/2
+    xp = -xp;
+    end
+% 
+% if xp < -pi/2 || xp > pi/2 
+%     xp = -xp;
+% end
 
 %cross-track error
+% 
+% if abs(xp) < 0.01;
+%     xp = heading_p;
+% end
 
-if abs(xp) <= 0.01;
-    xp = heading;
-end
 
-e = (eta(1) - p(4))*cos(xp) - (eta(2) - p(5))*sin(xp);
+
+e = -(eta(1) - p(1))*sin(eta(6)) + (eta(2) - p(2))*cos(eta(6));
 
 xr = atan2(-e, lookahead);
 
@@ -33,10 +44,10 @@ xr = atan2(-e, lookahead);
    psi_d = xp + xr;
     
     %calculate sideslip angle
-    beta = atan2(nu(2), nu(1));
+%     beta = atan2(nu(2), nu(1));
 
     %actual heading command
-    psi = psi_d + beta;
+    psi = psi_d;% + beta;
 
 y = psi;
 
