@@ -43,6 +43,7 @@
 
 
 \section{Camera therory}
+	\label{ch1-cameramodel}
 	Using camera for control is not a stright forward problem. Calculations are needed to relate the data discovered 
 	by the camera to the real world which the vessel is opperating in. This imply that coordinates of a 2D point in 
 	the camera have to be transformed into a 3D point which can be used by the control system onboard the AUV. Since 
@@ -55,77 +56,114 @@
 	the position of the point relative to camera coordinates. These parameters are ofcourse dependant on the 
 	position of the camera and change with time. \cite{robotbok}
 	
-
-	*****NOE FEIL HER*****	
 	
-	To solve the problem, it is least complicated to look at the velocity of the points in the camera view. 
-	The motion of the point in the camera view is then represented in the real world coordinates by a so called 
-	interaction matrix. \cite{robotbok}
+	Suppose a point in the world reference system, denoted by, $P_w \in \mathbb{R}^3$. The same point
+	represented in the camera frame, $P_c$ are related to $P_w$ by a rotation matrix, $\mathbf{R} \in
+	SO(3)$. This gives the following equation: 
 	\begin{equation}
-		\label{eq:ch1-image_point_veloc}
-		\dot{\mathbf{x}}_i = \interaction \mathbf{\nu}
+		P_w = \mathbf{R} P_c + O(t)
 	\end{equation}
-	$\mathbf{x}_i$ is the coordinates of the point in image coordinates, $\mathbf{\nu}$ is the linear and angular 
-	velocity of the camera in 6 DOFs in this case this is the same velocities as the vessel, since the camera is 
-	locked in a fixed position on the AUV. The matrix $\interaction$ is the Interaction matrix. This matrix is a 
-	nonlinear combination of intrinsic and extrinsic parameters of the camera, and is dependent on the distance 
-	to the point in space.
-	
-	<<<<<<<<<---------------------->>>>>>>>>>>>>>	
-	
-	The control problem is to follow the points in the camera image and keep them relatively close to the AUV. 
-	This is done by controlling the velocities of the AUV. 
+	where $O(t)$ is the origin of the camera frame. This means that the point in the camera view is
+	descirbed by the equation
+	\begin{equation}
+		\label{eq:ch1-P_c}
+		P_c = \mathbf{R}^T (P_w - O(t))
+	\end{equation}
 
-	<<<<<<<<<---------------------->>>>>>>>>>>>>>
+	A pinhole camera model are used to capture $P_c$ to image coordinates, $P_i \in
+	\mathbb{R}^2$. 
+	The principle behind a pinehole camera is that all lightbeams passes through a
+	infinitesmall hole, or point, located in the origin of the camera frame.   
+	\begin{figure}[hbtp]
+		\centering
+		\includegraphics[width=0.7\textwidth]{pics/pinhole_model2}
+		\caption{Pinhole Camera Model}
+		\label{fig:ch1-pinhole}
+	\end{figure}
+			
+	As seen from Figure \ref{fig:ch1-pinhole} the image plane is located a distance $f$ from the image plane. 
+	The point is projected through the hole an onto the image plane. The principal axis of the camere is located in the
+	direction of the observed point. For simplicity the image plane are located in the front of the
+	pinhole, this is just in theory and is not possible in real camera application. From this the
+	perspective equations are derived. \cite{robotbok}
+	\begin{equation}
+		\label{eq:ch1-perspective}
+		P_i = \left[ \begin{array}{cc}
+					\frac{f}{z_c} & 0 \\
+					0	& \frac{f}{z_c} 
+				\end{array} \right] 
+				\left[ \begin{array}{c}
+					x_c \\
+					y_c
+					\end{array} \right]
+	\end{equation}
+	This are the perspective equations which gives the observed point in screen cooridnates. 
 
+\section{Kalman filter}
+	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is
+	usually employd in navigation applications to fuse GPS and INS together. By this way one will have
+	the speed and resolution of an INS system and the precission of the GPS system.
+	
+
+	The Kalman Filter is as stated befor a very versatile tool which can be employed allmost in
+	any application. The downside with the Kalman filter is that it is a Linear system, and can only
+	guarantee optimality for linear systems. The system considered in this report is nonlinear and one can not
+	use the Kalman filter directly on this system. There is a nonlinear version of the Kalman filter, the
+	Extended Kalman Filter, which uses the same assumptions as the linear version but uses the nonlinear
+	model to predict the state forward. When updating the Covariance matrix the system equations are
+	linearized around the current estimate and updated according to certain update laws. This introduces some
+	significant problems. First the filter might converge towards wrong values, because of a non-positive-definite
+	covariance matrix. This is mostly due to poor linearization of the state equations. \cite{kalman}
+	
 \section{Guidance Algorithms}
-	\label{chap1-guidance-alg}
-	The guidance algorithm is one of the most important part of an autonomous vehicles control system. It needs to be 
-	robust and be able to handle moast situations. A guidance system should be able to give feasible commands to the 
-	lower level control system which controls the actuators, and should be able to handle most situations with care. 
-	The guidance system should decide the best trajectory to be followed based on the target location and physical 
-	capabilities of the system.\cite{GuidanceReview}
+        \label{chap1-guidance-alg}
+        The guidance algorithm is one of the most important part of an autonomous vehicles control system. It
+	needs to be robust and be able to handle moast situations. A guidance system should be able to give
+	feasible commands to the lower level control system which controls the actuators, and should be able
+	to handle most situations with care. The guidance system should decide the best trajectory to be
+	followed based on the target location and physical capabilities of the system.\cite{GuidanceReview}
 
-	Most of the guidance algorithms originates from airborne missile systems. This have been well documented and 
-	proven to work in numerous cases. Common guidance scheems such as Line-of-sight (LOS) and Proportional Navigation 
-	Guidance (PNG) and vareious implementations of these are employed in numerous guidance systems.
+	Most of the guidance algorithms originates from airborne missile systems. This have been well
+	documented and proven to work in numerous cases. Common guidance scheems such as Line-of-sight (LOS)
+	and Proportional Navigation Guidance (PNG) and vareious implementations of these are employed in
+	numerous guidance systems.
 
-	Line-of-sight-guidance are the most common principle used. The LOS-algorithm computes the line-of-sight angle 
-	from the present location to the target location, and uses this angle as a reference heading.
+        Line-of-sight-guidance are the most common principle used. The LOS-algorithm computes the
+	line-of-sight angle from the present location to the target location, and uses this angle as a
+	reference heading.
 
-	Proportional Navigation Guidance is more effective that LOS-guidance in case of a non-maneuvering target. It 
-	gives less interception time than LOS. The PNG-law can be stated as the following: \cite{GuidanceReview}
-	\begin{equation}
-		\eta_c = N' V_c \dot{\lambda}
-	\end{equation}
-	where $\eta_c$ is the acceleration command, $N'$ is the navigation ratio, $V_c$ is the closing velocity, 
-	and $\dot{\lambda}$ is the line of sight angular velocity. The navigation ratio is a tuning parameter which 
-	will give higher demanded acceleration and therby reacing the target in less time.
+        Proportional Navigation Guidance is more effective that LOS-guidance in case of a non-maneuvering
+	target. It gives less interception time than LOS. The PNG-law can be stated as the following:
+	\cite{GuidanceReview}
+        \begin{equation}
+                \eta_c = N' V_c \dot{\lambda}
+        \end{equation}
+        where $\eta_c$ is the acceleration command, $N'$ is the navigation ratio, $V_c$ is the closing
+	velocity, and $\dot{\lambda}$ is the line of sight angular velocity. The navigation ratio is a tuning
+	parameter which will give higher demanded acceleration and therby reacing the target in less time.
 
-	These laws does not work so well with maneuvering targets and lots of solutions have been proposed to make 
-	these laws more effective when dealing with moving targets. In this case the targets will be non-moving waypoints 
-	and the maneuvering laws will not be discussed here.
-	
-
-
-
-\section{Kalman Filter}
-	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is usually 
-	employd in navigation applications to fuse GPS and INS together. By this way one will have the speed and 
-	resolution of an INS system and the precission of the GPS system. 
-
-	The Kalman Filter is as stated befor a very versatile tool which can be employed allmost in any application. 
-	The downside with the Kalman filter is that it is a Linear system, and can only guarantee optimality for linear 
-	systems. The system considered in this report is nonlinear and one can not use the Kalman filter directly on 
-	this system. There is a nonlinear version of the Kalman filter, the Extended Kalman Filter, which uses the same 
-	assumptions as the linear version but uses the nonlinear model to predict the state forward. When updating the 
-	Covariance matrix the system equations are linearized around the current estimate and updated according to certain 
-	update laws. This introduces some significant problems. First the filter might converge towards wrong values, 
-	because of a non-positive-definite covariance matrix. This is mostly due to poor linearization of the 
-	state equations. \cite{kalman}
+        These laws does not work so well with maneuvering targets and lots of solutions have been proposed
+	to make these laws more effective when dealing with moving targets. In this case the targets will be
+	non-moving waypoints and the maneuvering laws will not be discussed here.
 	
 	
-\section{Different methods for pipeline following}
+	\subsection{Various Guidance Concepts}
+		A unified path following controller are derived in \cite{control-concept-AUV}. The 
+		authors proposes a singel control structure which will work for the entire velocity regiem.
+		The controller is derived using backstepping. The concept are shown to be Uniform Global
+		Expontially Stable under some assumptions about the guidance signals. The controller will not
+		work without properly generated references. The AUV concidered here are fully actuated for low
+		speeds but becomes undeactuated for higher speeds. The controller guarantees that the AUV
+		converges towards the desired path regardless of if it is underactuated or fully actuated.
+		
+		In \cite{optimal-cross-track} an optimal cross-track guidance scheme are proposed. It seeks to minimize
+		the crosstrack-error, depth, pitch and yaw by using the pitch rate and yaw rate, this is called Model
+		Predictive Guidance. Damping and can be added to reduce the commanded pitch and yaw rates which can
+		cause overshoot. The guidance scheme are compared against a LOS guidance system and gives good
+		results.
+
+	
+\section{Different Methods for Pipeline Following Discussed in Literture}
 	A literature study was performed to see what other people have acomplished on the subject on AUV and 
 	pipeline following. 
 	
@@ -157,7 +195,7 @@
 	but has yet to be implemented and tested in real-life scenarios. 
 	
 	In \cite{fuel_optimal_control} a fuel-optimal tracking controller is derived to minimalize the fuel consumption 
-	of the AUV. The controller minimizes the fuel consumption needed to reach the terminal position. 
-	
-	
+	of the AUV. It uses the fact that the least fuel consuming path is the shortest one. This
+	paper deives a fuel optimal controller using the estimated fuel consumption as a minimization index. 
+
 

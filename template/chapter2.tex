@@ -63,66 +63,101 @@
 
 
 \section{Pipeline representation}
-	In the simulations the pipelines are represented as interpolated waypoints. Waypoint on where the pipeline are
-	going is supplied by the user and interpolated using the \textit{matlab}-function \textit{pchip}. 
+	The representation of the pipeline is important because it is used in the Kalman filter to predict
+	where the pipeline is going. The pipeline is parametrized by $\varpi \in \mathbb{R}$ to get a
+	continous and smooth pipeline.
 
+	In this report the pipeline are parameterized as:
+	\begin{equation}
+		P_w(\varpi) = \left [ \begin{array}{c}
+					\varpi \\
+					k_y \varpi \\
+					z(\eta)
+				\end{array} \right ] \quad \varpi \in (0, \infty)
+	\end{equation}
+	where $k_y$ are constant and $z(\eta)$ is some function described by the sea bottom and are assumed
+	known.
+	
+	
 
 
 \section{Kalman filter}
-	The Kalman filter is designed with the purpose to smooth the output from the camera, estimate the trajectory 
-	of the pipeline if it is lost, and estimate the current forces and moments which is acting on the vessel. 
-	The bias is modelled as a \textit{1st order Markov}-model.
+	The Kalman filters purpose is to smooth the camera output and predict forward where the pipeline will
+	be in the future to supply a better heading reference for the guidance controller.
+
+	The position of the pipeline are given some uncertanty becuase the pipeline may have moved after it
+	was layed or the position might be erronous. This gives:
 	\begin{equation}
-		\label{eq:chp2-biasmodel}
-		\dot{\mathbf{b}} = -\mathbf{T}^{-1} \mathbf{b} + \mathbf{w} \quad \mathbf{b}, \mathbf{w} \in \mathbb{R}^6
+		P_w(\varpi) = \left [ \begin{array}{c}
+					\varpi \\
+					k_y \varpi \\
+					z(\eta)
+				\end{array} \right ] + \mathbf{B}\delta
 	\end{equation}
-	where $\mathbf{w}$ is zero-mean guassian distributed white noise, and $\mathbf{T}$ is a diagonal matrix with 
-	large time constants, to model the slowly varying current forces. 
-	Equation \eqref{eq:chp2-biasmodel} is restructured by inserting the kinetics equation from the model and gives:
+	The function $\delta$ are a slowly varying disturbance which can be modeled as a \textit{1st order Markov
+	Process}, and $\mathbf{B}$ is some 2x3 matrix.
 	\begin{equation}
-		\dot{\mathbf{b}} = -\mathbf{T}^{-1} \rotation (\restoring) - \mathbf{T}^{-1} 
-		\rotation (\mass - \tau + \damping) + \mathbf{w}
+		\dot{\delta} = -\mathbf{T} \delta +  w
+	\end{equation}
+	where $w \in \mathbb{R}^2$, are a zero mean unity variance white noise process. This describes the
+	error in the position. The matrix $\mathbf{T}$ specifies how the error evolves. Time differentianting
+	the position estimate with regard to time gives
+	\begin{equation}
+		\dot{P_w}(\varpi) =  \left [ \begin{array}{c}
+						\dot{\varpi} \\
+						k_y \dot{\varpi} \\
+						\dot{z}(\eta)
+					\end{array} \right ] + \dot{\delta}
+	\end{equation}
+	By setting $\varpi = N(t)$, i.e the North position and completely disregarding the depth coordinate.
+	gives the following
+	\begin{equation}
+		\dot{P_w'} = \left [ \begin{array}{c}
+					n \\
+					k_y n 
+				\end{array} \right ] + \dot{\delta}
+	\end{equation}
+	Choseing the state vector and input as:
+	\begin{equation}
+		x = [ P_w'^T \quad \delta^T]^T \quad \Rightarrow  \quad \dot{x} = [\dot{P_w'^T} \quad
+		\dot{\delta^T}]^T \quad  u = n
+	\end{equation}
+	This calls for the following state space representation 
+	\begin{equation}
+		\dot{x} = \left [ \begin{array}{cc}
+					0 & -T \\
+					0 & -T
+				\end{array} \right] x + \left [ \begin{array}{c}
+								1 \\
+								k_y\\
+								0 \\
+								0
+								\end{array} \right] u +
+				\left [ \begin{array}{c}
+						\mathbf{0}_{2x2} \\
+						\mathbf{I}_{2x2} 
+					\end{array} \right] w
 	\end{equation}
 
-	****************FEIL************** M� FIKSES
+	The measurement model are more complex. To be able to compare the measurement from the camera with the
+	state space model, the perspective equations from Section \ref{ch1-cameramodel} are needed. By using
+	Equations \eqref{eq:ch1-P_c} and \eqref{eq:ch1-perspective}, we can transform the point from World
+	coordinates to image coordinates. We want $y = P_i$
+	\begin{equation*}
+		y = P_i = \mathbf{H} P_c = \mathbf{H R}^T ( P_w - \mathbf{O}(t))
+	\end{equation*}
+	$\mathbf{O}(t)$ is the origin of the camera frame and is equal to the position vector $\eta' = [N(t),
+	E(t)]^T$. By including the position vector in the input to the filter and using 
+	$P_w = \mathbf{C} x$, the measurement model are conclueded.
+	\begin{equation}
+		\label{eq:ch2-measurement}
+		y = \mathbf{H R}^T \mathbf{C} x - \mathbf{H R}^T  \mathbf{O}(t)) = \mathbf{C}'x + \mathbf{D} u
+	\end{equation}
 
-	The state used in the Kalman filter model is $\mathbf{x} = [\mathbf{\eta}^T \quad x_i^T 
-	\quad \mathbf{b}^T]^T$, $\mathbf{x} \in \mathbb{R}^{18}$. The velocity vector, $\mathbf{\nu}$, 
-	the acceleration, $\dot{\mathbf{\nu}}$, and the forces and moments from the regulator, $\mathbf{\tau}$ is 
-	used as input to drive the filter, $\mathbf{u} = [\tau^T \quad \mathbf{\nu}^T \quad \mathbf{\dot{\nu}}^T]^T$. 
-	The systems measurement is the position, $\mathbf{\eta}$ and the camera output, $x_i$. The measurement is 
-	assumed affected by gaussian distributed white noise, with zero-mean.
-	
-	The mathematical model used for the Kalman filter is summarized here:
-		\begin{align}
-			\mathbf{\dot{x}} &= \mathbf{f(x)} + \mathbf{B(x, u) u} + \mathbf{E w} \\
-			\mathbf{y} &= \mathbf{H x} + \mathbf{v}
-		\end{align}
-	where
-		\begin{align}
-			\mathbf{f(x)} &= \left[ \begin{array}{c}
-						\mathbf{0}\\
-						\mathbf{0}\\
-						-\mathbf{T}^{-1} \rotation \restoring
-						\end{array} \right] \quad 
-			\mathbf{E} = \left[ \begin{array}{cc}
-			                      	\mathbf{0} & \mathbf{0} \\
-			                      	\mathbf{I} & \mathbf{0}\\
-			                      	\mathbf{0} & \mathbf{I}
-			                     \end{array} \right] \quad
-			\mathbf{H} = \left[ \begin{array}{ccc}
-			                      	\mathbf{I} & \mathbf{0} & \mathbf{0}\\
-			                      	\mathbf{0} & \mathbf{I} & \mathbf{0}
-			                     \end{array} \right] \\
-			\mathbf{B(x, u)} &= \left[ \begin{array}{ccc}
-			                      	\mathbf{0} & \rotation & \mathbf{0}\\
-			                      	\mathbf{0} & \interaction & \mathbf{0}\\
-			                      	\mathbf{T}^{-1} & -\mathbf{T}^{-1}\rotation \mathbf{D(\nu)} 
-						& -\mathbf{T}^{-1} \rotation \mathbf{M}
-			                     \end{array} \right] &
-		\end{align}
 
-	The equations used for the Extended Kalman Filter can be found in \cite{fossen} p199.
+
+
+
 	
 \section{Controller Design}
 	The control system which supply the lower-level control system with forces and moments references, is 
