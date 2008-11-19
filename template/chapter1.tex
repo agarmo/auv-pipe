@@ -25,14 +25,17 @@
 	
 
 \section{Hydrodynamic Model}
+	\label{sec:ch1-model}
 	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this
 	report uses the 6 DOF model described in \cite{fossen}.
-		\begin{align}
-			\label{eq:chp1-model}
+	\begin{equation}
+	\label{eq:ch1-model}
+		\begin{aligned}
 			\mathbf{\dot{\eta}} &= \rotation \mathbf{\nu} \\
 			\mass + \coriolis + \damping + \restoring &= \force \\
-		\end{align}
-	The equations \eqref{eq:chp1-model} describes the kinematics and kinetics for the model. It is in the 
+		\end{aligned}
+	\end{equation}
+	The Equation \eqref{eq:ch1-model} describes the kinematics and kinetics for the model. It is in the 
 	mathematical sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is 
 	a skew-symmetric matrix.
 	
@@ -166,6 +169,10 @@
 \section{Different Methods for Pipeline Following Discussed in Literture}
 	A literature study was performed to see what other people have acomplished on the subject on AUV and 
 	pipeline following. 
+
+	\cite{piscis} describes breefly a prototype AUV equipped with a camera and sonar to carry out pipeline
+	inspection missions. The AUV uses controllers for heading, speed and depth and visual guidance to
+	follow the pipeline. 
 	
 	\cite{GuidanceReview} proposes a 2-stage guidance problem. When submerging and ascending to the surface, 
 	the AUV uses a LOS guidance law at full speed. When the pipeline is aqcuired the guidacen law is switched 
@@ -197,5 +204,10 @@
 	In \cite{fuel_optimal_control} a fuel-optimal tracking controller is derived to minimalize the fuel consumption 
 	of the AUV. It uses the fact that the least fuel consuming path is the shortest one. This
 	paper deives a fuel optimal controller using the estimated fuel consumption as a minimization index. 
+
+	\cite{side_scan_sonar} describes two technices for detecting and tracking pipelines using Side Scan
+	Sonar and Multi-Beam Echosounders. Prior knowledge about the pipeline are utilized for the recognision
+	of the pipeline. A pipeline creates very distinct shadows in a side scan sonar image and are easy to
+	separate from the sea bottom.
 
 
