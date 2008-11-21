@@ -35,8 +35,8 @@ z1w = z_b;
 x1wt = eta(1)-1;
 y1wt = 4*(eta(1)-1);
 
-x1wp = eta(1)+10;
-y1wp = 4*(eta(1)+10);
+x1wp = eta(1)+3;
+y1wp = 4*(eta(1)+3);
 
 Pw= [x1w y1w z1w]';
 

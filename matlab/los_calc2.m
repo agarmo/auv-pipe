@@ -10,7 +10,7 @@ eta = u(1:6);
 nu = u(7:12);
 
 r0 = 6;
-nlpp = 15;
+nlpp = 5;
 
 
 if isempty(current)

@@ -3,38 +3,23 @@
 %calculate the LOS angle.
 function y = lah_guidance(u)
 
-global WP
 
 eta = u(1:6);
 nu = u(7:12);
-p = u(13:21);
-heading = u(22);
+p = u(13:15);
+heading_p = u(16);
+heading_m = u(17);
 
-persistent current
-
-if isempty(current)
-    current = 2;
-    WP = [eta(1:2), WP];
-end
+lookahead = 4;
 
 
 
-lookahead = 5;
 
-if current == 2
-    r2 = sqrt((WP(1,current)-eta(1))^2 + (WP(2,current)-eta(2))^2);
-    y = atan2(WP(2, current)- eta(2), WP(1, current) - eta(1));
-    if r2 <= 10
-        current = current +1
-    end
-else
-
-xp = heading;
+xp = heading_p;
 
 if abs(xp-eta(6)) > pi/2
     xp = -xp;
-end
-
+    end
 % 
 % if xp < -pi/2 || xp > pi/2 
 %     xp = -xp;
@@ -65,5 +50,5 @@ xr = atan2(-e, lookahead);
     psi = psi_d;% + beta;
 
 y = psi;
-end
+
 end

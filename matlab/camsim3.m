@@ -125,7 +125,7 @@ if mod(t, 1) == 0 %Every 1 second there is a new sample
                 end
             end
         else
-            disp('for mørkt');
+%             disp('for mørkt');
         end
     end
 
@@ -196,6 +196,9 @@ else
         output = zeros(6,1);
         x = [output; isOutput];
     else
+        if isempty(output)
+            output = zeros(6,1);
+        end
         x = [output; isOutput]; 
     end
 end

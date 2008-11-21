@@ -37,46 +37,59 @@ legend('\psi_d', '\psi');
 grid on
 
 
-figure(3)
-subplot(3,1,1)
-plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,1), Pipeline_pred.time, Pipeline_malt.signals.values(:,1));
-title('Pipeline predicted vs Measured')
-subplot(3,1,2)
-plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,2), Pipeline_pred.time, Pipeline_malt.signals.values(:,2));
+% figure(3)
+% subplot(3,1,1)
+% plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,1), Pipeline_pred.time, Pipeline_malt.signals.values(:,1));
+% title('Pipeline predicted vs Measured')
+% subplot(3,1,2)
+% plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,2), Pipeline_pred.time, Pipeline_malt.signals.values(:,2));
+% 
+% subplot(3,1,3)
+% plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,3), Pipeline_pred.time, Pipeline_malt.signals.values(:,3));
+% 
+% figure(4)
+% subplot(3,1, 1)
+% plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,1:3));
+% title('Difference between measured and predicted');
+% subplot(3, 1,2)
+% plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,4:6));
+% subplot(3, 1,3)
+% plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,7:9));
+% 
+% dir = [];
+% for i = 1:size(Pipeline_malt.signals.values(:,1))
+%     dir = [dir; atan2(Pipeline_malt.signals.values(i,2)-Pipeline_malt.signals.values(i,8), Pipeline_malt.signals.values(i,1)-Pipeline_malt.signals.values(i,7))];
+% end
 
-subplot(3,1,3)
-plot(Pipeline_pred.time, Pipeline_pred.signals.values(:,3), Pipeline_pred.time, Pipeline_malt.signals.values(:,3));
 
-figure(4)
-subplot(3,1, 1)
-plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,1:3));
-title('Difference between measured and predicted');
-subplot(3, 1,2)
-plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,4:6));
-subplot(3, 1,3)
-plot(Pipeline_pred.time, Pipeline_pred.signals.values-Pipeline_malt.signals.values(:,7:9));
+str = size(Attitude.signals(1,3).values, 1);
 
-dir = [];
-for i = 1:size(Pipeline_malt.signals.values(:,1))
-    dir = [dir; atan2(Pipeline_malt.signals.values(i,2)-Pipeline_malt.signals.values(i,8), Pipeline_malt.signals.values(i,1)-Pipeline_malt.signals.values(i,7))];
-end
-
-str = ceil(size(dir)/40);
-
-[u,v] = pol2cart(dir, ones(size(dir)));
-[headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),2), 1.*ones(str));
-[desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),1), 1.*ones(str));
+% str = ceil(size(Attitude.signals(1,1).values(1,:))/40);
+len = ceil(str/40);
+% [u,v] = pol2cart(dir, ones(size(dir)));
+% [headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),2), 1.*ones(str));
+% [desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),1), 1.*ones(str));
+% [u,v] = pol2cart(dir, ones(size(dir)));
+[headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:str,1), 1.*ones(len,1));
+[desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:str,2), 1.*ones(len,1));
 
 figure(5)
-plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4),'.b', Pipeline_malt.signals.values(:,8), Pipeline_malt.signals.values(:,7), '.k',  Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
+% plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4),'.b', Pipeline_malt.signals.values(:,8), Pipeline_malt.signals.values(:,7), '.k',  Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
+plot(P_pred.signals.values(:,2), P_pred.signals.values(:,1), '--b',P_post.signals.values(:,2), P_post.signals.values(:,1), '--k', Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
 hold on
-plot(pipeline(1:1000,2), pipeline(1:1000,1), '-.k');
+plot(pipeline(:,2), pipeline(:,1), '-.k');
 plot(WP(2,:), WP(1,:), '*m');
-quiver(Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4), v, u, 0.1)
-quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), heady, headx, 0.2, 'k');
-quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), desiry, desirx, 0.2, 'y');
+% quiver(Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4), v, u, 0.1)
+% quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), heady, headx, 0.2, 'k');
+% quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), desiry, desirx, 0.2, 'y');
+
+quiver(Translation.signals(1,2).values(1:40:str,2), Translation.signals(1,1).values(1:40:str ,2), heady, headx, 0.2, 'k');
+quiver(Translation.signals(1,2).values(1:40:str,2), Translation.signals(1,1).values(1:40:str ,2), desiry, desirx, 0.2, 'y');
+ 
 hold off
-legend('Pipeline Predicted', 'Pipeline Point Stern', 'Pipeline Point Center', 'Pipeline Point Aft', 'AUV trajectory', 'actual pipeline', 'Waypoints', 'Measured Pipeline Direction', 'AUV Heading', 'AUV Desired Heading');
+% legend('Pipeline Predicted', 'Pipeline Point Stern', 'Pipeline Point Center', 'Pipeline Point Aft', 'AUV trajectory', 'actual pipeline', 'Waypoints', 'Measured Pipeline Direction', 'AUV Heading', 'AUV Desired Heading');
+
+legend('Pipeline Predicted', 'Pipeline Updated', 'AUV trajectory', 'actual pipeline', 'Waypoints', 'AUV Heading', 'AUV Desired Heading');
 
 figure(6)
 subplot(3,1,1)
@@ -88,18 +101,23 @@ subplot(3,1,3)
 plot(Cam_output.time, Cam_output.signals.values(:,5:6));
 
 
-figure(7)
-plot(heading.time, (180/pi).*heading.signals.values(:,1), heading.time, (180/pi).*heading.signals.values(:,2))
-title('Heading predicted versus measured');
+% figure(7)
+% plot(heading.time, (180/pi).*heading.signals.values(:,1), heading.time, (180/pi).*heading.signals.values(:,2))
+% title('Heading predicted versus measured');
 
 
 figure(8)
-plot(P_post.signals.values(:,2),P_post.signals.values(:,1), P_apr.signals.values(:,2), P_apr.signals.values(:,1),'-r');
+plot(P_pred.signals.values(:,2), P_pred.signals.values(:,1), 'b', P_post.signals.values(:,2), P_post.signals.values(:,1), 'k');
 hold on
 plot(pipeline(:,2), pipeline(:,1), '--r');
-legend('Pipeline Updated', 'Pipeline Predicted', 'Actual Pipeline')
+legend('Pipeline predicted', 'Pipeline updated', 'Actual Pipeline')
 hold off
 
+
+figure(9)
+plot(P_pred.time, P_pred.signals.values(:,2)-P_post.signals.values(:,5), P_pred.time, P_pred.signals.values(:,1)-P_post.signals.values(:,4));
+grid on
+legend('Difference from Predicted and updated, y-direction', 'Difference from Predicted and updated, x-direction')
 
 % 
 % figure(3)
