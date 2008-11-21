@@ -34,8 +34,8 @@ R = [cos(psi) -sin(psi) 0;
 u = [(R(1,1:2)*nu(1:2)); R(1:2, 1:2)'*eta(1:2)];
 
 % model equations
-t1 = 1/1000;
-t2 = 1/1000;
+t1 = 1/2000;
+t2 = 1/2000;
 A = [0 0 -t1 0;
      0 0 0 -t2;
      0 0 -t1 0;
@@ -60,10 +60,10 @@ E = [0, 0;
 [Ad, Ed] = c2d(A, E, 0.1);
 x = [];
 
-    x_apr = [n*eta(1);
-             e*eta(1);
-             x_apr(3);
-             x_apr(4)];
+%     x_apr = [n*eta(1);
+%              e*eta(1);
+%              x_apr(3);
+%              x_apr(4)];
 
             
     K = P_apr*C'*inv((C*P_apr*C' + W));
@@ -85,10 +85,11 @@ for i = 1:4:12
     x_aprm = [x_aprm; x_apr];
 end
    
-P_apr = Ad*P_post*Ad' + Ed*Q*Ed';
+P_apr = A*P_post*A' + Ed*Q*Ed';
 
 if temp ~= zeros(2,1)
-    pipeline_heading = atan2(x(2)-temp(2), x(1)-temp(1)); %use prior estimate
+    pipeline_heading = atan2(abs(x(2)-temp(2)), abs(x(1)-temp(1))); %use prior estimate
+  
 else
     pipeline_heading = 0;
 end
@@ -100,5 +101,5 @@ end
 
 
 %% output
-y = [x_apr(1:2); z_b; x(1:2); z_b;x(5:6); z_b; x(9:10); z_b; pipeline_heading];
+y = [x_apr(1:2); z_b; x(1:2); z_b;x(5:6); z_b; x(9:10); z_b; pipeline_heading; diag(P_apr)];
 

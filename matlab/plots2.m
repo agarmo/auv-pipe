@@ -63,15 +63,15 @@ grid on
 
 
 str = size(Attitude.signals(1,3).values, 1);
-
+dec = 150;
 % str = ceil(size(Attitude.signals(1,1).values(1,:))/40);
-len = ceil(str/40);
+len = ceil(str/dec);
 % [u,v] = pol2cart(dir, ones(size(dir)));
 % [headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),2), 1.*ones(str));
 % [desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),1), 1.*ones(str));
 % [u,v] = pol2cart(dir, ones(size(dir)));
-[headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:str,1), 1.*ones(len,1));
-[desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:str,2), 1.*ones(len,1));
+[headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,1), 1.*ones(len,1));
+[desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,2), 1.*ones(len,1));
 
 figure(5)
 % plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4),'.b', Pipeline_malt.signals.values(:,8), Pipeline_malt.signals.values(:,7), '.k',  Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
@@ -83,8 +83,8 @@ plot(WP(2,:), WP(1,:), '*m');
 % quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), heady, headx, 0.2, 'k');
 % quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), desiry, desirx, 0.2, 'y');
 
-quiver(Translation.signals(1,2).values(1:40:str,2), Translation.signals(1,1).values(1:40:str ,2), heady, headx, 0.2, 'k');
-quiver(Translation.signals(1,2).values(1:40:str,2), Translation.signals(1,1).values(1:40:str ,2), desiry, desirx, 0.2, 'y');
+quiver(Translation.signals(1,2).values(1:dec:str,2), Translation.signals(1,1).values(1:dec:str ,2), heady, headx, 0.2, 'k');
+quiver(Translation.signals(1,2).values(1:dec:str,2), Translation.signals(1,1).values(1:dec:str ,2), desiry, desirx, 0.2, 'b');
  
 hold off
 % legend('Pipeline Predicted', 'Pipeline Point Stern', 'Pipeline Point Center', 'Pipeline Point Aft', 'AUV trajectory', 'actual pipeline', 'Waypoints', 'Measured Pipeline Direction', 'AUV Heading', 'AUV Desired Heading');
@@ -107,7 +107,7 @@ plot(Cam_output.time, Cam_output.signals.values(:,5:6));
 
 
 figure(8)
-plot(P_pred.signals.values(:,2), P_pred.signals.values(:,1), 'b', P_post.signals.values(:,2), P_post.signals.values(:,1), 'k');
+plot(P_pred.signals.values(:,2), P_pred.signals.values(:,1), 'b', P_post.signals.values(:,5), P_post.signals.values(:,4), 'k');
 hold on
 plot(pipeline(:,2), pipeline(:,1), '--r');
 legend('Pipeline predicted', 'Pipeline updated', 'Actual Pipeline')
@@ -117,6 +117,7 @@ hold off
 figure(9)
 plot(P_pred.time, P_pred.signals.values(:,2)-P_post.signals.values(:,5), P_pred.time, P_pred.signals.values(:,1)-P_post.signals.values(:,4));
 grid on
+
 legend('Difference from Predicted and updated, y-direction', 'Difference from Predicted and updated, x-direction')
 
 % 
