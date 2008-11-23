@@ -20,7 +20,14 @@ hold off
 % 
 
 figure(2)
-subplot(2, 1, 1)
+subplot(3, 1, 1)
+plot(NE_Veloc.time, NE_Veloc.signals(1,1).values)
+xlabel('Time[s]');
+ylabel('Surge Speed [m/s]')
+legend('Surge Speed');
+grid on
+
+subplot(3, 1, 2)
 plot(Translation.time, Translation.signals(1,3).values)
 xlabel('Time [s]');
 ylabel('Down [m]');
@@ -28,7 +35,7 @@ title('Depth of AUV versus Reference');
 legend('Depth Reference', 'AUV depth');
 grid on
 
-subplot(2,1, 2)
+subplot(3,1, 3)
 plot(Attitude.time, Attitude.signals(1,3).values)
 xlabel('Time [s]');
 ylabel('Heading [degrees]');
@@ -63,7 +70,7 @@ grid on
 
 
 str = size(Attitude.signals(1,3).values, 1);
-dec = 150;
+dec = 200;
 % str = ceil(size(Attitude.signals(1,1).values(1,:))/40);
 len = ceil(str/dec);
 % [u,v] = pol2cart(dir, ones(size(dir)));
@@ -75,10 +82,11 @@ len = ceil(str/dec);
 
 figure(5)
 % plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4),'.b', Pipeline_malt.signals.values(:,8), Pipeline_malt.signals.values(:,7), '.k',  Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
-plot(P_pred.signals.values(:,2), P_pred.signals.values(:,1), '--b',P_post.signals.values(:,2), P_post.signals.values(:,1), '--k', Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
+plot(P_pred.signals.values(:,2), P_pred.signals.values(:,1), '--b', Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'r');
 hold on
-plot(pipeline(:,2), pipeline(:,1), '-.k');
-plot(WP(2,:), WP(1,:), '*m');
+% plot(P_post.signals.values(:,2), P_post.signals.values(:,1), '--k')
+plot(pipeline(1:300,2), pipeline(1:300,1), '-k', pipeline(500:1400,2), pipeline(500:1400,1), '-k', 'LineWidth', 3);
+plot(WP(2,1:2), WP(1,1:2), '*m');
 % quiver(Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4), v, u, 0.1)
 % quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), heady, headx, 0.2, 'k');
 % quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), desiry, desirx, 0.2, 'y');
@@ -89,7 +97,9 @@ quiver(Translation.signals(1,2).values(1:dec:str,2), Translation.signals(1,1).va
 hold off
 % legend('Pipeline Predicted', 'Pipeline Point Stern', 'Pipeline Point Center', 'Pipeline Point Aft', 'AUV trajectory', 'actual pipeline', 'Waypoints', 'Measured Pipeline Direction', 'AUV Heading', 'AUV Desired Heading');
 
-legend('Pipeline Predicted', 'Pipeline Updated', 'AUV trajectory', 'actual pipeline', 'Waypoints', 'AUV Heading', 'AUV Desired Heading');
+legend('Pipeline Predicted','AUV trajectory', 'actual pipeline','', 'Waypoints', 'AUV Heading', 'AUV Desired Heading');
+xlabel('East [m]')
+ylabel('North [m]')
 
 figure(6)
 subplot(3,1,1)

@@ -1,4 +1,5 @@
 \chapter{Modelling}
+
 \section{Problem Outline}
 \label{chap2:problem}
 	To solve the pipeline following problem it is important to have a clear formulation of the problem.
@@ -38,8 +39,7 @@
 	sensing methods than vision. Suiting sensors are magnetic anomalities sensors which can detect
 	ferretic alloys and materials. Multi-beam echosounders and side scan sonar are other possible sensors
 	to help detecting a burried pipeline.
-	
-	
+
 \section{Controller Design}
 	The model discussed in Section \ref{sec:ch1-model} is used to derive the controller equations for the
 	AUV control system.
@@ -160,7 +160,8 @@
 				\right ] = \left [ \begin{matrix}
 							0 & -u_0 &  0 \\
 							0 & 0 &   1 \\
-							0 & -\frac{1}{\gamma} W &-\frac{1}{\gamma}M_{w} (m - Z_{\dot{w}})-M_w Z_q
+							0 & -\frac{1}{\gamma} W &-\frac{1}{\gamma}M_{w} 
+							(m - Z_{\dot{w}})-M_w Z_q
 						\end{matrix} \right ] 
 				\left [ \begin{matrix}
 						d \\
@@ -182,6 +183,7 @@
 				\ddot{\tilde{d}} = -u_0q
 			\end{aligned}
 		\end{equation}
+		A similiar controller are implemnted in \cite{NDRE-AUV}.
 				
 
 	
@@ -421,100 +423,91 @@
 		\item Pitch- and roll angles, are assumed small together with the corresponding pitch- and
 		roll rates. In the vicinity of $\pm 5^{\circ}$ and $\pm 0.05 \mathrm{rad/s}$
 		\item \textit{sway} and \textit{heave} velocities are small compared to \textit{surge}
-		velocity and the cross-coupling terms may be neglected.
+		velocity and any cross-coupling terms may be neglected.
+		\item The full state are assumed perfectly known. 
+		\item The exact position of the are known.
 	\end{enumerate}
 		
 \section{Guidance system}
-	The guidance system on the \textit{HUGIN1000} AUV needs to be robust and tolerant to disturbances. The 
-	vessel will be operating in the vicinity of ocean currents and other unpredictable factors which have to 
-	be countered by the guidance system in a smart and robust way.
-	
-	\begin{figure}[hbtp]
+	The guidance block are one of the most important building stones of an Autonomous system. It needs
+	some guidance for what it needs to do. Figure \ref{fig:ch2-Guidance-block} shows a proposal of a
+	guidance and descision system for the \textit{HUGIN} vehicle.
+	\begin{figure}[htbp]
 		\centering
-		\includegraphics[width=0.83\textwidth]{pics/waypoint}
-		\caption{Variables assosiated with path following}
-		\label{fig:ch2-pathfollowing}
+		\includegraphics[width=0.8\textwidth]{pics/guidance}
+		\caption{Guidance System Block}
+		\label{fig:ch2-Guidance-block}
 	\end{figure}
-	The Figure \ref{fig:ch2-pathfollowing} shows the variables which are important for path following. The
-	cross-track error, $e$ are an important aspect here. It is the lateral position error decomposed in
-	the desired path reference frame. Another variable worth noting is $\Delta$ which is the look-ahead
-	distance. This is analogus to when you drive a car you look farther down the road to better maneuver
-	the car. A great look-ahead distance yealds smooth heading reference but slower convergence of the
-	cross-track error. A lower look-ahead distance gives an agressive heading reference and fast
-	convergence of the cross-track error. The $s$-variable are called the along-track distance from point
-	$P_k$. 
-	
-	
-	\subsection{Line-of-Sight Guidance Law}
-		This is described in Section \ref{chap1-guidance-alg}. The LOS-angle is fed directly into the 
-		heading controller as a reference. When ocean currents and disturbances are present, a modified 
-		guidance law is presented. This uses the Side Slip angle, defined as:
-		\begin{equation}
-			\label{eq:ch2-sideslip}
-			\beta = \sin^{-1} ( \frac{v}{\sqrt{u^2 + v^2 + w^2}})
-		\end{equation}
-		an alternative defenition of the side slip angle:
-		\begin{equation*}
-			\beta = \tan^{-1} (\frac{v}{u})
-		\end{equation*}
-		The new heading reference is then taken as
-		\begin{equation}
-			\label{eq:ch2-los-law}
-			\psi_d = \psi_{LOS} - \beta
-		\end{equation}
-		Where $\psi_{LOS}$ is the LOS-angle from the current position to the next waypoint. 
 
-	\subsection{Radius-based Guidance}
-		Radius-based guidance uses the point where the radius around the current location intersects
-		with the path, denoted on Figure \ref{fig:ch2-pathfollowing} as $P_{int}$. \cite{guidance_planar_path}
-		This means assigning the desired heading as 
-		\begin{equation}
-			\psi_d = \tan^{-1}(\frac{y_{int} - y}{x_{int} - y})
-		\end{equation}
-		where 
-		\begin{equation}
-			(x_{int} - x)^2 + (y_{int} - y)^2 = r^2
-		\end{equation}
-		If $r$ is chosen sufficiently large the equations above will have a solution, i.e $r > |e|$
-		otherwise there will exist no intersection point on the track line. 
+	The AUV control system are assumed to have three modes, \textit{searching}, \textit{tracking} and
+	\textit{initialize/finalize}. The \textit{initialize/finalize}-mode are the beginning and end of a
+	mission and will not be considered in this report. 
 	
-	\subsection{Lookahead-based Guidance}
-		Here the lookahead distance are utilized when calculating the desired heading. If $\psi_d$ are
-		chosen as:
-		\begin{equation}
-			\psi_d = \alpha_k + \psi_r
-		\end{equation}
-		where $\alpha_k$ is the angle of the path and
-		\begin{equation}
-			\psi_r = \tan^{-1} (\frac{e}{\Delta})
-		\end{equation}
-		By choosing $\psi_r$ in this way the heading is always directed towards the lookahead point at
-		the path. It is then easily seen that the cross-track error will converge to zero. This
-		method is easier and less computationally intensive than the previously stated Radius-based
-		guidance. \cite{guidance_planar_path}
+	The \textit{searching}-mode are when the AUV are looking for the pipeline. When the pipeline are layed
+	on the sea floor, the position may be more or less inexact. Both because of sometimes the great 
+	distance from the sea level and to the sea bottom, and sometimes because the pipeline have ``sagged'', 
+	i.e moved away from the initial position because of movement in the sea bottom. In most cases the
+	pipeline will not have moved that much away from the inital position. 
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{pics/search_flow}
+		\caption{Flow diagram of the search procedure in the \textit{searching}-mode}
+		\label{fig:ch2-search-flow}
+	\end{figure}
+
+	***************************
+
+	The search procedure will be different depending on if it is the initial acquisition or reacquisition.
+	If inital acquisition, the area that have to be searched are greater than the search area for
+	reacquisition.
 
 
-	\subsection{Cross-Track Error Controller}
-		The cross-track error is defined as the distance from the vessel to the Line-of-Sight line between 
-		two waypoints. This controller seeks to minimize this error. The idea behind this controller is that 
-		this should keep the AUV on top of the pipeline in the presence of current.
-		
-		TODO: Derive the Cross-track error guidance law. \cite{cross-track}
-		
+	\subsection{Decision Logic}
+		The descision block of the guidance system needs to deal with problems that arise under a
+		pipeline inspcetion mission, such as when the pipeline are lost from the camera field-of-view.
+		What is the apropriate action? When should it start searching for the pipeline? 
+
+		The idea is that the pipeline should not be able to take sudden turns. There are limited
+		curvature, i.e the pipeline can only turn so much, over a limited distance. The posibility of
+		pipeline junctions are not considered. The assumtion is that the pipeline are a long continous
+		straight segment. If the pipeline is lost the filter will continue to predict where the
+		pipeline should have been. The AUV follows the predicted path for some time. If the pipeline
+		are not reaquired after that time, the AUV have to go back to the pipelines last known
+		position, and start some search pattern.
+
 		
 	
-\section{Trajectory Generation}
-	
 
-	When the AUV does not find the pipeline exactly where it is, a certain search procedure are initiated.
-	The AUV enters Search Mode and engages uses a maneuvering and tracking controller which follows a
-	specified pattern inside a search corridor. The search corridor is specified by the user before the
-	Pipeline inspeciton mission are initiated. 
+	\subsection{Reference Calculation}
+		A look-ahead based guidance algorithm are chosen for it's simplicity and robustness. All
+		together a pipeline are made up of mostly linear segments, and the general direction of the
+		pipeline are knonw to be very exact. This algoritms should provide good results and keep 
+		the cross-track error to a minimum.
 
-	The AUV utilizes a tracking and maneuvering controller to follow the predetermined pattern. When the
-	AUV picks up signs of where the pipeline is, the position is marked and a trajectory are created to
-	turn the AUV in the right direction and give a good startpoint for the pipeline inspection procedure. 
+		In the presence of ocean current it will cause the heading to ``wane'' against the current if
+		the look-ahead distance is not chosen too far away. 
+		
 	
-	The goal states, which are the desired location for the AUV are filtered through a simplyfied
-	reference model of the auv. This gives the desired trajectories for the vehicle to follow.
+	
+	\subsubsection{Trajectory Generation}
+		When the AUV does not find the pipeline exactly where it is, a certain search procedure are initiated.
+		The AUV enters Search Mode and engages uses a maneuvering and tracking controller which follows a
+		specified pattern inside a search corridor. The search corridor is specified by the user before the
+		Pipeline inspeciton mission are initiated. 
+
+		The AUV utilizes a tracking and maneuvering controller to follow the predetermined pattern. When the
+		AUV picks up signs of where the pipeline is, the position is marked and a trajectory are created to
+		turn the AUV in the right direction and give a good startpoint for the pipeline inspection procedure. 
+	
+		The goal states, which are the desired location for the AUV are filtered through a simplyfied
+		reference model of the auv. This gives the desired trajectories for the vehicle to follow.
+	
+\section{Overall System}
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{pics/Operation}
+		\caption{Flow diagram of pipeline inspection mission}
+		\label{fig:ch2-flowdiagram}
+	\end{figure}
+	
 

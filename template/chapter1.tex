@@ -130,24 +130,94 @@
 	documented and proven to work in numerous cases. Common guidance scheems such as Line-of-sight (LOS)
 	and Proportional Navigation Guidance (PNG) and vareious implementations of these are employed in
 	numerous guidance systems.
+	
+		\begin{figure}[hbtp]
+		\centering
+		\includegraphics[width=0.83\textwidth]{pics/waypoint}
+		\caption{Variables assosiated with path following}
+		\label{fig:ch2-pathfollowing}
+	\end{figure}
+	The Figure \ref{fig:ch2-pathfollowing} shows the variables which are important for linear path following. The
+	cross-track error, $e$ are an important aspect here. It is the lateral position error decomposed in
+	the desired path reference frame. Another variable worth noting is $\Delta$ which is the look-ahead
+	distance. This is analogus to when you drive a car you look farther down the road to better maneuver
+	the car. A great look-ahead distance yealds smooth heading reference but slower convergence of the
+	cross-track error. A lower look-ahead distance gives an agressive heading reference and fast
+	convergence of the cross-track error. The $s$-variable are called the along-track distance from point
+	$P_k$. 
+	
+	
+	\subsection{Line-of-Sight Guidance Law}
+	        Line-of-sight-guidance are the most common principle used. The LOS-algorithm computes
+		the line-of-sight angle from the present location to the target location, and uses this
+		angle as a reference heading.
 
-        Line-of-sight-guidance are the most common principle used. The LOS-algorithm computes the
-	line-of-sight angle from the present location to the target location, and uses this angle as a
-	reference heading.
+		The LOS-angle is fed directly into the 
+		heading controller as a reference. When ocean currents and disturbances are present, a
+		modified guidance law is presented. This uses the Side Slip angle, defined as:
+		\begin{equation}
+			\label{eq:ch2-sideslip}
+			\beta = \sin^{-1} ( \frac{v}{\sqrt{u^2 + v^2 + w^2}})
+		\end{equation}
+		The new heading reference is then taken as
+		\begin{equation}
+			\label{eq:ch2-los-law}
+			\psi_d = \psi_{LOS} - \beta
+		\end{equation}
+		Where $\psi_{LOS}$ is the LOS-angle from the current position to the next waypoint. 
 
-        Proportional Navigation Guidance is more effective that LOS-guidance in case of a non-maneuvering
-	target. It gives less interception time than LOS. The PNG-law can be stated as the following:
-	\cite{GuidanceReview}
-        \begin{equation}
-                \eta_c = N' V_c \dot{\lambda}
-        \end{equation}
-        where $\eta_c$ is the acceleration command, $N'$ is the navigation ratio, $V_c$ is the closing
-	velocity, and $\dot{\lambda}$ is the line of sight angular velocity. The navigation ratio is a tuning
-	parameter which will give higher demanded acceleration and therby reacing the target in less time.
+	\subsection{Radius-based Guidance}
+		Radius-based guidance uses the point where the radius around the current location intersects
+		with the path, denoted on Figure \ref{fig:ch2-pathfollowing} as $P_{int}$. This
+		means assigning the desired heading as 
+		\begin{equation}
+			\psi_d = \tan^{-1}(\frac{y_{int} - y}{x_{int} - y})
+		\end{equation}
+		where 
+		\begin{equation}
+			(x_{int} - x)^2 + (y_{int} - y)^2 = r^2
+		\end{equation}
+		If $r$ is chosen sufficiently large the equations above will have a solution, i.e $r > |e|$
+		otherwise there will exist no intersection point on the track line.
+		\cite{guidance_planar_path}
+	
+	\subsection{Lookahead-based Guidance}
+		Here the lookahead distance are utilized when calculating the desired heading. If $\psi_d$ are
+		chosen as:
+		\begin{equation}
+			\psi_d = \alpha_k + \psi_r
+		\end{equation}
+		where $\alpha_k$ is the angle of the path and
+		\begin{equation}
+			\psi_r = \tan^{-1} (\frac{-e}{\Delta})
+		\end{equation}
+		By choosing $\psi_r$ in this way the heading is always directed towards the lookahead point at
+		the path. It is then easily seen that the cross-track error will converge to zero. This
+		method is easier and less computationally intensive than the previously stated Radius-based
+		guidance. \cite{guidance_planar_path}
 
-        These laws does not work so well with maneuvering targets and lots of solutions have been proposed
-	to make these laws more effective when dealing with moving targets. In this case the targets will be
-	non-moving waypoints and the maneuvering laws will not be discussed here.
+		This method are implemented in the guidance system, because of it simplicity and robustness.
+		This method are chosen because pipelines are mostly made up of linear segments. 
+
+	
+	\subsection{Proportional Navigation}
+		Proportional Navigation Guidance is more effective that LOS-guidance in case of a
+		non-maneuvering
+		target. It gives less interception time than LOS. The PNG-law can be stated as the following:
+		\cite{GuidanceReview}
+		\begin{equation}
+			\eta_c = N' V_c \dot{\lambda}
+		\end{equation}
+		where $\eta_c$ is the acceleration command, $N'$ is the navigation ratio, $V_c$ is the closing
+		velocity, and $\dot{\lambda}$ is the line of sight angular velocity. The navigation ratio is a
+		tuning
+		parameter which will give higher demanded acceleration and therby reacing the target in less
+		time.
+
+        	The guidance laws mentioned above does not work so well with maneuvering targets and lots of
+		solutions have been proposed to make these laws more effective when dealing with moving
+		targets. In this case the targets will be non-moving waypoints and the maneuvering laws
+		will not be discussed here.
 	
 	
 	\subsection{Various Guidance Concepts}
