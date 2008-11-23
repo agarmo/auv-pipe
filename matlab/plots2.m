@@ -70,8 +70,8 @@ len = ceil(str/dec);
 % [headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),2), 1.*ones(str));
 % [desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:40:size(dir),1), 1.*ones(str));
 % [u,v] = pol2cart(dir, ones(size(dir)));
-[headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,1), 1.*ones(len,1));
-[desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,2), 1.*ones(len,1));
+[headx, heady] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,2), 1.*ones(len,1));
+[desirx, desiry] = pol2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,1), 1.*ones(len,1));
 
 figure(5)
 % plot(Pipeline_pred.signals.values(:,2), Pipeline_pred.signals.values(:,1), '--b', Pipeline_malt.signals.values(:,2), Pipeline_malt.signals.values(:,1), '.r', Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4),'.b', Pipeline_malt.signals.values(:,8), Pipeline_malt.signals.values(:,7), '.k',  Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'g');
@@ -119,6 +119,24 @@ plot(P_pred.time, P_pred.signals.values(:,2)-P_post.signals.values(:,5), P_pred.
 grid on
 
 legend('Difference from Predicted and updated, y-direction', 'Difference from Predicted and updated, x-direction')
+
+[pitchx, pitchy, pitchz] = 	sph2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,2), (pi/180).*Attitude.signals(1,2).values(1:dec:str,2), 1.*ones(len,1));
+[dpitchx, dpitchy, dpitchz] = 	sph2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,1), (pi/180).*Attitude.signals(1,2).values(1:dec:str,1), 1.*ones(len,1));
+
+
+
+figure(10)
+plot3(Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), -Translation.signals(1,3).values(:,2))
+hold on
+quiver3(Translation.signals(1,2).values(1:dec:str,2), Translation.signals(1,1).values(1:dec:str,2), -Translation.signals(1,3).values(1:dec:str,2),pitchy, pitchx, pitchz , 0.2);
+quiver3(Translation.signals(1,2).values(1:dec:str,2), Translation.signals(1,1).values(1:dec:str,2), -Translation.signals(1,3).values(1:dec:str,2),dpitchy, dpitchx, dpitchz , 0.2, 'y');
+plot3(P_post.signals.values(1:20:end,2), P_post.signals.values(1:20:end,1), -P_post.signals.values(1:20:end,3), '.k')
+plot3(pipeline(1:3501,2), pipeline(1:3501,1), -pipeline(1:3501,3));
+hold off;
+xlabel('East [m]');
+ylabel('North [m]');
+zlabel('-Down [m]')
+grid on
 
 % 
 % figure(3)
