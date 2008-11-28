@@ -60,38 +60,39 @@ E = [0, 0;
 [Ad, Ed] = c2d(A, E, 0.1);
 x = [];
 
-%     x_apr = [n*eta(1);
-%              e*eta(1);
-%              x_apr(3);
-%              x_apr(4)];
+    x_apr = [n*eta(1);
+             e*eta(1);
+             x_apr(3);
+             x_apr(4)];
 
-
+    x = [x_apr; x_apr; x_apr];
             
     K = P_apr*C'*inv((C*P_apr*C' + W));
 
+    x_aprm = [];
+    B = [n;
+        e;
+        0;
+        0];
+    for i = 1:4:12
+        %predict
+        x_apr = A*x(i:i+3) + B*eta(1);
+        x_aprm = [x_aprm; x_apr];
+    end
+
+    
 switch output
-    case 1:
+    case 1
         for i = 1:2:6
             x_post = x_apr + K*([p(i); p((i+1))] - C*x_apr - D*u);
             x = [x; x_post(1:4)];
         end
-    case 0:
-        
-        
-        
+    case 0
+        %set x = x_aprm
+        x = x_aprm;
 end
     P_post = (eye(4) - K*C)*P_apr*(eye(4) - K*C)' + K*W*K';
 
-x_aprm = [];
-B = [n;
-     e;
-     0;
-     0];
-for i = 1:4:12
-    %predict
-    x_apr = A*x(i:i+3) + B*eta(1);
-    x_aprm = [x_aprm; x_apr];
-end
    
 P_apr = A*P_post*A' + Ed*Q*Ed';
 

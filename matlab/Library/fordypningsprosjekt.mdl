@@ -33,11 +33,11 @@ Library {
   Creator		  "anderga"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "anderga"
+  LastModifiedBy	  "anders"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Nov 19 10:40:56 2008"
+  LastModifiedDate	  "Fri Nov 28 18:19:05 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:33>"
+  ModelVersionFormat	  "1.%<AutoIncrement:34>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -89,18 +89,8 @@ Library {
   }
   BlockParameterDefaults {
     Block {
-      BlockType		      ActionPort
-      InitializeStates	      "held"
-      ActionType	      "unset"
-    }
-    Block {
       BlockType		      Clock
       DisplayTime	      off
-    }
-    Block {
-      BlockType		      CombinatorialLogic
-      TruthTable	      "[0 0;0 1;0 1;1 0;0 1;1 0;1 0;1 1]"
-      SampleTime	      "-1"
     }
     Block {
       BlockType		      DataTypeConversion
@@ -114,15 +104,6 @@ Library {
       ConvertRealWorld	      "Real World Value (RWV)"
       RndMeth		      "Zero"
       SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
-      BlockType		      DeadZone
-      LowerValue	      "-0.5"
-      UpperValue	      "0.5"
-      SaturateOnIntegerOverflow	on
-      LinearizeAsGain	      on
-      ZeroCross		      on
       SampleTime	      "-1"
     }
     Block {
@@ -160,17 +141,6 @@ Library {
       LockScale		      off
       RndMeth		      "Floor"
       SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
-      BlockType		      Ground
-    }
-    Block {
-      BlockType		      If
-      NumInputs		      "1"
-      IfExpression	      "u1 > 0"
-      ShowElse		      on
-      ZeroCross		      on
       SampleTime	      "-1"
     }
     Block {
@@ -231,21 +201,6 @@ Library {
       LUTDesignUseExistingBP  on
       LUTDesignRelError	      "0.01"
       LUTDesignAbsError	      "1e-6"
-    }
-    Block {
-      BlockType		      Math
-      Operator		      "exp"
-      OutputSignalType	      "auto"
-      SampleTime	      "-1"
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Same as first input"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      OutDataTypeStr	      "Inherit: Same as first input"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
     }
     Block {
       BlockType		      MATLABFcn
@@ -373,31 +328,7 @@ Library {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      Switch
-      Criteria		      "u2 >= Threshold"
-      Threshold		      "0"
-      InputSameDT	      on
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Inherit via internal rule"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
-      ZeroCross		      on
-      SampleTime	      "-1"
-    }
-    Block {
       BlockType		      Terminator
-    }
-    Block {
-      BlockType		      Merge
-      Inputs		      "2"
-      InitialOutput	      "[]"
-      AllowUnequalInputPortWidths off
-      InputPortOffsets	      "[]"
     }
     Block {
       BlockType		      Abs
@@ -428,23 +359,6 @@ Library {
       FramePeriod	      "inf"
     }
     Block {
-      BlockType		      MinMax
-      Function		      "min"
-      Inputs		      "1"
-      InputSameDT	      on
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeMode	      "Inherit via internal rule"
-      OutDataType	      "fixdt(1,16,0)"
-      OutScaling	      "[]"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
-      ZeroCross		      on
-      SampleTime	      "-1"
-    }
-    Block {
       BlockType		      Saturate
       UpperLimit	      "0.5"
       LowerLimit	      "-0.5"
@@ -459,11 +373,6 @@ Library {
       OutDataTypeStr	      "Inherit: Same as input"
       LockScale		      off
       RndMeth		      "Floor"
-    }
-    Block {
-      BlockType		      Signum
-      ZeroCross		      on
-      SampleTime	      "-1"
     }
     Block {
       BlockType		      Sin
@@ -505,7 +414,7 @@ Library {
   }
   System {
     Name		    "fordypningsprosjekt"
-    Location		    [27, 155, 932, 1036]
+    Location		    [27, 125, 932, 1006]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -4777,6 +4686,37 @@ Library {
       }
     }
     Block {
+      BlockType		      Reference
+      Name		      "CAMSim_v4"
+      Ports		      [3, 2]
+      Position		      [405, 704, 520, 776]
+      LinkData {
+	BlockName		"MATLAB Fcn"
+	DialogParameters {
+	  MATLABFcn		  "camsim3"
+	}
+      }
+      SourceBlock	      "fordypningsprosjekt/CAMSim_v3"
+      SourceType	      ""
+      ShowPortLabels	      "FromPortIcon"
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      noise		      on
+      variance		      "0.01"
+    }
+    Block {
+      BlockType		      MATLABFcn
+      Name		      "CamView"
+      Ports		      [1, 1]
+      Position		      [195, 730, 255, 760]
+      MATLABFcn		      "camview(u)"
+    }
+    Block {
       BlockType		      SubSystem
       Name		      "Crusing controller"
       Ports		      [6, 1]
@@ -7107,7 +7047,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "nu"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	      SrcBlock		      "Mux1"
 	      SrcPort		      1
 	      DstBlock		      "Sum"
@@ -7115,7 +7055,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "M"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 1, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 1, 0]
 	      SrcBlock		      "M"
 	      SrcPort		      1
 	      Points		      [215, 0; 0, 55]
@@ -7124,7 +7064,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "(d/dt)nu"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 1, 1]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 1, 1]
 	      SrcBlock		      "Product"
 	      SrcPort		      1
 	      Points		      [60, 0]
@@ -7140,7 +7080,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "nu"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	      SrcBlock		      "Integrator"
 	      SrcPort		      1
 	      Points		      [35, 0]
@@ -7157,7 +7097,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "v"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	      SrcBlock		      "Selector1"
 	      SrcPort		      1
 	      Points		      [5, 0; 35, 0]
@@ -7174,7 +7114,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "w_nb"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	      SrcBlock		      "Selector2"
 	      SrcPort		      1
 	      Points		      [10, 0; 20, 0]
@@ -7191,7 +7131,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "dp/dt"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	      SrcBlock		      "Product1"
 	      SrcPort		      1
 	      DstBlock		      "Integrator1"
@@ -7199,7 +7139,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "R(theta)"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 2, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 2, 0]
 	      SrcBlock		      "Euler angles to\nrotation matrix"
 	      SrcPort		      1
 	      Points		      [-55, 0; 0, 80]
@@ -7208,7 +7148,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "(d/dt)theta"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	      SrcBlock		      "Product2"
 	      SrcPort		      1
 	      DstBlock		      "Integrator2"
@@ -7216,7 +7156,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "theta"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	      SrcBlock		      "Integrator2"
 	      SrcPort		      1
 	      Points		      [0, 0; 35, 0]
@@ -7238,7 +7178,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "p"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	      SrcBlock		      "Integrator1"
 	      SrcPort		      1
 	      Points		      [15, 0; 0, 65]
@@ -7247,7 +7187,7 @@ Library {
 	    }
 	    Line {
 	      Name		      "eta"
-	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 1, 0]
+	      Labels		      [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 1, 0]
 	      SrcBlock		      "Mux"
 	      SrcPort		      1
 	      DstBlock		      "eta"
@@ -9154,8 +9094,11 @@ Library {
     Block {
       BlockType		      SubSystem
       Name		      "Real Kalmanfilter"
-      Ports		      [5, 2]
-      Position		      [585, 16, 690, 154]
+      Ports		      [5, 6]
+      Position		      [575, 38, 680, 177]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      AncestorBlock	      "fordypningsprosjekt/Real Kalmanfilter"
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
       RTWSystemCode	      "Auto"
@@ -9165,15 +9108,15 @@ Library {
       MaskHideContents	      off
       System {
 	Name			"Real Kalmanfilter"
-	Location		[898, 118, 1396, 738]
+	Location		[576, 131, 1129, 826]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
 	PaperOrientation	"landscape"
 	PaperPositionMode	"auto"
-	PaperType		"A4"
-	PaperUnits		"centimeters"
+	PaperType		"usletter"
+	PaperUnits		"inches"
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
@@ -9223,12 +9166,19 @@ Library {
 	  OutScaling		  "2^0"
 	}
 	Block {
+	  BlockType		  Clock
+	  Name			  "Clock"
+	  Position		  [70, 340, 90, 360]
+	  DisplayTime		  on
+	  Decimation		  "10"
+	}
+	Block {
 	  BlockType		  Mux
 	  Name			  "Mux"
-	  Ports			  [5, 1]
-	  Position		  [145, 19, 155, 281]
+	  Ports			  [6, 1]
+	  Position		  [145, 21, 155, 284]
 	  ShowName		  off
-	  Inputs		  "5"
+	  Inputs		  "6"
 	  DisplayOption		  "bar"
 	}
 	Block {
@@ -9236,7 +9186,7 @@ Library {
 	  Name			  "Selector"
 	  Ports			  [1, 1]
 	  Position		  [325, 28, 365, 122]
-	  InputPortWidth	  "6"
+	  InputPortWidth	  "17"
 	  IndexOptions		  "Index vector (dialog)"
 	  Indices		  "[1:3]"
 	  OutputSizes		  "1"
@@ -9246,18 +9196,60 @@ Library {
 	  Name			  "Selector1"
 	  Ports			  [1, 1]
 	  Position		  [325, 133, 365, 227]
-	  InputPortWidth	  "6"
+	  InputPortWidth	  "17"
 	  IndexOptions		  "Index vector (dialog)"
 	  Indices		  "4:6"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector2"
+	  Ports			  [1, 1]
+	  Position		  [325, 268, 365, 362]
+	  InputPortWidth	  "17"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "7:9"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector3"
+	  Ports			  [1, 1]
+	  Position		  [325, 408, 365, 502]
+	  InputPortWidth	  "17"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "10:12"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector4"
+	  Ports			  [1, 1]
+	  Position		  [325, 513, 365, 607]
+	  InputPortWidth	  "17"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "13"
+	  OutputSizes		  "1"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector5"
+	  Ports			  [1, 1]
+	  Position		  [148, 510, 242, 550]
+	  Orientation		  "down"
+	  NamePlacement		  "alternate"
+	  InputPortWidth	  "17"
+	  IndexOptions		  "Index vector (dialog)"
+	  Indices		  "14:17"
 	  OutputSizes		  "1"
 	}
 	Block {
 	  BlockType		  MATLABFcn
 	  Name			  "kalmanfilter"
 	  Ports			  [1, 1]
-	  Position		  [220, 135, 280, 165]
-	  MATLABFcn		  "kalmanfilter2(u)"
-	  OutputDimensions	  "6"
+	  Position		  [205, 135, 265, 165]
+	  MATLABFcn		  "kalmanfilter4(u)"
+	  OutputDimensions	  "17"
 	}
 	Block {
 	  BlockType		  Outport
@@ -9276,6 +9268,75 @@ Library {
 	  OutDataType		  "sfix(16)"
 	  OutScaling		  "2^0"
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P2_post"
+	  Position		  [425, 308, 455, 322]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P3_post"
+	  Position		  [420, 448, 450, 462]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "heading"
+	  Position		  [420, 533, 450, 547]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Diag(P)"
+	  Position		  [230, 623, 260, 637]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "Selector5"
+	  SrcPort		  1
+	  Points		  [0, 75]
+	  DstBlock		  "Diag(P)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Clock"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  DstBlock		  "Mux"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Selector4"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -20]
+	  DstBlock		  "heading"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector3"
+	  SrcPort		  1
+	  DstBlock		  "P3_post"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector2"
+	  SrcPort		  1
+	  DstBlock		  "P2_post"
+	  DstPort		  1
+	}
 	Line {
 	  SrcBlock		  "Selector1"
 	  SrcPort		  1
@@ -9293,11 +9354,41 @@ Library {
 	Line {
 	  SrcBlock		  "kalmanfilter"
 	  SrcPort		  1
-	  Points		  [10, 0; 0, -5]
+	  Points		  [25, 0; 0, -5]
 	  Branch {
 	    Points		    [0, 35]
-	    DstBlock		    "Selector1"
-	    DstPort		    1
+	    Branch {
+	      Points		      [0, 130]
+	      Branch {
+		Points			[0, 145]
+		Branch {
+		  Points		  [0, 30]
+		  Branch {
+		    Points		    [-100, 0]
+		    DstBlock		    "Selector5"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 75]
+		    DstBlock		    "Selector4"
+		    DstPort		    1
+		  }
+		}
+		Branch {
+		  DstBlock		  "Selector3"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		Points			[0, 5]
+		DstBlock		"Selector2"
+		DstPort			1
+	      }
+	    }
+	    Branch {
+	      DstBlock		      "Selector1"
+	      DstPort		      1
+	    }
 	  }
 	  Branch {
 	    Points		    [0, -70]
@@ -9315,7 +9406,7 @@ Library {
 	Line {
 	  SrcBlock		  "eta"
 	  SrcPort		  1
-	  Points		  [20, 0; 0, 35]
+	  Points		  [20, 0; 0, 20]
 	  DstBlock		  "Mux"
 	  DstPort		  2
 	}
@@ -9329,20 +9420,21 @@ Library {
 	Line {
 	  SrcBlock		  "nu"
 	  SrcPort		  1
-	  Points		  [20, 0; 0, 15]
+	  Points		  [20, 0; 0, -10]
 	  DstBlock		  "Mux"
 	  DstPort		  4
 	}
 	Line {
 	  SrcBlock		  "Mux"
 	  SrcPort		  1
+	  Points		  [0, -5]
 	  DstBlock		  "kalmanfilter"
 	  DstPort		  1
 	}
 	Line {
 	  SrcBlock		  "output"
 	  SrcPort		  1
-	  Points		  [10, 0; 0, -15]
+	  Points		  [10, 0; 0, -45]
 	  DstBlock		  "Mux"
 	  DstPort		  5
 	}
@@ -9444,6 +9536,187 @@ Library {
 	  DataFormat		  "StructureWithTime"
 	  LimitDataPoints	  off
 	  SampleTime		  "0"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Sensors"
+      Ports		      [2, 4]
+      Position		      [585, 697, 685, 768]
+      Orientation	      "left"
+      NamePlacement	      "alternate"
+      AncestorBlock	      "fordypningsprosjekt/Sensors"
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Sensors"
+	Location		[887, 364, 1547, 770]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "eta"
+	  Position		  [50, 48, 80, 62]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "nu"
+	  Position		  [50, 93, 80, 107]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "CAMSim_v3"
+	  Ports			  [3, 2]
+	  Position		  [335, 29, 450, 101]
+	  LinkData {
+	    BlockName		    "MATLAB Fcn"
+	    DialogParameters {
+	      MATLABFcn		      "camsim3"
+	    }
+	  }
+	  SourceBlock		  "fordypningsprosjekt/CAMSim_v3"
+	  SourceType		  ""
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  noise			  on
+	  variance		  "0.01"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Sonar system V2"
+	  Ports			  [1, 2]
+	  Position		  [185, 147, 280, 198]
+	  SourceBlock		  "fordypningsprosjekt/Sonar system V2"
+	  SourceType		  ""
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  sea_bottom		  "-40"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "P"
+	  Position		  [595, 43, 625, 57]
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "output"
+	  Position		  [595, 118, 625, 132]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Altitude"
+	  Position		  [595, 178, 625, 192]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Bottom"
+	  Position		  [595, 238, 625, 252]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	}
+	Line {
+	  SrcBlock		  "CAMSim_v3"
+	  SrcPort		  2
+	  Points		  [60, 0; 0, 40]
+	  DstBlock		  "output"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "CAMSim_v3"
+	  SrcPort		  1
+	  DstBlock		  "P"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sonar system V2"
+	  SrcPort		  2
+	  DstBlock		  "Altitude"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sonar system V2"
+	  SrcPort		  1
+	  Points		  [0, -40; 30, 0]
+	  Branch {
+	    Points		    [0, -30]
+	    DstBlock		    "CAMSim_v3"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [100, 0; 0, 125]
+	    DstBlock		    "Bottom"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "nu"
+	  SrcPort		  1
+	  Points		  [120, 0; 0, -35]
+	  DstBlock		  "CAMSim_v3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "eta"
+	  SrcPort		  1
+	  Points		  [40, 0]
+	  Branch {
+	    Points		    [195, 0]
+	    DstBlock		    "CAMSim_v3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 120]
+	    DstBlock		    "Sonar system V2"
+	    DstPort		    1
+	  }
 	}
       }
     }
@@ -9914,7 +10187,7 @@ Library {
 	}
 	Line {
 	  Name			  "y"
-	  Labels		  [0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
+	  Labels		  [0, 0; 0, 0; 0, 0; 0, 0; 0, 0; 0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
 	  DstBlock		  "y"
@@ -10072,7 +10345,7 @@ Library {
 	  SourceType		  "Rbn"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData off
+	  FunctionWithSeparateData "off"
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -10098,7 +10371,7 @@ Library {
 	  SourceType		  "Rotation Matrix to VRML Rotation"
 	  ShowPortLabels	  "FromPortIcon"
 	  SystemSampleTime	  "-1"
-	  FunctionWithSeparateData off
+	  FunctionWithSeparateData "off"
 	  RTWMemSecFuncInitTerm	  "Inherit from model"
 	  RTWMemSecFuncExecute	  "Inherit from model"
 	  RTWMemSecDataConstants  "Inherit from model"
@@ -10149,13 +10422,13 @@ Library {
 	  SourceBlock		  "vrlib/VR Sink"
 	  SourceType		  "Virtual Reality Sink"
 	  SampleTime		  "-1"
-	  ViewEnable		  on
-	  RemoteChange		  off
-	  RemoteView		  off
+	  ViewEnable		  "on"
+	  RemoteChange		  "off"
+	  RemoteView		  "off"
 	  FieldsWritten		  "Mounted.orientation.4.1.double#Mounted.position.3.1.double#Hugin1000.rotation.4.1.double#Hugin1000.translation.3.1.double"
 	  WorldFileName		  "M:\\tex\\svn\\3d-modell\\hugin.WRL"
 	  WorldDescription	  "HUGIN 1000"
-	  AutoView		  off
+	  AutoView		  "off"
 	  VideoDimensions	  "[]"
 	  FigureProperties	  "{'Position', 'Name', 'Viewpoint', 'CameraBound', 'CameraDirection', 'CameraPosition', 'CameraUpVector', 'ZoomFactor', 'Antialiasing', 'Headlight', 'Lighting', 'NavPanel', 'StatusBar', 'ToolBar', 'Textures', 'Transparency', 'Wireframe', 'NavZones', 'NavMode', 'NavSpeed', 'Record2DCompressMethod', 'Record2DCompressQuality', 'Record2D', 'Record2DFileName', 'Record2DFPS'; [1.7000000000000000e+001  7.2000000000000000e+001  5.7600000000000000e+002  3.8000000000000000e+002], '', 'Overview', 'on', [0.0000000000000000e+000  0.0000000000000000e+000 -1.0000000000000000e+000], [0.0000000000000000e+000  0.0000000000000000e+000  1.4400000000000000e+002], [0.0000000000000000e+000  1.0000000000000000e+000  0.0000000000000000e+000], [1.0000000000000000e+000], 'off', 'on', 'on', 'halfbar', 'off', 'on', 'on', 'on', 'off', 'off', 'fly', 'normal', 'auto', [7.5000000000000000e+001], 'off', '%f_anim_%n.avi', [1.5000000000000000e+001]} "
 	}
@@ -10287,7 +10560,7 @@ Library {
 }
 # Finite State Machines
 #
-#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 21:38:28
+#    Stateflow Version 7.1 (R2008a) dated Feb  7 2008, 22:47:12
 #
 #
 
