@@ -1,35 +1,63 @@
 \chapter{Introduction}
+	Today there are over 3.5 million km of transmission pipelines in the world. 231 900 km of pipelines
+	are planned or under construction \cite{DNV_pipelines}. The pipelines currently in place need to
+	continue operating, many of them far longer than they were initally intended. Great effort are taken
+	to inspect and maintain the pipelines to keep them in satisfying order.  The pipeline needs to be 
+	in working order to be operational.
+	Potenital leaks might cause irreversable environmental damages, and companies looses money when the flow
+	of oil or gas are stoped. 
 
-	The use of Autonomous Underwater Vehicles (AUV) in pipeline following and inspection is of major
-	interrest of oil exploiting enterprises. Today most of the inspection and maintainence of subsea
-	pipelines are done using Remotly Operated Vehicles (ROV). They represent an substantial amount of
-	expences for the oil companies, because of the fact that they are operated by humans. 
+	There are two ways of carrying out pipeline inspections; \textit{internal} and \textit{external} 
+	inspection. The internal inspection methods, includes stopping the flow of whatever is in the pipeline,
+	open it an insert a Pipeline Inspection Gauge (PIG) which travels the inside the pipeline and uses various
+	sensors to determine the state of the pipeline. The other method, \textit{exterior} pipeline
+	inspections are today mostly done using Remotely Operated Vehicles, ROVs. The ROVs are untethered
+	unmanned underwater vehicles, and are the work horse of the offshore industry. They are versatile
+	tools capable of accomplishing most missions assosiated with pipeline inspections and repair. However,
+	they need well-equipped, expensive support vessels and a large crew to acompany the inspection
+	mission. The fact that this is a tethered vessel, it has a very limited operating radius. 
+
+	An Autonomous Underwater Vehicle (AUV) is a suiting tool for pipeline inspection. An AUV is a
+	untethered unmanned underwater vehicle. For the AUV to be able to perform an inspection mission it
+	shold be able to navigate and make descisions for itself. Oposed to the ROVs the operation radius of
+	the AUV are limited by power and battery life. An AUV can be small enough to be launched form, shore
+	or small ships. It usually does not require the large support crew needed for an ROV mission.
+
+	The speed of the inspections might also be of importance. A typical ROV has cruice speeds from $1-2$
+	knots ($0.5-1$ m/s), while an AUV has cruise speeds in the regieme $2-6$ knots ($1-3$ m/s). This
+	inclines that an AUV might cover larger area of pipelines than an ROV. 
+
+	British Petrolum estimates that they can save up to 30 \% by using AUVs for pipeline inspections
+	instead of ROVs.\cite{PhD_lecture}
+
+	The technology needed for such a mission are present, and there are a number of companies developing
+	AUVs for pipeline following. SeaByte and Subsea7 have conducted a successfull pipeline inspection
+	mission using the \textit{Geosub} AUV. They claimed the world record in the longest uninterrupted
+	pipeline inspection mission. The AUV inspected 22.2 km of pipeline at $4$ knots without being
+	interrupted. \cite{Seabyte}
 	
-	An AUV may both improve the data acquisition process and reduce the expences introduced by the
-	inspection procedure. 
-	
-	The vessel in question is a Kongsberg Maritime \textit{HUGIN 1000} Autonomous Underwater Vehicle,
-	which is controllable in 5 degrees of freedom (DOF), which gives the AUV hovering capabilities. The
-	pipeline detection equipment is a downward looking camera with sufficient lighting to operate at about
+	This report will look at the possibility to give the Kongsberg Maritime \textit{HUGIN 1000} AUV the
+	given abilities to track and follow a subsea pipeline. The AUV is controllable in 5 degrees 
+	of freedom (DOF) and assumed stable in the \textit{roll} degree of freedom, which gives it
+	hovering capabilities, although this will not be used when designing the guidance system.
+
+	The pipeline detection equipment is a downward looking camera with sufficient lighting to operate at about
 	3-5 meters above the seabottom. Ofcourse the visibility conditions will change according to depth and
-	amount of poarticles in the water(navalsnow). In the simulations this will be regarded as measurement
-	noise from the image porcessing system. 
-	
-	
+	amount of poarticles in the water(naval snow). 
+
 	This report considers how to automate the pipeline inspections process. It will consider the
-	posibility that thepipeline is burried under mud and not visible to the camera. In that case some kind
-	of an estimator	will be used to predict where the pipeline is headed.
+	posibility that the pipeline is burried under mud and not visible to the camera or burried intentedly to
+	make it more robust towards environment forces and erosion, in both cases the important thing 
+	is to reacquire the pipeline on the other side of the burried stretch. In that case some kind of an estimator
+	will be used to predict where the pipeline is headed.
 	
-	The AUV might contain a set of guidance algorthms which considers what is the current mission. A 
-	mission can be devided into 4 parts:
+	A pipeline inspection mission can be devided into 4 parts:
 	\begin{enumerate}
 	 \item Initialization and initial descent
 	 \item Search for and Accuire pipeline
 	 \item Track and Inspect pipeline
 	 \item Ascent to the surface and deliver the accuired data
 	\end{enumerate}
-	Each of these parts requier a different guidance scheem, except for the descent and ascent parts
-	which will employ the same guidance scheem. 
 	
 	The \textit{Seach and Accuire} part will need the vessel to move in some kind of search pattern if
 	the pipeline is not located exactly where the initial position data states it to be. This search

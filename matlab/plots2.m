@@ -85,8 +85,8 @@ figure(5)
 plot(P_pred.signals.values(:,2), P_pred.signals.values(:,1), '--b', Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), 'r');
 hold on
 % plot(P_post.signals.values(:,2), P_post.signals.values(:,1), '--k')
-plot(pipeline(1:300,2), pipeline(1:300,1), '-k', pipeline(500:1400,2), pipeline(500:1400,1), '-k', 'LineWidth', 3);
-plot(WP(2,1:2), WP(1,1:2), '*m');
+plot(pipeline(1:1400,2), pipeline(1:1400,1), '.k', 'LineWidth', 3);
+plot(WP(2,:), WP(1,:), '*m');
 % quiver(Pipeline_malt.signals.values(:,5), Pipeline_malt.signals.values(:,4), v, u, 0.1)
 % quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), heady, headx, 0.2, 'k');
 % quiver(Translation.signals(1,2).values(1:40:size(dir),2), Translation.signals(1,1).values(1:40:size(dir),2), desiry, desirx, 0.2, 'y');
@@ -97,7 +97,7 @@ quiver(Translation.signals(1,2).values(1:dec:str,2), Translation.signals(1,1).va
 hold off
 % legend('Pipeline Predicted', 'Pipeline Point Stern', 'Pipeline Point Center', 'Pipeline Point Aft', 'AUV trajectory', 'actual pipeline', 'Waypoints', 'Measured Pipeline Direction', 'AUV Heading', 'AUV Desired Heading');
 
-legend('Pipeline Predicted','AUV trajectory', 'actual pipeline','', 'Waypoints', 'AUV Heading', 'AUV Desired Heading');
+legend('Pipeline Predicted','AUV trajectory', 'actual pipeline', 'Waypoints', 'AUV Heading', 'AUV Desired Heading');
 xlabel('East [m]')
 ylabel('North [m]')
 

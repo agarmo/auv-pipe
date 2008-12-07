@@ -94,7 +94,7 @@ end
     P_post = (eye(4) - K*C)*P_apr*(eye(4) - K*C)' + K*W*K';
 
    
-P_apr = A*P_post*A' + Ed*Q*Ed';
+P_apr = Ad*P_post*Ad' + Ed*Q*Ed';
 
 if temp ~= zeros(2,1)
     pipeline_heading = atan2(abs(x(2)-temp(2)), abs(x(1)-temp(1))); %use prior estimate

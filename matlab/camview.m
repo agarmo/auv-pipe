@@ -1,6 +1,7 @@
 function x = camview(u)
     p = u(1:6);
     output = u(7);
+    output = 0;
     if output == 1
         subplot(1, 2, 1)
         plot(p(2), p(1), '.b')

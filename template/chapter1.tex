@@ -1,11 +1,29 @@
 \chapter{Theory}
+
+\section{Pipeline Inspection Fundamentals}
+	There are many problems assosiated with pipeline inspection and guidance of Autonomous Vehicles. The
+	main problem is that the AUV need to act reasonable in everey situation. The problem is to make the
+	system robust enough to counter every situation encountered by the vessel. 
+
+	There are a number of conditions the vessel must handel in order to be practical.
+	
+	To include the right sensors are an important aspect of making an AUV follow a pipeline. There are
+	different sensors available which can be suited for this purpose. First the Multibeam Echosounder
+	(MBE). Usually a Echosounder emits one beam of sound and measures the time of travel of the sound
+	beam. A multibeam echosounder emits a fan of sound beams wich can be used to map a larger area around
+	the vessel.
+
+	A Side Scan Sonar are another practical sensor which could be useful. The Side Scan Sonar sends sound
+	waves in the horizontal direction and provides good sensor data of the bottom around 200-300 meters in
+	the horizontal direction. This sensor are usefull for initially finding the pipeline. A side scan
+	sonar picture of a pipeline gives very distinct shadows and are easily detected. 
 	
 \section{Reference systems}
 	Reference systems is an important part of analysis of moving dynamical systems. When one derive the motion of 
 	a system one will need some reference fram to calculate the motion relative too. There are a couple of different 
 	reference systems used today. One is the ECEF-frame (Earth-Centered, Earth-Fixed), which has the center of the 
 	earth as the origin of the frame. The frame rotates with the earth, but when the speed of the vessel is low, 
-	this frame can be considered inertial. \cite{forsell}
+	this frame can be considered inertial. \cite{gps_bok}
 	
 	Another common reference frame are the NED frame (North-East-Down). It is defined as the tangetial plane at 
 	the earth's surface moving with the vessel. It assumes that the Earth's rotation can be neglected, and this means 
@@ -35,6 +53,12 @@
 			\mass + \coriolis + \damping + \restoring &= \force \\
 		\end{aligned}
 	\end{equation}
+	where 
+	\begin{align*}
+		\mathbf{\eta} &= [N \: E \: D \: \phi \: \theta \: \psi ]^T \\
+		\mathbf{\nu}  &= [u \: v \: w \: p \: q \: r]^T \\
+		\force & \in \mathbb{R}^6
+	\end{align*}
 	The Equation \eqref{eq:ch1-model} describes the kinematics and kinetics for the model. It is in the 
 	mathematical sense just a Mass-damper-spring system. The coriolis term, $\mathbf{C}(\mathbf{\nu})$, is 
 	a skew-symmetric matrix.
@@ -85,8 +109,8 @@
 	\end{figure}
 			
 	As seen from Figure \ref{fig:ch1-pinhole} the image plane is located a distance $f$ from the image plane. 
-	The point is projected through the hole an onto the image plane. The principal axis of the camere is located in the
-	direction of the observed point. For simplicity the image plane are located in the front of the
+	The point is projected through the hole an onto the image plane. The principal axis of the camere is located
+	in the direction of the observed point. For simplicity the image plane are located in the front of the
 	pinhole, this is just in theory and is not possible in real camera application. From this the
 	perspective equations are derived. \cite{robotbok}
 	\begin{equation}
