@@ -6,8 +6,8 @@ N = 0:0.1:1000;
 n = 1;
 E = 4.*N;
 e = 4;
-pipeline2 = [N(1:300) N(500:10000); E(1:300) E(500:10000); 10.*ones(1,9801)]';
-pipeline = [N(500:10000); E(500:10000); 10.*ones(1,9501)]';
+pipeline = [N; E; 10.*ones(1,10001)]';
+% pipeline = [N(500:10000); E(500:10000); 10.*ones(1,9501)]';
 
 
 % pipeline = [N; E; 10.*ones(1,10001)];
@@ -27,8 +27,8 @@ x0 = [0, 0, 0, 0]';
 focus = 1;
 WP = [];
 
-for i = 1:500:size(pipeline2, 1)
-    WP = [WP pipeline2(i, 1:2)'];
+for i = 1:500:size(pipeline, 1)
+    WP = [WP pipeline(i, 1:2)'];
 end
 % WP = [0 10 20 ; 0 10 20];
 

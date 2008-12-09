@@ -1,4 +1,9 @@
 \chapter{Modelling}
+	This chapter summarizes the problem and assumtions taken considering the pipeline following problem.
+	A controller will be derived used for tracking and maneuvering of the AUV vehicle. A Kalman filter
+	will be derived for the smothing and predictions of the pipeline and a guidance algorithm will be
+	presented. Last, some basic behavior of the AUV to certain situations are threated. 
+
 
 \section{Problem Outline}
 \label{chap2:problem}
@@ -15,9 +20,15 @@
 	are reduced to a two dimentional problem and the \textit{heave} state can be decoupled and in the
 	controller design. The depth controller then needs to keep a constant height above the sea bottom.
 
-	An AUV carrying out a pipeline inspection mission is in most cases a low speed applications. The
+	In order to limit the problem and ease the implementation, the pipeline are assumed to be a stright or
+	nearly strigth, peice-wise continous line segment. The pipeline can only change direction at defined
+	places called junctions. The application of this guidance system are only for long, continous streches of
+	piplines. 
+
+	An AUV carrying out a pipeline inspection mission is in most cases a low speed assumtion is valid. The
 	\textit{HUGIN 1000} AUV are designed for speeds from 0-3 m/s. The inspection speed assumed in the
-	rest of the report are around 1 m/s.
+	rest of the report are around 1 m/s. This are realtively low speed, and the quadratic terms in the
+	Coriolis/centripetal or Damping matices can be neglected. Later simulations verify this assumtion.
 
 	\begin{figure}[hbtp]
 		\centering
