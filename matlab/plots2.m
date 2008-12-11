@@ -5,14 +5,14 @@ figure(1)
 plot(Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2))
 hold on
 plot(WP(2,:), WP(1,:), 'r*');
-plot(pipeline(:,2), pipeline(:,1), 'r--');
+plot(pipeline(:,2), pipeline(:,1), '.k');
 % plot(Camsim_output(:,5), Camsim_output(:,4), 'b*');
+grid on
 
 
 % plot(eta_beta.signals.values(:,2), eta_beta.signals.values(:,1), 'r')
 
-legend('NE trajectory of AUV', 'LOS Guidance Waypoints', 'Pipeline Trajectory');
-title('NE position of AUV movement along waypoints with LOS guidance.');
+legend('NE trajectory of AUV', 'Guidance Waypoints', 'Pipeline Trajectory');
 xlabel('East [m]');
 ylabel('North [m]')
 
@@ -25,6 +25,7 @@ plot(NE_Veloc.time, NE_Veloc.signals(1,1).values)
 xlabel('Time[s]');
 ylabel('Surge Speed [m/s]')
 legend('Surge Speed');
+title('Forward Velocity o AUV');
 grid on
 
 subplot(3, 1, 2)
@@ -134,20 +135,27 @@ legend('Difference from Predicted and updated, y-direction', 'Difference from Pr
 [pitchx, pitchy, pitchz] = 	sph2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,2), (pi/180).*Attitude.signals(1,2).values(1:dec:str,2), 1.*ones(len,1));
 [dpitchx, dpitchy, dpitchz] = 	sph2cart((pi/180).*Attitude.signals(1,3).values(1:dec:str,1), (pi/180).*Attitude.signals(1,2).values(1:dec:str,1), 1.*ones(len,1));
 
-
-
+load bottom_signature.mat;
+zn = []
+for i = 2:3502
+    zn = [zn -bottom_signature(ceil(pipeline(i,1)),ceil(pipeline(i,2)))+40];
+end
 figure(10)
 plot3(Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), -Translation.signals(1,3).values(:,2))
 hold on
 quiver3(Translation.signals(1,2).values(1:dec:str,2), Translation.signals(1,1).values(1:dec:str,2), -Translation.signals(1,3).values(1:dec:str,2),pitchy, pitchx, pitchz , 0.2);
 quiver3(Translation.signals(1,2).values(1:dec:str,2), Translation.signals(1,1).values(1:dec:str,2), -Translation.signals(1,3).values(1:dec:str,2),dpitchy, dpitchx, dpitchz , 0.2, 'y');
-plot3(P_post.signals.values(1:20:end,2), P_post.signals.values(1:20:end,1), -P_post.signals.values(1:20:end,3), '.k')
-plot3(pipeline(1:3501,2), pipeline(1:3501,1), -pipeline(1:3501,3));
+% plot3(P_post.signals.values(1:20:end,2), P_post.signals.values(1:20:end,1), zn, '.k')
+plot3(pipeline(1:2001,2), pipeline(1:2001,1), zn(1:2001), '.-.k');
+%sea bottom plot
+mesh(-bottom_signature(1:300,1:800)+40)
+shading interp
 hold off;
 xlabel('East [m]');
 ylabel('North [m]');
 zlabel('-Down [m]')
 grid on
+legend('AUV Trajectory', 'Desired Heading-Pitch', 'Actual Heading-Pitch', 'Pipeline Trajectory')
 
 % 
 % figure(3)

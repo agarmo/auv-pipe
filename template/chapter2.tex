@@ -490,28 +490,46 @@
 	
 
 	\subsection{Reference Calculation}
-		A look-ahead based guidance algorithm are chosen for it's simplicity and robustness. All
+		A look-ahead based guidance algorithm is chosen for it's simplicity and robustness. All
 		together a pipeline are made up of mostly linear segments, and the general direction of the
 		pipeline are knonw to be very exact. This algoritms should provide good results and keep 
 		the cross-track error to a minimum.
 
-		In the presence of ocean current it will cause the heading to ``wane'' against the current if
+		In the presence of ocean current it will cause the heading to ``lean'' towards the current if
 		the look-ahead distance is not chosen too far away. 
 		
 	
-	
-	\subsubsection{Trajectory Generation}
-		When the AUV does not find the pipeline exactly where it is, a certain search procedure are initiated.
-		The AUV enters Search Mode and engages uses a maneuvering and tracking controller which follows a
-		specified pattern inside a search corridor. The search corridor is specified by the user before the
-		Pipeline inspeciton mission are initiated. 
+	\subsection{Search Patterns}
+		\label{subsec:ch2_searchpattern}
+		It is obvious that some kind of search pattern must be implemented for this kind of
+		application. This might be customized for every mission or it might be selected from a library
+		of suiting search patterns. 
+		This section will look at some search patterns which might be suiting for the pipeline search
+		application.
 
-		The AUV utilizes a tracking and maneuvering controller to follow the predetermined pattern. When the
-		AUV picks up signs of where the pipeline is, the position is marked and a trajectory are created to
-		turn the AUV in the right direction and give a good startpoint for the pipeline inspection procedure. 
-	
-		The goal states, which are the desired location for the AUV are filtered through a simplyfied
-		reference model of the auv. This gives the desired trajectories for the vehicle to follow.
+		\begin{figure}[htbp]
+			\centering
+			\subfigure[Divergent Zig-Zag pattern for lost pipeline during tracking]{
+				\label{fig:ch2_zig_zag}
+				\includegraphics[width=0.4\textwidth]{pics/divergent_zig-zag}} \quad
+			\subfigure[Outwards spiral pattern for inital pipeline search]{
+				\label{fig:ch2_spiral}
+				\includegraphics[width=0.4\textwidth]{pics/spiral_search}}
+			\caption{Differnet search pattern}
+			\label{fig:ch2_searchpattern}
+		\end{figure}
+		The first case is when the pipeline are not in its predetermined position or the position
+		sensors gives out erronous readings, some kind of search need to be initiated to find the
+		pipeline. This could be something like the depicted case in Figure~\ref{fig:ch2_spiral}.
+		Spiral pattern going outwards to try to find the pipeline in the visinity of the AUV position.
+		This should be aided with other sensors for example with a Side Scan Sonar which provides good
+		sensor data in the horizontal directions around the AUV. 
+
+		The other case is when the pipeline are lost during tracking. Since the general direction of
+		the pipeline are assumed known, the other pattern are a divergent zig-zag pattern around the
+		assumed pipeline trajectory, from the last known position. This should work well to reacuire
+		the pipeline after loosing it.
+		
 	
 \section{Overall System}
 	\begin{figure}[htbp]

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.22"
+    ComputedModelVersion    "1.24"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -45,9 +45,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "anders"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Dec  9 17:43:21 2008"
+  LastModifiedDate	  "Thu Dec 11 20:24:01 2008"
   RTWModifiedTimeStamp	  0
-  ModelVersionFormat	  "1.%<AutoIncrement:22>"
+  ModelVersionFormat	  "1.%<AutoIncrement:24>"
   ConfigurationManager	  "None"
   SimulationMode	  "normal"
   LinearizationMsg	  "none"
@@ -106,7 +106,7 @@ Model {
 	  $ObjectID		  2
 	  Version		  "1.4.0"
 	  StartTime		  "0.0"
-	  StopTime		  "1000"
+	  StopTime		  "2000"
 	  AbsTol		  "auto"
 	  FixedStep		  "0.1"
 	  InitialStep		  "auto"
@@ -797,7 +797,7 @@ Model {
   }
   System {
     Name		    "last_test2"
-    Location		    [97, 114, 1450, 877]
+    Location		    [134, 145, 1487, 908]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -834,8 +834,8 @@ Model {
       Position		      [1180, 387, 1215, 473]
       NamePlacement	      "alternate"
       Floating		      off
-      Location		      [1334, 112, 1658, 597]
-      Open		      off
+      Location		      [2036, 87, 2360, 480]
+      Open		      on
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -844,8 +844,8 @@ Model {
 	axes3			"%<SignalLabel>"
       }
       TimeRange		      "700"
-      YMin		      "-8e-17~-0.4~75.9638"
-      YMax		      "1e-17~0.4~75.9638"
+      YMin		      "-2~-2.5~-100"
+      YMax		      "1~0.5~400"
       SaveToWorkspace	      on
       SaveName		      "Attitude"
       DataFormat	      "StructureWithTime"
@@ -1078,12 +1078,12 @@ Model {
       MaskIconOpaque	      on
       MaskIconRotate	      "none"
       MaskIconUnits	      "autoscale"
-      MaskValueString	      "[-30 -30 0 0 0 0]|[0 0 0 0 0 0]|off|-45|0.3"
+      MaskValueString	      "[-30 -30 0 0 0 0]|[0 0 0 0 0 0]|on|-45|0.3"
       MaskTabNameString	      ",,,,"
       System {
 	Name			"HUGIN 1000"
-	Location		[471, 264, 1251, 793]
-	Open			on
+	Location		[52, 89, 832, 618]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -2560,8 +2560,8 @@ Model {
       Ports		      [2]
       Position		      [900, 173, 925, 202]
       Floating		      off
-      Location		      [188, 384, 512, 623]
-      Open		      off
+      Location		      [2401, 536, 2725, 775]
+      Open		      on
       NumInputPorts	      "2"
       ZoomMode		      "yonly"
       List {
@@ -2569,8 +2569,8 @@ Model {
 	axes1			"%<SignalLabel>"
 	axes2			"%<SignalLabel>"
       }
-      YMin		      "1.00005~-1.87e-006"
-      YMax		      "1.00011~-1.8e-006"
+      YMin		      "0~-0.25"
+      YMax		      "2.75~0.2"
       SaveToWorkspace	      on
       SaveName		      "NE_Veloc"
       DataFormat	      "StructureWithTime"
@@ -2943,7 +2943,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Sensors"
-	Location		[887, 364, 1547, 770]
+	Location		[694, 447, 1354, 853]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -3137,17 +3137,20 @@ Model {
       Ports		      [1]
       Position		      [540, 69, 570, 101]
       Floating		      off
-      Location		      [690, 89, 1014, 328]
-      Open		      off
+      Location		      [1686, 87, 2010, 326]
+      Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
       }
-      YMin		      "-1000"
+      YMin		      "-3000"
       YMax		      "1000"
+      SaveToWorkspace	      on
+      SaveName		      "Tau_c"
       DataFormat	      "StructureWithTime"
+      LimitDataPoints	      off
       SampleTime	      "0"
     }
     Block {
@@ -3156,8 +3159,8 @@ Model {
       Ports		      [1]
       Position		      [615, 309, 645, 341]
       Floating		      off
-      Location		      [339, 124, 1206, 440]
-      Open		      off
+      Location		      [1708, 483, 2575, 799]
+      Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
@@ -3165,8 +3168,8 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "700"
-      YMin		      "-0.5"
-      YMax		      "0.5"
+      YMin		      "-0.035"
+      YMax		      "0.035"
       SaveToWorkspace	      on
       SaveName		      "Cam_output"
       DataFormat	      "StructureWithTime"
@@ -3179,8 +3182,8 @@ Model {
       Ports		      [1]
       Position		      [770, 454, 800, 486]
       Floating		      off
-      Location		      [915, 657, 1204, 973]
-      Open		      off
+      Location		      [1697, 354, 1986, 503]
+      Open		      on
       NumInputPorts	      "1"
       ZoomMode		      "yonly"
       List {
@@ -3188,7 +3191,7 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "700"
-      YMin		      "0"
+      YMin		      "-1"
       YMax		      "1"
       SaveToWorkspace	      on
       SaveName		      "Cam_output1"
@@ -3203,8 +3206,8 @@ Model {
       Position		      [1175, 288, 1210, 362]
       NamePlacement	      "alternate"
       Floating		      off
-      Location		      [22, 93, 346, 572]
-      Open		      off
+      Location		      [2376, 87, 2700, 476]
+      Open		      on
       NumInputPorts	      "3"
       List {
 	ListType		AxesTitles
@@ -3212,8 +3215,8 @@ Model {
 	axes2			"%<SignalLabel>"
 	axes3			"%<SignalLabel>"
       }
-      YMin		      "-40~-50~0"
-      YMax		      "80~200~10"
+      YMin		      "-150~-200~0"
+      YMax		      "200~800~12.5"
       SaveToWorkspace	      on
       SaveName		      "Translation"
       DataFormat	      "StructureWithTime"
