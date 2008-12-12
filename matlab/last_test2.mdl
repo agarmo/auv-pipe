@@ -797,7 +797,7 @@ Model {
   }
   System {
     Name		    "last_test2"
-    Location		    [134, 145, 1487, 908]
+    Location		    [96, 149, 1449, 912]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -844,8 +844,8 @@ Model {
 	axes3			"%<SignalLabel>"
       }
       TimeRange		      "700"
-      YMin		      "-2~-2.5~-100"
-      YMax		      "1~0.5~400"
+      YMin		      "-2.5~-10~-50"
+      YMax		      "2~1~350"
       SaveToWorkspace	      on
       SaveName		      "Attitude"
       DataFormat	      "StructureWithTime"
@@ -870,7 +870,7 @@ Model {
       Kp_u		      "10"
       Ki_u		      "3"
       Kp_c		      "100"
-      Kd_c		      "50"
+      Kd_c		      "100"
       Kp_d		      "50"
       Kp2_d		      "20"
       Kd_d		      "20"
@@ -3111,6 +3111,7 @@ Model {
       BlockType		      Constant
       Name		      "Speed Reference"
       Position		      [100, 165, 130, 195]
+      Value		      "2"
       OutDataType	      "sfix(16)"
       OutScaling	      "2^0"
     }

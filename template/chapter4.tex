@@ -40,7 +40,7 @@
 	idea if the pipeline infrastructure admints this. Say that this position bouys are placed at the same
 	time as the pipeline are layed, but this is a costly affair. 
 
-	Too use a Ultar Short Base Line (USBL) are another posibility. A USBL transducer are mounted on a
+	Too use a Ultra Short Base Line (USBL) are another posibility. A USBL transducer are mounted on a
 	ship, which has a GPS location fix. The AUV then pings the USBL transducer regularily and the position
 	are determined exactly. This requiers a ship stationed in the area where the AUV are carrying out the
 	mision. The autonomicity of the AUV are the reduced, and the vehicle are not capable of operating on
@@ -54,17 +54,90 @@
 	a chech wheter if its heading are larger than $\pi$, the given command will be to the right, and
 	opposite if the measured heading are smaller than $\pi$.
 
-
+	\subsection{Increasing the inspection speed}
+		What happens when the inspection speed are increased beyond 1 m/s? Say if the surge velocity
+		were to be increased to 2 m/s. 
 
 
 
 
 \section{Roll Stabilization}
-	Roll stabilization due to downward looking camera. This is probably not needed because the roll angle
-	never reaches more than a couple of degrees in magnitude at the probable velocities of the vehicle. 
+	The mission of the AUV are to provide good data for later use, i.e good pictures to be analyzed later.
+	The camera on the AUV are mounted downwards and the field of view are affected by roll and pitch.
+	Pitch are a contorl angle, but the Roll motion have no direct control measures. The roll angle need to
+	be as close to 0 as possible to provide best pictures of the current sea bottom. Imagine if the AUV
+	were to move upside-down above the sea bottom. The plots in Figure~\ref{fig:ch4_rollyawmoment}
+	are taken from the $4^{\mathrm{th}}$ Scenario described in Chapter~\ref{ch3}, to look at \textit{HUGIN
+	1000}'s stability in roll.
+	
+	\begin{figure}[htbp]
+		\centering
+		\subfigure[Roll Angle]{
+			\label{fig:ch4_rollangle}
+			\includegraphics[width=0.7\textwidth]{pics/ch4_rollangle}}
+		\subfigure[Yaw Moment]{
+			\label{fig:ch4_yawmoment}
+			\includegraphics[width=0.7\textwidth]{pics/ch4_yawmoment}}
+		\caption{Plots describing the close relation of yaw moment and roll angle}
+		\label{fig:ch4_rollyawmoment}
+	\end{figure}
+	Figure~\ref{fig:ch4_rollyawmoment} shows the relation between commanded yaw moment and the roll angle.
+	Clearly there are coupling effects which causes the roll angle to change a few degrees. The roll angle
+	magnitude are about $2^\circ$ when the \textit{surge}-velocity are 2 m/s. But the roll angle are not
+	of greate concern when carrying out this kind of inspection missions, as these simulations show.
+
+	
+	The main propeller gives a moment in roll. This moment are disregarded in the simulations, but might
+	become important. The main propeller are described by the followin relations
+	\begin{equation}
+		\begin{aligned}
+			\tau_1 &= T_{nn} n^2 + T_{un} n u \\
+			\tau_4 &= Q_{nn} n^2 + Q_{un} n u
+		\end{aligned}
+	\end{equation}
+	where $n$ are the angular speed of the main propeller in Revolutions per minute, and $u$ are again the
+	surge velocity. 
+	
+	This moment are actually countered by weightin the AUV down on one side so that when the it reaches cruice
+	velocity the AUV have zero roll angle. \cite{Bjorn_gjelstad_talk}
+
+	This is of course due to some of the design features of \textit{HUGIN} AUV. It is designed to be
+	asymptotically stable in roll, due to the centre of bouyancy (CB) are located not exactly in the centre of
+	gravity (CG). The AUV would not need roll stabilisation becuase it shows to be very stable in roll.
+	Another case is that if roll stabilisation were to be implemented it would be done by using the
+	rudders, and this would cause an increase in power consumption that would not be advisable. 
 
 
 \section{Energy Consumption}
+	The energy consumption of an AUV are of extreme importance. When a customer are buying this type of
+	vessel one of the criteria are operation time. For an AUV which are untethered and have limited power 
+	supply the operation time might vary greatly due to installed sensors and operating conditions.
+
+	The standard sensor suite on the \hugin AUV are a Side Scan Sonar, Doppler Velocity Log, Depth meter,
+	Multibeam Echosounder, and the INS navigation system. The operation time would be around 10-20 houres,
+	dependent on velocity and sensor use. The main objective of the guidance system after the inpsection
+	part is to maximise the operating time. This can be done in numerous ways, and should be a part of the
+	design procedure when designing the guidance system for the real thing.
+
+	The actuator set-up of \hugin  are with 4 rudders, one main propeller and 4 thurusters. This renders
+	the AUV controllable in 5 DOFs. The thrusters demand more power than the main propeller
+	and rudders, and have been completely disregarded throughout this report. The most energy efficient
+	way of moving is using the main propeller and the rudders to navigate the AUV.
+
+	The most energy efficient way of guiding an AUV is to use its main propeller and rudders. But there
+	might be different ways of optimising the power consumption with regard to how the AUV are searching
+	for and tracking the pipeline. The forces produced by for instance the vertical rudders, the moment
+	produced by this rudders are proportional to the surge velocity squared.
+		\begin{equation}
+			\tau_6 = Y_{u\psi} \delta u^2
+		\end{equation}
+	where $\delta$ are the angle of the rudder, and $Y_{u \psi}$ are some constant describing the rudder
+	areal. This means that the effect of the rudders are greatly dependent on the forward speed. This is
+	not taken into account in the designed controller and have to be compensated in a more advanced
+	controller, or it can be taken care of in the control allocation problem not considered in this
+	report.  
+	
+	
 
 
 \section{Optimal Search Pattern}

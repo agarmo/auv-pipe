@@ -11,7 +11,7 @@ function y = descicion(u)
     t = u(24); %current time
     
     lookahead = 5; %5
-    lookahead_s = 6; %6
+    lookahead_s = 12; %6
     
     persistent mode current current_s detected_pos time_since_contact last_known_pos
     % mode = 2 goto; mode=1 serach; mode = 0 track
@@ -51,7 +51,7 @@ function y = descicion(u)
             
         case 1 %search mode Generate trajectory
             if output == 1 % && trajectory_generated ~= 1
-                detected_pos = p(4:5)
+                detected_pos = p(1:2)
                 y = atan2(detected_pos(2) - eta(2), detected_pos(1) - eta(1))
                 mode = 0
                 trajectory_generated = 1
