@@ -2,17 +2,73 @@
 	This chapter will summarize and discuss the results in the previous chapter.
 
 \section{Guidance System}
-	The guidance system proposed previously in the report are only capable of following straight lines.
-	
+	The guidacen system are greately simplifyed. In this section these simplifications will be adressed
+	and other possible errors and shorcomings will be treated. 
+
+	This Guidance system are designed for long, straight pipeline streches. It will not be able to handle
+	sudden turns in the pipeline direction, without spcifying this in the guidance system. This can be
+	included as waypoints where the pipeline are changing, and be included as a condition; \textit{when the AUV
+	reaches certain position the direction of the pipeline changes}. This requiers very exact knowledge
+	about the pipeline and are rearly the case. TThis is why there should be a more autonomous way of
+	doing this. This motivates the use of more sensros than just a camera to follow the pipeline. The
+	camera have a very limited field of view, usually restricted to less than 3 meters. A Side Scan Sonar
+	comined wiht a Forward Looking Sonar, which provides sensor data of the pipeline in front of the AUV
+	will give the guidance system some data to descide and predict what it will do if there is a sharp
+	turn in the pipeline. 
+
+	Sharp turns are rare, and are a product of T-junctions and other couplings of pipelines. These
+	junctions are usually well documented, and given good and exact locations. But if the navigation
+	sensors of the AUV have large uncertanties, and from the AUV it might look as they are in the wrong
+	place. This suggests that information about the pipeline should be treated with care. Because the
+	errors in an AUV navigation system might be substantial and provide that \'a priori information about
+	the pipeline will be unusable. 
+
+	The navigation system of \textit{HUGIN 1000} are a Velocity Aided Inertial Navigation System. This
+	utilises a Doppler Velocity Log to measure the velocity relatively to the sea bottom and input this to
+	the INS system. The INS systems usually installedn on the \textit{HUGIN} are in the 1 nmi/h class, i.e
+	the INS system drifts less than 1 nmi/h. This results in a drift in the navigation system equal to
+	0.11 \% of the traveled distance along the track, and about 0.03 \% error in the across distance of a
+	stright line track. \cite{INS_Hugin}. This can be enough to throw the guidance system off course,
+	because the field of view of the camera are relatively small.
+
+	***********************************************
+
+	There are ways of improving the INS drift, one is to use GPS update fixes, but this requiers to
+	surface the AUV once in a while. This is of course not a good idea when the AUV are at great depths.
+	There are posibilities to use sea bottom anchored position bouys, which exact position are known and
+	the AUV might use these bouys by pinging them and getting a updated position estimate. This is a good
+	idea if the pipeline infrastructure admints this. Say that this position bouys are placed at the same
+	time as the pipeline are layed, but this is a costly affair. 
+
+	Too use a Ultar Short Base Line (USBL) are another posibility. A USBL transducer are mounted on a
+	ship, which has a GPS location fix. The AUV then pings the USBL transducer regularily and the position
+	are determined exactly. This requiers a ship stationed in the area where the AUV are carrying out the
+	mision. The autonomicity of the AUV are the reduced, and the vehicle are not capable of operating on
+	its own. 
+
+	**********************************************
+
+	The problem regarding when $\psi \rightarrow 2\pi$ problem, there are a number of solutions for this.
+	The first is to limit the sensor output, which are the case in the real world, since a compass
+	measuring \textit{yaw} only are defined for $(0, 2 \pi)$. The controller can handle this by including
+	a chech wheter if its heading are larger than $\pi$, the given command will be to the right, and
+	opposite if the measured heading are smaller than $\pi$.
+
+
+
+
+
+
+\section{Roll Stabilization}
+	Roll stabilization due to downward looking camera. This is probably not needed because the roll angle
+	never reaches more than a couple of degrees in magnitude at the probable velocities of the vehicle. 
+
 
 \section{Energy Consumption}
 
 
 \section{Optimal Search Pattern}
 
-
-
-\section{Roll Stabilization}
 
 
 

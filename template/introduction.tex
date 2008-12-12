@@ -1,11 +1,11 @@
 \chapter{Introduction}
 	Today there are over 3.5 million km of transmission pipelines in the world. 231 900 km of pipelines
 	are planned or under construction \cite{DNV_pipelines}. The pipelines currently in place need to
-	continue operating, many of them far longer than they were initally intended. Great effort are taken
+	continue operating, many of them far longer than they were initially intended. Great effort are taken
 	to inspect and maintain the pipelines to keep them in satisfying order.  The pipeline needs to be 
 	in working order to be operational.
-	Potenital leaks might cause irreversable environmental damages, and companies looses money when the flow
-	of oil or gas are stoped. 
+	Potential leaks might cause irreversible environmental damages, and companies looses money when the
+	flow of oil or gas are stopped. 
 
 	There are two ways of carrying out pipeline inspections; \textit{internal} and \textit{external} 
 	inspection. The internal inspection methods, includes stopping the flow of whatever is in the pipeline,
@@ -13,21 +13,21 @@
 	sensors to determine the state of the pipeline. The other method, \textit{exterior} pipeline
 	inspections are today mostly done using Remotely Operated Vehicles, ROVs. The ROVs are untethered
 	unmanned underwater vehicles, and are the work horse of the offshore industry. They are versatile
-	tools capable of accomplishing most missions assosiated with pipeline inspections and repair. However,
-	they need well-equipped, expensive support vessels and a large crew to acompany the inspection
+	tools capable of accomplishing most missions associated with pipeline inspections and repair. However,
+	they need well-equipped, expensive support vessels and a large crew to accompany the inspection
 	mission. The fact that this is a tethered vessel, it has a very limited operating radius. 
 
 	An Autonomous Underwater Vehicle (AUV) is a suiting tool for pipeline inspection. An AUV is a
 	untethered unmanned underwater vehicle. For the AUV to be able to perform an inspection mission it
-	shold be able to navigate and make descisions for itself. Oposed to the ROVs the operation radius of
+	should be able to navigate and make decisions for itself. Opposed to the ROVs the operation radius of
 	the AUV are limited by power and battery life. An AUV can be small enough to be launched form, shore
 	or small ships. It usually does not require the large support crew needed for an ROV mission.
 
-	The speed of the inspections might also be of importance. A typical ROV has cruice speeds from $1-2$
-	knots ($0.5-1$ m/s), while an AUV has cruise speeds in the regieme $2-6$ knots ($1-3$ m/s). This
+	The speed of the inspections might also be of importance. A typical ROV has cruise speeds from $1-2$
+	knots ($0.5-1$ m/s), while an AUV has cruise speeds in the regime $2-6$ knots ($1-3$ m/s). This
 	inclines that an AUV might cover larger area of pipelines than an ROV. 
 
-	British Petrolum estimates that they can save up to 30 \% by using AUVs for pipeline inspections
+	British Petroleum estimates that they can save up to 30 \% by using AUVs for pipeline inspections
 	instead of ROVs.\cite{PhD_lecture}
 
 	The technology needed for such a mission are present, and there are a number of companies developing
@@ -42,35 +42,35 @@
 	hovering capabilities, although this will not be used when designing the guidance system.
 
 	The pipeline detection equipment is a downward looking camera with sufficient lighting to operate at about
-	3-5 meters above the seabottom. Ofcourse the visibility conditions will change according to depth and
-	amount of poarticles in the water(naval snow). 
+	3-5 meters above the seabottom. Of course the visibility conditions will change according to depth and
+	amount of particles in the water(naval snow). 
 
 	This report considers how to automate the pipeline inspections process. It will consider the
-	posibility that the pipeline is burried under mud and not visible to the camera or burried intentedly to
-	make it more robust towards environment forces and erosion, in both cases the important thing 
-	is to reacquire the pipeline on the other side of the burried stretch. In that case some kind of an estimator
-	will be used to predict where the pipeline is headed.
+	possibility that the pipeline is buried under mud and not visible to the camera or buried on purpose
+	to make it more robust towards environment forces and erosion, in both cases the important thing 
+	is to reacquire the pipeline on the other side of the buried stretch. In that case some kind of an
+	estimator will be used to predict where the pipeline is headed.
 	
-	A pipeline inspection mission can be devided into 4 parts:
+	A pipeline inspection mission can be divided into 4 parts:
 	\begin{enumerate}
-	 \item Initialization and initial descent
-	 \item Search for and Accuire pipeline
+	 \item Initialisation and initial descent
+	 \item Search for and Acquire pipeline
 	 \item Track and Inspect pipeline
-	 \item Ascent to the surface and deliver the accuired data
+	 \item Ascent to the surface and deliver the acquired data
 	\end{enumerate}
 	
-	The \textit{Seach and Accuire} part will need the vessel to move in some kind of search pattern if
+	The \textit{Search and Acquire} part will need the vessel to move in some kind of search pattern if
 	the pipeline is not located exactly where the initial position data states it to be. This search
 	pattern should also be used if the pipeline is lost during tracking. 
 	
 	The \textit{Track and Inspect} part needs a guidance system which is capable of keeping the vessel 
 	on top of the pipeline independent of the current in the area and other possible disturbances. This is
-	necesary because the primary mission for the AUV is to provide video of the pipeline which can be used
-	to determine the state and well-being of the pipeline.
+	necessary because the primary mission for the AUV is to provide video of the pipeline which can be
+	used to determine the state and well-being of the pipeline.
 	
-	This report is devided into four chapters;
+	This report is divided into four chapters;
 	\begin{enumerate}
-	 \item Theory. Describes the neccesary theory needed to understand the problem, and contains a summary
+	 \item Theory. Describes the necessary theory needed to understand the problem, and contains a summary
 	of literature on the pipeline following subject.
 	 \item Modeling, assumptions about the model and how it is modeled.
 	 \item The simulation and implementation of the model.
@@ -78,7 +78,7 @@
 	\end{enumerate}
 
 	Last, this report will consider the simulation, and document on the results given by the implemented 
-	guidance system. There will be a discussion on how well the guidance system prefomed and how acurate
+	guidance system. There will be a discussion on how well the guidance system preformed and how accurate
 	the data from the simulation is. 
 	
 	

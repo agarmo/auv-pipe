@@ -3168,8 +3168,8 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "700"
-      YMin		      "-0.035"
-      YMax		      "0.035"
+      YMin		      "-0.5"
+      YMax		      "0.5"
       SaveToWorkspace	      on
       SaveName		      "Cam_output"
       DataFormat	      "StructureWithTime"
@@ -3191,7 +3191,7 @@ Model {
 	axes1			"%<SignalLabel>"
       }
       TimeRange		      "700"
-      YMin		      "-1"
+      YMin		      "0"
       YMax		      "1"
       SaveToWorkspace	      on
       SaveName		      "Cam_output1"

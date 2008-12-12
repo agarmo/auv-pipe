@@ -8,7 +8,7 @@ function y = descicion(u)
     p = u(13:21);
     heading = u(22);
     output = u(23);
-    t = u(24);
+    t = u(24); %current time
     
     lookahead = 5; %5
     lookahead_s = 6; %6
@@ -111,7 +111,7 @@ function y = descicion(u)
             psi_d = xp + xr;
             y = psi_d;
             
-            if t - time_since_contact == 10 %60 scn3 %25 scn 1 og 2 og 4
+            if t - time_since_contact == 25 %60 scn3 %25 scn 1 og 2 og 4
                 mode = 1 %search mode
                 time_since_contact = 0;
                 trajectory_generated = 2;

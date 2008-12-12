@@ -228,7 +228,38 @@
 
 		The large overshoot when the AUV have located the pipeline are due to the current. This
 		pushes the AUV away from the trajectory. The current increases the velocity in a direction and
-		causes the turning in that direction to be more difficult than turning the other way. 
+		causes the turning in that direction to be more difficult than turning the other way. This is
+		a problem that is present in all applications involving measurement of heading. One cannot
+		meassure more than one $360^\circ$ and care must be taken when choseing the reference. This is
+		also a topic in the heading controller. The turn should be taken in the direction that is the
+		shortes or free of obstacles. This is an important part of the control system, but has not
+		been implemented in the current test environment. It becomes an important issue when the turn
+		involves a whole revolution around the z-axis. For a human it is quite obvious which way to
+		turn, but for a non-sentient machine dependent on rules, this becomes an important issue. 
+
+		The overshoot discussed above is also a product of the relatively large course-changing
+		maneuver. This can somewhat be reduces by using a turn trajectory to get the AUV on the right
+		track and the same direction as the pipeline. This trajectory generation need to handle the problem
+		discussed above regarding the revolution problem.
+		
+		\begin{figure}[htbp]
+			\centering
+			\includegraphics[width=0.70\textwidth]{pics/4th_uDpsi}
+			\caption{Surge-, Depth- and Heading- Reference with Current influence for the fourth
+			scenario}
+			\label{fig:ch3_4th_uDpsi}
+		\end{figure}
+		The plots from the velocity, depth and heading references for the fourth scenario, shown in
+		Figure~\ref{fig:ch3_4th_uDpsi}, are worth noting. It can be seen from the first plot in the
+		figure that during large course-changing maneuvers the surge velocity first gets a overshoot
+		and then decreases under the set point of 1 m/s. This is probably because of the how the
+		current are included in the simulations. We see that the course changes from around $90^\circ$
+		to $-200^\circ$ over short time. The surge speed changes correspondingly in the same area.
+		This is becuase when the course angle are about $45^\circ$ the velocity vector are paralell to
+		the current, and at $-45^\circ$ the velocity vector are still paralell but in the oposite
+		direction of the current. this causes the marked changes in the surge speed seen in
+		Figure~\ref{fig:ch3_4th_uDpsi}. The speed controller cannot anticipate this, and therfore does
+		not ease up on the throttle.
 
 
 
