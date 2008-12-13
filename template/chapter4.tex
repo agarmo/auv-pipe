@@ -96,12 +96,11 @@
 		\end{aligned}
 	\end{equation}
 	where $n$ are the angular speed of the main propeller in Revolutions per minute, and $u$ are again the
-	surge velocity. 
-	
-	This moment are actually countered by weightin the AUV down on one side so that when the it reaches cruice
-	velocity the AUV have zero roll angle. \cite{Bjorn_gjelstad_talk}
+	surge velocity. The second terms in the equation above are terms descibing loss-of-force due to
+	forward speed. The moment in roll are actually countered by weightin the AUV down on one side so that when
+	the it reaches cruice velocity the AUV have zero roll angle. \cite{Bjorn_gjelstad_talk}
 
-	This is of course due to some of the design features of \textit{HUGIN} AUV. It is designed to be
+	This is due to some of the design features of \textit{HUGIN} AUV. It is designed to be
 	asymptotically stable in roll, due to the centre of bouyancy (CB) are located not exactly in the centre of
 	gravity (CG). The AUV would not need roll stabilisation becuase it shows to be very stable in roll.
 	Another case is that if roll stabilisation were to be implemented it would be done by using the
@@ -136,12 +135,41 @@
 	not taken into account in the designed controller and have to be compensated in a more advanced
 	controller, or it can be taken care of in the control allocation problem not considered in this
 	report.  
-	
-	
 
+	The energy consumption are very dependent on how the AUV moves. If it are taking unnescecary turns the
+	movemente pattern are not optimal. In this sense the shortest distance traveled is the most optimal
+	movement pattern. The guidance system should always take the shortes path to the goal, if the
+	environment allows it. 
+	
+	\cite{fuel_optimal_control} proposes an optimal guidance scheme. Using the
+	fuel consumption as a performance index and optimize with regard to the current forces in the area of
+	interest. It requiers knowledge of the currents in the area \'a priori and utilizes this to calculate
+	the otimal trajectory from one point to the next. This gives good theoretical results but the downside
+	is that knowledge about the current forces in an area are rarely konwn, and if they are known they are
+	probably not very exact. But this scheme might help to save energy, but are only aplicable to a
+	pipeline inspection mission when the AUV are moving to or from the pipeline, not when tracking or
+	searching.
+	
+	Either way, it is important to chose the right way to go when you have limited power capability. This
+	motivates the use of more sensors, to increase the chances of not giving bad and erronous sensor data
+	to the guidance system. The guidance system needs to be robust and take the right descision. Too
+	maximise the operation time it can not afford to take wrong decisions. This is almost impossible to
+	achieve and can only be done through extencive testing of the complete syste, it is important tto
+	chose the right way to go when you have limited power capability.This motivates the use of more
+	sensors, to increase the chances of not giving bad and erronous sensor data to the guidance system.
+	IThe guidance system needs to be robust and take the right descisio. Too maximise the operation time
+	it can not afford to take wrong decisions. This is almost impossible to achieve and mcan only be done
+	through extencive testing of the complete system.
 
 \section{Optimal Search Pattern}
+	As discussed above, the need for efficient search pattern are crucial to maximising the operation
+	time. Search patterns might vary form case to case. The search patten should be dependent on how well
+	the mission area are known and how sure one can be about the \'a priori data about the pipeline
+	condition, sea bottom obstacles and features. Are there obstacles in the area which might be used for
+	position identification and navigation. Or are there obstacles in the area that the AUV should avoid
+	completely, such as mines. 
 
-
-
+\section{How valid are the results?}
+	The analysis done in this report are ment to be a pre-study of the problems assosiated with this
+	complex pipeline inspection problem.
 
