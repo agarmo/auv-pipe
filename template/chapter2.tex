@@ -2,33 +2,35 @@
 	This chapter summarizes the problem and assumtions taken considering the pipeline following problem.
 	A controller will be derived used for tracking and maneuvering of the AUV vehicle. A Kalman filter
 	will be derived for the smothing and predictions of the pipeline and a guidance algorithm will be
-	presented. Last, some basic behavior of the AUV to certain situations are threated. 
+	presented. The behaviour of the system will be treated in the last sections of this chapter, where the
+	flow of the descision prosess will be presented.
 
 
 \section{Problem Outline}
 \label{chap2:problem}
 	To solve the pipeline following problem it is important to have a clear formulation of the problem.
-	This is really a path following problem, since the pipeline can be represented as a continous path in
+	This is a path following problem, since the pipeline can be represented as a continous path in
 	space. The geometric convergence to the path is the primary objective. There can be dynamical
 	constraints along the path, i.e velocity constraints but these are considered secondary to the goal of
 	geometric convergence. When there are dynamic constraints the problem is a Trajectory Tracking
 	Problem. If only geometric convergence are considered the problem is called a Path Following Problem.
-	\cite{guidance-path-2d-3d}
+	As stated in the definitions in Chapter~\ref{chap1-guidance-alg}
 
 	In this report the pipeline will be formulated as a two dimentional path. This because the pipeline
 	are layed on the sea bottom, and are assumed to follow the bottom signature. Then the path following
-	are reduced to a two dimentional problem and the \textit{heave} state can be decoupled and in the
+	is reduced to a two dimentional problem. The \textit{heave} state can be decoupled and in the
 	controller design. The depth controller then needs to keep a constant height above the sea bottom.
+	This ignores the posibility of free spanning pipelines.
 
 	In order to limit the problem and ease the implementation, the pipeline are assumed to be a stright or
-	nearly strigth, peice-wise continous line segment. The pipeline can only change direction at defined
+	nearly strigth, piece-wise continous line segment. The pipeline can only change direction at defined
 	places called junctions. The application of this guidance system are only for long, continous streches of
 	piplines. 
 
 	An AUV carrying out a pipeline inspection mission is in most cases a low speed assumtion is valid. The
 	\textit{HUGIN 1000} AUV are designed for speeds from 0-3 m/s. The inspection speed assumed in the
 	rest of the report are around 1 m/s. This are realtively low speed, and the quadratic terms in the
-	Coriolis/centripetal or Damping matices can be neglected. Later simulations verify this assumtion.
+	Coriolis/centripetal or Damping matices can be neglected. 
 
 	\begin{figure}[hbtp]
 		\centering
@@ -36,20 +38,155 @@
 		\caption{Block diagram the path following controller}
 		\label{fig:ch2-blockdiagram}
 	\end{figure}
-	As outlined in Figure \ref{fig:ch2-blockdiagram} the building stones of the  pipeline following
-	control system are the control system are the cruising controller, guidance system and the filter
+	As outlined in Figure \ref{fig:ch2-blockdiagram} the building blocks of the pipeline following
+	control system are the cruising controller, guidance system and the filter
 	which fuses the known data about the pipeline and the measured pipeline data. To recreate the 
 	pipeline coordinates in three dimentions the distance to the sea bottom is measured by a sonar. The
 	filter uses prior knowledge about the pipeline to-be-followd which can be inaccurate. The filter then
 	uses this together with the altitude information and camera output to estimate the position of the
 	pipeline. If the pipeline should be lost at any time the filter will try to predict where the pipeline
 	are and serve as input to the guidance system.
+	
+	The system should be able to handle burried sections of the pipeline. The camera will not be able to
+	sense the pipeline during the burried strech and other sensors have to be included. A bottom
+	penetrating sonar might be used for this purpose, or a magnetic pipe tracker. These sensors are able
+	to sense the pipeline even if burried up to 3 meters. \cite{PhD_lecture} This sensors will give the
+	AUV better chances to regain track after the burried strech than if it were to relay on just dead
+	recogning from the predicted pipeline information alone.
 
-	The system should be able to handle sections where the pipeline are burried and not visible to the
-	camera. To too some extent eliminate this problem other sensors can be included to which uses other
-	sensing methods than vision. Suiting sensors are magnetic anomalities sensors which can detect
-	ferretic alloys and materials. Multi-beam echosounders and side scan sonar are other possible sensors
-	to help detecting a burried pipeline.
+\section{Pipeline representation}
+	The representation of the pipeline is important because it is used in the Kalman filter to predict
+	where the pipeline is going. The pipeline is parametrized by $\varpi \in \mathbb{R}$ to get a
+	continous and smooth pipeline.
+
+	In this report the pipeline are parameterized as:
+	\begin{equation}
+		P_w(\varpi) = \left [ \begin{array}{c}
+					\varpi \\
+					k_y \varpi \\
+					z(\eta)
+				\end{array} \right ] \quad \varpi \in (0, \infty)
+	\end{equation}
+	where $k_y$ are constant and $z(\eta)$ is some function described by the sea bottom and are assumed
+	known. This represents the straight line as the pipeline are assumed to be.
+	
+	
+
+
+\section{Kalman filter}
+	The Kalman filters purpose is to smooth the camera output and predict forward where the pipeline will
+	be in the future to supply a better heading reference for the guidance controller.
+
+	The position of the pipeline are given some uncertanty becuase the pipeline may have moved after it
+	was layed or the navigation system of the AUV might be erronous. This gives:
+	\begin{equation}
+		P_w(\varpi) = \left [ \begin{array}{c}
+					\varpi \\
+					k_y \varpi \\
+					z(\eta)
+				\end{array} \right ] + \mathbf{B}\delta
+	\end{equation}
+	The function $\delta$ are a slowly varying disturbance which can be modeled as a \textit{1st order Markov
+	Process}, and $\mathbf{B}$ is some 2x3 matrix.
+	\begin{equation}
+		\dot{\delta} = -\mathbf{T} \delta +  w
+	\end{equation}
+	where $w \in \mathbb{R}^2$, are a zero mean unity variance white noise process. This describes the
+	error in the position. The matrix $\mathbf{T}$ specifies how the error evolves. Because the error are
+	slowly varying the eigenvalus of $\mathbf{T}$ should be chosen large. Time differentianting
+	the position estimate with regard to time gives
+	\begin{equation}
+		\dot{P_w}(\varpi) =  \left [ \begin{array}{c}
+						\dot{\varpi} \\
+						k_y \dot{\varpi} \\
+						\dot{z}(\eta)
+					\end{array} \right ] + \dot{\delta}
+	\end{equation}
+	By setting $\varpi = N(t)$, i.e the North position and completely disregarding the depth coordinate.
+	gives the following
+	\begin{equation}
+		\dot{P_w'} = \left [ \begin{array}{c}
+					n \\
+					k_y n 
+				\end{array} \right ] + \dot{\delta}
+	\end{equation}
+	Choseing the state vector and input as:
+	\begin{equation}
+		x = [ P_w'^T \quad \delta^T]^T \quad \Rightarrow  \quad \dot{x} = [\dot{P_w'^T} \quad
+		\dot{\delta^T}]^T \quad  u = n
+	\end{equation}
+	This calls for the following state space representation 
+	\begin{equation}
+		\dot{x} = \left [ \begin{array}{cc}
+					0 & -T \\
+					0 & -T
+				\end{array} \right] x + \left [ \begin{array}{c}
+								1 \\
+								k_y\\
+								0 \\
+								0
+								\end{array} \right] u +
+				\left [ \begin{array}{c}
+						\mathbf{0}_{2x2} \\
+						\mathbf{I}_{2x2} 
+					\end{array} \right] w
+	\end{equation}
+
+	The measurement model are more complex. In order to compare the measurement from the camera with the
+	state space model, the perspective equations from Section \ref{ch1-cameramodel} are needed. By using
+	Equations \eqref{eq:ch1-P_c} and \eqref{eq:ch1-perspective}, we can transform the point from World
+	coordinates to image coordinates. We want $y = P_i$
+	\begin{equation*}
+		y = P_i = \mathbf{H} P_c = \mathbf{H R}^T ( P_w - O(t))
+	\end{equation*}
+	$O(t)$ is the origin of the camera frame and is equal to the position vector $\eta' = [N(t),
+	E(t)]^T$ of the AUV in the NED frame. By including the position vector in the input to the filter and using 
+	$P_w = \mathbf{C} x$, the measurement model are conclueded.
+	\begin{equation}
+		\label{eq:ch2-measurement}
+		y = \mathbf{H R}^T \mathbf{C} x - \mathbf{H R}^T  O(t) = \mathbf{C}'x + \mathbf{D} u
+	\end{equation}
+	where $\mathbf{C'}$ and $\mathbf{D}$ are apropriate matrices for selecting the right states. $\mathbf{R}$
+	are the Rotation Matrix from World coordinates to Camera coordinates. This gives the following model
+	for the Kalman filter
+	\begin{align}
+		x &= \mathbf{A} x + \mathbf{B} u + \mathbf{E} w\\
+		y &= \mathbf{C}'x + \mathbf{D} u + v\\
+		\mathbf{A} &= \left [ \begin{matrix}
+					0 & 0 & -T_1 & 0 \\
+					0 & 0 & 0 & -T_2 \\
+					0 & 0 & -T_1 & 0 \\
+					0 & 0 & 0 & -T_2 
+					\end{matrix} \right] \quad \mathbf{B} = \left[ \begin{matrix}
+										1 & 0 & 0 \\
+										k_y & 0 & 0\\
+										0   & 0 & 0 \\
+										0 & 0 & 0
+										\end{matrix} \right]\\
+		\mathbf{E} &= \left [ \begin{matrix}
+					0 & 0 \\
+					0 & 0 \\
+					1 & 0 \\
+					0 & 1
+					\end{matrix} \right] \quad \mathbf{C}' = \left [ \begin{matrix}
+						\frac{f}{z_c} \cos{\psi} &\frac{f}{z_c} \sin{\psi} & 0 & 0 \\
+						-\frac{f}{z_c} \sin{\psi}& \frac{f}{z_c} \cos{\psi} & 0 & 0 
+								\end{matrix} \right] \\
+		\mathbf{D} &= \left [ \begin{matrix}
+					0 & -\frac{f}{z_c} \cos{\psi} & -\frac{f}{z_c} \sin{\psi} \\
+					0 & \frac{f}{z_c} \sin{\psi} & -\frac{f}{z_c} \cos{\psi}
+					\end{matrix} \right]
+	\end{align}
+	$w, v$ are a vectors of unity white noise and have covariance $E(ww^T) = \mathbf{Q}$ and $E(vv^T) =
+	\mathbf{W}$. The filter should be run at the same frequency as the guidance system to provide output
+	for the guidance system. The prediction will be updated whenever possible, which means when the
+	pipeline are visible in the camera after the image processing are done.
+
+	Because of the relatively high frequency of the filter the parameters in the measurement model
+	regarding heading and depth, i.e. $\psi$ and $z_c$ can be assumed constant during the sample period.
+	This due to the slow dynamics of the AUV, compared to filter rate. This gives a linear model which can
+	be guarantead to be optimal for the current case.
+
 
 \section{Controller Design}
 	The model discussed in Section \ref{sec:ch1-model} is used to derive the controller equations for the
@@ -67,17 +204,14 @@
 	actuated controllers. The second reason is even if the AUV is almost fully actuated, i.e
 	controllable in 5 DOF, the tunnel thrusters which have to be present for this degree of actuation are almost
 	usless for higher velocities. This renders just control in 3 DOF, \textit{surge, pitch} and
-	\textit{yaw}. This will give the most energy efficient pipeline following. 
+	\textit{yaw}. This will probably give the most energy efficient pipeline following, because the
+	control are based on the cheapest control modes available at the AUV.
 	
-	The \textit{HUGIN}-type AUV is a slender-body type AUV. This makes it possible to neglect the some
-	coupling effects in between the states in the dynamic model. This means that one can decopuple the
-	\textit{longitudinal} states (\textit{surge, heave, pitch}) from the \textit{lateral} states 
-	(\textit{sway, roll, yaw}).
-
-	The goal of the AUV is to inspect pipelines. This includes get good pictures of the pipeline for
-	inspection by a human opperator. Since the AUV might be affected by ocean currents and might drift of
-	the pipeline, it is convenient to define a over the pipeline controller whose goal is to keep the
-	vessel directly over the pipeline. 
+	The \textit{HUGIN}-type AUV is a slender-body type AUV. This makes it possible to neglect some
+	coupling effects between the states in the dynamic model. The \textit{longitudinal} states 
+	(\textit{surge, heave, pitch}) can be decoupled from the \textit{lateral} states 
+	(\textit{sway, roll, yaw}). This will be utilised in the next sections when deriving the control model
+	and controller.
 
 	All coefficient next are defined in accordance with \cite{SNAME}.
 	\subsection{Speed Controller}
@@ -96,7 +230,7 @@
 	\subsection{Depth Controller}
 		To derive the depth controller in the crusing control system the
 		\textit{longitudinal}-subsystem is used as the control model \cite{fossen}. By assuming that the lateral
-		states are small, i.e $v, p, r, \phi$, the kinematics can be derived as follows:
+		states i.e $v, p, r, \phi$, are small, the kinematics can be derived as follows:
 		\begin{equation}
 			\left [ \begin{matrix}
 					\dot{d} \\
@@ -252,10 +386,10 @@
 			\end{aligned}
 		\end{equation}
 		The \textit{roll}-state can be removed from the equations because of the assumtions of small
-		$\dot{p}, p$ and that the \textit{sway}-velocity can be neglected, the sway subsystem can be
-		removed as well. This can be done because the vessel are considered stabel in roll because of
-		the offset in the bouyancy point. This can be seen from the simulations later in the report as
-		well. 
+		$\dot{p}, p$ and because of the vessel are considered stabel in roll because of
+		the offset in the bouyancy point. The \textit{sway}-velocity can assumebly be neglected, 
+		the sway subsystem can be removed as well.  This can be seen from the simulations later 
+		in the report. 
 
 		The following control model are used to derive the heading controller. The model is really
 		the 1st order Nomoto model, and have become famous for it simplicity yet prove to give good
@@ -284,145 +418,8 @@
 			\dot{\tilde{\psi}}
 		\end{equation}
 		The terms $T \dot{r_d} + r_d$ are reference feed forward terms which will guarantee perfect
-		tracking during course-changing maneuvers according to \cite{fossen}. 
-
-	
-	\subsection{Over-Pipeline Tracking Controller}
-		When the AUV is over the pipeline the need to keep the AUV on top of the pipeline to get deecent 
-		pictures for the pipeline inspection, presents itself. To solve this problem a second controller 
-		have been created just for this purpose. Since the vessel is controllable in 5 DOF the ability to 
-		create a good controller for this purpose is good. 
-		
-		The controller uses input form the camera to get the position of the AUV relative to the pipeline 
-		and give a suitable input to the controller.
-
-
-
-
-\section{Pipeline representation}
-	The representation of the pipeline is important because it is used in the Kalman filter to predict
-	where the pipeline is going. The pipeline is parametrized by $\varpi \in \mathbb{R}$ to get a
-	continous and smooth pipeline.
-
-	In this report the pipeline are parameterized as:
-	\begin{equation}
-		P_w(\varpi) = \left [ \begin{array}{c}
-					\varpi \\
-					k_y \varpi \\
-					z(\eta)
-				\end{array} \right ] \quad \varpi \in (0, \infty)
-	\end{equation}
-	where $k_y$ are constant and $z(\eta)$ is some function described by the sea bottom and are assumed
-	known. 
-	
-	
-
-
-\section{Kalman filter}
-	The Kalman filters purpose is to smooth the camera output and predict forward where the pipeline will
-	be in the future to supply a better heading reference for the guidance controller.
-
-	The position of the pipeline are given some uncertanty becuase the pipeline may have moved after it
-	was layed or the position might be erronous. This gives:
-	\begin{equation}
-		P_w(\varpi) = \left [ \begin{array}{c}
-					\varpi \\
-					k_y \varpi \\
-					z(\eta)
-				\end{array} \right ] + \mathbf{B}\delta
-	\end{equation}
-	The function $\delta$ are a slowly varying disturbance which can be modeled as a \textit{1st order Markov
-	Process}, and $\mathbf{B}$ is some 2x3 matrix.
-	\begin{equation}
-		\dot{\delta} = -\mathbf{T} \delta +  w
-	\end{equation}
-	where $w \in \mathbb{R}^2$, are a zero mean unity variance white noise process. This describes the
-	error in the position. The matrix $\mathbf{T}$ specifies how the error evolves. Time differentianting
-	the position estimate with regard to time gives
-	\begin{equation}
-		\dot{P_w}(\varpi) =  \left [ \begin{array}{c}
-						\dot{\varpi} \\
-						k_y \dot{\varpi} \\
-						\dot{z}(\eta)
-					\end{array} \right ] + \dot{\delta}
-	\end{equation}
-	By setting $\varpi = N(t)$, i.e the North position and completely disregarding the depth coordinate.
-	gives the following
-	\begin{equation}
-		\dot{P_w'} = \left [ \begin{array}{c}
-					n \\
-					k_y n 
-				\end{array} \right ] + \dot{\delta}
-	\end{equation}
-	Choseing the state vector and input as:
-	\begin{equation}
-		x = [ P_w'^T \quad \delta^T]^T \quad \Rightarrow  \quad \dot{x} = [\dot{P_w'^T} \quad
-		\dot{\delta^T}]^T \quad  u = n
-	\end{equation}
-	This calls for the following state space representation 
-	\begin{equation}
-		\dot{x} = \left [ \begin{array}{cc}
-					0 & -T \\
-					0 & -T
-				\end{array} \right] x + \left [ \begin{array}{c}
-								1 \\
-								k_y\\
-								0 \\
-								0
-								\end{array} \right] u +
-				\left [ \begin{array}{c}
-						\mathbf{0}_{2x2} \\
-						\mathbf{I}_{2x2} 
-					\end{array} \right] w
-	\end{equation}
-
-	The measurement model are more complex. To be able to compare the measurement from the camera with the
-	state space model, the perspective equations from Section \ref{ch1-cameramodel} are needed. By using
-	Equations \eqref{eq:ch1-P_c} and \eqref{eq:ch1-perspective}, we can transform the point from World
-	coordinates to image coordinates. We want $y = P_i$
-	\begin{equation*}
-		y = P_i = \mathbf{H} P_c = \mathbf{H R}^T ( P_w - O(t))
-	\end{equation*}
-	$O(t)$ is the origin of the camera frame and is equal to the position vector $\eta' = [N(t),
-	E(t)]^T$ of the AUV in the NED frame. By including the position vector in the input to the filter and using 
-	$P_w = \mathbf{C} x$, the measurement model are conclueded.
-	\begin{equation}
-		\label{eq:ch2-measurement}
-		y = \mathbf{H R}^T \mathbf{C} x - \mathbf{H R}^T  O(t) = \mathbf{C}'x + \mathbf{D} u
-	\end{equation}
-	where $\mathbf{C'}$ and $\mathbf{D}$ are apropriate matrices for selecting the right states. $\mathbf{R}$
-	are the Rotation Matrix from World coordinates to Camera coordinates. This gives the following model
-	for the Kalman filter
-	\begin{align}
-		x &= \mathbf{A} x + \mathbf{B} u + \mathbf{E} w\\
-		y &= \mathbf{C}'x + \mathbf{D} u + v\\
-		\mathbf{A} &= \left [ \begin{matrix}
-					0 & 0 & -T_1 & 0 \\
-					0 & 0 & 0 & -T_2 \\
-					0 & 0 & -T_1 & 0 \\
-					0 & 0 & 0 & -T_2 
-					\end{matrix} \right] \quad \mathbf{B} = \left[ \begin{matrix}
-										1 & 0 & 0 \\
-										k_y & 0 & 0\\
-										0   & 0 & 0 \\
-										0 & 0 & 0
-										\end{matrix} \right]\\
-		\mathbf{E} &= \left [ \begin{matrix}
-					0 & 0 \\
-					0 & 0 \\
-					1 & 0 \\
-					0 & 1
-					\end{matrix} \right] \quad \mathbf{C}' = \left [ \begin{matrix}
-						\frac{f}{z_c} \cos{\psi} &\frac{f}{z_c} \sin{\psi} & 0 & 0 \\
-						-\frac{f}{z_c} \sin{\psi}& \frac{f}{z_c} \cos{\psi} & 0 & 0 
-								\end{matrix} \right] \\
-		\mathbf{D} &= \left [ \begin{matrix}
-					0 & -\frac{f}{z_c} \cos{\psi} & -\frac{f}{z_c} \sin{\psi} \\
-					0 & \frac{f}{z_c} \sin{\psi} & -\frac{f}{z_c} \cos{\psi}
-					\end{matrix} \right]
-	\end{align}
-	$w, v$ are a vectors of unity white noise and have covariance $E(ww^T) = \mathbf{Q}$ and $E(vv^T) =
-	\mathbf{W}$
+		tracking during course-changing maneuvers according to. This requiers a smooth reference
+		signal and care must be taken to calculate it. \cite{fossen} 
 
 
 \section{Summary of Assumtions}
@@ -430,19 +427,22 @@
 	\begin{enumerate}
 		\item The pipeline is layed on the sea bottom, which gives the pipeline the same
 		height signature as the sea bottom. The guidance problem is then reduced to a
-		two-dimentional problem.
+		two-dimentional problem. No free-spanning pipelines are present.
 		\item Pitch- and roll angles, are assumed small together with the corresponding pitch- and
-		roll rates. In the vicinity of $\pm 5^{\circ}$ and $\pm 0.05 \mathrm{rad/s}$
+		roll rates. In the vicinity of $\pm 10^{\circ}$ and $\pm 0.05 \mathrm{rad/s}$
 		\item \textit{sway} and \textit{heave} velocities are small compared to \textit{surge}
 		velocity and any cross-coupling terms may be neglected.
-		\item The full state are assumed perfectly known. 
+		\item The full state are assumed perfectly known, i.e. velocity and acceleration of the AUV.
 		\item The exact position of the are known.
 	\end{enumerate}
 		
+
+
 \section{Guidance system}
-	The guidance block are one of the most important building stones of an Autonomous system. It needs
-	some guidance for what it needs to do. Figure \ref{fig:ch2-Guidance-block} shows a proposal of a
-	guidance and descision system for the \textit{HUGIN} vehicle.
+	An autonomous system is by definition a system that will have minimal interaction from humans, it is
+	supposed to do things on its own. This is the guidance systems task.
+	Figure \ref{fig:ch2-Guidance-block} shows a proposal of a guidance and descision system for 
+	the \hugin vehicle.
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=0.8\textwidth]{pics/guidance}
@@ -450,53 +450,56 @@
 		\label{fig:ch2-Guidance-block}
 	\end{figure}
 
-	The AUV control system are assumed to have three modes, \textit{searching}, \textit{tracking} and
+	The AUV guidance system are assumed to have three modes, \textit{searching}, \textit{tracking} and
 	\textit{initialize/finalize}. The \textit{initialize/finalize}-mode are the beginning and end of a
 	mission and will not be considered in this report. 
 	
 	The \textit{searching}-mode are when the AUV are looking for the pipeline. When the pipeline are layed
 	on the sea floor, the position may be more or less inexact. Both because of sometimes the great 
 	distance from the sea level and to the sea bottom, and sometimes because the pipeline have ``sagged'', 
-	i.e moved away from the initial position because of movement in the sea bottom. In most cases the
-	pipeline will not have moved that much away from the inital position. 
+	i.e moved away from the initial position because of movement in the sea bottom caused by sea currents
+	and other environmental forces. 
+
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=0.5\textwidth]{pics/search_flow}
 		\caption{Flow diagram of the search procedure in the \textit{searching}-mode}
 		\label{fig:ch2-search-flow}
 	\end{figure}
-
-	***************************
-
-	The search procedure will be different depending on if it is the initial acquisition or reacquisition.
-	If inital acquisition, the area that have to be searched are greater than the search area for
-	reacquisition.
-
-
-	\subsection{Decision Logic}
-		The descision block of the guidance system needs to deal with problems that arise under a
-		pipeline inspcetion mission, such as when the pipeline are lost from the camera field-of-view.
-		What is the apropriate action? When should it start searching for the pipeline? 
-
-		The idea is that the pipeline should not be able to take sudden turns. There are limited
-		curvature, i.e the pipeline can only turn so much, over a limited distance. The posibility of
-		pipeline junctions are not considered. The assumtion is that the pipeline are a long continous
-		straight segment. If the pipeline is lost the filter will continue to predict where the
-		pipeline should have been. The AUV follows the predicted path for some time. If the pipeline
-		are not reaquired after that time, the AUV have to go back to the pipelines last known
-		position, and start some search pattern.
-
-		
+	Figure~\ref{fig:ch2-search-flow} shows the searching procedure. It shows the descisions that the
+	descion block need to handle. The system distinguishes between the cases if the pipeline have been
+	located before, or not. If the pipeline have not been located before, the system generates a initial
+	search pattern, which should be designed to cover larger area. If on the other hand the pipeline have
+	been located before, and tracking have been initialised, another pattern should be generated. The
+	system then follows this search pattern until it gets output from the camera, or other possible
+	sensors. Then the position are marked and a turning trajcetory are generated. When the pipeline then
+	is reaqcuired the guidance system goes to the tracking mode.
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.4\textwidth]{pics/contact_trajectory}
+		\caption{A turning trajectory for one possible contract}
+		\label{fig:ch2-turning-trajectory}
+	\end{figure}
 	
+	When in the \textit{tracking}-mode the AUV tries to follow the pipeline as closly as possible, and
+	keep the pipeline inside the field of view as best as possible.
 
 	\subsection{Reference Calculation}
 		A look-ahead based guidance algorithm is chosen for it's simplicity and robustness. All
-		together a pipeline are made up of mostly linear segments, and the general direction of the
-		pipeline are knonw to be very exact. This algoritms should provide good results and keep 
-		the cross-track error to a minimum.
-
+		together a pipeline are made up of mostly linear segments or at least almost linear
+		segment. One can then assume that the direction of the pipeline can be known exact.
+		No sudden turns are assumed and pipeline junctions are assumed to be non excisitng. This gives
+		the following equations, some are treated in Chapter~\ref{chap1-guidance-alg}.
+		\begin{align}
+			\psi_d &= \alpha_k + \psi_r \\
+			\psi_r &= \tan^{-1} \left( \frac{-e}{\Delta} \right)\\
+			e &= -(n(t) - p_x)\sin\alpha_k + (e(t) - p_y) \cos\alpha_k
+		\end{align}
+		
 		In the presence of ocean current it will cause the heading to ``lean'' towards the current if
-		the look-ahead distance is not chosen too far away. 
+		the look-ahead distance is not chosen too far away. There will be some kind of equalibirium
+		between the current and the AUV heading. This will will work well under the assumption that
+		the current are constant.
 		
 	
 	\subsection{Search Patterns}
@@ -527,9 +530,12 @@
 
 		The other case is when the pipeline are lost during tracking. Since the general direction of
 		the pipeline are assumed known, the other pattern are a divergent zig-zag pattern around the
-		assumed pipeline trajectory, from the last known position. This should work well to reacuire
-		the pipeline after loosing it.
-		
+		assumed pipeline trajectory, from the last known position.
+
+		The search pattern can be created using polar coordinates from the current position of the
+		AUV. The parameters, area in the initial search pattern or the spread angle in the divergent 
+		zig-zag should be customised for each mission.
+
 	
 \section{Overall System}
 	The system flow are depicted in Figure~\ref{fig:ch2-flowdiagram}. This is how the overall system behaves
@@ -540,6 +546,46 @@
 		\caption{Flow diagram of pipeline inspection mission}
 		\label{fig:ch2-flowdiagram}
 	\end{figure}
-	
+	The system will start by moving to the point where the inspection should start. Then the searching
+	procedure will be initiated if the AUV does not make contact with the pipeline imediatly. It will
+	search for the pipeline until it has located it and then continue tracking until the the goal are met
+	or the onboard energy storage becomes depleted. 
+
+	There are a number of design parameters needed to be set. These parameters might be constant or
+	changing between missions. They are summarised in Table~\ref{tab:ch2-design-param}
+	\begin{table}[htbp]
+		\centering
+		\begin{tabular}{| c | p{6cm} |}
+			\hline
+			Design Parameter 	& 	Description \\
+			\hline
+			\hline
+			$T_{lp}$ 		&	The Dead recogining time. Time before pipeline are
+							considered lost. \\
+			\hline
+			$\Delta$		&	The lookahead distance, descinding the convergence of
+							the heading to the path \\
+			\hline
+			$\alpha_k$		&	The general pipeline direction, need to be specified\\
+			\hline
+			$P_w$			& 	The predicted path of the pipeline in world
+							coordinates or a prametrization of it \\
+			\hline
+			$\mathbf{T}$		&	The values of this matrix must be chosen in accordance
+							with the uncertainty of the predicted pipeline path.
+							Usually chosen large \\
+			\hline
+			$\mathbf{Q}$ \& $\mathbf{W}$ & 	The covariance matrices of how much you want to trust
+							the predicted values of the pipeline and the
+							uncertainty of the measured ones. \\
+			\hline
+		\end{tabular}
+		\caption{Summary of design parameters in the system}
+		\label{tab:ch2-design-param}
+	\end{table}
+	These parameters should be chosen in accorance with what kind of envirionmanetal forces there are in
+	the area. Also the search patterns should be customised for every mission. Set how much area they need
+	to cover, and vary the spreading angle of the divergent zig-zag pattern in accordance with how certain
+	the direction of the pipeline are.
 	
 

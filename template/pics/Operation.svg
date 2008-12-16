@@ -105,17 +105,17 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
      inkscape:cx="281.1355"
-     inkscape:cy="460.71794"
+     inkscape:cy="301.92316"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:connector-spacing="3"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1680"
+     inkscape:window-width="1670"
      inkscape:window-height="944"
-     inkscape:window-x="-5"
-     inkscape:window-y="35" />
+     inkscape:window-x="0"
+     inkscape:window-y="33" />
   <metadata
      id="metadata26393">
     <rdf:RDF>
@@ -273,7 +273,7 @@
          style="font-size:20px;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">Lost?</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;font-family:Bitstream Vera Sans"
        x="357.14285"
        y="677.36218"
        id="text29149"><tspan
@@ -281,26 +281,28 @@
          id="tspan29151"
          x="357.14285"
          y="677.36218"
-         style="font-size:20px;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">Continue</tspan><tspan
+         style="font-size:20;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">Continue</tspan><tspan
          sodipodi:role="line"
          x="357.14285"
-         y="702.36218"
+         y="692.36218"
          id="tspan29153"
-         style="font-size:20px;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">in predicted</tspan><tspan
+         style="font-size:20;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">in predicted</tspan><tspan
          sodipodi:role="line"
          x="357.14285"
-         y="727.36218"
+         y="707.36218"
          id="tspan29155"
-         style="font-size:20px;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">direction</tspan><tspan
-         sodipodi:role="line"
-         x="360.32645"
-         y="752.36218"
-         style="font-size:20px;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
-         id="tspan29175">for some </tspan><tspan
+         style="font-size:20;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none">direction</tspan><tspan
          sodipodi:role="line"
          x="357.14285"
-         y="777.36218"
-         style="font-size:20px;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+         y="722.36218"
+         style="font-size:20;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+         id="tspan29175">for T<tspan
+   style="font-size:12"
+   id="tspan2490">lp</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="357.14285"
+         y="737.36218"
+         style="font-size:20;text-align:center;text-anchor:middle;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
          id="tspan29177">time</tspan></text>
     <g
        id="g29179"
@@ -659,5 +661,15 @@
          d="M 401.37053,177.01347 C 401.00685,177.01347 400.65962,177.08897 400.30803,177.23222 L 289.49553,177.23222 C 289.35186,177.20887 289.2035,177.20097 289.05803,177.20097 C 284.4029,177.20097 280.62054,189.29441 280.62053,204.20097 C 280.62053,219.10753 284.40289,231.20098 289.05803,231.20097 C 289.12006,231.20097 289.18382,231.20525 289.24553,231.20097 L 289.24553,231.51347 L 403.18303,231.51347 L 403.18303,230.41972 C 406.97979,227.79023 409.80804,216.95454 409.80803,204.01347 C 409.80803,191.07644 406.978,180.27225 403.18303,177.63847 L 403.18303,177.23222 L 402.46428,177.23222 C 402.11269,177.08897 401.73421,177.01347 401.37053,177.01347 z"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
-  </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2482"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Bitstream Vera Sans;font-style:normal;font-weight:normal;font-size:40px"><flowRegion
+         id="flowRegion2484"><rect
+           id="rect2486"
+           width="80.812202"
+           height="72.73098"
+           x="111.11678"
+           y="688.14154" /></flowRegion><flowPara
+         id="flowPara2488"></flowPara></flowRoot>  </g>
 </svg>

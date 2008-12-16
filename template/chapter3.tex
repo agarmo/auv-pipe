@@ -1,10 +1,7 @@
 \chapter{Simulations and Results}
 	\label{ch3}
-	To test the performance of the guidance system, it is implemented in matlab/simulink. A number of
+	To test the performance of the proposed guidance system, it is implemented in matlab/simulink. A number of
 	scenarios are used to test how it performes in various conditions.
-
-	The proposed system are greatly simplyfied and there are a number of situations that it will not work
-	well. This situations are also threated and discussed in the next chapter. 
 	
 
 \section{Matlab}
@@ -13,22 +10,38 @@
 	6DOF model.
 
 	The Camera output simulator were programmed in matlab. It inputs the position of the AUV and
-	transposes it to body coordinates to calculate the field of view of the camera. The camera are based
+	transforms it to body coordinates to calculate the field of view of the camera. The camera are based
 	on the pinhole camera model with unity focus distance, and a view angle of about 45 degrees. The
 	program then calculates the field of view of the camera and checks if there are any part of the
 	pipeline inside the field of view. The output of the camera are three points taken out at the top, the
-	middle and the bottom of the field of view.
+	middle and the bottom of the field of view. See Algorithm~\ref{alg:ch3-camsim}
+	\begin{algorithm}[htbp]
+		\hrule
+		\caption{Camera Simulatior($\eta(t)$, $z_b(t)$, $f$)}
+		\label{alg:ch3-camsim}
+		\hrule
+		\hrule\vspace{\onelineskip}
+		\begin{algorithmic}
+			\STATE FieldOfView $= f(\eta(t), z_b(t), f)$
+			\IF{Pipeline inside FieldOfView}
+				\STATE{PipelineSegment inside FieldOfView} to image cooridnates
+			\ENDIF
+			\RETURN{PipelineSegment in image coordinates}
+		\end{algorithmic}
+		\vspace{\onelineskip}\hrule
+		\vspace{0.2pt}
+	\end{algorithm}
 
 	A sonar which determines the altitude are implemented using a look-up table with a predefined bottom
 	profile.
 
 	The descision logic is implemented as a state machine with three states, and gives out the 
-	desired heading dependent on what state the system is in. Figure~\ref{fig:ch2-flowdiagram} shows the
-	flow of this logic.
+	desired heading dependent on what state the system is in. This implementation is in correspondance
+	with  Figure~\ref{fig:ch2-flowdiagram}.
 
 	The filter was created using a m-file and global variables for the filter parameters. The filter
 	parameters are as follows:
-	\begin{equation}
+	\begin{equation*}
 		P_0 = \left [ \begin{matrix}
 				10 & 0 & 0 & 0 \\
 				0 & 10 & 0 & 0 \\
@@ -36,7 +49,8 @@
 				0 & 0 & 0 & 0.1
 				\end{matrix} \right] \quad
 		W = 0.1 \mathbf{I}_{2x2} \quad Q = 10 \mathbf{I}_{2x2} 
-	\end{equation}
+	\end{equation*}
+	The $\mathbf{T}$ matrix are chosen to be diagonal with $1000$ at both elements.
 
 	The final simulink diagram are shown in figure \ref{fig:ch3_simulink}.
 	\begin{figure}[htbp]
@@ -45,13 +59,17 @@
 		\caption{The Simulink Diagram of the implemented Guidance System}
 		\label{fig:ch3_simulink}
 	\end{figure}
+	The structure of the model are strictly modular and the blocks shown in the simulink diagram have the
+	same function as in Figure~\ref{fig:ch2-blockdiagram}. This allows to update and improve the different
+	blocks individually, without designing a new system.
 
 	
 
 \section{Simulation Scenarios}
 	To test the performance of the guidance system some scenarios are proposed. In all the scenarios the
-	pipeline are located at the sea bottom around 10 meters bellow the surface. The AUV will start at the
-	surface and submerge towards the starting point of the pipeline or the mission. 
+	pipeline are located at the sea bottom around 10 meters bellow the surface.The depth is arbitarily
+	chosen and the value does change the scenarios except that the submerging time is longer. The AUV 
+	will start at the surface and submerge towards the starting point of the pipeline or the mission. 
 	\begin{description}
 		\item[\textbf{1$^{\mathrm{st}}$ Scenario}.] The pipeline are at the exact location acording 
 		to predefined data. Environmental disturbances such as currents are turned off. The pipelien are
@@ -61,13 +79,15 @@
 		it initially was layed. A section is burried, and not visible for the camera. Environmental
 		forces are turned on.
 		\item[\textbf{4$^{\mathrm{th}}$ Scenario}.] The \'a priori information about the pipeline 
-		are offset about 20 meteres to test the ability of the guidance system to search for the pipeline.
+		are offset about 50 meteres to test the ability of the guidance system to search for the pipeline.
 	\end{description}
 
 
 \section{Results}
-	Some of the results for the simulations scenarios are given here. But first a test of the low-speed
-	assumptions made for the controller design for the AUV. 
+	The matlab/simulink implementation were simulated with the given setup. A simulation were done to
+	check if the low speed assumptions were valid. After this the simulation of the scenarios were done
+	and produced the followin results.
+
 
 	\subsection{Test of the low-speed assumtion}
 		In figures \ref{fig:ch3_coriolis_forces} and \ref{fig:ch3_damping_forces} the forces and
@@ -78,22 +98,23 @@
 		the coriolis terms.
 		\begin{figure}[htbp]
 			\centering
-			\includegraphics[width=0.7\textwidth]{pics/coriolis_forces}
-			\caption{Plot of the Coriolis Forces Associated with the AUV Model}
-			\label{fig:ch3_coriolis_forces}
-		\end{figure}		
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.7\textwidth]{pics/damping_forces}
-			\caption{The Dampering Forces Associated with the AUV when Maneuvering}
-			\label{fig:ch3_damping_forces}
+			\subfigure[Coriolis Forces]{
+				\label{fig:ch3_coriolis_forces}
+				\includegraphics[width=0.7\textwidth]{pics/coriolis_forces}
+			}	
+			\subfigure[Dampering Forces]{
+				\label{fig:ch3_damping_forces}
+				\includegraphics[width=0.7\textwidth]{pics/damping_forces}
+			}
+			\caption{The Forces associated with the AUV maneuvering}
+			\label{fig:ch3-maneuvering forces}
 		\end{figure}
 		This suggests that the coriolis/centripetal forces can be neglected and compensated for as
 		model errors in the controller using integral terms.  
 
 	\subsection{1$^{\mathrm{st}}$ Scenario}
-		This is mostly a reference test to see how the guidance system performs on the ideal case.
-		This can show how sensitive the guidance system are with regard to current disturbances.
+		This is a reference test to see how the guidance system performs on the ideal case.
+		To show the sensitivity to the envirionmental disturbances, introduced in later scenraios.
 		\begin{figure}[htbp]
 			\centering
 			\includegraphics[width=0.7\textwidth]{pics/1st_NE_path}
@@ -106,14 +127,13 @@
 			\caption{Surge-, Depth- and Heading- Reference vs. Actual Values}
 			\label{fig:ch3_1st_uDpsi}
 		\end{figure}
-		The result of this test is purly for reference but it might be an idea to notice some things
-		about the simulations. 
 		
 		It can be seen from both Fiugre \ref{fig:ch3_1st_NE_path} and the
 		third plot on Figure \ref{fig:ch3_1st_uDpsi} that the heading reference, $\psi_d$ have some
 		oscilatory nature. This is because of the relatively low look-ahead distance defined in the
 		guidance algorithm. This can be analogus to when driving a car and you fix your gaze on
-		the road not very far ahead of the car, and you will get more uneasy driving and not so smooth motion. 
+		the road not very far ahead of the car, and you will get more uneasy driving and jerking
+		motion. 
 
 		The depth reference are given by the bottom which are constructed using a look-up table
 		created by a sinuosidal plane. The reference are followed pretty well. The delay on the
@@ -121,6 +141,10 @@
 		controlled, but are relayed through the \textit{pitch} degree of freedom. This could probably
 		have been reduced by feeding the reference into the controller as well. This will help the
 		controller predict the motion and compensate for it when it happens.
+
+		It is worth noting that the \textit{surge} speed overshoots, but is not seen as a problem for
+		further simulation and analysis. The overshoot can be removed by including derivative action
+		in the Speed controller. This would reduce the commanded force when reaching the set point.
 
 	
 	\subsection{2$^{\mathrm{nd}}$ Scenario}
@@ -133,30 +157,31 @@
 				\includegraphics[width=0.5\textwidth]{pics/2nd_NE_wpt}}
 			\subfigure[NE path with	Heading]{\label{fig:ch3_2nd_NE_path}
 				\includegraphics[width=0.5\textwidth]{pics/2nd_NE_path}} 
-			\caption{Plots of the AUV Showing Trajectory, Guidance Waypoints and Heading of AUV}
+			\caption{Plots of the AUV Showing Trajectory, Guidance Waypoints and Heading of AUV
+			second scenario}
 			\label{fig:ch3_2nd_NE_plots}
 		\end{figure}
 		In Figure \ref{fig:ch3_2nd_NE_wpt} the search waypoints are shown. The reason for the extra
 		``de-tour'' away from the pipeline are because of the short time delay befor considering the
-		pipeline lost. As seen in the First Scenario there are oscilations in the heading reference.
-		This cuases the AUV to drift off the pipeline trajectory and therefor loose visual contact
+		pipeline lost. As seen in the first Scenario there are oscilations in the heading reference.
+		This cuases the AUV to drift off the pipeline trajectory and therefor lose visual contact
 		with it. The system considers the pipeline as lost and generates a search pattern, the
 		``divergent zig-zag'' spoken of in Chapter \ref{subsec:ch2_searchpattern}. The time before
-		going into search mode are set to 25 seconds. This is a design parameter set by the operator.
+		going into search mode are set to 25 seconds.
 
 		\begin{figure}[htbp]
 			\centering
 			\includegraphics[width=0.70\textwidth]{pics/2nd_uDpsi}
-			\caption{Surge-, Depth- and Heading- Reference with Current influence}
+			\caption{Surge-, Depth- and Heading- Reference with Current influence second scenario}
 			\label{fig:ch3_2nd_uDpsi}
 		\end{figure}
 		When current are introduced the AUV heading are ``leaned'' toward the current. In Figure
-		\ref{fig:ch3_2nd_NE_path} the current are coming from the north-west corder, corresponding to
+		\ref{fig:ch3_2nd_NE_path} the current are coming from north-west, corresponding to
 		the upper right corner in the figure. This current will try to push the
 		AUV off the pipeline. The guidance system answers this disturbance by adjusting the heading
 		reference towards the current. This is one of the reasons why the lookahead distance are
 		chosen small, because of this the AUV will no drift far away from the pipeline. Since the
-		current are constant, a equilibrium will be achieved between the desired heading and the
+		current is constant, a equilibrium is achieved between the desired heading and the
 		current. The heading converges towards around $60^{\circ}$ instead of the pipeline direction
 		of $75^{\circ}$.
 
@@ -164,7 +189,8 @@
 		over the pipeline all the time. To strictly control the AUV to lay exactly over the pipeline
 		would use up much of the limited power supply. The objective of the AUV are not to stay
 		exactly over the pipeline but to provide good pictures and sensor data for later inspections 
-		by humans. 
+		by humans, because it might be easier to analyse a stable picture than a tightly regulated
+		motion which might cause a noisy picture. 
 
 		%\begin{figure}[htbp]
 		%	\centering
@@ -199,12 +225,15 @@
 		erotion, that shorten the lifetime of the pipeline. Sometimes this happens unintended. In
 		either case the need for more sensors which can penetrate the sea bottom and locate the
 		pipeline are needed. 
+
+		There are no turning trajectory generator implemented at this point, and will not be used in
+		the next scenarios either.
 		
 	
 	
 	\subsection{4$^{\mathrm{th}}$ Scenario}
 		The fourth Scenario is to demonstrate the capabilities for the AUV to aquiere the pipeline
-		when it is offset from where it was ment to be. 
+		when it is offset from where it was thought to be. 
 		
 		\begin{figure}[htbp]
 			\centering
@@ -216,7 +245,7 @@
 			for the 4$^{\mathrm{th}}$ Scenario}
 			\label{fig:ch3_4th_NE_plots}
 		\end{figure}
-		The AUV reaches the initial position where the pipeline were ment to be. It does not make
+		When the AUV reaches the initial position where the pipeline were ment to be. It does not make
 		contact with it there, then engages in a spiral search pattern. This search pattern are
 		administered by waypoints and the guidance uses the straight lines between the waypoints as
 		the track to follow. This causes the more polygonal look than spiral. 
@@ -226,7 +255,8 @@
 		angle. The \textit{matlab}-fucntion, \textit{atan2()} are used which outputs the angle in the
 		domain $(-\pi, \pi)$. Since the output from the AUV model are defined for all values, and this
 		are fed back to the controller a heading reference of 0 means that it must ``unwinde'' all
-		turns it has done, because this acumulate the yaw value beyond $2\pi$.
+		turns it has done, because this acumulate the yaw value beyond $2\pi$. This is an
+		implementation issue and is not caused by the theoretical guidance system.
 
 		The large overshoot when the AUV have located the pipeline are due to the current. This
 		pushes the AUV away from the trajectory. The current increases the velocity in a direction and

@@ -1,18 +1,12 @@
 \chapter{Theory}
-	The problem of pipeline following and inspection are a complex problem and will need much work and
-	study. This chapter introduces some of the basics about pipeline inspections and other aspects when
+	Pipeline inspection are a complex problem and include many engineering diciplines.
+	This chapter introduces some of the basics about pipeline inspections when
 	designing a guidance system capable of pipeline inspection. Basics on the mathematical model for
-	\textit{ḨUGIN 1000} will treated, together with some theory on how to model a camera view and how
-	movement of points are described in the camera view. In the last section of this chapter a brief
-	overview of guidance schemes and how various literature describes and solves the problem of pipeline
-	inspections.
+	\hugin will treated, together with some theory on how to model a camera view and how
+	movement of points are described in the camera view.
 
 \section{Pipeline Inspection Fundamentals}
-	There are many problems associated with pipeline inspection and guidance of Autonomous Vehicles. The
-	main problem is that the AUV need to act reasonable in every situation. The problem is to make the
-	system robust enough to counter every situation encountered by the vessel. 
-
-	There are a number of conditions the vessel must handle in order to be practical.
+	
 	
 	To include the right sensors are an important aspect of making an AUV follow a pipeline. There are
 	different sensors available which can be suited for this purpose. First the Multibeam Echosounder
@@ -24,13 +18,63 @@
 	waves in the horizontal direction and provides good sensor data of the bottom around 200-300 meters in
 	the horizontal direction. This sensor are usefull for initially finding the pipeline. A side scan
 	sonar picture of a pipeline gives very distinct shadows and are easily detected. 
+
 	
+\section{Different Methods for Pipeline Following Discussed in Literature}
+	A literature study was performed to see what other people have accomplished on the subject on AUV and 
+	pipeline following. 
+	
+	****************************************MORE****************************
+	\cite{piscis} describes briefly a prototype AUV equipped with a camera and sonar to carry out pipeline
+	inspection missions. The AUV uses controllers for heading, speed and depth and visual guidance to
+	follow the pipeline. 
+	
+	\cite{GuidanceReview} proposes to use a two-stage guidance problem. When submerging and ascending to the surface, 
+	the AUV uses a LOS guidance law at full speed. When the pipeline is acquired the guidance law is
+	switched to a visual guidance scheme, which allows for a precise guidance over the subsea cable or
+	pipeline. 
+		
+	In \cite{MPC_pure_pursuit} a guidance system using Model Predictive Control (MPC) and PNG law was used to make 
+	a guidance system able to track cables and pipelines on the sea bed using Doppler Velocity Log and Electro-
+	Magnetic sensors to find the cable/pipeline. The report utilises the pure pursuit scheme, similar to what 
+	predators do when they are hunting the pray. The cable/pipeline and AUV is formulated as moving points
+	with mass. The engages in a tail chase with the pipeline ``point'', but the AUV never catches up with it. This 
+	method is robust to model uncertainties and handles constraints of the vessel in a systematic way. The
+	controller however shows problems when a current are introduced in the system. The AUV drifts of the 
+	pipeline, but catches up with the waypoints in the end. This is due to the fact that the guidance
+	system are in a pursuit with the pipeline and the trajectory the AUV follows are not important. The
+	guidance system only tries to catch up with the pipeline ``point''.
+	
+	In \cite{Visual_inpsection_of_seabottom_by_AUV} a visual guidance system for inspection of underwater
+	structures is presented. The visual system uses an Extended Kalman Filter to smooth and predict where 
+	the structure i.e. pipeline will move in the next sample interval of for the image processing software. 
+	A three dimensional model of the scene is constructed which then allows the guidance system to calculate 
+	an input to the controllers.
+	
+	\cite{reactive_control_AUV} proposes a reactive control approach to pipeline tracking together with a 
+	profiling sonar. Reactive control originated from the field of obstacle avoidance in autonomous land and air 
+	vehicles. It uses \textit{Deformed Virtual Zones} (DVZ) which describes the interaction between the AUV and 
+	the pipeline. The controller tries to minimise the deformation of the DVZ and calculates a feasible
+	control input. The DVZ in this case is a prism with a cylindrical cavity directly underneath the AUV. If the AUV
+	moves away from the pipeline the DVZ will be deformed and the controller will try to counteract the 
+	motion. This is a computational inexpensive way of achieving a good pipeline following. This 
+	method shows promising results but has yet to be implemented and tested in real-life scenarios. 
+	
+	In \cite{fuel_optimal_control} a fuel-optimal tracking controller is derived to minimise the fuel
+	consumption of the AUV. It uses the fact that the least fuel consuming path is the shortest one. This
+	paper derives a fuel optimal controller using the estimated fuel consumption as a minimisation index. 
+
+	\cite{side_scan_sonar} describes two techniques for detecting and tracking pipelines using Side Scan
+	Sonar and Multi-Beam Echosounders. Prior knowledge about the pipeline are utilised for the recognition
+	of the pipeline. A pipeline creates very distinct shadows in a side scan sonar image and are easy to
+	separate from the sea bottom.
+
+
+
 \section{Reference systems}
-	Reference systems is an important part of analysis of moving dynamical systems. When one derive the motion of 
-	a system one will need some reference frame to calculate the motion relative too. There are a couple
-of different 
-	reference systems used today. One is the ECEF-frame (Earth-Centred, Earth-Fixed), which has the centre
-of the 
+	When treating motion of a system one will need some reference frame to calculate the motion 
+	relative too. There are a couple of different reference systems used. One is the ECEF-frame 
+	(Earth-Centred, Earth-Fixed), which has the centre of the 
 	earth as the origin of the frame. The frame rotates with the earth, but when the speed of the vessel is low, 
 	this frame can be considered inertial. \cite{gps_bok}
 	
@@ -74,36 +118,30 @@ directed
 	\end{align*}
 	The Equation \eqref{eq:ch1-model} describes the kinematics and kinetics for the model. It is in the 
 	mathematical sense just a Mass-damper-spring system. The Coriolis term, $\mathbf{C}(\mathbf{\nu})$,
-is 
-	a skew-symmetric matrix.
+	is a skew-symmetric matrix appering because the dynamics are formulated in a non-inertial frame.
+
+	The $\damping$ matrix are the damping forces, including drag from the surrounding water. $\restoring$
+	are the restoring forces acting on the AUV. The gravity and bouyancy forces are represented by
+	six-dimentional vector.
 	
 	The $\rotation$ matrix is the rotation matrix of Euler coordinates which relates the velocity of the 
-	vessel to actual movement in the global reference system.
+	vessel to actual movement in the NED reference system.
 
 
 
 
 \section{Camera theory}
 	\label{ch1-cameramodel}
-	Using camera for control is not a straight forward problem. Calculations are needed to relate the data
-discovered 
-	by the camera to the real world which the vessel is operating in. This imply that coordinates of a 2D
-point in 
-	the camera have to be transformed into a 3D point which can be used by the control system on board the
-AUV. Since 
-	we are going from less knowledge about a point to more knowledge about a point, some things are needed to be 
-	estimated or measured to gain the ability to solve the 2D to 3D problem exactly.
-	
 	The camera properties or parameters can be divided into two categories; the intrinsic parameters and
-extrinsic 
-	parameters. The intrinsic parameters are constant parameters and vary from camera to camera. It is the focus 
-	distance and image distortion of the pixels away from the centre of the camera. The extrinsic
-parameters relate 
-	the position of the point relative to camera coordinates. These parameters are of course dependant on
-the 
-	position of the camera and change with time. \cite{robotbok}
-	
-	
+	extrinsic parameters. The intrinsic parameters are constant parameters and vary from camera to camera.
+	It is the focus distance and image distortion of the pixels away from the centre of the camera. 
+	The extrinsic parameters relate the position of the point relative to camera coordinates. 
+	These parameters are of course dependant on the position of the camera and change with time. 	This imply that 
+	coordinates of a 2D point in the camera have to be transformed into a 3D point which can be used 
+	by the control system on board the AUV. Since 
+	we are going from less knowledge about a point to more knowledge about a point, some things are needed to be 
+	estimated or measured to gain the ability to solve the 2D to 3D problem exactly.\cite{robotbok}
+
 	Suppose a point in the world reference system, denoted by, $P_w \in \mathbb{R}^3$. The same point
 	represented in the camera frame, $P_c$ are related to $P_w$ by a rotation matrix, $\mathbf{R} \in
 	SO(3)$. This gives the following equation: 
@@ -114,7 +152,10 @@ the
 	described by the equation
 	\begin{equation}
 		\label{eq:ch1-P_c}
-		P_c = \mathbf{R}^T (P_w - O(t))
+		\begin{aligned}
+			P_c &= \mathbf{R}^T (P_w - O(t)) \\
+			\mathbf{R}^T &= \mathbf{R}^{-1} 
+		\end{aligned}
 	\end{equation}
 
 	A pinhole camera model are used to capture $P_c$ to image coordinates, $P_i \in
@@ -123,8 +164,8 @@ the
 	infinitesmall hole, or point, located in the origin of the camera frame.   
 	\begin{figure}[hbtp]
 		\centering
-		\includegraphics[width=0.7\textwidth]{pics/pinhole_model2}
-		\caption{Pinhole Camera Model}
+		\includegraphics[width=0.6\textwidth]{pics/pinhole_model}
+		\caption{Pinhole Camera Model showing two dimentions}
 		\label{fig:ch1-pinhole}
 	\end{figure}
 			
@@ -151,32 +192,53 @@ the
 	usually employed in navigation applications to fuse GPS and INS together. By this way one will have
 	the speed and resolution of an INS system and the precision of the GPS system.
 	
-
-	The Kalman Filter is as stated before a very versatile tool which can be employed allmost in
-	any application. The downside with the Kalman filter is that it is a Linear system, and can only
-	guarantee optimality for linear systems. The system considered in this report is nonlinear and one can not
-	use the Kalman filter directly on this system. There is a nonlinear version of the Kalman filter, the
+	The Kalman Filter an optimal filter can be employed allmost in any application. It is optimal in 
+	the sense of providing the minimum-variance estimate of the predicted prosess.  The Kalman 
+	filter is a linear filter, and can only
+	guarantee optimality for linear systems. There is a nonlinear version of the Kalman filter, the
 	Extended Kalman Filter, which uses the same assumptions as the linear version but uses the nonlinear
-	model to predict the state forward. When updating the Covariance matrix the system equations are
-	linearised around the current estimate and updated according to certain update laws. This introduces
-some
-	significant problems. First the filter might converge towards wrong values, because of a non-positive-definite
-	covariance matrix. This is mostly due to poor linearisation of the state equations. \cite{kalman}
+	model to predict the state forward while it used a linearised version of the measurement equation. 
+	When updating the Covariance matrix the system equations are linearised around the current estimate 
+	and updated according to certain update laws. 
 	
-\section{Guidance Algorithms}
+	********************MER INFO**************
+	This introduces
+	some significant problems. First the filter might converge towards wrong values, because of a 
+	non-positive-definite covariance matrix. This is mostly due to poor linearisation of the state 
+	equations. \cite{kalman}
+	
+\section{Guidance}
         \label{chap1-guidance-alg}
-        The guidance algorithm is one of the most important part of an autonomous vehicles control system. It
-	needs to be robust and be able to handle most situations. A guidance system should be able to give
+	Most of the guidance algorithms originates from airborne missile systems. This have been well
+	documented and proven to work in numerous cases. Common guidance schemes such as Line-of-sight (LOS)
+	and Proportional Navigation Guidance (PNG) and various implementations of these are employed in
+	numerous guidance systems. 
+	
+	Guidance are defined according to \cite{guidance_def}
+	\begin{definition}
+		\label{def:ch1_guidance}
+		The process of guiding the path of an object towards a given point, which in general may be
+		moving.
+	\end{definition}
+	It is also convenient to define two levels of guidance.
+	\begin{definition}
+		The process of making an object converge geometrically to a given point or path is known as
+		path following.
+	\end{definition}
+	\begin{definition}
+		The process of making an object follow a gemoetric path with given dynamical constraints
+		possibily dependant on position and time at the given path is known as trajectory tracking.
+	\end{definition}
+	The guidance systems discussed later will concern the first problem. The second problem will be
+	disregarded and assumed that the dynamical constraints are constant and met. \cite{guidance-path-2d-3d}
+
+	The guidance system need to adress the importance of a optimal paths. Optimal in the sense
+	of energy consumption. A guidance system should be able to give 
 	feasible commands to the lower level control system which controls the actuators, and should be able
 	to handle most situations with care. The guidance system should decide the best trajectory to be
 	followed based on the target location and physical capabilities of the system.\cite{GuidanceReview}
 
-	Most of the guidance algorithms originates from airborne missile systems. This have been well
-	documented and proven to work in numerous cases. Common guidance schemes such as Line-of-sight (LOS)
-	and Proportional Navigation Guidance (PNG) and various implementations of these are employed in
-	numerous guidance systems.
-	
-		\begin{figure}[hbtp]
+	\begin{figure}[hbtp]
 		\centering
 		\includegraphics[width=0.83\textwidth]{pics/waypoint}
 		\caption{Variables associated with path following}
@@ -186,10 +248,14 @@ some
 	cross-track error, $e$ are an important aspect here. It is the lateral position error decomposed in
 	the desired path reference frame. Another variable worth noting is $\Delta$ which is the look-ahead
 	distance. This is analogous to when you drive a car you look farther down the road to better maneuver
-	the car. A great look-ahead distance yields smooth heading reference but slower convergence of the
+	the car. A great look-ahead distance yields less aggressive heading reference but slower convergence of the
 	cross-track error. A lower look-ahead distance gives an aggressive heading reference and fast
 	convergence of the cross-track error. The $s$-variable are called the along-track distance from point
 	$P_k$. 
+
+	The choice of linear path following is because the simplicity asociated with the implementation, but
+	this concept might easily be generalised to non-linear paths with the use of Serret-Frenet frame
+	\cite{modsim}.
 	
 	
 	\subsection{Line-of-Sight Guidance Law}
@@ -198,13 +264,14 @@ some
 		angle as a reference heading.
 
 		The LOS-angle is fed directly into the 
-		heading controller as a reference. When ocean currents and disturbances are present, a
-		modified guidance law is presented. This uses the Side Slip angle, defined as:
+		heading controller as a reference. To make this law more tolerant to ocean currents 
+		and disturbances, a modified guidance law is presented. This uses the Side Slip angle, defined as:
 		\begin{equation}
 			\label{eq:ch2-sideslip}
 			\beta = \sin^{-1} ( \frac{v}{\sqrt{u^2 + v^2 + w^2}})
 		\end{equation}
-		The new heading reference is then taken as
+		The Side Slip angle are the deviation of the velocity vector from the current heading of the
+		vessel.	The new heading reference is then taken as
 		\begin{equation}
 			\label{eq:ch2-los-law}
 			\psi_d = \psi_{LOS} - \beta
@@ -227,49 +294,46 @@ some
 		\cite{guidance_planar_path}
 	
 	\subsection{Lookahead-based Guidance}
-		Here the lookahead distance are utilised when calculating the desired heading. If $\psi_d$ are
-		chosen as:
+		By using the direction of the line segment, path or pipeline, which finally are the desired
+		heading that we want to achieve, $\psi_d$ can be chosen as:
 		\begin{equation}
 			\psi_d = \alpha_k + \psi_r
 		\end{equation}
-		where $\alpha_k$ is the angle of the path and
+		where $\alpha_k$ is the direction of the path and
 		\begin{equation}
 			\psi_r = \tan^{-1} (\frac{-e}{\Delta})
 		\end{equation}
+		which can be seen as a correction term to make the dersired heading converge towards the path.
+
 		By choosing $\psi_r$ in this way the heading is always directed towards the lookahead point at
 		the path. It is then easily seen that the cross-track error will converge to zero. This
 		method is easier and less computationally intensive than the previously stated Radius-based
 		guidance. \cite{guidance_planar_path}
-
-		This method are implemented in the guidance system, because of it simplicity and robustness.
-		This method are chosen because pipelines are mostly made up of linear segments. 
-
 	
 	\subsection{Proportional Navigation}
-		Proportional Navigation Guidance is more effective that LOS-guidance in case of a
-		non-maneuvering
-		target. It gives less interception time than LOS. The PNG-law can be stated as the following:
-		\cite{GuidanceReview}
+		Proportional navigation guidance (PNG) are shown to give less interception time than LOS guidance,
+		and therby reducing the distance traveled. \cite{GuidanceReview}
+		
+		The PNG-law can be stated as the following:
 		\begin{equation}
 			\eta_c = N' V_c \dot{\lambda}
 		\end{equation}
 		where $\eta_c$ is the acceleration command, $N'$ is the navigation ratio, $V_c$ is the closing
 		velocity, and $\dot{\lambda}$ is the line of sight angular velocity. The navigation ratio is a
-		tuning
-		parameter which will give higher demanded acceleration and thereby reaching the target in less
-		time.
-
-        	The guidance laws mentioned above does not work so well with maneuvering targets and lots of
+		tuning parameter which will give higher demanded acceleration and thereby reaching the target 
+		in less	time.
+		
+		Proportional Navigation Guidance can be shown to be optimal in case of a non-maneuvering
+		target. When presented with maneuvering targets the scheme does not perform that well, but lots of
 		solutions have been proposed to make these laws more effective when dealing with moving
 		targets. In this case the targets will be non-moving waypoints and the maneuvering laws
 		will not be discussed here.
-		
+
 	\subsection{Various Guidance Concepts}
 		A unified path following controller are derived in \cite{control-concept-AUV}. The 
 		authors proposes a singel control structure which will work for the entire velocity regime.
 		The controller is derived using backstepping. The concept are shown to be Uniform Global
-		Exponentially Stable under some assumptions about the guidance signals. The controller will
-not
+		Exponentially Stable under some assumptions about the guidance signals. The controller will not
 		work without properly generated references. The AUV considered here are fully actuated for low
 		speeds but becomes under-actuated for higher speeds. The controller guarantees that the AUV
 		converges towards the desired path regardless of if it is underactuated or fully actuated.
@@ -280,59 +344,4 @@ not
 		pitch and yaw rates which can cause overshoot. The guidance scheme are compared against a LOS
 		guidance system and gives good results.
 	
-	
-\section{Different Methods for Pipeline Following Discussed in Literature}
-	A literature study was performed to see what other people have accomplished on the subject on AUV and 
-	pipeline following. 
-
-	\cite{piscis} describes briefly a prototype AUV equipped with a camera and sonar to carry out pipeline
-	inspection missions. The AUV uses controllers for heading, speed and depth and visual guidance to
-	follow the pipeline. 
-	
-	\cite{GuidanceReview} proposes a 2-stage guidance problem. When submerging and ascending to the surface, 
-	the AUV uses a LOS guidance law at full speed. When the pipeline is acquired the guidance law is
-switched 
-	to a visual guidance scheme, which allows for a precise guidance over the subsea cable or pipeline. 
-		
-	In \cite{MPC_pure_pursuit} a guidance system using Model Predictive Control (MPC) and PNG law was used to make 
-	a guidance system able to track cables and pipelines on the sea bed using Doppler Velocity Log and Electro-
-	Magnetic sensors to find the cable/pipeline. The report utilises the pure pursuit scheme, similar to
-what 
-	predators do when they are hunting the pray. The cable/pipeline and AUV is formulated as moving points
-with 
-	mass. The engages in a tail chase with the pipeline ``point``, but the AUV never catches up with it. This 
-	method is robust to model uncertainties and handles constraints of the vessel in a systematic way. The
-controller
-	however shows problems when a current is introduced in the system. The AUV drifts of the pipeline, but catches 
-	up with the waypoints in the end.
-	
-	In \cite{Visual_inpsection_of_seabottom_by_AUV} a visual guidance system for inspection of underwater
-structures 
-	is presented. The visual system uses an Extended Kalman Filter to smooth and predict where the structure i.e. 
-	pipeline will move in the next sample interval of for the image processing software. A 3 dimensional
-model 
-	of the scene is constructed which then allows the guidance system to calculate an input to the
-controllers.
-	
-	\cite{reactive_control_AUV} proposes a reactive control approach to pipeline tracking together with a 
-	profiling sonar. Reactive control originated from the field of obstacle avoidance in autonomous land and air 
-	vehicles. It uses \textit{Deformed Virtual Zones} (DVZ) which describes the interaction between the AUV and 
-	the pipeline. The controller tries to minimise the deformation of the DVZ and calculates a feasible
-control input. 
-	The DVZ in this case is a prism with a cylindrical cavity directly underneath the AUV. If the AUV
-moves away from 
-	the pipeline the DVZ will be deformed and the controller will try to counteract the motion. This is a 
-	computational inexpensive way of achieving a good pipeline following. This method shows promising results 
-	but has yet to be implemented and tested in real-life scenarios. 
-	
-	In \cite{fuel_optimal_control} a fuel-optimal tracking controller is derived to minimise the fuel
-consumption 
-	of the AUV. It uses the fact that the least fuel consuming path is the shortest one. This
-	paper derives a fuel optimal controller using the estimated fuel consumption as a minimisation index. 
-
-	\cite{side_scan_sonar} describes two techniques for detecting and tracking pipelines using Side Scan
-	Sonar and Multi-Beam Echosounders. Prior knowledge about the pipeline are utilised for the recognition
-	of the pipeline. A pipeline creates very distinct shadows in a side scan sonar image and are easy to
-	separate from the sea bottom.
-
 

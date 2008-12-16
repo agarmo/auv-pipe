@@ -1,18 +1,61 @@
 \chapter{Conclusions}
+	In this report the topic of designing a guidance system capable of pipeline inspeciton 
+	for the \hugin AUV have been treated. This report have looked at some basics regarding pipeline
+	inspection. A literature study on how pipeline inspection can be preformed was done, and summarised in
+	the report. Some basics about guidance was reviewed.
 
+	A proposed guidance system were also designed. The system includes a flight-mode controller, a
+	guidance algorithm and a Kalman filter to fuse measurements and prior knowledge about the pipeline
+	together. The filter will also smooth the output from the sensors to provide a continous reference for
+	the guidance algorithm. 
 
+	The controller designed are three independent PI-, and PID-controllers. Which were tuned according to
+	stability and simulations.
 
+	The behaviour of the guidance system were defined and examined. Some search patterns were discussed,
+	and found that they should be customised with regard to how well the mission area are known and how
+	certain the data about the pipeline are. 
+	
+	The system were implemented in Matlab/simulink and 4 independent simulations were run, demonstrating
+	different abilities with the given guidance system. The system shown results and the given setup
+	worked, also in the presence of ocean current. The simulations were discussed with regard to energy
+	efficiency and pipeline following capabilities. The most optimal path to follow concerning energy
+	optimality when the velocity are constant is the shortest path, in most cases the linear segments
+	between two points. 
+	
+	Whenever the AUV are tracking, the the motion above the pipeline should be constrained to be in the
+	vicinity of the pipeline but not strictly above it all the time. The primary mission of the inspection
+	should be to provide good, easy-to-analyse sensor data which in most cases include trying to maneuver 
+	the AUV as smoothely as possible. 
 
+	The camera should be aided with other sensors, such as Side Scan Sonar and Multibeam Echosounders.
+	Theses sensors help with detection of the pipeline and will also provide data about the condition of
+	the pipeline. 
 
+	The strict modularity of the guidance system presented in this report allows for easy upgrades and
+	improvment to the different blocks in the system. In further work with this problem the guidance
+	system will be easy to upgrade, with more advanced controllers or guidance algorithms. The simulation
+	environment are present and gives good results, but the control of the system should be better in
+	order to implement in a real application.
 
+	
 \section{Further Work}
-	Topics for further work and testing:
+	As stated before the whole pipeline inspection problem are not treated in a single report. There are
+	much work do be done before this can be transformed into real life application.
+	
+	First the guidance should handel three dimentional guidance with nonlinear paths. A possible way to 
+	do this is to use unified guidance controller proposed in \cite{control-concept-AUV}. This is a 
+	controller for the whole non-zero speed regieme.
+
+	The Kalman filter should be designed to include readings from other sensors like Side Scan Sonar,
+	Echosounders, and other possible sensors available for the inspection mission. The filter should be
+	expanded to be capable of three dimentional prediction and a more sofisticated prediction might be
+	used to get good results for the predictions. 
+
+	
+
 	\begin{itemize}
-		\item Obstacle aviodence
-		\item Roll Stabilization
 		\item Optimal guidance and path planning
-		\item Learing algoritmes, Generic algoritms for obstacle  aviodance and advanced path
-		planning.
 	\end{itemize}
 
 

@@ -2,9 +2,6 @@
 	This chapter will summarize and discuss the results in the previous chapter.
 
 \section{Guidance System}
-	The guidacen system are greately simplifyed. In this section these simplifications will be adressed
-	and other possible errors and shorcomings will be treated. 
-
 	This Guidance system are designed for long, straight pipeline streches. It will not be able to handle
 	sudden turns in the pipeline direction, without spcifying this in the guidance system. This can be
 	included as waypoints where the pipeline are changing, and be included as a condition; \textit{when the AUV
@@ -14,7 +11,7 @@
 	camera have a very limited field of view, usually restricted to less than 3 meters. A Side Scan Sonar
 	comined wiht a Forward Looking Sonar, which provides sensor data of the pipeline in front of the AUV
 	will give the guidance system some data to descide and predict what it will do if there is a sharp
-	turn in the pipeline. 
+	turn in the pipeline.
 
 	Sharp turns are rare, and are a product of T-junctions and other couplings of pipelines. These
 	junctions are usually well documented, and given good and exact locations. But if the navigation
@@ -25,15 +22,14 @@
 
 	The navigation system of \textit{HUGIN 1000} are a Velocity Aided Inertial Navigation System. This
 	utilises a Doppler Velocity Log to measure the velocity relatively to the sea bottom and input this to
-	the INS system. The INS systems usually installedn on the \textit{HUGIN} are in the 1 nmi/h class, i.e
-	the INS system drifts less than 1 nmi/h. This results in a drift in the navigation system equal to
+	the INS system. The INS systems usually installed on the \hugin are in the 1 nmi/h class, i.e
+	the INS system drifts less than 1 nmi in an houre. This results in a drift in the navigation system equal to
 	0.11 \% of the traveled distance along the track, and about 0.03 \% error in the across distance of a
-	stright line track. \cite{INS_Hugin}. This can be enough to throw the guidance system off course,
+	stright line track according to \cite{INS_Hugin}. This can be enough to throw the guidance system off course,
 	because the field of view of the camera are relatively small.
 
-	***********************************************
-
-	There are ways of improving the INS drift, one is to use GPS update fixes, but this requiers to
+	There are ways of improving the INS drift and therby improving the position estimate, one is to use 
+	GPS update fixes, but this requiers to
 	surface the AUV once in a while. This is of course not a good idea when the AUV are at great depths.
 	There are posibilities to use sea bottom anchored position bouys, which exact position are known and
 	the AUV might use these bouys by pinging them and getting a updated position estimate. This is a good
@@ -46,10 +42,9 @@
 	mision. The autonomicity of the AUV are the reduced, and the vehicle are not capable of operating on
 	its own. 
 
-	**********************************************
-
-	The problem regarding when $\psi \rightarrow 2\pi$ problem, there are a number of solutions for this.
-	The first is to limit the sensor output, which are the case in the real world, since a compass
+	The problem regarding when $\psi \rightarrow 2\pi$ problem as mentioned in the previous chapter is a
+	implemntation issu. There are a number of solutions for this.
+	The first is to limit the sensor output, which is the case in the real world, since a compass
 	measuring \textit{yaw} only are defined for $(0, 2 \pi)$. The controller can handle this by including
 	a chech wheter if its heading are larger than $\pi$, the given command will be to the right, and
 	opposite if the measured heading are smaller than $\pi$.
@@ -64,12 +59,12 @@
 \section{Roll Stabilization}
 	The mission of the AUV are to provide good data for later use, i.e good pictures to be analyzed later.
 	The camera on the AUV are mounted downwards and the field of view are affected by roll and pitch.
-	Pitch are a contorl angle, but the Roll motion have no direct control measures. The roll angle need to
-	be as close to 0 as possible to provide best pictures of the current sea bottom. Imagine if the AUV
-	were to move upside-down above the sea bottom. The plots in Figure~\ref{fig:ch4_rollyawmoment}
-	are taken from the $4^{\mathrm{th}}$ Scenario described in Chapter~\ref{ch3}, to look at \textit{HUGIN
-	1000}'s stability in roll.
-	
+	Pitch are a control angle, but the Roll motion have no direct control measures. The roll angle need to
+	be as close to 0 as possible to provide best pictures of the current sea bottom.
+	The plots in Figure~\ref{fig:ch4_rollyawmoment}
+	are taken from the $4^{\mathrm{th}}$ Scenario described in Chapter~\ref{ch3}, to look at \hugin's 
+	stability in roll.
+
 	\begin{figure}[htbp]
 		\centering
 		\subfigure[Roll Angle]{
@@ -83,7 +78,8 @@
 	\end{figure}
 	Figure~\ref{fig:ch4_rollyawmoment} shows the relation between commanded yaw moment and the roll angle.
 	Clearly there are coupling effects which causes the roll angle to change a few degrees. The roll angle
-	magnitude are about $2^\circ$ when the \textit{surge}-velocity are 2 m/s. But the roll angle are not
+	magnitude are about $2^\circ$ when the \textit{surge}-velocity are 1 m/s. The values of the
+	\textit{roll} angle are doubled if the velocity are doubled. But the roll angle are not
 	of greate concern when carrying out this kind of inspection missions, as these simulations show.
 
 	
@@ -95,16 +91,16 @@
 			\tau_4 &= Q_{nn} n^2 + Q_{un} n u
 		\end{aligned}
 	\end{equation}
-	where $n$ are the angular speed of the main propeller in Revolutions per minute, and $u$ are again the
+	where $n$ are the angular speed of the main propeller in revolutions per minute, and $u$ are again the
 	surge velocity. The second terms in the equation above are terms descibing loss-of-force due to
 	forward speed. The moment in roll are actually countered by weightin the AUV down on one side so that when
 	the it reaches cruice velocity the AUV have zero roll angle. \cite{Bjorn_gjelstad_talk}
 
-	This is due to some of the design features of \textit{HUGIN} AUV. It is designed to be
+	\hugin AUV are designed to be
 	asymptotically stable in roll, due to the centre of bouyancy (CB) are located not exactly in the centre of
 	gravity (CG). The AUV would not need roll stabilisation becuase it shows to be very stable in roll.
 	Another case is that if roll stabilisation were to be implemented it would be done by using the
-	rudders, and this would cause an increase in power consumption that would not be advisable. 
+	rudders.
 
 
 \section{Energy Consumption}
@@ -120,13 +116,12 @@
 
 	The actuator set-up of \hugin  are with 4 rudders, one main propeller and 4 thurusters. This renders
 	the AUV controllable in 5 DOFs. The thrusters demand more power than the main propeller
-	and rudders, and have been completely disregarded throughout this report. The most energy efficient
-	way of moving is using the main propeller and the rudders to navigate the AUV.
+	and rudders, and have been disregarded throughout this report. 
 
 	The most energy efficient way of guiding an AUV is to use its main propeller and rudders. But there
 	might be different ways of optimising the power consumption with regard to how the AUV are searching
-	for and tracking the pipeline. The forces produced by for instance the vertical rudders, the moment
-	produced by this rudders are proportional to the surge velocity squared.
+	for and tracking the pipeline. The moment produced by for instance the vertical rudders, are 
+	proportional to the \textit{surge-}velocity squared.
 		\begin{equation}
 			\tau_6 = Y_{u\psi} \delta u^2
 		\end{equation}
@@ -137,9 +132,15 @@
 	report.  
 
 	The energy consumption are very dependent on how the AUV moves. If it are taking unnescecary turns the
-	movemente pattern are not optimal. In this sense the shortest distance traveled is the most optimal
-	movement pattern. The guidance system should always take the shortes path to the goal, if the
-	environment allows it. 
+	movemente pattern are not optimal. If the forward speed are taken constant the power consumption will
+	decrease the shorte time it is in flight. In this sense the shortest distance traveled is the most optimal
+	movement pattern. This motivates the designer to make the guidance system to always calculate the shortes 
+	path to the goal, if the environment allows it. This opens for a more advanced mode of the tracking
+	system, which the constraint that the AUV should strictly follow the pipeline is relaxed. If sensors
+	like Side Scan Sonar or other sensors with longer range than a video camera are included, these can 
+	be used to give good data about the pipeline even if it
+	is not in the camera field of view. The relaxation in the tracking constraints might allow the AUV to
+	move more efficient in terms of energy.
 	
 	\cite{fuel_optimal_control} proposes an optimal guidance scheme. Using the
 	fuel consumption as a performance index and optimize with regard to the current forces in the area of
@@ -155,11 +156,9 @@
 	to the guidance system. The guidance system needs to be robust and take the right descision. Too
 	maximise the operation time it can not afford to take wrong decisions. This is almost impossible to
 	achieve and can only be done through extencive testing of the complete syste, it is important tto
-	chose the right way to go when you have limited power capability.This motivates the use of more
-	sensors, to increase the chances of not giving bad and erronous sensor data to the guidance system.
-	IThe guidance system needs to be robust and take the right descisio. Too maximise the operation time
-	it can not afford to take wrong decisions. This is almost impossible to achieve and mcan only be done
-	through extencive testing of the complete system.
+	chose the right way to go when you have limited power capability.
+
+	***************RANGE**************EQN*********
 
 \section{Optimal Search Pattern}
 	As discussed above, the need for efficient search pattern are crucial to maximising the operation
@@ -169,7 +168,23 @@
 	position identification and navigation. Or are there obstacles in the area that the AUV should avoid
 	completely, such as mines. 
 
+	In general the more you know about the mission area, the better can you prepare the AUV for the
+	mission. If there are known features on the sea bottom, those can be used as reference marks and
+	navigation of the AUV. This allows for more customised search pattern which suit the mission area. 
+
 \section{How valid are the results?}
 	The analysis done in this report are ment to be a pre-study of the problems assosiated with this
-	complex pipeline inspection problem.
+	complex pipeline inspection problem. Most of the topics covered in this report need more study to get
+	valid results to how it will work on the real thing. But it shows some key features for
+	a future design.
 
+	The distance covered by piplines are large, but most of the pipelines layed today are flexible
+	pipelines and can curve quite a lot, and the asumption about linear pipeline segments are abit to
+	simplifying. On the other hand it is not difficult to generalise the guidance system to consider
+	nonlinear paths.
+
+	The visibility is another topic about this simulations. The visibility are quickly degrading as depth
+	increases, and to get good pictures there must have a good source of light. The visibility at 300
+	meters are probably less than 3 meters. This will greatly decrease the field of view of the camera.
+
+	
