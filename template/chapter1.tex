@@ -72,31 +72,27 @@
 
 
 \section{Reference systems}
-	When treating motion of a system one will need some reference frame to calculate the motion 
-	relative too. There are a couple of different reference systems used. One is the ECEF-frame 
-	(Earth-Centred, Earth-Fixed), which has the centre of the 
-	earth as the origin of the frame. The frame rotates with the earth, but when the speed of the vessel is low, 
-	this frame can be considered inertial. \cite{gps_bok}
+	Movement must be described relative to something. This is the task of the reference systems. There are
+	4 important reference system. The ECI (Earth Center Inertial) which is a truly inertial reference
+	frame, i.e. it is not accelerating. Its axis are pointing through the north pole and through the
+	equatorial line of the Earth fixed toward stationary points in space, the center is as the name
+	suggests in the center of the Earth. 
 	
-	Another common reference frame are the NED frame (North-East-Down). It is defined as the tangential
-plane at 
-	the earth's surface moving with the vessel. It assumes that the Earth's rotation can be neglected, and this means 
-	that frame is not valid for inter-continental travel, because it is not strictly inertial. It is defined with 
-	the x-axis pointing towards the Earth's true north, the y-axis pointing towards the east, and the z-axis 
-	pointing downwards toward Earth's centre. The NED-frame is defined relative to the ECEF-frame by the
-means of 
-	two angles, \textit{longitude} and \textit{latitude}. This is the global reference system that will be used 
-	in this report. \cite{fossen}
-	
-	The last reference system used is the Body-frame, which all forces, moments, linear velocities and angular 
-	velocities will be expressed in. This frame has it's centre in the Centre of Gravity (CG) of the
-vessel. The 
-	x-axis is defined in the longitudinal axis of the vessel, y-axis to the right, and the z-axis is
-directed 
-	downwards to complete the right hand-system. The body-frame values are transformed to the NED-frame by the means 
-	of a Rotation matrix.
-	
-	
+	ECEF (Earth-Center Earth-Fixed) is another reference frame. It is defined as the ECI coordinate
+	system, but this frame is rotatiting with the earths rotiaton rate. Which means that this frame is not
+	strictly inertial, but the angular velocity of the Earths rotation are considered very small, and can
+	be neglected compared to other velocities in the same frame. Position on the earth are described by
+	\textit{longitude} and \textit{latitude}.
+
+	An important reference frame when considering local motion are the NED (North East Down) frame. This
+	frame is defined as the tangent plane on the current position, and moving with the object. The axis
+	are pointing towards north, east and down. This frame can be used in local, and small areas, but are
+	not valid for intercontinental travel. This frame will primarily be used in this report. 
+
+	The last but important frame are the Body frame, which is the local frame of the object of interest.
+	The body frame are defined as the x-axis along its forward movment, y-axis to the right of the movment
+	direction, and the last pointing downward, to complete the right-hand system. This frame are
+	convenient when defining velocities, forces and moments.
 	
 
 \section{Hydrodynamic Model}
