@@ -157,6 +157,21 @@ zlabel('-Down [m]')
 grid on
 legend('AUV Trajectory', 'Desired Heading-Pitch', 'Actual Heading-Pitch', 'Pipeline Trajectory')
 
+
+figure(11)
+subplot(3, 1 , 1)
+plot(P_pred.time, P_pred.signals.values(:,1)-P_post.signals.values(:,4))
+gird on
+title('Difference between predicted x and updated x value')
+subplot(3, 1 , 2)
+plot(P_pred.time, P_pred.signals.values(:,2)-P_post.signals.values(:,5))
+grid on
+title('Difference between predicted y and updated y value')
+subplot(3, 1, 3)
+plot(diag_p_apr.time, diag_p_apr.signals.values(:,1), diag_p_apr.time, diag_p_apr.signals.values(:,4))
+grid on
+title('Diagonal values of the Kalman Covaraiance matrix')
+
 % 
 % figure(3)
 % plot3(Translation.signals(1,2).values(:,2), Translation.signals(1,1).values(:,2), -Translation.signals(1,3).values(:,2));

@@ -1,61 +1,68 @@
-\chapter{Conclusions}
-	In this report the topic of designing a guidance system capable of pipeline inspeciton 
+\chapter{Conclusion}
+	In this report, the topic of designing a guidance system capable of pipeline inspection 
 	for the \hugin AUV have been treated. This report have looked at some basics regarding pipeline
 	inspection. A literature study on how pipeline inspection can be preformed was done, and summarised in
 	the report. Some basics about guidance was reviewed.
 
 	A proposed guidance system were also designed. The system includes a flight-mode controller, a
 	guidance algorithm and a Kalman filter to fuse measurements and prior knowledge about the pipeline
-	together. The filter will also smooth the output from the sensors to provide a continous reference for
-	the guidance algorithm. 
+	together. The filter will also smooth the output from the sensors to provide a continuous reference
+	for the guidance algorithm. 
 
 	The controller designed are three independent PI-, and PID-controllers. Which were tuned according to
-	stability and simulations.
+	stability and simulations. It is tuned with regard to velocities around $1$ m/s. Especially the heading
+	controller need to be re-tuned to make it compatible with velocities higher than this.
 
 	The behaviour of the guidance system were defined and examined. Some search patterns were discussed,
 	and found that they should be customised with regard to how well the mission area are known and how
 	certain the data about the pipeline are. 
 	
 	The system were implemented in Matlab/simulink and 4 independent simulations were run, demonstrating
-	different abilities with the given guidance system. The system shown results and the given setup
-	worked, also in the presence of ocean current. The simulations were discussed with regard to energy
-	efficiency and pipeline following capabilities. The most optimal path to follow concerning energy
-	optimality when the velocity are constant is the shortest path, in most cases the linear segments
+	different abilities with the given guidance system. The system gave results and the given setup
+	worked, also in the presence of ocean current, but are not as robust as it should be. The simulations
+	were discussed with regard to energy
+	efficiency and pipeline following capabilities. The most optimal path concerning energy
+	optimality when the velocity are constant, is the shortest path, in most cases the linear segments
 	between two points. 
 	
 	Whenever the AUV are tracking, the the motion above the pipeline should be constrained to be in the
-	vicinity of the pipeline but not strictly above it all the time. The primary mission of the inspection
-	should be to provide good, easy-to-analyse sensor data which in most cases include trying to maneuver 
-	the AUV as smoothely as possible. 
+	vicinity of the pipeline, but not strictly above it all the time. The primary mission of the inspection
+	should be to provide good, easy-to-analyse sensor data, which in most cases include trying to maneuver 
+	the AUV as smoothly as possible. 
 
 	The camera should be aided with other sensors, such as Side Scan Sonar and Multibeam Echosounders.
 	Theses sensors help with detection of the pipeline and will also provide data about the condition of
 	the pipeline. 
 
 	The strict modularity of the guidance system presented in this report allows for easy upgrades and
-	improvment to the different blocks in the system. In further work with this problem the guidance
+	improvement to the different blocks in the system. In further work with this problem the guidance
 	system will be easy to upgrade, with more advanced controllers or guidance algorithms. The simulation
-	environment are present and gives good results, but the control of the system should be better in
-	order to implement in a real application.
+	environment present, gives good results.
 
 	
 \section{Further Work}
-	As stated before the whole pipeline inspection problem are not treated in a single report. There are
-	much work do be done before this can be transformed into real life application.
+	There are much work do be done before this can be transformed into real life application.
 	
-	First the guidance should handel three dimentional guidance with nonlinear paths. A possible way to 
+	First the guidance system should handle three dimensional guidance with nonlinear paths. A possible way to 
 	do this is to use unified guidance controller proposed in \cite{control-concept-AUV}. This is a 
-	controller for the whole non-zero speed regieme.
+	controller for the whole non-zero speed regime.
 
-	The Kalman filter should be designed to include readings from other sensors like Side Scan Sonar,
-	Echosounders, and other possible sensors available for the inspection mission. The filter should be
-	expanded to be capable of three dimentional prediction and a more sofisticated prediction might be
+	The Kalman filter should be designed to include readings from other sensors like Sidescan Sonar,
+	Echosounders, and other possible sensors available for the inspection mission, such as a Synthetic
+	Aperture Sonar. The filter should be
+	expanded to be capable of three dimensional prediction and a more sophisticated prediction might be
 	used to get good results for the predictions. 
+	
+	It should be room for making the guidance system control the inspection velocity. If there are large 
+	stretches of pipeline
+	which requires little maneuvering, the speed can be increased or if there the sensors show parts of the
+	pipeline which shows signs of corrosion, the inspection velocity can be slowed to give more data about
+	the area.
+
+	Develop some kind of a \textit{power} mode and \textit{economy} mode for the guidance system, where 
+	the \textit{power} mode can be used when there are strong currents in the area, to help the AUV
+	continue the tracking procedure, or to quickly get the AUV to the desired location. The
+	\textit{economy} mode can be utilised when tracking the pipeline and environmental forces are not very
+	dominating. 
 
 	
-
-	\begin{itemize}
-		\item Optimal guidance and path planning
-	\end{itemize}
-
-

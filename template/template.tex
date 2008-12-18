@@ -5,6 +5,8 @@
 %%%%%%
 \usepackage{algorithmic} % for algoritms
  
+\usepackage[latin1, utf8x]{inputenc}
+\usepackage{listings}
 
 \newfloat{algorithm}{alg}{\textbf{Algorithm}}
 
@@ -12,7 +14,7 @@
 
 \usepackage{amssymb,amsmath,amssymb,amsthm} %Math stuff
 \usepackage{graphicx} %Including images
-%\usepackage{epstopdf} %Useful if using pdflatex
+\usepackage{epstopdf} %Useful if using pdflatex
 
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png} %Used with the above
 
@@ -77,7 +79,11 @@
 \normalsize \today
 \end{center}
 \vspace*{\fill}
-%We're not using \title and \author, since for longer works title pages are usually custom designed
+\vfill
+\begin{center}
+\includegraphics[width= 0.5\textwidth]{pics/NTNU_engelsk_RGB}
+\end{center}
+
 \end{titlingpage}
 
 
@@ -85,7 +91,15 @@
 % Abstract
 %%%%%%
 \begin{abstract}
-Abstract goes here. Remember to make it good. 
+This report considers the problem of pipeline inspection using an AUV. A basic controller and guidance
+system for a two-dimensional path following problem are derived using traditional control theory. The guidance scheme
+proposed are a lookahead type algorithm, and its performance are discussed. 
+
+The decision system and flow of the inspection and search process are analysed. Some search patterns are proposed and 
+discussed with regard to energy optimality.
+
+A Kalman filter are derived to smooth the sensor output and help predict where the pipeline are, if the it is
+buried or sensor data otherwise are unavailable.
 \end{abstract}
 
 \cleardoublepage

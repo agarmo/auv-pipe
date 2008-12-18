@@ -15,7 +15,7 @@
 	unmanned underwater vehicles, and are the work horse of the offshore industry. They are versatile
 	tools capable of accomplishing most missions associated with pipeline inspections and repair. However,
 	they need well-equipped, expensive support vessels and a large crew to accompany the inspection
-	mission which ofcourse are very costly for the pipeline owner. British Petroleum stats that the ROV
+	mission which of course are very costly for the pipeline owner. British Petroleum stats that the ROV
 	are ``overactuated'' for the pipeline inspection case.\cite{pipelines}
 
 	An Autonomous Underwater Vehicle (AUV) is a suiting tool for pipeline inspection. An AUV is a
@@ -23,7 +23,7 @@
 	tether, the operation radius of the AUV are limited by power consumption and battery life. 
 	An AUV comes in many forms, small or large. It may need minimal support crew which will minimise the
 	cost for the pipeline owners. It can be made small enough to be launched from small ships, and even
-	from shore to inspect pipelines going to the oil rafinery on land. This would be a greate advantage
+	from shore to inspect pipelines going to the oil refinery on land. This would be a great advantage
 	for the pipeline owners to cut costs, instead of hiring large support vessels and crew to support a
 	pipeline inspection mission.
 	
@@ -43,18 +43,18 @@
 	given abilities to track and follow a subsea pipeline. The AUV have hovering capabilities and are
 	controllable in 5 degrees of freedom (DOF).The AUV are assumed stable in the \textit{roll}.
 	Although, the hovering abilities are present, this will not be used when designing the guidance
-	system, becuase of the focus on energy efficiency.
+	system, because of the focus on energy efficiency.
 
-	\begin{figure}[htbp]
+	\begin{figure*}[htbp]
 		\centering
 		\includegraphics[width=0.8\textwidth]{pics/hugin3000}
-		\caption{\textit{HUGIN 3000} under launch. \hugin are somewhat smaller than \textit{HUGIN
-		3000} but identical in shape}
-	\end{figure}
+		\caption[\textit{HUGIN} Vehicle]{\textit{HUGIN 3000} under launch. \hugin are somewhat 
+		smaller than \textit{HUGIN 3000} but identical in shape. \textit{xpda.com}}
+	\end{figure*}
 
 	The pipeline detection equipment is a downward looking camera with sufficient lighting to operate at about
 	3-5 meters above the seabottom. Of course the visibility conditions will change according to depth and
-	amount of particles in the water(naval snow). Probably this is an optimistic assumption, and at great
+	amount of particles in the water. This is probably an optimistic assumption, and at great
 	depth the visibility will probably be less than 3 meters.
 
 	This report considers how to automate the pipeline inspections process. It will consider the
@@ -87,17 +87,17 @@
 	
 	This report is divided into four chapters;
 	\begin{enumerate}
-	 \item Theory. Describes the necessary theory needed to understand the problem, and contains a summary
-	of literature on the pipeline following subject.
+	 \item Theory. Describes the necessary theory needed to understand the proposed guidance system, and
+	contains a summary of literature on the pipeline following subject.
 	 \item Modeling, assumptions about the model and how it is modeled. A Kalman Filter and a flight-mode
-	 controller will be derived. The guidance system will be treated and desired beahviour will be
-	 treated.
-	 \item Implementation and simulation of the proposed system. How the system are implemented and how it
-	 performes in certain situations will be treated in this chapter. 
+	 controller will be derived. A guidance system will be proposed and desired behaviour will be
+	 addressed.
+	 \item Implementation and simulation of the proposed system. How the system is implemented and how it
+	 performs in certain situations will be treated in this chapter. 
 	 \item Discussion of the results given by the simulations, and various aspects about the proposed
 	 guidance system will be discussed. A review of how valid the results will also be given here.
-	 \item Conclusion and future work will be treated in the last section. A summary of the results will
-	 be given and future work will be proposed.
+	 \item Summary of the results, together with conclusion and future work will be treated in the last
+	section.
 	\end{enumerate}
 
 	

@@ -1,57 +1,93 @@
 \chapter{Theory}
-	Pipeline inspection are a complex problem and include many engineering diciplines.
+	Pipeline inspection are a complex problem and include many engineering disciplines.
 	This chapter introduces some of the basics about pipeline inspections when
 	designing a guidance system capable of pipeline inspection. Basics on the mathematical model for
 	\hugin will treated, together with some theory on how to model a camera view and how
 	movement of points are described in the camera view.
 
 \section{Pipeline Inspection Fundamentals}
-	
-	
-	To include the right sensors are an important aspect of making an AUV follow a pipeline. There are
-	different sensors available which can be suited for this purpose. First the Multibeam Echosounder
-	(MBE). Usually a Echosounder emits one beam of sound and measures the time of travel of the sound
-	beam. A multibeam echosounder emits a fan of sound beams which can be used to map a larger area around
-	the vessel.
+	It is obvious that sensors are very important when designing a guidance system for an AUV capable of
+	pipeline inspection. The AUV must be able to ``see'' the pipeline and move too it. It is also very
+	important that the guidance system treats the information from the sensors in the right way, so
+	weighting of the sensors will be an important issue. The standard sensor suite of the \hugin
+	AUV are amongst	others\cite{Bjorn_gjelstad_talk}:
+		\begin{itemize}
+			\item GPS aided High Precision Acoustic Positioning (HiPAP)
+			\item Velocity Aided Inertial Navigation System
+			\item Doppler Velocity Log
+			\item Depth Sensor
+			\item Magnetic and Gyro Compass
+			\item Sidescan Sonar
+			\item Multibeam Echosounder
+			\item Synthetic Aperture Sonar
+		\end{itemize}
+	Sensors like the Multibeam Echosounder, Sidescan Sonar and Synthetic Aperture Sonar are suited
+	for pipeline inspection.
 
-	A Side Scan Sonar are another practical sensor which could be useful. The Side Scan Sonar sends sound
-	waves in the horizontal direction and provides good sensor data of the bottom around 200-300 meters in
-	the horizontal direction. This sensor are usefull for initially finding the pipeline. A side scan
-	sonar picture of a pipeline gives very distinct shadows and are easily detected. 
+	Sound is the prime medium in underwater applications. Sound waves in water travels roughly 5 times as
+	fast than in air. This have given raise to many sensors utilising sound under water. One of this
+	sensors is the Sidescan Sonar which operates in the 100-500 kHz frequency area. The sonar emits a
+	fan-shaped pulse of sound towards the sea floor. The echo of each beam are recorded in cross-track
+	lines, representing slices. As the sonar moves forward these slices can be
+	assembled into a greyscale picture, making a profile of the bottom. Dark spaces corresponds to poorly 
+	reflecting materials, while bright spots are highly reflective material. Pipelines and other man made
+	structures show up on the
+	sonar as distinct shadows, and with processing of the image they are relatively easy to detect,
+	even at large distances. A Sidescan sonar can be effective on distances as large as 300 meters, which
+	makes this the primary sensor for locating pipelines.\cite{sidescan-sonar} \cite{side_scan_sonar}
+
+	A Multibeam Echosounder is another sensor suited for pipeline location and tracking. 
+	Usually an echosounder emits one beam of sound and measures the time of travel of the sound
+	beam. A multibeam echosounder emits a fan of sound beams downwards, which can be used to map a larger
+	seabottom area around the vessel. This is useful when tracking the pipeline and can help
+	with pipeline identification. The use of \'a priori information about the pipeline, such as diameter
+	of the pipeline can help the
+	recognition steps. This sensor can be used for detecting freespans if the length to the sea bottom
+	should be much longer than the length to the pipeline. 
+
 
 	
-\section{Different Methods for Pipeline Following Discussed in Literature}
+\section{Different Pipeline Inspection Schemes Discussed in Literature}
 	A literature study was performed to see what other people have accomplished on the subject on AUV and 
 	pipeline following. 
 	
-	****************************************MORE****************************
 	\cite{piscis} describes briefly a prototype AUV equipped with a camera and sonar to carry out pipeline
-	inspection missions. The AUV uses controllers for heading, speed and depth and visual guidance to
-	follow the pipeline. 
-	
+	inspection missions. The goal of this prototype was to prove that AUVs could be useful in pipeline
+	inspection missions. It is a light-weight AUV for about 40 kg and about a meters long.
+	The AUV uses controllers for heading, speed and depth and visual guidance to follow the pipeline. 
+	This is a part
+	of the research SINTEF Automatic Control did in the early 1990s and proved that there are applications
+	that AUVs will be superior to ROVs. 
+
 	\cite{GuidanceReview} proposes to use a two-stage guidance problem. When submerging and ascending to the surface, 
-	the AUV uses a LOS guidance law at full speed. When the pipeline is acquired the guidance law is
-	switched to a visual guidance scheme, which allows for a precise guidance over the subsea cable or
-	pipeline. 
+	the AUV uses a LOS guidance law at full speed. When the pipeline is acquired, the guidance law are
+	changed to a visual guidance scheme, which allows for a precise guidance over the subsea cable or
+	pipeline. This is a good principle, which probably will prove robust towards ocean currents, but the
+	downside is that cameras have poor visibility at great sea depths.
 		
 	In \cite{MPC_pure_pursuit} a guidance system using Model Predictive Control (MPC) and PNG law was used to make 
-	a guidance system able to track cables and pipelines on the sea bed using Doppler Velocity Log and Electro-
-	Magnetic sensors to find the cable/pipeline. The report utilises the pure pursuit scheme, similar to what 
-	predators do when they are hunting the pray. The cable/pipeline and AUV is formulated as moving points
-	with mass. The engages in a tail chase with the pipeline ``point'', but the AUV never catches up with it. This 
-	method is robust to model uncertainties and handles constraints of the vessel in a systematic way. The
-	controller however shows problems when a current are introduced in the system. The AUV drifts of the 
+	a guidance system able to track cables and pipelines on the sea bed, using Doppler Velocity Log
+	and Electro-Magnetic sensors to find the cable/pipeline. The authors utilises a pure pursuit
+	guidance scheme, similar to what predators do when they are hunting pray. The cable/pipeline
+	and AUV is formulated as moving points with mass. The AUV engages in a tail chase with the pipeline
+	``point'', but the AUV never catches up with it. This method is robust to model uncertainties and
+	handles constraints of the vessel in a systematic way because of how MPC are formulated. The
+	controller however, shows problems when a current are introduced in the system. The AUV drifts of the 
 	pipeline, but catches up with the waypoints in the end. This is due to the fact that the guidance
 	system are in a pursuit with the pipeline and the trajectory the AUV follows are not important. The
 	guidance system only tries to catch up with the pipeline ``point''.
 	
 	In \cite{Visual_inpsection_of_seabottom_by_AUV} a visual guidance system for inspection of underwater
-	structures is presented. The visual system uses an Extended Kalman Filter to smooth and predict where 
-	the structure i.e. pipeline will move in the next sample interval of for the image processing software. 
-	A three dimensional model of the scene is constructed which then allows the guidance system to calculate 
-	an input to the controllers.
+	structures are presented. The visual system uses an Extended Kalman Filter to smooth and predict where 
+	the structure, i.e. pipeline, will move in the next sample interval. This will greatly speed up the image
+	processing. 
+	A three dimensional model of the scene is constructed, which then allows the guidance system to calculate 
+	the input to the controllers. The article presents a very robust vision guidance system. The Extended
+	Kalman Filter implemented gives good results, and the maximum error in xz-plane with current are
+	around 3 meters. This can be improved by adding depth measurement. The system can process image frames at 4
+	frames a second which gives good resolution for the scene reconstruction algorithm. 
 	
-	\cite{reactive_control_AUV} proposes a reactive control approach to pipeline tracking together with a 
+	\cite{reactive_control_AUV} proposes a reactive control approach to pipeline tracking, using a 
 	profiling sonar. Reactive control originated from the field of obstacle avoidance in autonomous land and air 
 	vehicles. It uses \textit{Deformed Virtual Zones} (DVZ) which describes the interaction between the AUV and 
 	the pipeline. The controller tries to minimise the deformation of the DVZ and calculates a feasible
@@ -66,20 +102,29 @@
 
 	\cite{side_scan_sonar} describes two techniques for detecting and tracking pipelines using Side Scan
 	Sonar and Multi-Beam Echosounders. Prior knowledge about the pipeline are utilised for the recognition
-	of the pipeline. A pipeline creates very distinct shadows in a side scan sonar image and are easy to
-	separate from the sea bottom.
-
-
-
-\section{Reference systems}
-	Movement must be described relative to something. This is the task of the reference systems. There are
-	4 important reference system. The ECI (Earth Center Inertial) which is a truly inertial reference
-	frame, i.e. it is not accelerating. Its axis are pointing through the north pole and through the
-	equatorial line of the Earth fixed toward stationary points in space, the center is as the name
-	suggests in the center of the Earth. 
+	of the pipeline. A pipeline creates very distinct shadows in a sidescan sonar image and can be with
+	some processing, easy to detect even if the pipeline are far away. An algorithm are proposed for this
+	recognition and separation of the pipeline structure from the background. It spearates the
+	sidescan sonar image into
+	shadow regions and non-shadow regions. These are matched to pipeline-like characteristics to determine
+	if it really is a pipeline. The simulations shows that the mean error in position when detecting a half 
+	buried pipeline are about $0.026$ meters, $0.13$ meters when the pipeline are trenched and $0.22$
+	when the pipeline are spanned. When the system are tracking the pipeline the errors are even less,
+	around $0.0104$ in the half-buried pipeline case.
 	
-	ECEF (Earth-Center Earth-Fixed) is another reference frame. It is defined as the ECI coordinate
-	system, but this frame is rotatiting with the earths rotiaton rate. Which means that this frame is not
+
+
+
+\section{Reference Systems}
+	Movement must be described relative to something. This is the task of the reference systems. There are
+	4 important reference system. The ECI (Earth Centre Inertial) which is a truly inertial reference
+	frame, i.e. it is not accelerating. Its axis are pointing through the north pole and through the
+	equatorial line of the Earth, fixed toward stationary points in space. The centre is as the name
+	suggests in the centre of the Earth. 
+	
+	ECEF (Earth-Centre Earth-Fixed) is another reference frame. It is defined same as the ECI coordinate
+	system, but the axis are rotating with the same rate as the Earths rotation rate. This means that this frame
+	is not
 	strictly inertial, but the angular velocity of the Earths rotation are considered very small, and can
 	be neglected compared to other velocities in the same frame. Position on the earth are described by
 	\textit{longitude} and \textit{latitude}.
@@ -90,47 +135,47 @@
 	not valid for intercontinental travel. This frame will primarily be used in this report. 
 
 	The last but important frame are the Body frame, which is the local frame of the object of interest.
-	The body frame are defined as the x-axis along its forward movment, y-axis to the right of the movment
-	direction, and the last pointing downward, to complete the right-hand system. This frame are
-	convenient when defining velocities, forces and moments.
+	The body frame are defined as the x-axis along its forward movement, y-axis to the right of the
+	movement direction, and the last pointing downward, to complete the right-hand system. The
+	origin are defined in the Centre of Gravity of the object. This frame are convenient when
+	defining velocities, forces and moments.
 	
 
 \section{Hydrodynamic Model}
 	\label{sec:ch1-model}
-	An Autonomous Underwater Vehicle is a complex, non-linear and coupled process. The model which is used in this
-	report uses the 6 DOF model described in \cite{fossen}.
-	\begin{equation}
-	\label{eq:ch1-model}
-		\begin{aligned}
+	An Autonomous Underwater Vehicle is a complex, nonlinear and coupled process. The model which is used in this
+	report, uses the 6 DOF model described in \cite{fossen}.
+	\begin{align}
+			\label{eq:ch1-model}
 			\mathbf{\dot{\eta}} &= \rotation \mathbf{\nu} \\
-			\mass + \coriolis + \damping + \restoring &= \force \\
-		\end{aligned}
-	\end{equation}
+			\label{eq:ch1-dynamics}
+			\mass + \coriolis + \damping + \restoring &= \force 
+	\end{align}
 	where 
 	\begin{align*}
 		\mathbf{\eta} &= [N \: E \: D \: \phi \: \theta \: \psi ]^T \\
 		\mathbf{\nu}  &= [u \: v \: w \: p \: q \: r]^T \\
 		\force & \in \mathbb{R}^6
 	\end{align*}
-	The Equation \eqref{eq:ch1-model} describes the kinematics and kinetics for the model. It is in the 
-	mathematical sense just a Mass-damper-spring system. The Coriolis term, $\mathbf{C}(\mathbf{\nu})$,
-	is a skew-symmetric matrix appering because the dynamics are formulated in a non-inertial frame.
+	The Equations \eqref{eq:ch1-model} and \eqref{eq:ch1-dynamics} describes the kinematics and dynamics of the
+	model. It is in the mathematical sense just the same as a Mass-damper-spring system. The Coriolis term,
+	$\mathbf{C}(\mathbf{\nu})$, is a skew-symmetric matrix appearing because the dynamics are formulated in a
+	non-inertial frame.
 
 	The $\damping$ matrix are the damping forces, including drag from the surrounding water. $\restoring$
-	are the restoring forces acting on the AUV. The gravity and bouyancy forces are represented by
-	six-dimentional vector.
+	are the restoring forces acting on the AUV, which are the gravity and buoyancy forces, and are represented by
+	six-dimensional vector.
 	
-	The $\rotation$ matrix is the rotation matrix of Euler coordinates which relates the velocity of the 
+	The $\rotation$ matrix is the rotation matrix of Euler angles which relates the velocity of the 
 	vessel to actual movement in the NED reference system.
 
 
-
-
-\section{Camera theory}
+\section{Camera Theory}
 	\label{ch1-cameramodel}
-	The camera properties or parameters can be divided into two categories; the intrinsic parameters and
-	extrinsic parameters. The intrinsic parameters are constant parameters and vary from camera to camera.
-	It is the focus distance and image distortion of the pixels away from the centre of the camera. 
+	The camera properties or parameters can be divided into two categories; \textit{intrinsic} parameters and
+	\textit{extrinsic} parameters. The intrinsic parameters are constant parameters and vary from camera to
+	camera, and represent the focus distance and image distortion of the pixels located away from the centre of the
+	camera image. 
 	The extrinsic parameters relate the position of the point relative to camera coordinates. 
 	These parameters are of course dependant on the position of the camera and change with time. 	This imply that 
 	coordinates of a 2D point in the camera have to be transformed into a 3D point which can be used 
@@ -161,14 +206,16 @@
 	\begin{figure}[hbtp]
 		\centering
 		\includegraphics[width=0.6\textwidth]{pics/pinhole_model}
-		\caption{Pinhole Camera Model showing two dimentions}
+		\caption{Pinhole Camera Model showing two dimensions}
 		\label{fig:ch1-pinhole}
 	\end{figure}
 			
 	As seen from Figure \ref{fig:ch1-pinhole} the image plane is located a distance $f$ from the image plane. 
-	The point is projected through the hole an onto the image plane. The principal axis of the camere is located
-	in the direction of the observed point. For simplicity the image plane are located in the front of the
-	pinhole, this is just in theory and is not possible in real camera application. From this the
+	The point is projected through the hole, and onto the image plane. The principal axis, i.e. the z-axis of the
+	camere is pointing
+	in the direction of the observed point. For simplicity the image plane is located in the front of the
+	pinhole (this is only possible in theoretical case, and would not be possible in a real camera application).
+From	this the
 	perspective equations are derived. \cite{robotbok}
 	\begin{equation}
 		\label{eq:ch1-perspective}
@@ -181,34 +228,30 @@
 					y_c
 					\end{array} \right]
 	\end{equation}
-	This are the perspective equations which gives the observed point in screen coordinates. 
+	The Equation \eqref{eq:ch1-perspective} are the perspective equations, which transforms the observed 
+	point into image coordinates. 
 
-\section{Kalman filter}
-	Kalman filtering a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is
+\section{Kalman Filter}
+	Kalman filtering are a powerful and versatile tool in estimation and sensor fusion. A Kalman filter is
 	usually employed in navigation applications to fuse GPS and INS together. By this way one will have
 	the speed and resolution of an INS system and the precision of the GPS system.
 	
-	The Kalman Filter an optimal filter can be employed allmost in any application. It is optimal in 
-	the sense of providing the minimum-variance estimate of the predicted prosess.  The Kalman 
+	The Kalman Filter is an optimal filter, and can be employed in almost any application. It is optimal in 
+	the sense of providing the minimum-variance estimate of the predicted process.  The Kalman 
 	filter is a linear filter, and can only
 	guarantee optimality for linear systems. There is a nonlinear version of the Kalman filter, the
-	Extended Kalman Filter, which uses the same assumptions as the linear version but uses the nonlinear
-	model to predict the state forward while it used a linearised version of the measurement equation. 
+	Extended Kalman Filter. The EKF uses the same assumptions as the linear version, but uses the nonlinear
+	model to predict the state forward, while it uses a linearised version of the measurement model when comparing
+	the predicted values and the measurement. 
 	When updating the Covariance matrix the system equations are linearised around the current estimate 
-	and updated according to certain update laws. 
-	
-	********************MER INFO**************
-	This introduces
-	some significant problems. First the filter might converge towards wrong values, because of a 
-	non-positive-definite covariance matrix. This is mostly due to poor linearisation of the state 
-	equations. \cite{kalman}
+	and updated according to the same update laws as for the linear version. \cite{kalman}
 	
 \section{Guidance}
         \label{chap1-guidance-alg}
-	Most of the guidance algorithms originates from airborne missile systems. This have been well
-	documented and proven to work in numerous cases. Common guidance schemes such as Line-of-sight (LOS)
+	Most of the guidance algorithms originates from airborne missile systems. These guidance laws have been well
+	documented and proved to work in numerous cases. Common guidance schemes such as Line-of-sight (LOS)
 	and Proportional Navigation Guidance (PNG) and various implementations of these are employed in
-	numerous guidance systems. 
+	most guidance systems today. 
 	
 	Guidance are defined according to \cite{guidance_def}
 	\begin{definition}
@@ -218,20 +261,20 @@
 	\end{definition}
 	It is also convenient to define two levels of guidance.
 	\begin{definition}
-		The process of making an object converge geometrically to a given point or path is known as
+		The process of making an object converge geometrically to a given point or path, is known as
 		path following.
 	\end{definition}
 	\begin{definition}
-		The process of making an object follow a gemoetric path with given dynamical constraints
-		possibily dependant on position and time at the given path is known as trajectory tracking.
+		The process of making an object follow a geometric path with given dynamical constraints
+		possibly dependant on position and time at the given path, is known as trajectory tracking.
 	\end{definition}
-	The guidance systems discussed later will concern the first problem. The second problem will be
+	The guidance systems discussed in this report will concern the second definition. The second problem will be
 	disregarded and assumed that the dynamical constraints are constant and met. \cite{guidance-path-2d-3d}
 
-	The guidance system need to adress the importance of a optimal paths. Optimal in the sense
+	The guidance system need to address the importance of a optimal paths. Optimal in the sense
 	of energy consumption. A guidance system should be able to give 
 	feasible commands to the lower level control system which controls the actuators, and should be able
-	to handle most situations with care. The guidance system should decide the best trajectory to be
+	to handle most situations it may encounter. The guidance system should decide the best trajectory to be
 	followed based on the target location and physical capabilities of the system.\cite{GuidanceReview}
 
 	\begin{figure}[hbtp]
@@ -244,12 +287,12 @@
 	cross-track error, $e$ are an important aspect here. It is the lateral position error decomposed in
 	the desired path reference frame. Another variable worth noting is $\Delta$ which is the look-ahead
 	distance. This is analogous to when you drive a car you look farther down the road to better maneuver
-	the car. A great look-ahead distance yields less aggressive heading reference but slower convergence of the
+	the car. A great look-ahead distance yields less aggressive heading reference, but slower convergence of the
 	cross-track error. A lower look-ahead distance gives an aggressive heading reference and fast
 	convergence of the cross-track error. The $s$-variable are called the along-track distance from point
 	$P_k$. 
 
-	The choice of linear path following is because the simplicity asociated with the implementation, but
+	The choice of linear path following is because the simplicity associated with the implementation, but
 	this concept might easily be generalised to non-linear paths with the use of Serret-Frenet frame
 	\cite{modsim}.
 	
@@ -299,16 +342,16 @@
 		\begin{equation}
 			\psi_r = \tan^{-1} (\frac{-e}{\Delta})
 		\end{equation}
-		which can be seen as a correction term to make the dersired heading converge towards the path.
+		which can be seen as a correction term to make the desired heading converge towards the path.
 
 		By choosing $\psi_r$ in this way the heading is always directed towards the lookahead point at
 		the path. It is then easily seen that the cross-track error will converge to zero. This
-		method is easier and less computationally intensive than the previously stated Radius-based
+		method is less computationally intensive than the previously stated Radius-based
 		guidance. \cite{guidance_planar_path}
 	
 	\subsection{Proportional Navigation}
 		Proportional navigation guidance (PNG) are shown to give less interception time than LOS guidance,
-		and therby reducing the distance traveled. \cite{GuidanceReview}
+		and thereby reducing the distance travelled. \cite{GuidanceReview}
 		
 		The PNG-law can be stated as the following:
 		\begin{equation}
@@ -327,17 +370,19 @@
 
 	\subsection{Various Guidance Concepts}
 		A unified path following controller are derived in \cite{control-concept-AUV}. The 
-		authors proposes a singel control structure which will work for the entire velocity regime.
+		authors proposes a singel control structure which will work for the entire non-zero velocity regime.
 		The controller is derived using backstepping. The concept are shown to be Uniform Global
 		Exponentially Stable under some assumptions about the guidance signals. The controller will not
-		work without properly generated references. The AUV considered here are fully actuated for low
+		work without properly generated guidance references. The AUV considered in the article are fully
+		actuated for low
 		speeds but becomes under-actuated for higher speeds. The controller guarantees that the AUV
 		converges towards the desired path regardless of if it is underactuated or fully actuated.
 		
-		In \cite{optimal-cross-track} an optimal cross-track guidance scheme are proposed. It seeks to
+		In \cite{optimal-cross-track} an optimal cross-track guidance scheme is proposed. It seeks to
 		minimise the crosstrack-error, depth, pitch and yaw by using the pitch rate and yaw rate, this
-		is called Model	Predictive Guidance. Damping and can be added to reduce the commanded
-		pitch and yaw rates which can cause overshoot. The guidance scheme are compared against a LOS
+		is called Model	Predictive Guidance, because it resembles a Model Predictive Controller. Damping
+		and can be added to reduce the commanded
+		pitch and yaw rates to counteract overshoot. The guidance scheme are compared against a LOS
 		guidance system and gives good results.
 	
 

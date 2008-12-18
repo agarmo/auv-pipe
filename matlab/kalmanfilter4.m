@@ -76,7 +76,8 @@ x = [];
         0];
     for i = 1:4:12
         %predict
-        x_apr = A*x(i:i+3) + B*eta(1);
+        x_apr = Ad*x(i:i+3) + Bd*u;
+%         x_apr = A*x(i:i+3) + B*eta(1);
         x_aprm = [x_aprm; x_apr];
     end
 
