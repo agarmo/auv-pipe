@@ -1,23 +1,23 @@
 \chapter{Conclusion}
 	In this report, the topic of designing a guidance system capable of pipeline inspection 
-	for the \hugin AUV have been treated. This report have looked at some basics regarding pipeline
+	for the \hugin AUV has been treated. This report have looked at some basics regarding pipeline
 	inspection. A literature study on how pipeline inspection can be preformed was done, and summarised in
 	the report. Some basics about guidance was reviewed.
 
-	A proposed guidance system were also designed. The system includes a flight-mode controller, a
+	A proposed guidance system was also designed. The system includes a flight-mode controller, a
 	guidance algorithm and a Kalman filter to fuse measurements and prior knowledge about the pipeline
 	together. The filter will also smooth the output from the sensors to provide a continuous reference
 	for the guidance algorithm. 
 
-	The controller designed are three independent PI-, and PID-controllers. Which were tuned according to
-	stability and simulations. It is tuned with regard to velocities around $1$ m/s. Especially the heading
-	controller need to be re-tuned to make it compatible with velocities higher than this.
+	The controller designed consists of three independent PI-, and PID-controllers, which were tuned according to
+	stability and simulations. They are tuned with regard to velocities around $1$ m/s. Especially the heading
+	controller needs to be re-tuned to make it compatible with velocities higher than this.
 
-	The behaviour of the guidance system were defined and examined. Some search patterns were discussed,
+	The behaviour of the guidance system was defined and examined. Some search patterns were discussed,
 	and found that they should be customised with regard to how well the mission area are known and how
 	certain the data about the pipeline are. 
 	
-	The system were implemented in Matlab/simulink and 4 independent simulations were run, demonstrating
+	The system was implemented in Matlab/simulink and 4 independent simulations were run, demonstrating
 	different abilities with the given guidance system. The system gave results and the given setup
 	worked, also in the presence of ocean current, but are not as robust as it should be. The simulations
 	were discussed with regard to energy
@@ -25,7 +25,7 @@
 	optimality when the velocity are constant, is the shortest path, in most cases the linear segments
 	between two points. 
 	
-	Whenever the AUV are tracking, the the motion above the pipeline should be constrained to be in the
+	Whenever the AUV is tracking, the motion above the pipeline should be constrained to be in the
 	vicinity of the pipeline, but not strictly above it all the time. The primary mission of the inspection
 	should be to provide good, easy-to-analyse sensor data, which in most cases include trying to maneuver 
 	the AUV as smoothly as possible. 
